@@ -30,7 +30,6 @@ user_profiles.md            <- the scope boundary. Settles "is X in this course?
 learning_arcs.md            <- the narrative shape of the three units
   |
 teaching_philosophy.md      <- pedagogy, grading, and the why behind structure
-key_performances.md
   |
 plan.md                     <- the coverage and sequencing rules the design must satisfy
 use_case_coverage.md        <- the breadth rule (competency 5.5)
@@ -63,7 +62,6 @@ Two shortcuts that follow from the chain and come up often:
 | [user_profiles.md](user_profiles.md) | **Highest** | **High** | Short and decisive. The exit profiles are the scope boundary: they are what put deployment, hosting, and real UI out of the course. Reach for this when the question is "does this belong here at all?" |
 | [teaching_philosophy.md](teaching_philosophy.md) | **High** | **Mixed** | The guiding document, and the oldest. Solid on pedagogy — fail-first, antifragility, cognitive load, group formation, the purpose of grading. **Soft on grading mechanics**: `TODO: Needs revision to align with University Policy`, blank rubric cells, and an unresolved tension between a student-decided grade and hard A-requirements. Where it implies productization or UI it has been superseded; see its Scope Boundary section. |
 | [learning_arcs.md](learning_arcs.md) | **High** | **High** | 28 lines, entirely settled. Bad agent → why was it bad → good agent. The single most load-bearing idea in the course. |
-| [key_performances.md](key_performances.md) | **High** | **High** | Three lines. Major projects, Contribution Assignment, Ethics Manifesto. |
 
 ### Tier 2 — Binding rules and inventory. Actively churning.
 
