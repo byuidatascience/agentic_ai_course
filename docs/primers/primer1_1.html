@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>What is an API?</title>
+<title>Agent Engineering</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -22,41 +22,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -75,10 +40,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-23bbe8b5e4efc1e257f6d59dce478b08.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-23bbe8b5e4efc1e257f6d59dce478b08.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-36724d52013c1e214bb3e3fcb9d11818.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-f1ef0423859aea48f2b5a85ac632af29.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-2cfdaab26047e6218922b425c4d3053d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-f1ef0423859aea48f2b5a85ac632af29.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -112,7 +81,169 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="floating nav-fixed quarto-light">
+<body class="floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -140,135 +271,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-unit-1">    
         <li>
-    <a class="dropdown-item" href="../lessons/unit1.html">
- <span class="dropdown-text">Unit 1 Overview</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li>
     <a class="dropdown-item" href="../lessons/lesson1_1.html">
  <span class="dropdown-text">Day 1 : APIs &amp; Your First LLM Call</span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="../lessons/lesson1_2.html">
- <span class="dropdown-text">Day 2 : Tools - Structure &amp; Uses</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../lessons/lesson1_3.html">
- <span class="dropdown-text">Day 3 : Tool Wrappers &amp; Local Data</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../lessons/lesson1_4.html">
- <span class="dropdown-text">Day 4 : Response Formats &amp; Datatypes</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../lessons/lesson1_5.html">
- <span class="dropdown-text">Day 5 : Statefulness &amp; Conversation History</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../lessons/lesson1_6.html">
- <span class="dropdown-text">Day 6 : Connecting to the World via MCP</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../lessons/lesson1_7.html">
- <span class="dropdown-text">Day 7 : MCP from GitHub</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../lessons/lesson1_8.html">
- <span class="dropdown-text">Day 8 : Subagents &amp; Multi-Agent Intro</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li>
-    <a class="dropdown-item" href="../lessons/lesson1_9.html">
- <span class="dropdown-text">Unit 1 Project : Build a Powerful Bot</span></a>
-  </li>  
     </ul>
   </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-unit-2" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Unit 2</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-unit-2">    
-        <li>
-    <a class="dropdown-item" href="../lessons/unit2.html">
- <span class="dropdown-text">Unit 2 Overview</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li>
-    <a class="dropdown-item" href="../lessons/lesson2_1.html">
- <span class="dropdown-text">Day 1 : What Makes an Agent Bad?</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../lessons/lesson2_2.html">
- <span class="dropdown-text">Day 2 : Defining Main Failures</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../lessons/lesson2_3.html">
- <span class="dropdown-text">Day 3 : LangSmith Setup &amp; Trace Reading</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../lessons/lesson2_4.html">
- <span class="dropdown-text">Day 4 : Token &amp; Latency Analysis</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../lessons/lesson2_5.html">
- <span class="dropdown-text">Day 5 : Evals &amp; Golden Test Sets</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../lessons/lesson2_6.html">
- <span class="dropdown-text">Day 6 : Debugging Failure Patterns</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../lessons/lesson2_7.html">
- <span class="dropdown-text">Day 7 : Automation Rules &amp; Alerts</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../lessons/lesson2_8.html">
- <span class="dropdown-text">Day 8 : Diagnosing a Broken Agent</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../lessons/lesson2_9.html">
- <span class="dropdown-text">Day 9 : Unit Review &amp; Assessment</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li>
-    <a class="dropdown-item" href="../lessons/lesson2_10.html">
- <span class="dropdown-text">Unit 2 Project : Build a Good Bot</span></a>
-  </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-unit-3" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Unit 3</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-unit-3">    
-        <li>
-    <a class="dropdown-item" href="../lessons/unit3.html">
- <span class="dropdown-text">Unit 3 Overview</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">⚠️ Unit 3 is currently in production</li>
-        <li><hr class="dropdown-divider"></li>
-        <li>
-    <a class="dropdown-item" href="../lessons/lesson3_1.html">
- <span class="dropdown-text">Day 1 : What Is Context Engineering?</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../lessons/lesson3_2.html">
- <span class="dropdown-text">Day 2 : Planning Agentic Systems</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../lessons/lesson3_3.html">
- <span class="dropdown-text">Day 3 : Context Management Strategies</span></a>
-  </li>  
-    </ul>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="../dictionary.html"> 
-<span class="menu-text">Dictionary</span></a>
-  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -277,18 +288,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul class="collapse">
-  <li><a href="#what-is-an-api" id="toc-what-is-an-api" class="nav-link active" data-scroll-target="#what-is-an-api">What is an API?</a></li>
-  <li><a href="#a-simple-analogy" id="toc-a-simple-analogy" class="nav-link" data-scroll-target="#a-simple-analogy">A Simple Analogy</a></li>
-  <li><a href="#why-do-apis-exist" id="toc-why-do-apis-exist" class="nav-link" data-scroll-target="#why-do-apis-exist">Why Do APIs Exist?</a></li>
-  <li><a href="#an-api-key-is-your-password" id="toc-an-api-key-is-your-password" class="nav-link" data-scroll-target="#an-api-key-is-your-password">An API Key is Your Password</a></li>
-  <li><a href="#apis-and-ai" id="toc-apis-and-ai" class="nav-link" data-scroll-target="#apis-and-ai">APIs and AI</a></li>
-  <li><a href="#what-to-think-about-before-class" id="toc-what-to-think-about-before-class" class="nav-link" data-scroll-target="#what-to-think-about-before-class">What to Think About Before Class</a></li>
-  </ul>
-</nav>
+    
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
@@ -297,9 +297,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">What is an API?</h1>
+<h1 class="title">Agent Engineering</h1>
 <p class="subtitle lead">Primer 1.1 Read before Lesson 1</p>
 </div>
 
@@ -317,88 +318,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="what-is-an-api" class="level1">
-<h1>What is an API?</h1>
-<p>You have used APIs your entire life without knowing it.</p>
-<p>When you open a weather app and it shows you today’s forecast, the app did not generate that data itself. It sent a request to a weather company’s server, which sent back the data. That invisible conversation between two programs is an <strong>API</strong> an <strong>Application Programming Interface</strong>.</p>
-<p>An API is simply an agreed-upon way for two pieces of software to talk to each other.</p>
-<hr>
-</section>
-<section id="a-simple-analogy" class="level1">
-<h1>A Simple Analogy</h1>
-<p>Think of a restaurant.</p>
+<p>What is agent engineering?</p>
 <ul>
-<li>You are the <strong>customer</strong> (your program)</li>
-<li>The kitchen is the <strong>server</strong> (the service you want to use)</li>
-<li>The waiter is the <strong>API</strong></li>
+<li><a href="https://www.langchain.com/blog/agent-engineering-a-new-discipline">Agent Engineering - A New Discipline</a></li>
 </ul>
-<p>You do not walk into the kitchen and cook your own food. You tell the waiter what you want using the menu’s format <em>“I’ll have the pasta, please.”</em> The waiter takes that to the kitchen, and brings back a response <em>the pasta.</em></p>
-<p>The menu is the API. It defines exactly what you are allowed to ask for and what format to ask in.</p>
-<hr>
-</section>
-<section id="why-do-apis-exist" class="level1">
-<h1>Why Do APIs Exist?</h1>
-<p>Imagine if every app had to build its own maps, its own payment system, its own weather data from scratch. That would be insane.</p>
-<p>Instead, companies like Google, Stripe, and OpenAI build powerful services and expose them through APIs so that any developer in the world can use them in their own app without knowing anything about how the service works internally.</p>
-<p>You just follow the menu.</p>
-<hr>
-</section>
-<section id="an-api-key-is-your-password" class="level1">
-<h1>An API Key is Your Password</h1>
-<p>Most APIs require an <strong>API key</strong> a long string of letters and numbers that proves you have an account.</p>
-<pre><code>AIzaSyB3xKttE9J6Pn93T3Dmo... (yours will look something like this)</code></pre>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Treat your API key like a password
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If someone gets your API key, they can use the service <strong>on your account</strong> and on <strong>your bill</strong>. Never paste it directly in your code. Never upload it to GitHub. We will cover exactly how to store it safely in class.</p>
-</div>
-</div>
-<hr>
-</section>
-<section id="apis-and-ai" class="level1">
-<h1>APIs and AI</h1>
-<p>LLMs like Gemini and GPT are not apps you download. They live on powerful servers owned by Google and OpenAI. To use them in your own program, you send your prompt to their server through an API, and they send back the response.</p>
-<p>That is the whole trick. When we write:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>model.invoke(<span class="st">"Tell me about the ocean."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Under the hood, Python is: 1. Packaging your message 2. Sending it to Google’s servers with your API key 3. Waiting for the response 4. Handing it back to you</p>
-<hr>
-</section>
-<section id="what-to-think-about-before-class" class="level1">
-<h1>What to Think About Before Class</h1>
-<p>Come to class ready to answer these in your head:</p>
+<p>What does agent engineering look like in industry?</p>
 <ul>
-<li>In your own words, what is an API?</li>
-<li>Why would a company expose their service through an API instead of just building an app?</li>
-<li>What do you think would happen if your API key got posted publicly on GitHub?</li>
+<li><p><a href="https://www.langchain.com/state-of-agent-engineering">State of Agent Engineering</a></p></li>
+<li><p>Wander through <a href="https://www.ibm.com/think/topics/ai-agent-use-cases#1580786329">IBM’s Use Cases</a> (you don’t need to read it all)</p></li>
 </ul>
-<hr>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>You do not need to memorize anything
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This primer is just to get the concept in your head before we build with it. Everything will make more sense once you see it live in class.</p>
-</div>
-</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {

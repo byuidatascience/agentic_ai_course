@@ -40,10 +40,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-23bbe8b5e4efc1e257f6d59dce478b08.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-23bbe8b5e4efc1e257f6d59dce478b08.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-36724d52013c1e214bb3e3fcb9d11818.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-f1ef0423859aea48f2b5a85ac632af29.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-2cfdaab26047e6218922b425c4d3053d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-f1ef0423859aea48f2b5a85ac632af29.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -77,7 +81,169 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="floating nav-fixed quarto-light">
+<body class="floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -105,135 +271,15 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-unit-1">    
         <li>
-    <a class="dropdown-item" href="./lessons/unit1.html">
- <span class="dropdown-text">Unit 1 Overview</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li>
     <a class="dropdown-item" href="./lessons/lesson1_1.html">
  <span class="dropdown-text">Day 1 : APIs &amp; Your First LLM Call</span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="./lessons/lesson1_2.html">
- <span class="dropdown-text">Day 2 : Tools - Structure &amp; Uses</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./lessons/lesson1_3.html">
- <span class="dropdown-text">Day 3 : Tool Wrappers &amp; Local Data</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./lessons/lesson1_4.html">
- <span class="dropdown-text">Day 4 : Response Formats &amp; Datatypes</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./lessons/lesson1_5.html">
- <span class="dropdown-text">Day 5 : Statefulness &amp; Conversation History</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./lessons/lesson1_6.html">
- <span class="dropdown-text">Day 6 : Connecting to the World via MCP</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./lessons/lesson1_7.html">
- <span class="dropdown-text">Day 7 : MCP from GitHub</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./lessons/lesson1_8.html">
- <span class="dropdown-text">Day 8 : Subagents &amp; Multi-Agent Intro</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li>
-    <a class="dropdown-item" href="./lessons/lesson1_9.html">
- <span class="dropdown-text">Unit 1 Project : Build a Powerful Bot</span></a>
-  </li>  
     </ul>
   </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-unit-2" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Unit 2</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-unit-2">    
-        <li>
-    <a class="dropdown-item" href="./lessons/unit2.html">
- <span class="dropdown-text">Unit 2 Overview</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li>
-    <a class="dropdown-item" href="./lessons/lesson2_1.html">
- <span class="dropdown-text">Day 1 : What Makes an Agent Bad?</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./lessons/lesson2_2.html">
- <span class="dropdown-text">Day 2 : Defining Main Failures</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./lessons/lesson2_3.html">
- <span class="dropdown-text">Day 3 : LangSmith Setup &amp; Trace Reading</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./lessons/lesson2_4.html">
- <span class="dropdown-text">Day 4 : Token &amp; Latency Analysis</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./lessons/lesson2_5.html">
- <span class="dropdown-text">Day 5 : Evals &amp; Golden Test Sets</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./lessons/lesson2_6.html">
- <span class="dropdown-text">Day 6 : Debugging Failure Patterns</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./lessons/lesson2_7.html">
- <span class="dropdown-text">Day 7 : Automation Rules &amp; Alerts</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./lessons/lesson2_8.html">
- <span class="dropdown-text">Day 8 : Diagnosing a Broken Agent</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./lessons/lesson2_9.html">
- <span class="dropdown-text">Day 9 : Unit Review &amp; Assessment</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li>
-    <a class="dropdown-item" href="./lessons/lesson2_10.html">
- <span class="dropdown-text">Unit 2 Project : Build a Good Bot</span></a>
-  </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-unit-3" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Unit 3</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-unit-3">    
-        <li>
-    <a class="dropdown-item" href="./lessons/unit3.html">
- <span class="dropdown-text">Unit 3 Overview</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">⚠️ Unit 3 is currently in production</li>
-        <li><hr class="dropdown-divider"></li>
-        <li>
-    <a class="dropdown-item" href="./lessons/lesson3_1.html">
- <span class="dropdown-text">Day 1 : What Is Context Engineering?</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./lessons/lesson3_2.html">
- <span class="dropdown-text">Day 2 : Planning Agentic Systems</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./lessons/lesson3_3.html">
- <span class="dropdown-text">Day 3 : Context Management Strategies</span></a>
-  </li>  
-    </ul>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="./dictionary.html"> 
-<span class="menu-text">Dictionary</span></a>
-  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -247,8 +293,6 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#course-objectives" id="toc-course-objectives" class="nav-link active" data-scroll-target="#course-objectives">Course Objectives</a></li>
-  <li><a href="#course-overview" id="toc-course-overview" class="nav-link" data-scroll-target="#course-overview">Course Overview</a></li>
-  <li><a href="#credits" id="toc-credits" class="nav-link" data-scroll-target="#credits">Credits</a></li>
   </ul>
 </nav>
 </nav>
@@ -258,6 +302,7 @@ ul.task-list li input[type="checkbox"] {
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -278,201 +323,175 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<!-- Useful information to access every day -->
-<!-- Big Table with all the links -->
+<!-- TODO: Useful information to access every day -->
+<!-- TODO: Big Table with all the links -->
 <section id="course-objectives" class="level1">
 <h1>Course Objectives</h1>
 <ul>
-<li>Be able to plan, program, measure, test, and iteratively refine Agentic AI solutions.</li>
-<li>Know which problems are best solved with agentic AI as opposed to other methods.</li>
-<li>Develop personal guidelines for ethical use of LLMs and agentic AI.</li>
-<li>Communicate AI competence using current industry language to both technical and non-technical audiences.</li>
-<li>Grow an ability to self-learn in an ever-changing AI landscape.</li>
+<li>Build AI agent harnesses</li>
+<li>Evaluate agents using agent observability tools</li>
+<li>Translate ambiguous production goals into explicit architectural decisions and measurable success criteria</li>
+<li>Communicate about AI using language fitted to the audience</li>
+<li>Use quality sources to self-learn in an ever-changing AI landscape</li>
+<li>Form and live a personal ethic for the use of AI agents</li>
 </ul>
 <hr>
-</section>
-<section id="course-overview" class="level1">
-<h1>Course Overview</h1>
-<section id="unit-1" class="level2">
-<h2 class="anchored" data-anchor-id="unit-1">Unit 1</h2>
-<section id="build-a-bad-agent-weeks-14" class="level3">
-<h3 class="anchored" data-anchor-id="build-a-bad-agent-weeks-14">Build a “Bad” Agent (Weeks 1–4)</h3>
-<ul>
-<li><a href="lessons/unit1.html">Unit 1</a></li>
-</ul>
-<p><strong>Goal:</strong> Learn the tools to create a powerful but uncontrollable agent.</p>
-<p><strong>Topics:</strong> - Intro to agent concepts and LLM programming - API keys, environment setup, and class materials - Making API calls, defining and calling tools, and managing statefulness - Connecting tools: MCP, file system, browser use, internet search, custom functions - Sandboxing with LangChain / Daytona - Subagents and multi-agent architectures - Writing effective prompts from scratch</p>
-<p><strong>Project:</strong> Personal Assistant Agent</p>
-<p>Build a personal assistant agent that connects to real tools — Canvas, Google Calendar, Slack, the file system, and the web — and carries on a coherent, stateful conversation. You will write your own prompts from scratch; no AI, peer, or internet-generated prompts are permitted. The agent will be stress-tested in class to deliberately surface its weaknesses, and those failures become the raw material for Unit 2.</p>
-<p><strong>Outcomes:</strong> - Call an LLM and receive a response - Write original prompts for agent context - Define custom tools and turn existing code into tools - Connect and invoke tools (MCP, file system, browser, web search, Canvas, Google Calendar, Slack) - Implement conversation history manually and with built-in methods - Introduce statefulness to an agent - Run agent code safely in a sandboxed environment - Build a simple two-agent pipeline - Demonstrate a working personal assistant agent and document where it breaks</p>
-<p><strong>Note on AI use:</strong> AI assistance is not permitted this unit. Debugging help comes from class time and the Slack group (ChatClass). This is intentional — it builds class unity, surfaces your own assumptions, and gives you room to fail. Failure is a core part of this unit, not a grading penalty. Set a time limit on any problem; if you’re stuck, post in Slack or bring it to class unfinished. That is OK.</p>
-<p><strong>Daily Schedule:</strong></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Day</th>
-<th>Topic</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><a href="lessons/lesson1_1.html">1</a></td>
-<td>APIs &amp; Your First LLM Call — define an API, make a call, hide your key, configure the model</td>
-</tr>
-<tr class="even">
-<td><a href="lessons/lesson1_2.html">2</a></td>
-<td>Tools: Structure &amp; Uses — what a tool is, how the agent decides to call it, the <code>@tool</code> decorator, community tools</td>
-</tr>
-<tr class="odd">
-<td><a href="lessons/lesson1_3.html">3</a></td>
-<td>Tool Wrappers &amp; Local Data — tool wrapper structure, local data access, combining web search with local files</td>
-</tr>
-<tr class="even">
-<td><a href="lessons/lesson1_4.html">4</a></td>
-<td>Response Formats &amp; Datatypes — define response format, pass photos, PDFs, and other datatypes</td>
-</tr>
-<tr class="odd">
-<td><a href="lessons/lesson1_5.html">5</a></td>
-<td>Statefulness &amp; Conversation History — stateless vs stateful agents, LangGraph, manual and built-in memory</td>
-</tr>
-<tr class="even">
-<td><a href="lessons/lesson1_6.html">6</a></td>
-<td>Connecting to the World via MCP — what MCP is, launch MCP stdio locally, MCP logging</td>
-</tr>
-<tr class="odd">
-<td><a href="lessons/lesson1_7.html">7</a></td>
-<td>MCP from GitHub — get a real MCP off GitHub (Canvas MCP), evaluate it in depth</td>
-</tr>
-<tr class="even">
-<td><a href="lessons/lesson1_8.html">8</a></td>
-<td>Subagents &amp; Multi-Agent Intro — multiagent overview, subagents vs skills vs handoffs vs routers</td>
-</tr>
-<tr class="odd">
-<td><a href="lessons/lesson1_project.html">Project</a></td>
-<td>Build a Powerful Bot — personal assistant using all unit tools: Canvas, Google Calendar, Slack, file system, web</td>
-</tr>
-</tbody>
-</table>
-<hr>
-</section>
-</section>
-<section id="unit-2" class="level2">
-<h2 class="anchored" data-anchor-id="unit-2">Unit 2</h2>
-<section id="diagnostics-why-is-it-bad-weeks-58" class="level3">
-<h3 class="anchored" data-anchor-id="diagnostics-why-is-it-bad-weeks-58">Diagnostics — Why Is It “Bad”? (Weeks 5–8)</h3>
-<ul>
-<li><a href="lessons/unit2.html">Unit 2</a></li>
-</ul>
-<p><strong>Goal:</strong> Develop diagnostic tools to peer into the black box of agentic AI, in preparation for building reliable agents.</p>
-<p><strong>Topics:</strong> - Categories of agent failure: errors, loops, cost explosion, hallucination, unreliability - Observability and tracing with LangSmith - Token and latency analysis - Debugging hallucinations and unexpected behavior - Prompt failure patterns - Cost and loop failure analysis - Identifying and fixing code bugs</p>
-<p><strong>Project:</strong> Diagnostic Report — Fix a Broken Agent</p>
-<p>You are given a pre-built broken agent to diagnose. Your job is to implement tracing, identify every failure, document root causes, and produce a structured diagnostic report. You will implement at least one fix and verify it with traces before presenting to the class.</p>
-<p><strong>Outcomes:</strong> - Set up LangSmith and capture screenshot traces - Implement tracing features and explain what each one does and why - Measure token usage and latency across tool calls and LLM responses - Identify categories of agent failure from trace data - Distinguish model errors from prompt errors from code bugs - Identify and rewrite failing prompts based on traced results - Implement basic loop guards and context limits - Fix identified bugs and verify with re-tracing - Produce and present a diagnostic report</p>
-<p><strong>Note on AI use:</strong> AI assistance may be permitted this unit — details TBD. If used, post in Slack what you discussed and any lessons learned.</p>
-<p><strong>Daily Schedule:</strong></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Day</th>
-<th>Topic</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><a href="lessons/lesson2_1.html">1</a></td>
-<td>What Makes an Agent “Bad”? — review Unit 1 failures, intro observability, define runs/traces, navigate LangSmith</td>
-</tr>
-<tr class="even">
-<td><a href="lessons/lesson2_2.html">2</a></td>
-<td>Defining Main Failures — define failure types, compare good vs bad traces</td>
-</tr>
-<tr class="odd">
-<td><a href="lessons/lesson2_3.html">3</a></td>
-<td>LangSmith Setup &amp; Trace Reading — get API key, set up tracing, interpret each step of a trace</td>
-</tr>
-<tr class="even">
-<td><a href="lessons/lesson2_4.html">4</a></td>
-<td>Token &amp; Latency Analysis — monitor performance, choose evaluation metrics, understand cost growth</td>
-</tr>
-<tr class="odd">
-<td><a href="lessons/lesson2_5.html">5</a></td>
-<td>Evals &amp; Golden Test Sets — build a test set, write success criteria, judge outputs</td>
-</tr>
-<tr class="even">
-<td><a href="lessons/lesson2_6.html">6</a></td>
-<td>Debugging Failure Patterns — repeatable diagnostic process, categorize and prioritize failures</td>
-</tr>
-<tr class="odd">
-<td><a href="lessons/lesson2_7.html">7</a></td>
-<td>Automation Rules &amp; Alerts — sampling, filters, and alerts to catch bad runs; connect user feedback to trace evidence</td>
-</tr>
-<tr class="even">
-<td><a href="lessons/lesson2_8.html">8</a></td>
-<td>Diagnosing a Broken Agent — provide a diagnostic report, apply a fix, retest and compare</td>
-</tr>
-<tr class="odd">
-<td><a href="lessons/lesson2_9.html">9</a></td>
-<td>Unit Review &amp; Assessment — unit review and decided testing method</td>
-</tr>
-<tr class="even">
-<td><a href="lessons/lesson2_project.html">Project</a></td>
-<td>Diagnostic Report — trace, document, and fix a pre-built broken agent; present findings to the class</td>
-</tr>
-</tbody>
-</table>
-<hr>
-</section>
-</section>
-<section id="unit-3" class="level2">
-<h2 class="anchored" data-anchor-id="unit-3">Unit 3</h2>
-<section id="context-engineering-make-a-good-agent-weeks-912" class="level3">
-<h3 class="anchored" data-anchor-id="context-engineering-make-a-good-agent-weeks-912">Context Engineering — Make a “Good” Agent (Weeks 9–12)</h3>
-<ul>
-<li><a href="lessons/unit3.html">Unit 3</a></li>
-</ul>
-<blockquote class="blockquote">
-<p><strong>⚠️ Unit 3 is currently in production.</strong> Days will be added as they are finalized.</p>
-</blockquote>
-<p><strong>Goal:</strong> Engineer context effectively to produce agents that are reliable, specialized, and capable of operating over long horizons — then prove it in competition.</p>
-<p><strong>Topics:</strong> - Context engineering vs.&nbsp;prompt engineering - The 4 levels of intent: session, user, organization, world - Simple context management: truncation, summarization, selection, file write, database, isolation/delegation - Context offloading: semantic search, forgetting vector, graph memory - Subagent architecture: parallelization, serialization, concurrency - Checkpointing, human-in-the-loop, and context self-adaptation - Grounding and RAG - Long-horizon task planning - Cost-aware context design</p>
-<p><strong>Project:</strong> Battle of the Bots</p>
-<p>Apply everything from all three units to build a production-ready agent of your own design. Agents compete in structured challenges testing usefulness, resilience, and cost efficiency. The best agent is not necessarily the most powerful — it is the most reliable, the most purposeful, and the most improved from where you started in Unit 1.</p>
-<p><strong>Outcomes:</strong> - Define context engineering and distinguish it from prompt engineering - Implement truncation and summarization-based context management - Apply context offloading using semantic search or graph memory - Implement parallelized and serialized subagent patterns - Add checkpointing and human-in-the-loop interrupts - Build a RAG pipeline and test retrieval quality - Design agents that maintain state across long multi-step tasks - Apply context engineering improvements to the Unit 1 personal assistant - Compete in Battle of the Bots and articulate design decisions made</p>
-<p><strong>Note on AI use:</strong> AI assistance may be permitted this unit — details TBD. If used, post in Slack what you discussed and any lessons learned.</p>
-<p><strong>Daily Schedule:</strong></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Day</th>
-<th>Topic</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><a href="lessons/lesson3_1.html">1</a></td>
-<td>What Is Context Engineering? — definition, levels of intent, why prompting alone isn’t enough</td>
-</tr>
-<tr class="even">
-<td><a href="lessons/lesson3_2.html">2</a></td>
-<td>Planning Agentic Systems — distinguish prompt, context, and intent engineering; plan systems on a whiteboard</td>
-</tr>
-<tr class="odd">
-<td><a href="lessons/lesson3_3.html">3</a></td>
-<td>Context Management Strategies — truncate, summarize, select, file write, database, isolate/delegate; implement all three core types</td>
-</tr>
-<tr class="even">
-<td><em>More days coming</em></td>
-<td><em>Check back as Unit 3 is finalized</em></td>
-</tr>
-</tbody>
-</table>
-<hr>
-</section>
-</section>
-</section>
-<section id="credits" class="level1">
-<h1>Credits</h1>
-<p>This course was created by: <a href="https://www.linkedin.com/in/james-m-beeson/">James Beeson</a> <a href="https://www.linkedin.com/in/ethan-saline/">Ethan Saline</a> <a href="https://www.linkedin.com/in/wilkin-jones/">Wil Jones</a> <a href="https://www.linkedin.com/in/ianblad/">Ian Blad</a> <a href="https://www.linkedin.com/in/camila-ramirez-suarez/">Camilla Ramirez</a> <a href="https://www.linkedin.com/in/kimberly-juarez-palomino/">Kimberly Juarez</a></p>
+<!-- # Course Overview
+
+## Unit 1
+### Build a "Bad" Agent (Weeks 1–4)
+
+  - [Unit 1](lessons/unit1.html)
+
+**Goal:** Learn the tools to create a powerful but uncontrollable agent.
+
+**Topics:**
+- Intro to agent concepts and LLM programming
+- API keys, environment setup, and class materials
+- Making API calls, defining and calling tools, and managing statefulness
+- Connecting tools: MCP, file system, browser use, internet search, custom functions
+- Sandboxing with LangChain / Daytona
+- Subagents and multi-agent architectures
+- Writing effective prompts from scratch
+
+**Project:** Personal Assistant Agent
+
+Build a personal assistant agent that connects to real tools — Canvas, Google Calendar, Slack, the file system, and the web — and carries on a coherent, stateful conversation. You will write your own prompts from scratch; no AI, peer, or internet-generated prompts are permitted. The agent will be stress-tested in class to deliberately surface its weaknesses, and those failures become the raw material for Unit 2.
+
+**Outcomes:**
+- Call an LLM and receive a response
+- Write original prompts for agent context
+- Define custom tools and turn existing code into tools
+- Connect and invoke tools (MCP, file system, browser, web search, Canvas, Google Calendar, Slack)
+- Implement conversation history manually and with built-in methods
+- Introduce statefulness to an agent
+- Run agent code safely in a sandboxed environment
+- Build a simple two-agent pipeline
+- Demonstrate a working personal assistant agent and document where it breaks
+
+**Note on AI use:** AI assistance is not permitted this unit. Debugging help comes from class time and the Slack group (ChatClass). This is intentional — it builds class unity, surfaces your own assumptions, and gives you room to fail. Failure is a core part of this unit, not a grading penalty. Set a time limit on any problem; if you're stuck, post in Slack or bring it to class unfinished. That is OK.
+
+**Daily Schedule:**
+
+| Day | Topic |
+|-----|-------|
+| [1](lessons/lesson1_1.html) | APIs & Your First LLM Call — define an API, make a call, hide your key, configure the model |
+| [2](lessons/lesson1_2.html) | Tools: Structure & Uses — what a tool is, how the agent decides to call it, the `@tool` decorator, community tools |
+| [3](lessons/lesson1_3.html) | Tool Wrappers & Local Data — tool wrapper structure, local data access, combining web search with local files |
+| 4 | Response Formats & Datatypes — define response format, pass photos, PDFs, and other datatypes |
+| 5 | Statefulness & Conversation History — stateless vs stateful agents, LangGraph, manual and built-in memory |
+| 6 | Connecting to the World via MCP — what MCP is, launch MCP stdio locally, MCP logging |
+| 7 | MCP from GitHub — get a real MCP off GitHub (Canvas MCP), evaluate it in depth |
+| 8 | Subagents & Multi-Agent Intro — multiagent overview, subagents vs skills vs handoffs vs routers |
+| Project | Build a Powerful Bot — personal assistant using all unit tools: Canvas, Google Calendar, Slack, file system, web |
+
+---
+
+## Unit 2
+### Diagnostics — Why Is It "Bad"? (Weeks 5–8)
+
+
+**Goal:** Develop diagnostic tools to peer into the black box of agentic AI, in preparation for building reliable agents.
+
+**Topics:**
+- Categories of agent failure: errors, loops, cost explosion, hallucination, unreliability
+- Observability and tracing with LangSmith
+- Token and latency analysis
+- Debugging hallucinations and unexpected behavior
+- Prompt failure patterns
+- Cost and loop failure analysis
+- Identifying and fixing code bugs
+
+**Project:** Diagnostic Report — Fix a Broken Agent
+
+You are given a pre-built broken agent to diagnose. Your job is to implement tracing, identify every failure, document root causes, and produce a structured diagnostic report. You will implement at least one fix and verify it with traces before presenting to the class.
+
+**Outcomes:**
+- Set up LangSmith and capture screenshot traces
+- Implement tracing features and explain what each one does and why
+- Measure token usage and latency across tool calls and LLM responses
+- Identify categories of agent failure from trace data
+- Distinguish model errors from prompt errors from code bugs
+- Identify and rewrite failing prompts based on traced results
+- Implement basic loop guards and context limits
+- Fix identified bugs and verify with re-tracing
+- Produce and present a diagnostic report
+
+**Note on AI use:** AI assistance may be permitted this unit — details TBD. If used, post in Slack what you discussed and any lessons learned.
+
+**Daily Schedule:**
+
+| Day | Topic |
+|-----|-------|
+| 1 | What Makes an Agent "Bad"? — review Unit 1 failures, intro observability, define runs/traces, navigate LangSmith |
+| 2 | Defining Main Failures — define failure types, compare good vs bad traces |
+| 3 | LangSmith Setup & Trace Reading — get API key, set up tracing, interpret each step of a trace |
+| 4 | Token & Latency Analysis — monitor performance, choose evaluation metrics, understand cost growth |
+| 5 | Evals & Golden Test Sets — build a test set, write success criteria, judge outputs |
+| 6 | Debugging Failure Patterns — repeatable diagnostic process, categorize and prioritize failures |
+| 7 | Automation Rules & Alerts — sampling, filters, and alerts to catch bad runs; connect user feedback to trace evidence |
+| 8 | Diagnosing a Broken Agent — provide a diagnostic report, apply a fix, retest and compare |
+| 9 | Unit Review & Assessment — unit review and decided testing method |
+| Project | Diagnostic Report — trace, document, and fix a pre-built broken agent; present findings to the class |
+
+---
+
+## Unit 3
+### Context Engineering — Make a "Good" Agent (Weeks 9–12)
+
+
+> **⚠️ Unit 3 is currently in production.** Days will be added as they are finalized.
+
+**Goal:** Engineer context effectively to produce agents that are reliable, specialized, and capable of operating over long horizons — then prove it in competition.
+
+**Topics:**
+- Context engineering vs. prompt engineering
+- The 4 levels of intent: session, user, organization, world
+- Simple context management: truncation, summarization, selection, file write, database, isolation/delegation
+- Context offloading: semantic search, forgetting vector, graph memory
+- Subagent architecture: parallelization, serialization, concurrency
+- Checkpointing, human-in-the-loop, and context self-adaptation
+- Grounding and RAG
+- Long-horizon task planning
+- Cost-aware context design
+
+**Project:** Battle of the Bots
+
+Apply everything from all three units to build a production-ready agent of your own design. Agents compete in structured challenges testing usefulness, resilience, and cost efficiency. The best agent is not necessarily the most powerful — it is the most reliable, the most purposeful, and the most improved from where you started in Unit 1.
+
+**Outcomes:**
+- Define context engineering and distinguish it from prompt engineering
+- Implement truncation and summarization-based context management
+- Apply context offloading using semantic search or graph memory
+- Implement parallelized and serialized subagent patterns
+- Add checkpointing and human-in-the-loop interrupts
+- Build a RAG pipeline and test retrieval quality
+- Design agents that maintain state across long multi-step tasks
+- Apply context engineering improvements to the Unit 1 personal assistant
+- Compete in Battle of the Bots and articulate design decisions made
+
+**Note on AI use:** AI assistance may be permitted this unit — details TBD. If used, post in Slack what you discussed and any lessons learned.
+
+**Daily Schedule:**
+
+| Day | Topic |
+|-----|-------|
+| 1 | What Is Context Engineering? — definition, levels of intent, why prompting alone isn't enough |
+| 2 | Planning Agentic Systems — distinguish prompt, context, and intent engineering; plan systems on a whiteboard |
+| 3 | Context Management Strategies — truncate, summarize, select, file write, database, isolate/delegate; implement all three core types |
+| *More days coming* | *Check back as Unit 3 is finalized* |
+
+---
+
+# Credits
+
+This course was created by:
+[James Beeson](https://www.linkedin.com/in/james-m-beeson/)
+[Ethan Saline](https://www.linkedin.com/in/ethan-saline/)
+[Wil Jones](https://www.linkedin.com/in/wilkin-jones/)
+[Ian Blad](https://www.linkedin.com/in/ianblad/)
+[Camilla Ramirez](https://www.linkedin.com/in/camila-ramirez-suarez/)
+[Kimberly Juarez](https://www.linkedin.com/in/kimberly-juarez-palomino/) -->
 
 
 </section>
@@ -480,6 +499,19 @@ ul.task-list li input[type="checkbox"] {
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {

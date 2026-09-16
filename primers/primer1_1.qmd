@@ -10,3 +10,5 @@ What is agent engineering?
 What does agent engineering look like in industry?
 
 - [State of Agent Engineering](https://www.langchain.com/state-of-agent-engineering)
+
+- Wander through [IBM's Use Cases](https://www.ibm.com/think/topics/ai-agent-use-cases#1580786329) (you don't need to read it all)

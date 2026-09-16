@@ -37,7 +37,7 @@ A retail company's support agent gets asked constantly: *"Do you have the blue m
 
 Here's the fix: turn the lookup into a tool the model can call, using LangChain's `@tool` decorator.
 
-```python
+```{python}
 from langchain.tools import tool
 
 @tool
@@ -67,7 +67,7 @@ Notice the model never sees the function body — only the docstring, which is w
 
 Paste the tool above into Colab and confirm it works stand-alone before trusting an agent with it:
 
-```python
+```{python}
 print(check_inventory.invoke({"sku": "HOOD-BLU-M"}))
 print(check_inventory.invoke({"sku": "HOOD-BLU-L"}))
 print(check_inventory.invoke({"sku": "GHOST-SKU"}))

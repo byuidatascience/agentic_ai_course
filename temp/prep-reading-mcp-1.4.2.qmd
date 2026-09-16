@@ -44,7 +44,7 @@ Without MCP, connecting an agent to five external systems means writing and main
 
 With MCP, connecting to five systems means connecting to five *servers* — and if someone else already built and maintains that server (increasingly common — Slack, GitHub, and many SaaS tools now ship their own), you write zero integration code.
 
-```python
+```{python}
 tools = await client.get_tools()
 agent = create_agent(model, tools)
 ```

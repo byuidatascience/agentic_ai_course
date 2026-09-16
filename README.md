@@ -42,7 +42,6 @@ This outputs all rendered HTML to the `docs/` folder, which GitHub Pages serves.
 ```
 /
 ├── index.qmd               # Course homepage (student-facing)
-├── dictionary.qmd          # Agentic AI glossary
 ├── _quarto.yml             # Site config: navbar, theme, output settings
 ├── _variables.yml          # Variables used throughout qmd files (such as repo link)
 ├── styles.css              # Custom CSS overrides
@@ -58,6 +57,7 @@ This outputs all rendered HTML to the `docs/` folder, which GitHub Pages serves.
 │   ├── unit2.qmd           # Unit 2 overview page
 │   ├── lesson2_1.qmd       # Unit 2, Day 1
 │   └── ...
+├── drafts/                # Unit 3 lesson drafts, not published
 ├── examples/               # Examples for in-class use
 │   ├── example1_1.qmd      # Unit 1, Day 1
 │   └── ...

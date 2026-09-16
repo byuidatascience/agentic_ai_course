@@ -1,6 +1,25 @@
 project : 
   type : website
   output-dir :  docs
+  # Only course material is rendered or copied into docs/. Internal work
+  # products (design docs, scratch notes, drafts, repo README/TODO) stay unpublished.
+  render : 
+    - "*"
+    - "!scratch/**"
+    - "!temp/**"
+    - "!course_design/**"
+    - "!TODO.md"
+    - "!README.md"
+    - "!drafts/**"
+    - "!templates/**"
+  resources : 
+    - "!drafts/**"
+    - "!templates/**"
+    - "!scratch/**"
+    - "!temp/**"
+    - "!course_design/**"
+    - "!TODO.md"
+    - "!README.md"
 
 execute:
   eval: false
@@ -16,72 +35,15 @@ website :
 
       - text :  "Unit 1"
         menu : 
-          - text :  "Unit 1 Overview"
-            href :  lessons/unit1.html
-          - text :  "---"
+          # - text :  "Unit 1 Overview"
+          #   href :  lessons/unit1.html
+          # - text :  "---"
           - text :  "Day 1 : APIs & Your First LLM Call"
             href :  lessons/lesson1_1.html
-          - text :  "Day 2 : Tools - Structure & Uses"
-            href :  lessons/lesson1_2.html
-          - text :  "Day 3 : Tool Wrappers & Local Data"
-            href :  lessons/lesson1_3.html
-          - text :  "Day 4 : Response Formats & Datatypes"
-            href :  lessons/lesson1_4.html
-          - text :  "Day 5 : Statefulness & Conversation History"
-            href :  lessons/lesson1_5.html
-          - text :  "Day 6 : Connecting to the World via MCP"
-            href :  lessons/lesson1_6.html
-          - text :  "Day 7 : MCP from GitHub"
-            href :  lessons/lesson1_7.html
-          - text :  "Day 8 : Subagents & Multi-Agent Intro"
-            href :  lessons/lesson1_8.html
-          - text :  "---"
-          - text :  "Unit 1 Project : Build a Powerful Bot"
-            href :  lessons/lesson1_9.html
-
-      - text :  "Unit 2"
-        menu : 
-          - text :  "Unit 2 Overview"
-            href :  lessons/unit2.html
-          - text :  "---"
-          - text :  "Day 1 : What Makes an Agent Bad?"
-            href :  lessons/lesson2_1.html
-          - text :  "Day 2 : Defining Main Failures"
-            href :  lessons/lesson2_2.html
-          - text :  "Day 3 : LangSmith Setup & Trace Reading"
-            href :  lessons/lesson2_3.html
-          - text :  "Day 4 : Token & Latency Analysis"
-            href :  lessons/lesson2_4.html
-          - text :  "Day 5 : Evals & Golden Test Sets"
-            href :  lessons/lesson2_5.html
-          - text :  "Day 6 : Debugging Failure Patterns"
-            href :  lessons/lesson2_6.html
-          - text :  "Day 7 : Automation Rules & Alerts"
-            href :  lessons/lesson2_7.html
-          - text :  "Day 8 : Diagnosing a Broken Agent"
-            href :  lessons/lesson2_8.html
-          - text :  "Day 9 : Unit Review & Assessment"
-            href :  lessons/lesson2_9.html
-          - text :  "---"
-          - text :  "Unit 2 Project : Build a Good Bot"
-            href :  lessons/lesson2_10.html
-
-      - text :  "Unit 3"
-        menu : 
-          - text :  "Unit 3 Overview"
-            href :  lessons/unit3.html
-          - text :  "---"
-          - text :  "⚠️ Unit 3 is currently in production"
-          - text :  "---"
-          - text :  "Day 1 : What Is Context Engineering?"
-            href :  lessons/lesson3_1.html
-          - text :  "Day 2 : Planning Agentic Systems"
-            href :  lessons/lesson3_2.html
-          - text :  "Day 3 : Context Management Strategies"
-            href :  lessons/lesson3_3.html
-
-      - text :  "Dictionary"
-        href :  dictionary.html
+          # - text :  "Day 2 : Tools - Structure & Uses"
+          #   href :  lessons/lesson1_2.html
+          # - text :  "Day 3 : Tool Wrappers & Local Data"
+          #   href :  lessons/lesson1_3.html
 
   page-footer :
     left :  "Agentic AI Course — BYU-Idaho"
@@ -89,7 +51,12 @@ website :
 
 format : 
   html : 
-    theme :  cosmo
+    # A light/dark pair makes Quarto render both stylesheets and add the
+    # toggle to the navbar. Keep highlight-style paired to match, or the
+    # code-block colours end up tuned for the wrong background.
+    theme :
+      light :  cosmo
+      dark :  darkly
     css :  styles.css
     toc : true
     toc-depth : 2
@@ -97,5 +64,7 @@ format :
     toc-title : "On this page"
     code-copy : true
     code-fold : false
-    highlight-style : github-dark
+    highlight-style :
+      light :  github
+      dark :  github-dark
     smooth-scroll : true

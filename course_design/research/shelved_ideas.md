@@ -38,3 +38,11 @@ vehicle behind competency 2.2.5 (compare two or more agent versions objectively 
 point in the semester where motivation sags, and it fit the leaderboard/gamification thread that runs
 through Pass-offs. If motivation in the final weeks turns out to be the problem, this is the idea to
 reach for first.
+
+## AI Tutor
+
+Needs to be informed on what our definitions are and the pacing of this class. In that sense, the course website becomes its RAG.
+
+## Full Audit Skill and Hook
+
+Auto-runs a full audit at the start of the semester reporting on anything that has changed in industry, or any inconsistencies and broken links. Reports to the instructor a week before the course starts.

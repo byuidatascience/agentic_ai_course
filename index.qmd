@@ -3,9 +3,9 @@ title: "Welcome to the Agentic AI Course!"
 toc-depth: 1
 ---
 
-<!-- Useful information to access every day -->
+<!-- TODO: Useful information to access every day -->
 
-<!-- Big Table with all the links -->
+<!-- TODO: Big Table with all the links -->
 
 # Course Objectives
 
@@ -18,7 +18,7 @@ toc-depth: 1
 
 ---
 
-# Course Overview
+<!-- # Course Overview
 
 ## Unit 1
 ### Build a "Bad" Agent (Weeks 1–4)
@@ -60,19 +60,18 @@ Build a personal assistant agent that connects to real tools — Canvas, Google 
 | [1](lessons/lesson1_1.html) | APIs & Your First LLM Call — define an API, make a call, hide your key, configure the model |
 | [2](lessons/lesson1_2.html) | Tools: Structure & Uses — what a tool is, how the agent decides to call it, the `@tool` decorator, community tools |
 | [3](lessons/lesson1_3.html) | Tool Wrappers & Local Data — tool wrapper structure, local data access, combining web search with local files |
-| [4](lessons/lesson1_4.html) | Response Formats & Datatypes — define response format, pass photos, PDFs, and other datatypes |
-| [5](lessons/lesson1_5.html) | Statefulness & Conversation History — stateless vs stateful agents, LangGraph, manual and built-in memory |
-| [6](lessons/lesson1_6.html) | Connecting to the World via MCP — what MCP is, launch MCP stdio locally, MCP logging |
-| [7](lessons/lesson1_7.html) | MCP from GitHub — get a real MCP off GitHub (Canvas MCP), evaluate it in depth |
-| [8](lessons/lesson1_8.html) | Subagents & Multi-Agent Intro — multiagent overview, subagents vs skills vs handoffs vs routers |
-| [Project](lessons/lesson1_project.html) | Build a Powerful Bot — personal assistant using all unit tools: Canvas, Google Calendar, Slack, file system, web |
+| 4 | Response Formats & Datatypes — define response format, pass photos, PDFs, and other datatypes |
+| 5 | Statefulness & Conversation History — stateless vs stateful agents, LangGraph, manual and built-in memory |
+| 6 | Connecting to the World via MCP — what MCP is, launch MCP stdio locally, MCP logging |
+| 7 | MCP from GitHub — get a real MCP off GitHub (Canvas MCP), evaluate it in depth |
+| 8 | Subagents & Multi-Agent Intro — multiagent overview, subagents vs skills vs handoffs vs routers |
+| Project | Build a Powerful Bot — personal assistant using all unit tools: Canvas, Google Calendar, Slack, file system, web |
 
 ---
 
 ## Unit 2
 ### Diagnostics — Why Is It "Bad"? (Weeks 5–8)
 
-  - [Unit 2](lessons/unit2.html)
 
 **Goal:** Develop diagnostic tools to peer into the black box of agentic AI, in preparation for building reliable agents.
 
@@ -106,23 +105,22 @@ You are given a pre-built broken agent to diagnose. Your job is to implement tra
 
 | Day | Topic |
 |-----|-------|
-| [1](lessons/lesson2_1.html) | What Makes an Agent "Bad"? — review Unit 1 failures, intro observability, define runs/traces, navigate LangSmith |
-| [2](lessons/lesson2_2.html) | Defining Main Failures — define failure types, compare good vs bad traces |
-| [3](lessons/lesson2_3.html) | LangSmith Setup & Trace Reading — get API key, set up tracing, interpret each step of a trace |
-| [4](lessons/lesson2_4.html) | Token & Latency Analysis — monitor performance, choose evaluation metrics, understand cost growth |
-| [5](lessons/lesson2_5.html) | Evals & Golden Test Sets — build a test set, write success criteria, judge outputs |
-| [6](lessons/lesson2_6.html) | Debugging Failure Patterns — repeatable diagnostic process, categorize and prioritize failures |
-| [7](lessons/lesson2_7.html) | Automation Rules & Alerts — sampling, filters, and alerts to catch bad runs; connect user feedback to trace evidence |
-| [8](lessons/lesson2_8.html) | Diagnosing a Broken Agent — provide a diagnostic report, apply a fix, retest and compare |
-| [9](lessons/lesson2_9.html) | Unit Review & Assessment — unit review and decided testing method |
-| [Project](lessons/lesson2_project.html) | Diagnostic Report — trace, document, and fix a pre-built broken agent; present findings to the class |
+| 1 | What Makes an Agent "Bad"? — review Unit 1 failures, intro observability, define runs/traces, navigate LangSmith |
+| 2 | Defining Main Failures — define failure types, compare good vs bad traces |
+| 3 | LangSmith Setup & Trace Reading — get API key, set up tracing, interpret each step of a trace |
+| 4 | Token & Latency Analysis — monitor performance, choose evaluation metrics, understand cost growth |
+| 5 | Evals & Golden Test Sets — build a test set, write success criteria, judge outputs |
+| 6 | Debugging Failure Patterns — repeatable diagnostic process, categorize and prioritize failures |
+| 7 | Automation Rules & Alerts — sampling, filters, and alerts to catch bad runs; connect user feedback to trace evidence |
+| 8 | Diagnosing a Broken Agent — provide a diagnostic report, apply a fix, retest and compare |
+| 9 | Unit Review & Assessment — unit review and decided testing method |
+| Project | Diagnostic Report — trace, document, and fix a pre-built broken agent; present findings to the class |
 
 ---
 
 ## Unit 3
 ### Context Engineering — Make a "Good" Agent (Weeks 9–12)
 
-  - [Unit 3](lessons/unit3.html)
 
 > **⚠️ Unit 3 is currently in production.** Days will be added as they are finalized.
 
@@ -160,9 +158,9 @@ Apply everything from all three units to build a production-ready agent of your 
 
 | Day | Topic |
 |-----|-------|
-| [1](lessons/lesson3_1.html) | What Is Context Engineering? — definition, levels of intent, why prompting alone isn't enough |
-| [2](lessons/lesson3_2.html) | Planning Agentic Systems — distinguish prompt, context, and intent engineering; plan systems on a whiteboard |
-| [3](lessons/lesson3_3.html) | Context Management Strategies — truncate, summarize, select, file write, database, isolate/delegate; implement all three core types |
+| 1 | What Is Context Engineering? — definition, levels of intent, why prompting alone isn't enough |
+| 2 | Planning Agentic Systems — distinguish prompt, context, and intent engineering; plan systems on a whiteboard |
+| 3 | Context Management Strategies — truncate, summarize, select, file write, database, isolate/delegate; implement all three core types |
 | *More days coming* | *Check back as Unit 3 is finalized* |
 
 ---
@@ -175,4 +173,4 @@ This course was created by:
 [Wil Jones](https://www.linkedin.com/in/wilkin-jones/)
 [Ian Blad](https://www.linkedin.com/in/ianblad/)
 [Camilla Ramirez](https://www.linkedin.com/in/camila-ramirez-suarez/)
-[Kimberly Juarez](https://www.linkedin.com/in/kimberly-juarez-palomino/)
+[Kimberly Juarez](https://www.linkedin.com/in/kimberly-juarez-palomino/) -->

@@ -41,21 +41,22 @@ body {
   --transition:      0.2s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-primary:    #0f1117;
-    --bg-secondary:  #1a1f2e;
-    --bg-card:       #1e2436;
-    --border-color:  #2d3550;
+/* Driven by the navbar toggle, not the OS: Quarto stamps .quarto-dark /
+   .quarto-light on <body> when the theme is a light/dark pair. Using a
+   prefers-color-scheme query here instead would ignore the toggle. */
+body.quarto-dark {
+  --bg-primary:    #0f1117;
+  --bg-secondary:  #1a1f2e;
+  --bg-card:       #1e2436;
+  --border-color:  #2d3550;
 
-    --text-primary:  #e8eaf0;
-    --text-secondary:#a0aec0;
-    --text-muted:    #718096;
+  --text-primary:  #e8eaf0;
+  --text-secondary:#a0aec0;
+  --text-muted:    #718096;
 
-    --shadow-sm:     0 1px 3px rgba(0,0,0,0.3);
-    --shadow-md:     0 4px 12px rgba(0,0,0,0.4);
-    --shadow-lg:     0 8px 24px rgba(0,0,0,0.5);
-  }
+  --shadow-sm:     0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md:     0 4px 12px rgba(0,0,0,0.4);
+  --shadow-lg:     0 8px 24px rgba(0,0,0,0.5);
 }
 
 body {
@@ -76,11 +77,9 @@ body {
   transition: background-color var(--transition);
 }
 
-@media (prefers-color-scheme: dark) {
-  .navbar {
-    background-color: rgba(10, 20, 40, 0.85) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  }
+body.quarto-dark .navbar {
+  background-color: rgba(10, 20, 40, 0.85) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 /* Logo */
@@ -380,17 +379,24 @@ pre, code {
   font-size: 0.88em;
 }
 
-pre {
-  background-color: var(--bg-secondary) !important;
-  border: 1px solid var(--border-color);
-  padding: 1rem 1.2rem;
+/* Deliberately no background-color here. Quarto paints highlighted blocks on
+   div.sourceCode and keeps pre.sourceCode transparent so the token colours sit
+   on the background their highlight-style was designed for. Repainting pre
+   (especially with !important) puts dark-theme tokens on a light surface. */
+div.sourceCode {
+  border-radius: 7px;
 }
 
-@media (prefers-color-scheme: dark) {
-  pre {
-    background-color: #141824 !important;
-    border-color: #2d3550;
-  }
+pre.sourceCode {
+  padding: 0.9rem 1.1rem;
+}
+
+/* Plain fenced blocks with no language get no highlight-style background,
+   so they still need one of ours. */
+pre:not(.sourceCode) {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 1rem 1.2rem;
 }
 
 /* Copy button */

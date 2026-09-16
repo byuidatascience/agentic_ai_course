@@ -66,9 +66,9 @@ This is intentional. It builds class unity, surfaces your own assumptions, and g
 | [Day 1](lesson1_1.html) | Week 1 | APIs & Your First LLM Call |
 | [Day 2](lesson1_2.html) | Week 1 | Tools - Structure & Uses |
 | [Day 3](lesson1_3.html) | Week 1 | Tool Wrappers & Local Data |
-| [Day 4](lesson1_4.html) | Week 2 | Response Formats & Datatypes |
-| [Day 5](lesson1_5.html) | Week 2 | Statefulness & Conversation History |
-| [Day 6](lesson1_6.html) | Week 2 | Connecting to the World via MCP |
-| [Day 7](lesson1_7.html) | Week 3 | MCP from GitHub |
-| [Day 8](lesson1_8.html) | Week 3 | Subagents & Multi-Agent Intro |
-| [Project](lesson1_project.html) | Week 3–4 | Build a Powerful Bot |
+| Day 4 | Week 2 | Response Formats & Datatypes |
+| Day 5 | Week 2 | Statefulness & Conversation History |
+| Day 6 | Week 2 | Connecting to the World via MCP |
+| Day 7 | Week 3 | MCP from GitHub |
+| Day 8 | Week 3 | Subagents & Multi-Agent Intro |
+| Project | Week 3–4 | Build a Powerful Bot |

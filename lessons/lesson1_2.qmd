@@ -15,7 +15,7 @@ subtitle: "Unit 1, Lesson 2"
 
 | Practice | Primer | Previous Lesson |
 |----------|--------|-----------------|
-|          | [🌱](../primers/primer1_2.ipynb) | [⬅️](lesson1_1.html) |
+|          | [🌱](../primers/primer1_2.html) | [⬅️](lesson1_1.html) |
 
 ## After Class
 
@@ -111,7 +111,7 @@ The agent never sees your code. It only reads the docstring to decide whether to
 
 LangChain gives us a simple way to turn any Python function into a tool: the `@tool` decorator.
 
-```python
+```{python}
 from langchain_core.tools import tool
 
 @tool
@@ -140,7 +140,7 @@ Before building your own tool, let's read one carefully and understand every par
 Read the tool below and answer the questions. Do not run it yet   just read.
 :::
 
-```python
+```{python}
 from langchain_core.tools import tool
 
 @tool
@@ -188,7 +188,7 @@ def calculator(expression: str) -> str:
 
 Copy this into a Colab cell and run it. Notice we are calling the tool directly, not through an agent yet.
 
-```python
+```{python}
 from langchain_core.tools import tool
 
 @tool
@@ -247,7 +247,7 @@ This decision-making process is driven entirely by the docstrings. The agent is 
 ::: {.callout-warning}
 ## What happens with a bad description?
 
-```python
+```{python}
 @tool
 def calculator(expression: str) -> str:
     """Does stuff with numbers."""  # ← too vague!
@@ -268,7 +268,7 @@ Now it's your turn. You are going to build a tool completely from scratch.
 
 Make sure you have run these in Colab:
 
-```python
+```{python}
 %pip install -q -U langchain langchain-google-genai langgraph langchain-core
 
 import os
@@ -283,7 +283,7 @@ os.environ['GOOGLE_API_KEY'] = userdata.get('GOOGLE_API_KEY')
 
 Start here. Build a tool that returns your name.
 
-```python
+```{python}
 from langchain_core.tools import tool
 
 @tool
@@ -295,7 +295,7 @@ def get_my_name() -> str:
 
 Call it directly to confirm it works:
 
-```python
+```{python}
 print(get_my_name.invoke({}))
 ```
 
@@ -305,7 +305,7 @@ print(get_my_name.invoke({}))
 
 Now wire it into an agent and ask it a question that triggers the tool.
 
-```python
+```{python}
 from langchain.chat_models import init_chat_model
 from langchain.agents import create_react_agent
 
@@ -343,7 +343,7 @@ Requirements:
 - Test it directly with `.invoke()` first
 - Then wire it into the agent and ask a question that triggers it
 
-```python
+```{python}
 from langchain_core.tools import tool
 
 @tool
@@ -370,7 +370,7 @@ In the real world, you will often have existing Python code that you want to mak
 
 Here is some existing code that checks whether a number is even or odd:
 
-```python
+```{python}
 # Existing code   not a tool yet
 def check_even_odd(number):
     if number % 2 == 0:
@@ -395,7 +395,7 @@ You need to:
 ::: {.callout-tip collapse="true"}
 ## Solution
 
-```python
+```{python}
 from langchain_core.tools import tool
 
 @tool

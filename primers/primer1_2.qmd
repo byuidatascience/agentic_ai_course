@@ -36,7 +36,7 @@ In LangChain, a tool is just a **Python function with a description**.
 
 That's it. The function does the work. The description tells the AI what the function does and when to use it.
 
-```python
+```{python}
 @tool
 def get_weather(city: str) -> str:
     """Returns the current weather for a given city."""

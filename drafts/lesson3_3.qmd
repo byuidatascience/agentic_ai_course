@@ -42,7 +42,7 @@ Prefer simple readable code over robust code to aid in student understanding.
 
 Here is an example model instantiation:
 
-```python
+```{python}
 from langchain.chat_models import init_chat_model
 from langchain.tools import tool
 
@@ -285,7 +285,7 @@ In Google Colab, we'll use Colab's built-in secrets feature to store your API ke
 4. Paste your Gemini API key as the value
 5. Toggle on "Notebook access" for this notebook
 
-```python
+```{python}
 # Set up API key from Colab secrets
 import os
 from google.colab import userdata
@@ -312,7 +312,7 @@ This is safe only when the `.gitignore` file has `.env` listed.
 
 API keys are coveted (especially for LLM's). If it gets published to GitHub, it will be stolen and used by strangers. To keep yours safe, store it in the `.env` file in the main directory. This environment variable file stays local to your machine and will not be pushed to GitHub (because the `.gitignore` file says to ignore it. You can open the `.gitignore` file to see `.env` listed as files it won't publish to GitHub). The file `.env.template` is just a template. **Please rename `.env.template` to `.env` before adding API keys.**
 
-```python
+```{python}
 # Load environment variables from .env file (local development only)
 from dotenv import load_dotenv
 load_dotenv()
@@ -322,14 +322,14 @@ load_dotenv()
 
 You can now run the below code to install needed packages. (You only need to run `pip install` once.)
 
-```python
+```{python}
 # This installs the dependencies you need
 !pip install -q -U langchain langchain-google-genai
 ```
 
 After saving your API key, you can run the below code to see if it worked. 
 
-```python
+```{python}
 from langchain.chat_models import init_chat_model
 
 model = init_chat_model(

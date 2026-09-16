@@ -46,7 +46,7 @@ A clinical intake agent reviews a patient's symptoms and decides to schedule a f
 
 Here's the fix: put a human approval gate in front of the tool, using LangChain's `HumanInTheLoopMiddleware`.
 
-```python
+```{python}
 from langchain.agents import create_agent
 from langchain.agents.middleware import HumanInTheLoopMiddleware
 from langgraph.checkpoint.memory import InMemorySaver
@@ -74,7 +74,7 @@ agent = create_agent(
 
 Watch what happens on `invoke` — execution pauses *before* the tool runs, and nothing happens until a human decides:
 
-```python
+```{python}
 config = {"configurable": {"thread_id": "patient-482-visit"}}
 
 result = agent.invoke(
@@ -84,7 +84,7 @@ result = agent.invoke(
 print(result.interrupts)  # the proposed action, waiting for a human
 ```
 
-```python
+```{python}
 from langgraph.types import Command
 
 # A human reviews result.interrupts and approves it as-is

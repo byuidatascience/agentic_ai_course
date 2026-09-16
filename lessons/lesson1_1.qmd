@@ -99,7 +99,7 @@ You read about APIs before class. Let's make it concrete with what we're actuall
 
 When you write this line of Python:
 
-```python
+```{python}
 model.invoke("Tell me about the ocean.")
 ```
 
@@ -207,7 +207,7 @@ Store it in Secrets instead. Here is how:
 
 Then run this cell to load it:
 
-```python
+```{python}
 import os
 from google.colab import userdata
 
@@ -219,7 +219,7 @@ print("API key loaded!")
 
 ### Step 3   Install packages
 
-```python
+```{python}
 %pip install -q -U langchain langchain-google-genai
 ```
 
@@ -232,7 +232,7 @@ If you close and reopen the notebook, run it again.
 
 ### Step 4   Make your first LLM call
 
-```python
+```{python}
 from langchain.chat_models import init_chat_model
 
 model = init_chat_model(
@@ -333,13 +333,13 @@ Now you will build a configured agent using everything from Part 2. Follow the s
 
 ### Step 1   Install the agent package
 
-```python
+```{python}
 %pip install -q -U langchain langgraph langchain-google-genai
 ```
 
 ### Step 2   Build a configured agent
 
-```python
+```{python}
 from langchain.chat_models import init_chat_model
 from langchain.agents import create_react_agent
 
