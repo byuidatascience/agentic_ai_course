@@ -24,6 +24,24 @@ Email: jamesbeeson@byui.edu
 - Use quality sources to self-learn in an ever-changing AI landscape
 - Form and live a personal ethic for the use of AI agents
 
+## Course Calendar
+
+**Fall 2026 — MWF, September 14 through December 14.** December 15-16 are testing days.
+
+| | |
+|---|---|
+| First class | Monday, September 14 |
+| Last class | Monday, December 14 |
+| Testing days | December 15-16 |
+| Pattern | Monday / Wednesday / Friday |
+| Scheduled meetings | 40 (13 full weeks + a final Monday) |
+
+Thanksgiving falls on Thursday, November 26. If the university observes the usual Wednesday-through-Friday
+break, Nov 25 and Nov 27 are lost and the real count is **38 meetings**.
+
+TODO: confirm the 38 against the official BYU-Idaho Fall 2026 academic calendar, including any reading
+or holiday days not listed here. Unit boundaries and project due dates are set from the confirmed count.
+
 ## Course Resources
 
 TODO: Link to website

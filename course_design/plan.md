@@ -31,7 +31,7 @@ Every prep reading (~30) has
 - exactly one day
 - at least one competency
 
-Most (not strict) days (~36) have
+Most (not strict) days (~38, see [syllabus](syllabus)) have
 - one prep reading
 - at least one practice activity
 - one or two in-class activity

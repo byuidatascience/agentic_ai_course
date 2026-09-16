@@ -17,6 +17,14 @@ Each decision is accompanied by a "why" (the reason for that pedagogical decisio
 - Use quality sources to self-learn in an ever-changing AI landscape
 - Form and live a personal ethic for the use of AI agents
 
+### Scope Boundary
+
+Implementation only. **Deployment, hosting, scaling, and UI beyond a basic chat interface are out of
+scope**, per the exit profiles in [user_profiles.md](user_profiles.md) and the note on Outcome 1 in
+[course_outcomes.md](course_outcomes.md). This document predates that boundary, so where an older
+passage here implies productization, the boundary wins. Ambitions in that direction are parked in
+[research/future_course_productization.md](research/future_course_productization.md).
+
 ## How It Is Taught
 
 This is a project-based curriculum that follows the AI agent development lifecycle of "build, test, ship, observe, refine, repeat." Its structure is additionally positioned to challenge the student's assumptions with a fail-first approach, helping students realize what they think they know, but do not.
@@ -71,11 +79,11 @@ Equipped with diagnostics, students can use context engineering with deliberate 
 
 ### Capstone
 
-These last two projects are dual-purposed as personal learning tools and to make the course living and self-sustaining.
+These last projects are dual-purposed as personal learning tools and to make the course living and self-sustaining.
 
-**Battle of the Bots**
+**Self-Directed Final Project**
 
-Students finally place their skills into real action as they compete against each other for the best agent, following a core assessment principle that 
+Students pursue a project they are curious and passionate about. This comes after self-assessing what competencies they still lack so they can make an informed choice. A common final project could be finishing their initial agent from project 1. It is a based as a learning experience and is not product-based.
 
 **Contribution Assignment**
 
@@ -134,7 +142,7 @@ Students are placed in groups of four (ideally) based on a mix of prior ability 
 1. It follows a "no one left behind" principle by mixing stronger and less experienced students.
 2. Active groups increase belonging and provide more opportunities for peer teaching.
 
-Most work is self-directed and group-supported, but the productization project may be group-led.
+Most work is self-directed and group-supported. Some projects may be group-led.
 
 ### Group Formation Process
 
@@ -181,7 +189,7 @@ Additional reductions:
 
 - Personal self-assessment
 - Group self-assessment
-- Coding interview test (make an agent, fix a bug, create a UI)
+- Coding interview test (make an agent, fix a bug)
 - Final letter
 
 ## Curiosity
@@ -351,7 +359,7 @@ To reduce writing load, an example and structured template may be provided. To i
 
 | Category | A | B | C | D |
 | --- | --- | --- | --- | --- |
-| Main Projects (1-4) | Completed all 4, best work | Completed all 4, minimal work | Completed 2-3 | Incomplete progress |
+| Main Projects (1-3) | Completed all 3, best work | Completed all 3, minimal work | Completed 2 | Incomplete progress |
 | Self-Directed Project | Put in __ hours and improved skills substantially or learned important lessons | Put in __ hours with meaningful effort | Put in __ hours with limited growth | Minimal engagement |
 | Contribution Assignment | Made a meaningful contribution | Made contribution with minimal effort | Made no contribution | No attempt |
 | Code Interview (with retry) | 3-4 | 2 | 1 | 0 |

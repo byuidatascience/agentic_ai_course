@@ -49,7 +49,7 @@ Grammar follows "Students can + verb" format.
     - 2.2.2 Create LLM-as-judge evaluators for subjective qualities
     - 2.2.3 Build curated golden datasets from scratch
     - 2.2.4 Run offline evals from datasets
-    - 2.2.5 *flag existence* Compare two or more agent versions objectively to decide which is better <!-- pairwise; "Battle of the Bots" --> *not sure if this captures the meaning of pairwise, and the comparison should be explicit in an experiment, which this also doesn't capture*
+    - 2.2.5 *flag existence* Compare two or more agent versions objectively to decide which is better <!-- pairwise --> *not sure if this captures the meaning of pairwise, and the comparison should be explicit in an experiment, which this also doesn't capture*
 - 2.3 Diagnose agent performance <!-- iterative, post-creation discovery -->
     - 2.3.1 Root-cause a failure from traces and eval results
     - 2.3.2 Classify failures into nameable failure modes
