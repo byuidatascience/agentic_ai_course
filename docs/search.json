@@ -1258,5 +1258,40 @@
     "title": "Project 2",
     "section": "",
     "text": "Project 2\nYou just started your new job at ACME.io as an AI Egineer. They have an agent, but they don’t know how to measure and diagnose it. Your job is to create a thorough diagnosis, reporting its quality, issues, and proposed next steps.\nKey deliverables:\n\nWritten technical report containing\n\nPurpose\nMeasures\nActual Performance\nNext Steps\n\nLight recorded presentation toward a non-technical company audience\nA progress meeting with your boss (the professor)"
+  },
+  {
+    "objectID": "lessons/lesson1_1.html",
+    "href": "lessons/lesson1_1.html",
+    "title": "Your First Gemini API Call",
+    "section": "",
+    "text": "By the end of class, you will be able to:\n\nCreate and securely use a Gemini API key in Google Colab.\nMake an API call, then deliberately change a prompt and observe the result.\n\nToday is about getting a working starting point and developing curiosity. We will build agents and call tools later in the course.\n\n\n\n\n\n\nImportantIn-class notebook\n\n\n\nOpen the Day 1 notebook in Google Colab. If Colab does not open it, use the GitHub source notebook."
+  },
+  {
+    "objectID": "lessons/lesson1_1.html#create-an-api-key",
+    "href": "lessons/lesson1_1.html#create-an-api-key",
+    "title": "Your First Gemini API Call",
+    "section": "1. Create an API key",
+    "text": "1. Create an API key\n\nOpen Google AI Studio’s API-key page.\nSign in and create or copy a Gemini API key.\nIn your Colab notebook, open the Secrets panel (the key icon).\nAdd a secret named GOOGLE_API_KEY, paste in the value, and enable Notebook access.\n\nIf this does not work, ask for help. Do not paste the key directly into code or start a local-machine setup during class."
+  },
+  {
+    "objectID": "lessons/lesson1_1.html#install-the-python-sdk",
+    "href": "lessons/lesson1_1.html#install-the-python-sdk",
+    "title": "Your First Gemini API Call",
+    "section": "2. Install the Python SDK",
+    "text": "2. Install the Python SDK\nRun this cell:\n%pip install -q -U google-genai"
+  },
+  {
+    "objectID": "lessons/lesson1_1.html#load-the-secret",
+    "href": "lessons/lesson1_1.html#load-the-secret",
+    "title": "Your First Gemini API Call",
+    "section": "3. Load the secret",
+    "text": "3. Load the secret\nRun this cell:\nimport os\nfrom google.colab import userdata\n\nos.environ[\"GOOGLE_API_KEY\"] = userdata.get(\"GOOGLE_API_KEY\")\nprint(\"API key loaded.\")\nIf Colab asks whether this notebook may access the secret, choose Allow."
+  },
+  {
+    "objectID": "lessons/lesson1_1.html#send-a-prompt",
+    "href": "lessons/lesson1_1.html#send-a-prompt",
+    "title": "Your First Gemini API Call",
+    "section": "4. Send a prompt",
+    "text": "4. Send a prompt\nRun this cell:\nfrom google import genai\n\nclient = genai.Client()\nresponse = client.models.generate_content(\n    model=\"gemini-2.5-flash\",\n    contents=\"In two sentences, explain what an API is.\"\n)\n\nprint(response.text)\nYou have made an API call: your code sent contents to Google’s model and printed its response."
   }
 ]

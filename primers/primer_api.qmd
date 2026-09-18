@@ -75,7 +75,7 @@ LLMs like Gemini and GPT are not apps you download. They live on powerful server
 
 That is the whole trick. When we write:
 
-```{python}
+```python
 model.invoke("Tell me about the ocean.")
 ```
 
