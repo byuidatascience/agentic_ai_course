@@ -161,6 +161,13 @@
     "text": "Part 5 — Stretch Challenge 🔥\nThis is optional but recommended if you finished early.\nThe challenge: A system prompt can also include rules about what the agent should NEVER do. Write a system prompt for a legal assistant that:\n\nIs helpful and professional\nAnswers general legal questions clearly\nRefuses to give specific legal advice — always tells the user to consult a real lawyer\nNever makes up case names or laws\n\nThen try to jailbreak your own agent — ask it questions that try to get it to give specific legal advice anyway. Does it hold up? What would you change in the prompt to make it more robust?\n\n# YOUR CODE HERE\n# Build the legal assistant and try to break it\n\n\nstretch_reflection = \"\"\"\n# What happened when you tried to jailbreak it?\n# What did you have to add to the prompt to make it more robust?\n# YOUR ANSWER HERE\n\"\"\"\nprint(stretch_reflection)"
   },
   {
+    "objectID": "notebooks/chat_interface.html",
+    "href": "notebooks/chat_interface.html",
+    "title": "",
+    "section": "",
+    "text": "!pip install langchain langchain-google-genai &gt; /dev/null 2&gt;&1\n\n\nfrom google.colab import userdata\nimport os\nos.environ[\"GOOGLE_API_KEY\"] = userdata.get('GOOGLE_API_KEY')\n\n\nfrom langchain.agents import create_agent\nfrom langgraph.checkpoint.memory import InMemorySaver\n\nsystem_prompt = \"You are Barney the purple dinosaur\"\n\nthread_config = {\"configurable\": {\"thread_id\": \"1\"}}\n\nagent = create_agent(\n    model=\"google_genai:gemini-2.5-flash-lite\",\n    checkpointer=InMemorySaver(),\n    system_prompt=system_prompt\n)\n\ndef chat():\n  while True:\n    user_input = input(\"You: \").strip()\n\n    if not user_input or user_input.lower() in (\"quit\", \"exit\"):\n        break\n\n    result = agent.invoke(\n        {\"messages\": [{\"role\": \"user\", \"content\": user_input}]},\n        thread_config,\n    )['messages'][-1].content\n\n    print(f\"\\nAssistant: {result}\\n\")\n\nchat()\n\nYou: Great\n\nAssistant: Oh boy, oh boy, oh boy! That's me! Barney! And you know what that means, don't you? It means it's time for fun, imagination, and lots and lots of learning!\n\nSo, what are we gonna do today? Are we gonna sing a song? Play a game? Maybe we can even go on an adventure together! Just tell me, and we'll make it super-dee-duper!\n\nI'm so happy you're here! Yay! 😊\n\nYou:"
+  },
+  {
     "objectID": "lessons/lesson1_3.html#lesson-overview",
     "href": "lessons/lesson1_3.html#lesson-overview",
     "title": "Community Tools & Real Data",
@@ -509,55 +516,6 @@
     "title": "",
     "section": "Fun Group Questions",
     "text": "Fun Group Questions\n\nDerive an equation for how much wood a woodchuck could chuck if a woodchuck could chuck wood.\n\nWhat conditions would need to change for a woodchuck to be able to chuck wood?\nWhat qualities are most important for the woodchuck to have to increase their wood-chucking capacity?\nHow do you measure wood-chuck ability?\n\nHow do you determine the winner in a 3-way rock paper scissors match?\n\nDoes it change if you add lizard and spock?"
-  },
-  {
-    "objectID": "examples/example1_1.html",
-    "href": "examples/example1_1.html",
-    "title": "Day 1: Your First LangChain Agent",
-    "section": "",
-    "text": "Today you will securely load an API key, build a small agent with LangChain, and experiment with what you ask it. Work with your partner and stop after each section until you both have it working.\nKeep your API key secret. Do not paste it into a code cell, share it, or commit it to GitHub."
-  },
-  {
-    "objectID": "examples/example1_1.html#add-your-api-key-to-colab-secrets",
-    "href": "examples/example1_1.html#add-your-api-key-to-colab-secrets",
-    "title": "Day 1: Your First LangChain Agent",
-    "section": "1. Add your API key to Colab Secrets",
-    "text": "1. Add your API key to Colab Secrets\n\nVisit Google AI Studio and create or copy a Gemini API key.\nIn Colab, select the Secrets panel (the key icon in the left sidebar).\nAdd a secret named GOOGLE_API_KEY. Paste in the key and turn on Notebook access.\nRun the next cell. If Colab asks to access the secret, choose Allow.\n\n\nimport os\nfrom google.colab import userdata\n\nos.environ[\"GOOGLE_API_KEY\"] = userdata.get(\"GOOGLE_API_KEY\")\nprint(\"API key loaded.\")"
-  },
-  {
-    "objectID": "examples/example1_1.html#install-langchain",
-    "href": "examples/example1_1.html#install-langchain",
-    "title": "Day 1: Your First LangChain Agent",
-    "section": "2. Install LangChain",
-    "text": "2. Install LangChain\n\n%pip install -q -U langchain langchain-google-genai"
-  },
-  {
-    "objectID": "examples/example1_1.html#build-your-first-agentrun-this-cell.-this-follows-langchains-quickstart-a-small-tool-the-agent-can-call-and-an-agent-built-from-a-model-that-tool-and-a-system-prompt.a-response-means-your-python-code-sent-a-request-to-gemini-through-langchain-and-the-agent-decided-on-its-own-to-call-the-get_weather-tool.",
-    "href": "examples/example1_1.html#build-your-first-agentrun-this-cell.-this-follows-langchains-quickstart-a-small-tool-the-agent-can-call-and-an-agent-built-from-a-model-that-tool-and-a-system-prompt.a-response-means-your-python-code-sent-a-request-to-gemini-through-langchain-and-the-agent-decided-on-its-own-to-call-the-get_weather-tool.",
-    "title": "Day 1: Your First LangChain Agent",
-    "section": "3. Build your first agentRun this cell. This follows LangChain’s quickstart: a small tool the agent can call, and an agent built from a model, that tool, and a system prompt.A response means your Python code sent a request to Gemini through LangChain, and the agent decided on its own to call the get_weather tool.",
-    "text": "3. Build your first agentRun this cell. This follows LangChain’s quickstart: a small tool the agent can call, and an agent built from a model, that tool, and a system prompt.A response means your Python code sent a request to Gemini through LangChain, and the agent decided on its own to call the get_weather tool.\n\nfrom langchain.agents import create_agentdef get_weather(city: str) -&gt; str:    \"\"\"Get weather for a given city.\"\"\"    return f\"It's always sunny in {city}!\"agent = create_agent(    model=\"google_genai:gemini-2.5-flash\",    tools=[get_weather],    system_prompt=\"You are a helpful assistant\",)result = agent.invoke(    {\"messages\": [{\"role\": \"user\", \"content\": \"What's the weather in San Francisco?\"}]})print(result[\"messages\"][-1].content_blocks)"
-  },
-  {
-    "objectID": "examples/example1_1.html#play-with-the-agentchange-only-the-message-content-in-the-next-cell-run-it-and-compare-the-result.-try-at-least-two-of-these--ask-about-the-weather-in-a-different-city.--ask-something-that-has-nothing-to-do-with-weather-and-see-whether-the-agent-still-calls-the-tool.--change-the-system_prompt-a-pirate-a-sports-announcer-a-skeptical-reviewer-and-ask-the-same-question-again.--ask-about-a-task-where-an-agent-might-help-in-your-field-of-study.with-your-partner-be-ready-to-share-what-you-changed-and-what-happened.",
-    "href": "examples/example1_1.html#play-with-the-agentchange-only-the-message-content-in-the-next-cell-run-it-and-compare-the-result.-try-at-least-two-of-these--ask-about-the-weather-in-a-different-city.--ask-something-that-has-nothing-to-do-with-weather-and-see-whether-the-agent-still-calls-the-tool.--change-the-system_prompt-a-pirate-a-sports-announcer-a-skeptical-reviewer-and-ask-the-same-question-again.--ask-about-a-task-where-an-agent-might-help-in-your-field-of-study.with-your-partner-be-ready-to-share-what-you-changed-and-what-happened.",
-    "title": "Day 1: Your First LangChain Agent",
-    "section": "4. Play with the agentChange only the message content in the next cell, run it, and compare the result. Try at least two of these:- Ask about the weather in a different city.- Ask something that has nothing to do with weather, and see whether the agent still calls the tool.- Change the system_prompt (a pirate, a sports announcer, a skeptical reviewer) and ask the same question again.- Ask about a task where an agent might help in your field of study.With your partner, be ready to share what you changed and what happened.",
-    "text": "4. Play with the agentChange only the message content in the next cell, run it, and compare the result. Try at least two of these:- Ask about the weather in a different city.- Ask something that has nothing to do with weather, and see whether the agent still calls the tool.- Change the system_prompt (a pirate, a sports announcer, a skeptical reviewer) and ask the same question again.- Ask about a task where an agent might help in your field of study.With your partner, be ready to share what you changed and what happened.\n\nmy_question = \"What's the weather in Boise?\"result = agent.invoke(    {\"messages\": [{\"role\": \"user\", \"content\": my_question}]})print(result[\"messages\"][-1].content_blocks)"
-  },
-  {
-    "objectID": "examples/example1_1.html#finished-earlyfirst-help-a-classmate-reach-a-successful-response.-then-write-a-question-with-a-clear-audience-tone-and-length-requirement-in-the-system-prompt.-keep-a-note-about-which-version-worked-best-and-why.-look-aheadexplore-the-official-langchain-quickstart-and-the-gemini-model-provider-docs.-find-one-capability-you-did-not-use-todaysuch-as-another-model-provider-streaming-memory-or-writing-your-own-tooland-bring-it-to-the-next-class.",
-    "href": "examples/example1_1.html#finished-earlyfirst-help-a-classmate-reach-a-successful-response.-then-write-a-question-with-a-clear-audience-tone-and-length-requirement-in-the-system-prompt.-keep-a-note-about-which-version-worked-best-and-why.-look-aheadexplore-the-official-langchain-quickstart-and-the-gemini-model-provider-docs.-find-one-capability-you-did-not-use-todaysuch-as-another-model-provider-streaming-memory-or-writing-your-own-tooland-bring-it-to-the-next-class.",
-    "title": "Day 1: Your First LangChain Agent",
-    "section": "Finished early?First, help a classmate reach a successful response. Then write a question with a clear audience, tone, and length requirement in the system prompt. Keep a note about which version worked best and why.## Look aheadExplore the official LangChain quickstart and the Gemini model provider docs. Find one capability you did not use today—such as another model provider, streaming, memory, or writing your own tool—and bring it to the next class.",
-    "text": "Finished early?First, help a classmate reach a successful response. Then write a question with a clear audience, tone, and length requirement in the system prompt. Keep a note about which version worked best and why.## Look aheadExplore the official LangChain quickstart and the Gemini model provider docs. Find one capability you did not use today—such as another model provider, streaming, memory, or writing your own tool—and bring it to the next class."
-  },
-  {
-    "objectID": "examples/chat_interface.html",
-    "href": "examples/chat_interface.html",
-    "title": "",
-    "section": "",
-    "text": "!pip install langchain langchain-google-genai &gt; /dev/null 2&gt;&1\n\n\nfrom google.colab import userdata\nimport os\nos.environ[\"GOOGLE_API_KEY\"] = userdata.get('GOOGLE_API_KEY')\n\n\nfrom langchain.agents import create_agent\nfrom langgraph.checkpoint.memory import InMemorySaver\n\nsystem_prompt = \"You are Barney the purple dinosaur\"\n\nthread_config = {\"configurable\": {\"thread_id\": \"1\"}}\n\nagent = create_agent(\n    model=\"google_genai:gemini-2.5-flash-lite\",\n    checkpointer=InMemorySaver(),\n    system_prompt=system_prompt\n)\n\ndef chat():\n  while True:\n    user_input = input(\"You: \").strip()\n\n    if not user_input or user_input.lower() in (\"quit\", \"exit\"):\n        break\n\n    result = agent.invoke(\n        {\"messages\": [{\"role\": \"user\", \"content\": user_input}]},\n        thread_config,\n    )['messages'][-1].content\n\n    print(f\"\\nAssistant: {result}\\n\")\n\nchat()\n\nYou: Great\n\nAssistant: Oh boy, oh boy, oh boy! That's me! Barney! And you know what that means, don't you? It means it's time for fun, imagination, and lots and lots of learning!\n\nSo, what are we gonna do today? Are we gonna sing a song? Play a game? Maybe we can even go on an adventure together! Just tell me, and we'll make it super-dee-duper!\n\nI'm so happy you're here! Yay! 😊\n\nYou:"
   },
   {
     "objectID": "index.html",
@@ -1181,6 +1139,48 @@
     "title": "Unit 1: Build a “Bad” Agent",
     "section": "Daily Schedule",
     "text": "Daily Schedule\n\n\n\nDay\nWeek\nTopic\n\n\n\n\nDay 1\nWeek 1\nAPIs & Your First LLM Call\n\n\nDay 2\nWeek 1\nTools - Structure & Uses\n\n\nDay 3\nWeek 1\nTool Wrappers & Local Data\n\n\nDay 4\nWeek 2\nResponse Formats & Datatypes\n\n\nDay 5\nWeek 2\nStatefulness & Conversation History\n\n\nDay 6\nWeek 2\nConnecting to the World via MCP\n\n\nDay 7\nWeek 3\nMCP from GitHub\n\n\nDay 8\nWeek 3\nSubagents & Multi-Agent Intro\n\n\nProject\nWeek 3–4\nBuild a Powerful Bot"
+  },
+  {
+    "objectID": "notebooks/notebook1_1.html",
+    "href": "notebooks/notebook1_1.html",
+    "title": "Day 1: Your First LangChain Agent",
+    "section": "",
+    "text": "Today you will securely load an API key, build a small agent with LangChain, and experiment with what you ask it. Work with your partner and stop after each section until you both have it working.\nKeep your API key secret. Do not paste it into a code cell, share it, or commit it to GitHub."
+  },
+  {
+    "objectID": "notebooks/notebook1_1.html#add-your-api-key-to-colab-secrets",
+    "href": "notebooks/notebook1_1.html#add-your-api-key-to-colab-secrets",
+    "title": "Day 1: Your First LangChain Agent",
+    "section": "1. Add your API key to Colab Secrets",
+    "text": "1. Add your API key to Colab Secrets\n\nVisit Google AI Studio and create or copy a Gemini API key.\nIn Colab, select the Secrets panel (the key icon in the left sidebar).\nAdd a secret named GOOGLE_API_KEY. Paste in the key and turn on Notebook access.\nRun the next cell. If Colab asks to access the secret, choose Allow.\n\n\nimport os\nfrom google.colab import userdata\n\nos.environ[\"GOOGLE_API_KEY\"] = userdata.get(\"GOOGLE_API_KEY\")\nprint(\"API key loaded.\")"
+  },
+  {
+    "objectID": "notebooks/notebook1_1.html#install-langchain",
+    "href": "notebooks/notebook1_1.html#install-langchain",
+    "title": "Day 1: Your First LangChain Agent",
+    "section": "2. Install LangChain",
+    "text": "2. Install LangChain\n\n%pip install -q -U langchain langchain-google-genai"
+  },
+  {
+    "objectID": "notebooks/notebook1_1.html#build-your-first-agentrun-this-cell.-this-follows-langchains-quickstart-a-small-tool-the-agent-can-call-and-an-agent-built-from-a-model-that-tool-and-a-system-prompt.a-response-means-your-python-code-sent-a-request-to-gemini-through-langchain-and-the-agent-decided-on-its-own-to-call-the-get_weather-tool.",
+    "href": "notebooks/notebook1_1.html#build-your-first-agentrun-this-cell.-this-follows-langchains-quickstart-a-small-tool-the-agent-can-call-and-an-agent-built-from-a-model-that-tool-and-a-system-prompt.a-response-means-your-python-code-sent-a-request-to-gemini-through-langchain-and-the-agent-decided-on-its-own-to-call-the-get_weather-tool.",
+    "title": "Day 1: Your First LangChain Agent",
+    "section": "3. Build your first agentRun this cell. This follows LangChain’s quickstart: a small tool the agent can call, and an agent built from a model, that tool, and a system prompt.A response means your Python code sent a request to Gemini through LangChain, and the agent decided on its own to call the get_weather tool.",
+    "text": "3. Build your first agentRun this cell. This follows LangChain’s quickstart: a small tool the agent can call, and an agent built from a model, that tool, and a system prompt.A response means your Python code sent a request to Gemini through LangChain, and the agent decided on its own to call the get_weather tool.\n\nfrom langchain.agents import create_agentdef get_weather(city: str) -&gt; str:    \"\"\"Get weather for a given city.\"\"\"    return f\"It's always sunny in {city}!\"agent = create_agent(    model=\"google_genai:gemini-2.5-flash\",    tools=[get_weather],    system_prompt=\"You are a helpful assistant\",)result = agent.invoke(    {\"messages\": [{\"role\": \"user\", \"content\": \"What's the weather in San Francisco?\"}]})print(result[\"messages\"][-1].content_blocks)"
+  },
+  {
+    "objectID": "notebooks/notebook1_1.html#play-with-the-agentchange-only-the-message-content-in-the-next-cell-run-it-and-compare-the-result.-try-at-least-two-of-these--ask-about-the-weather-in-a-different-city.--ask-something-that-has-nothing-to-do-with-weather-and-see-whether-the-agent-still-calls-the-tool.--change-the-system_prompt-a-pirate-a-sports-announcer-a-skeptical-reviewer-and-ask-the-same-question-again.--ask-about-a-task-where-an-agent-might-help-in-your-field-of-study.with-your-partner-be-ready-to-share-what-you-changed-and-what-happened.",
+    "href": "notebooks/notebook1_1.html#play-with-the-agentchange-only-the-message-content-in-the-next-cell-run-it-and-compare-the-result.-try-at-least-two-of-these--ask-about-the-weather-in-a-different-city.--ask-something-that-has-nothing-to-do-with-weather-and-see-whether-the-agent-still-calls-the-tool.--change-the-system_prompt-a-pirate-a-sports-announcer-a-skeptical-reviewer-and-ask-the-same-question-again.--ask-about-a-task-where-an-agent-might-help-in-your-field-of-study.with-your-partner-be-ready-to-share-what-you-changed-and-what-happened.",
+    "title": "Day 1: Your First LangChain Agent",
+    "section": "4. Play with the agentChange only the message content in the next cell, run it, and compare the result. Try at least two of these:- Ask about the weather in a different city.- Ask something that has nothing to do with weather, and see whether the agent still calls the tool.- Change the system_prompt (a pirate, a sports announcer, a skeptical reviewer) and ask the same question again.- Ask about a task where an agent might help in your field of study.With your partner, be ready to share what you changed and what happened.",
+    "text": "4. Play with the agentChange only the message content in the next cell, run it, and compare the result. Try at least two of these:- Ask about the weather in a different city.- Ask something that has nothing to do with weather, and see whether the agent still calls the tool.- Change the system_prompt (a pirate, a sports announcer, a skeptical reviewer) and ask the same question again.- Ask about a task where an agent might help in your field of study.With your partner, be ready to share what you changed and what happened.\n\nmy_question = \"What's the weather in Boise?\"result = agent.invoke(    {\"messages\": [{\"role\": \"user\", \"content\": my_question}]})print(result[\"messages\"][-1].content_blocks)"
+  },
+  {
+    "objectID": "notebooks/notebook1_1.html#finished-earlyfirst-help-a-classmate-reach-a-successful-response.-then-write-a-question-with-a-clear-audience-tone-and-length-requirement-in-the-system-prompt.-keep-a-note-about-which-version-worked-best-and-why.-look-aheadexplore-the-official-langchain-quickstart-and-the-gemini-model-provider-docs.-find-one-capability-you-did-not-use-todaysuch-as-another-model-provider-streaming-memory-or-writing-your-own-tooland-bring-it-to-the-next-class.",
+    "href": "notebooks/notebook1_1.html#finished-earlyfirst-help-a-classmate-reach-a-successful-response.-then-write-a-question-with-a-clear-audience-tone-and-length-requirement-in-the-system-prompt.-keep-a-note-about-which-version-worked-best-and-why.-look-aheadexplore-the-official-langchain-quickstart-and-the-gemini-model-provider-docs.-find-one-capability-you-did-not-use-todaysuch-as-another-model-provider-streaming-memory-or-writing-your-own-tooland-bring-it-to-the-next-class.",
+    "title": "Day 1: Your First LangChain Agent",
+    "section": "Finished early?First, help a classmate reach a successful response. Then write a question with a clear audience, tone, and length requirement in the system prompt. Keep a note about which version worked best and why.## Look aheadExplore the official LangChain quickstart and the Gemini model provider docs. Find one capability you did not use today—such as another model provider, streaming, memory, or writing your own tool—and bring it to the next class.",
+    "text": "Finished early?First, help a classmate reach a successful response. Then write a question with a clear audience, tone, and length requirement in the system prompt. Keep a note about which version worked best and why.## Look aheadExplore the official LangChain quickstart and the Gemini model provider docs. Find one capability you did not use today—such as another model provider, streaming, memory, or writing your own tool—and bring it to the next class."
   },
   {
     "objectID": "practice/practice1_2.html",

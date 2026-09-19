@@ -71,7 +71,7 @@ execute:
 
 | Practice | Prep | Slides | Examples | Lecture Notes | Next Lesson |
 |----------|--------|--------|----------|---------------|-------------|
-| [🏃‍♂️‍➡️](../practice/practicex_x.qmd) | [🌱](../preps/prepx_x.qmd) | [🧑‍🏫](../lecture_slides/slidex_x.qmd) | [📓]({{< var example_base >}}x_x.ipynb "Opens in Google Colab - See README if broken") | [📋](../lecture_notesx_x.qmd) | [➡️](lessonx_x.qmd) |
+| [🏃‍♂️‍➡️](../practice/practicex_x.qmd) | [🌱](../preps/prepx_x.qmd) | [🧑‍🏫](../lecture_slides/slidex_x.qmd) | [📓]({{< var notebook_base >}}x_x.ipynb "Opens in Google Colab - See README if broken") | [📋](../lecture_notesx_x.qmd) | [➡️](lessonx_x.qmd) |
 
 ## Before Class
 
@@ -166,7 +166,7 @@ execute:
 
 | Practice | Prep | Slides | Examples | Lecture Notes | Next Lesson |
 |----------|--------|--------|----------|---------------|-------------|
-| [🏃‍♂️‍➡️](../practice/practice2_1.qmd) | [🌱](../preps/prep2_1.qmd) | [🧑‍🏫](../lecture_slides/slide2_1.qmd) | [📓]({{< var example_base >}}2_1.ipynb "Opens in Google Colab - See README if broken") | [📋](../instructor_notes/notes1_1.qmd) | [➡️](lesson2_2.qmd) |
+| [🏃‍♂️‍➡️](../practice/practice2_1.qmd) | [🌱](../preps/prep2_1.qmd) | [🧑‍🏫](../lecture_slides/slide2_1.qmd) | [📓]({{< var notebook_base >}}2_1.ipynb "Opens in Google Colab - See README if broken") | [📋](../instructor_notes/notes1_1.qmd) | [➡️](lesson2_2.qmd) |
 
 
 ## Before Class
@@ -191,7 +191,7 @@ execute:
 
 | Practice | Prep | Slides | Examples | Lecture Notes | Next Lesson |
 |----------|--------|--------|----------|---------------|-------------|
-| [🏃‍♂️‍➡️](../practice/practice1_2.qmd) | [🌱](../preps/prep1_2.qmd) | [🧑‍🏫](../lecture_slides/slide1_2.qmd) | ({{< var example_base >}}1_2.ipynb "Opens in Google Colab - See README if broken") | [📋](../instructor_notes/notes1_2.qmd) | [➡️](lesson1_3.qmd) |
+| [🏃‍♂️‍➡️](../practice/practice1_2.qmd) | [🌱](../preps/prep1_2.qmd) | [🧑‍🏫](../lecture_slides/slide1_2.qmd) | ({{< var notebook_base >}}1_2.ipynb "Opens in Google Colab - See README if broken") | [📋](../instructor_notes/notes1_2.qmd) | [➡️](lesson1_3.qmd) |
 
 
 ## Before Class

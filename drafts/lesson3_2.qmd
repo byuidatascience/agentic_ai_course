@@ -14,7 +14,7 @@ execute:
 
 | Practice | Prep | Slides | Examples | Lecture Notes | Next Lesson |
 |----------|--------|--------|----------|---------------|-------------|
-| [🏃‍♂️‍➡️](../practice/practice3_2.qmd) | [🌱](../preps/prep3_2.qmd) | [🧑‍🏫](../lecture_slides/slide3_2.qmd) | [📓]({{< var example_base >}}3_2.ipynb "Opens in Google Colab - See README if broken") | [📋](../instructor_notes/notes3_2.qmd) | [➡️](lesson3_3.qmd) |
+| [🏃‍♂️‍➡️](../practice/practice3_2.qmd) | [🌱](../preps/prep3_2.qmd) | [🧑‍🏫](../lecture_slides/slide3_2.qmd) | [📓]({{< var notebook_base >}}3_2.ipynb "Opens in Google Colab - See README if broken") | [📋](../instructor_notes/notes3_2.qmd) | [➡️](lesson3_3.qmd) |
 
 ## Before Class
 

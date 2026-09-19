@@ -15,8 +15,8 @@ Today is about getting a working starting point and developing curiosity. We wil
 ::: {.callout-important}
 ## In-class notebook
 
-[Open the Day 1 notebook in Google Colab]({{< var example_base >}}1_1.ipynb){target="_blank"}.
-If Colab does not open it, use the [GitHub source notebook](https://github.com/byuidatascience/agentic_ai_course/blob/main/examples/example1_1.ipynb).
+[Open the Day 1 notebook in Google Colab]({{< var notebook_base >}}1_1.ipynb){target="_blank"}.
+If Colab does not open it, use the [GitHub source notebook](https://github.com/byuidatascience/agentic_ai_course/blob/main/notebooks/notebook1_1.ipynb).
 :::
 
 ---

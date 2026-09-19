@@ -9,7 +9,7 @@ subtitle: <!-- Unit x, Lesson x -->
 
 | Practice | Prep | Slides | Examples | Lecture Notes | Next Lesson |
 |----------|--------|--------|----------|---------------|-------------|
-| [🏃‍♂️‍➡️](../practice/practice1_1.qmd) | [🌱](../preps/prepx_x.qmd) | [🧑‍🏫](../lecture_slides/lecture_slides1_1.qmd) | [📓]({{< var example_base >}}1_1.ipynb "Opens in Google Colab - See README if broken") | [📋](link) | [➡️](lesson1_2.qmd) |
+| [🏃‍♂️‍➡️](../practice/practice1_1.qmd) | [🌱](../preps/prepx_x.qmd) | [🧑‍🏫](../lecture_slides/lecture_slides1_1.qmd) | [📓]({{< var notebook_base >}}1_1.ipynb "Opens in Google Colab - See README if broken") | [📋](link) | [➡️](lesson1_2.qmd) |
 
 
 ## Before Class
@@ -91,7 +91,7 @@ None today (first day of class!)
 
 | Powerpoint | Example | Prep | Practice | Lecture Notes |
 |------------|---------|--------|----------|---------------|
-| [:teacher:](lecture_slides/slide1_1.pptx) | [:notebook:](examples/example1_1.qmd) | [:seedling:](preps/prep1_1.qmd) | [🏃‍♂️‍➡️](practice/practice1_1.qmd) | :clipboard:(instructor_notes/notes1_1.qmd)
+| [:teacher:](lecture_slides/slide1_1.pptx) | [:notebook:](notebooks/notebook1_1.qmd) | [:seedling:](preps/prep1_1.qmd) | [🏃‍♂️‍➡️](practice/practice1_1.qmd) | :clipboard:(instructor_notes/notes1_1.qmd)
 
 <!-- More stuff -->
 

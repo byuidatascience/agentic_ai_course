@@ -9,7 +9,7 @@ subtitle: "Unit 1, Lesson 3"
 
 | Practice | Prep | Slides | Examples | Lecture Notes | Next Lesson |
 |----------|--------|--------|----------|---------------|-------------|
-| [🏃‍♂️‍➡️](../practice/practice1_3.ipynb) | [🌱](../preps/prep1_3.html) | [🧑‍🏫](../lecture_slides/slide1_3.html) | [📓]({{< var example_base >}}1_3.ipynb "Opens in Google Colab - See README if broken") | [📋](../instructor_notes/notes1_3.html) |  |
+| [🏃‍♂️‍➡️](../practice/practice1_3.ipynb) | [🌱](../preps/prep1_3.html) | [🧑‍🏫](../lecture_slides/slide1_3.html) | [📓]({{< var notebook_base >}}1_3.ipynb "Opens in Google Colab - See README if broken") | [📋](../instructor_notes/notes1_3.html) |  |
 
 ## Before Class
 

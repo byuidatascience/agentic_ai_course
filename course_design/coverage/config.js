@@ -29,7 +29,7 @@ window.COVERAGE_CONFIG = {
   // a node's own comment says otherwise. Day id comes from the filename suffix
   // (e.g. `lesson1_2.md` => unit 1, day 2) unless a `<!-- day: 1_2; -->`
   // comment overrides it.
-  contentFolders: ["lessons", "practice", "preps", "examples"],
+  contentFolders: ["lessons", "practice", "preps", "notebooks"],
 
   // File extensions the loader reads. Course content is authored in Quarto
   // (`.qmd`) and notebooks (`.ipynb`) as well as plain `.md`; all three are
@@ -39,7 +39,7 @@ window.COVERAGE_CONFIG = {
   folderTypeDefaults: {
     preps:    "prep_reading",
     practice: "practice",
-    examples: "example",
+    notebooks: "example",
     lessons:  "in_class"      // lesson files hold in-class activities as L2 headers
   },
 
