@@ -380,7 +380,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <thead>
 <tr class="header">
 <th>Practice</th>
-<th>Primer</th>
+<th>Prep</th>
 <th>Slides</th>
 <th>Examples</th>
 <th>Lecture Notes</th>
@@ -390,9 +390,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td><a href="../practice/practice1_2.html">🏃‍♂️‍➡️</a></td>
-<td><a href="../primers/primer1_2.html">🌱</a></td>
+<td><a href="../preps/prep1_2.html">🌱</a></td>
 <td><a href="../lecture_slides/slide1_2.html">🧑‍🏫</a></td>
-<td><a href="https://colab.research.google.com/github/ethanbyui/agentic_ai_course/blob/main/examples/example1_2.ipynb" title="Opens in Google Colab - See README if broken">📓</a></td>
+<td><a href="https://colab.research.google.com/github/byuidatascience/agentic_ai_course/blob/main/examples/example1_2.ipynb" title="Opens in Google Colab - See README if broken">📓</a></td>
 <td><a href="../instructor_notes/notes1_2.html">📋</a></td>
 <td><a href="lesson1_3.html">➡️</a></td>
 </tr>
@@ -404,14 +404,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <thead>
 <tr class="header">
 <th>Practice</th>
-<th>Primer</th>
+<th>Prep</th>
 <th>Previous Lesson</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td></td>
-<td><a href="../primers/primer1_2.html">🌱</a></td>
+<td><a href="../preps/prep1_2.html">🌱</a></td>
 <td><a href="lesson1_1.html">⬅️</a></td>
 </tr>
 </tbody>
@@ -422,14 +422,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <thead>
 <tr class="header">
 <th>Practice</th>
-<th>Primer</th>
+<th>Prep</th>
 <th>Next Lesson</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><a href="../practice/practice1_2.html">🏃‍♂️‍➡️</a></td>
-<td><a href="../primers/primer1_3.html">🌱</a></td>
+<td><a href="../preps/prep1_3.html">🌱</a></td>
 <td><a href="lesson1_3.html">➡️</a></td>
 </tr>
 </tbody>
@@ -463,7 +463,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="../primers/primer1_2.html">🌱 Primer 1.2</a></td>
+<td><a href="../preps/prep1_2.html">🌱 Prep 1.2</a></td>
 <td>What is a Tool? Read before class.</td>
 </tr>
 <tr class="even">
@@ -479,7 +479,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Discussion</h1>
 <ol type="1">
 <li>Report on work accomplished</li>
-<li>Key takeaways from the primer and docs</li>
+<li>Key takeaways from the prep and docs</li>
 <li>Questions unaddressed</li>
 <li>Optional discussion questions
 <ul>
@@ -586,15 +586,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="the-tool-decorator" class="level3">
 <h3 class="anchored" data-anchor-id="the-tool-decorator">The <code>@tool</code> Decorator</h3>
 <p>LangChain gives us a simple way to turn any Python function into a tool: the <code>@tool</code> decorator.</p>
-<div id="91b3467a" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.tools <span class="im">import</span> tool</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.tools <span class="im">import</span> tool</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="at">@tool</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_tool(<span class="bu">input</span>: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""A clear description of what this tool does and when to use it."""</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># your code here</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <p>Put <code>@tool</code> directly above any function and LangChain will:</p>
 <ol type="1">
 <li>Register it as a tool the agent can call</li>
@@ -621,8 +619,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Read the tool below and answer the questions. Do not run it yet just read.</p>
 </div>
 </div>
-<div id="aef2d863" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.tools <span class="im">import</span> tool</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.tools <span class="im">import</span> tool</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="at">@tool</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculator(expression: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
@@ -640,7 +637,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">str</span>(result)</span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"Error: could not evaluate '</span><span class="sc">{</span>expression<span class="sc">}</span><span class="ss">'. Reason: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <p><strong>Answer these questions with your partner before moving on:</strong></p>
 <ol type="1">
 <li>What does this tool do?</li>
@@ -679,8 +675,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="now-run-it" class="level3">
 <h3 class="anchored" data-anchor-id="now-run-it">Now run it</h3>
 <p>Copy this into a Colab cell and run it. Notice we are calling the tool directly, not through an agent yet.</p>
-<div id="1cf751ec" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.tools <span class="im">import</span> tool</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.tools <span class="im">import</span> tool</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="at">@tool</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculator(expression: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
@@ -704,7 +699,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(calculator.invoke({<span class="st">"expression"</span>: <span class="st">"247 * 83"</span>}))</span>
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(calculator.invoke({<span class="st">"expression"</span>: <span class="st">"(100 + 50) / 3"</span>}))</span>
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(calculator.invoke({<span class="st">"expression"</span>: <span class="st">"this is not math"</span>}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <p><strong>What do you notice about <code>.invoke()</code>?</strong> It takes a dictionary, not just a plain value. That’s LangChain’s standard way of calling tools always a dictionary with the argument name as the key.</p>
 <hr>
 </section>
@@ -738,12 +732,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<div id="e56ffc5f" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="at">@tool</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="at">@tool</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculator(expression: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Does stuff with numbers."""</span>  <span class="co"># ← too vague!</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    ...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <p>The agent sees “does stuff with numbers” and thinks <em>maybe? I’m not sure.</em> It might call it, might not. Clear descriptions = reliable agents.</p>
 </div>
 </div>
@@ -763,39 +755,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-body-container callout-body">
 <p>Make sure you have run these in Colab:</p>
-<div id="c30855a9" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install <span class="op">-</span>q <span class="op">-</span>U langchain langchain<span class="op">-</span>google<span class="op">-</span>genai langgraph langchain<span class="op">-</span>core</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install <span class="op">-</span>q <span class="op">-</span>U langchain langchain<span class="op">-</span>google<span class="op">-</span>genai langgraph langchain<span class="op">-</span>core</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>os.environ[<span class="st">'GOOGLE_API_KEY'</span>] <span class="op">=</span> userdata.get(<span class="st">'GOOGLE_API_KEY'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
-</div>
 <hr>
 <section id="step-1-build-the-simplest-possible-tool" class="level3">
 <h3 class="anchored" data-anchor-id="step-1-build-the-simplest-possible-tool">Step 1 Build the simplest possible tool</h3>
 <p>Start here. Build a tool that returns your name.</p>
-<div id="a2c4cf1e" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.tools <span class="im">import</span> tool</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.tools <span class="im">import</span> tool</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="at">@tool</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_my_name() <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Returns the name of the assistant's owner. </span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Use this when the user asks who owns this assistant or what your name is."""</span></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"My name is Camila."</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <p>Call it directly to confirm it works:</p>
-<div id="0c9bacbb" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(get_my_name.invoke({}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(get_my_name.invoke({}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <hr>
 </section>
 <section id="step-2-give-it-to-an-agent" class="level3">
 <h3 class="anchored" data-anchor-id="step-2-give-it-to-an-agent">Step 2 Give it to an agent</h3>
 <p>Now wire it into an agent and ask it a question that triggers the tool.</p>
-<div id="5e010bbb" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.chat_models <span class="im">import</span> init_chat_model</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.chat_models <span class="im">import</span> init_chat_model</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.agents <span class="im">import</span> create_react_agent</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> init_chat_model(</span>
@@ -813,7 +798,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> agent.invoke({<span class="st">"messages"</span>: [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"What is your owner's name?"</span>}]})</span>
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response[<span class="st">"messages"</span>][<span class="op">-</span><span class="dv">1</span>].content)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -833,8 +817,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="step-3-make-it-your-own">Step 3 Make it your own</h3>
 <p>Now build <strong>your own</strong> tool. It can return anything your favorite food, your grandma’s name, your hometown, anything. The goal is to practice the pattern.</p>
 <p>Requirements: - Use the <code>@tool</code> decorator - Write a clear docstring that tells the agent exactly when to use it - Test it directly with <code>.invoke()</code> first - Then wire it into the agent and ask a question that triggers it</p>
-<div id="073a2db5" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.tools <span class="im">import</span> tool</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.tools <span class="im">import</span> tool</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="at">@tool</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> your_tool_name() <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
@@ -843,7 +826,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Test it</span></span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(your_tool_name.invoke({}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <hr>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -865,8 +847,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="activity-3-turn-existing-code-into-a-tool">Activity 3 Turn Existing Code into a Tool</h2>
 <p>In the real world, you will often have existing Python code that you want to make available to an agent. The pattern is simple: wrap it in a function and add <code>@tool</code>.</p>
 <p>Here is some existing code that checks whether a number is even or odd:</p>
-<div id="22908bbe" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Existing code   not a tool yet</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Existing code   not a tool yet</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> check_even_odd(number):</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> number <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>:</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"</span><span class="sc">{</span>number<span class="sc">}</span><span class="ss"> is even."</span></span>
@@ -876,7 +857,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Test it like regular Python</span></span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(check_even_odd(<span class="dv">7</span>))</span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(check_even_odd(<span class="dv">42</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <p><strong>Your job:</strong> Turn this into a tool the agent can use.</p>
 <p>You need to: 1. Add <code>@tool</code> above the function 2. Add type hints to the parameters and return value 3. Write a docstring that tells the agent when to use it 4. Test it with <code>.invoke()</code> 5. Add it to an agent and ask a question that triggers it</p>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -891,8 +871,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="a22c1e40" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.tools <span class="im">import</span> tool</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.tools <span class="im">import</span> tool</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="at">@tool</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> check_even_odd(number: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
@@ -911,7 +890,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Test directly</span></span>
 <span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(check_even_odd.invoke({<span class="st">"number"</span>: <span class="dv">7</span>}))</span>
 <span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(check_even_odd.invoke({<span class="st">"number"</span>: <span class="dv">42</span>}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 </div>
 </div>
 </div>
@@ -951,21 +929,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Next lesson we evaluate real community tools and use them with actual data. Before class:</p>
 <ol type="1">
 <li>Finish any activities from today you did not complete</li>
-<li>Read the primer for Lesson 1.3</li>
+<li>Read the prep for Lesson 1.3</li>
 <li>Read this article about popular LangChain tools: 👉 <a href="https://medium.com/@vamshiginna1606/langchain-tools-5-langchain-tools-every-llm-developer-should-know-ad698f06dcb5">5 LangChain Tools Every LLM Developer Should Know</a></li>
 </ol>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Practice</th>
-<th>Primer</th>
+<th>Prep</th>
 <th>Next Lesson</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><a href="../practice/practice1_2.html">🏃‍♂️‍➡️</a></td>
-<td><a href="../primers/primer1_3.html">🌱</a></td>
+<td><a href="../preps/prep1_3.html">🌱</a></td>
 <td><a href="lesson1_3.html">➡️</a></td>
 </tr>
 </tbody>

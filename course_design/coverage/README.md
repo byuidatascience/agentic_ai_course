@@ -55,7 +55,7 @@ Edit [`config.js`](config.js) to point it at files/folders. Roles:
 | `course_outcomes.md` | competencies | numbered bullets; `1.2.3` is the id, nesting is by dotted prefix |
 | `use_case_coverage.md` | use cases | level-2 headers |
 | `activities_assessments.md` | templates | L2 header + a comment block |
-| `lessons/ practice/ primers/ examples/` | day-placed instances | comment blocks; day from filename `unit_day` |
+| `lessons/ practice/ preps/ examples/` | day-placed instances | comment blocks; day from filename `unit_day` |
 
 ## Node comment format (for when you spread things into days)
 
@@ -77,7 +77,7 @@ property is terminated by `;` or carriage return; Commas separate values within 
 - **Day** is *not* necessary here — it comes from the filename (`lesson1_2.md` =
   unit 1, day 2). Override with `day: 1_2;` only if the filename is off.
 - **`competency: 1.2`** covers `1.2` and every descendant (`1.2.1`, `1.2.3.4`…).
-- **Type** defaults to the folder (`primers/`→prep_reading, `practice/`→practice,
+- **Type** defaults to the folder (`preps/`→prep_reading, `practice/`→practice,
   `examples/`→example, `lessons/`→in_class); the comment wins if present.
 - Templates get an `id`; instances inherit the template's competencies via
   `template:` and may add their own.

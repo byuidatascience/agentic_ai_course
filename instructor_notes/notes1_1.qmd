@@ -18,9 +18,9 @@ APIs & Your First LLM Call
 
 # Links
 
-| Powerpoint | Example | Primer | Practice | Lesson |
+| Powerpoint | Example | Prep | Practice | Lesson |
 |------------|---------|--------|----------|--------|
-| [🧑‍🏫](lecture_slides/slide1_1.pptx) | [📓](examples/example1_1.qmd) | [🌱](primers/primer1_1.qmd) | [🏃‍♂️‍➡️](practice/practice1_1.qmd) | 📋(units/unit1_1.qmd)
+| [🧑‍🏫](lecture_slides/slide1_1.pptx) | [📓](examples/example1_1.qmd) | [🌱](preps/prep1_1.qmd) | [🏃‍♂️‍➡️](practice/practice1_1.qmd) | 📋(units/unit1_1.qmd)
 
 # Slide notes
 

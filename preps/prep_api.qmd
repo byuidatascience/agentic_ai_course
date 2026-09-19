@@ -1,6 +1,6 @@
 ---
 title: "What is an API?"
-subtitle: "Primer 1.1   Read before Lesson 1"
+subtitle: "Prep 1.1   Read before Lesson 1"
 ---
 
 <!--
@@ -100,5 +100,5 @@ Come to class ready to answer these in your head:
 ::: {.callout-tip}
 ## You do not need to memorize anything
 
-This primer is just to get the concept in your head before we build with it. Everything will make more sense once you see it live in class.
+This prep is just to get the concept in your head before we build with it. Everything will make more sense once you see it live in class.
 :::

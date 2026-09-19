@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Your First Gemini API Call</title>
+<title>Your First LangChain Agent</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -332,9 +332,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#activity-make-a-first-call" id="toc-activity-make-a-first-call" class="nav-link" data-scroll-target="#activity-make-a-first-call">Activity: make a first call</a>
   <ul class="collapse">
   <li><a href="#create-an-api-key" id="toc-create-an-api-key" class="nav-link" data-scroll-target="#create-an-api-key">1. Create an API key</a></li>
-  <li><a href="#install-the-python-sdk" id="toc-install-the-python-sdk" class="nav-link" data-scroll-target="#install-the-python-sdk">2. Install the Python SDK</a></li>
+  <li><a href="#install-langchain" id="toc-install-langchain" class="nav-link" data-scroll-target="#install-langchain">2. Install LangChain</a></li>
   <li><a href="#load-the-secret" id="toc-load-the-secret" class="nav-link" data-scroll-target="#load-the-secret">3. Load the secret</a></li>
-  <li><a href="#send-a-prompt" id="toc-send-a-prompt" class="nav-link" data-scroll-target="#send-a-prompt">4. Send a prompt</a></li>
+  <li><a href="#build-your-first-agent" id="toc-build-your-first-agent" class="nav-link" data-scroll-target="#build-your-first-agent">4. Build your first agent</a></li>
   </ul></li>
   <li><a href="#activity-play-with-the-call" id="toc-activity-play-with-the-call" class="nav-link" data-scroll-target="#activity-play-with-the-call">Activity: play with the call</a></li>
   <li><a href="#look-at-the-documentation" id="toc-look-at-the-documentation" class="nav-link" data-scroll-target="#look-at-the-documentation">Look at the documentation</a></li>
@@ -352,7 +352,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Your First Gemini API Call</h1>
+<h1 class="title">Your First LangChain Agent</h1>
 <p class="subtitle lead">Unit 1, Lesson 1</p>
 </div>
 
@@ -375,9 +375,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>By the end of class, you will be able to:</p>
 <ol type="1">
 <li>Create and securely use a Gemini API key in Google Colab.</li>
-<li>Make an API call, then deliberately change a prompt and observe the result.</li>
+<li>Build a basic LangChain agent, then deliberately change what you ask it and observe the result.</li>
 </ol>
-<p>Today is about getting a working starting point and developing curiosity. We will build agents and call tools later in the course.</p>
+<p>Today is about getting a working starting point and developing curiosity. We will look much closer at how agents and tools work over the next few lessons.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -395,7 +395,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="before-we-begin" class="level1">
 <h1>Before we begin</h1>
-<p>An API lets one piece of software ask another piece of software to do something. Today, your Python code will send text to Gemini and receive generated text in return.</p>
+<p>An API lets one piece of software ask another piece of software to do something. Today, your Python code will use <strong>LangChain</strong>, a library that gives you a consistent way to talk to different AI models and, later, build agents that can use tools. Under the hood, LangChain sends your text to Gemini and receives generated text back.</p>
 <p>Your API key identifies requests as coming from your account. Treat it like a password with a spending limit:</p>
 <ul>
 <li>Do not put it in a notebook code cell.</li>
@@ -417,10 +417,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <p>If this does not work, ask for help. Do not paste the key directly into code or start a local-machine setup during class.</p>
 </section>
-<section id="install-the-python-sdk" class="level2">
-<h2 class="anchored" data-anchor-id="install-the-python-sdk">2. Install the Python SDK</h2>
+<section id="install-langchain" class="level2">
+<h2 class="anchored" data-anchor-id="install-langchain">2. Install LangChain</h2>
 <p>Run this cell:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install <span class="op">-</span>q <span class="op">-</span>U google<span class="op">-</span>genai</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install <span class="op">-</span>q <span class="op">-</span>U langchain langchain<span class="op">-</span>google<span class="op">-</span>genai</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="load-the-secret" class="level2">
 <h2 class="anchored" data-anchor-id="load-the-secret">3. Load the secret</h2>
@@ -432,31 +432,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"API key loaded."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If Colab asks whether this notebook may access the secret, choose <strong>Allow</strong>.</p>
 </section>
-<section id="send-a-prompt" class="level2">
-<h2 class="anchored" data-anchor-id="send-a-prompt">4. Send a prompt</h2>
-<p>Run this cell:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google <span class="im">import</span> genai</span>
+<section id="build-your-first-agent" class="level2">
+<h2 class="anchored" data-anchor-id="build-your-first-agent">4. Build your first agent</h2>
+<p>Run this cell. This follows <a href="https://docs.langchain.com/oss/python/langchain/quickstart">LangChain’s quickstart</a>: a small tool the agent can call, and an agent built from a model, that tool, and a system prompt.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.agents <span class="im">import</span> create_agent</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> genai.Client()</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> client.models.generate_content(</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">"gemini-2.5-flash"</span>,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    contents<span class="op">=</span><span class="st">"In two sentences, explain what an API is."</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response.text)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>You have made an API call: your code sent <code>contents</code> to Google’s model and printed its response.</p>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_weather(city: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Get weather for a given city."""</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"It's always sunny in </span><span class="sc">{</span>city<span class="sc">}</span><span class="ss">!"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>agent <span class="op">=</span> create_agent(</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">"google_genai:gemini-2.5-flash"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    tools<span class="op">=</span>[get_weather],</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    system_prompt<span class="op">=</span><span class="st">"You are a helpful assistant"</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> agent.invoke(</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"messages"</span>: [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"What's the weather in San Francisco?"</span>}]}</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result[<span class="st">"messages"</span>][<span class="op">-</span><span class="dv">1</span>].content_blocks)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You have made an API call, but through an agent: your code sent a message to <code>agent.invoke</code>, the agent decided it needed the <code>get_weather</code> tool, called it, and used the result to answer. We will look much closer at tools next lesson — for today, just notice that something decided to call <code>get_weather</code> on its own.</p>
 <hr>
 </section>
 </section>
 <section id="activity-play-with-the-call" class="level1">
 <h1>Activity: play with the call</h1>
 <p>Change one thing at a time, run the cell again, and notice what changes.</p>
-<p>Start with the prompt:</p>
+<p>Start with the message:</p>
 <ul>
-<li>Ask Gemini to explain an idea you know well to a fifth grader.</li>
-<li>Ask for the same explanation as a pirate, a sports announcer, or a skeptical reviewer.</li>
-<li>Ask a question that requires a short answer, then request a detailed answer.</li>
-<li>Try a task you think AI might be useful for in your field of study.</li>
+<li>Ask about the weather in a different city.</li>
+<li>Ask something that has nothing to do with weather, and see whether the agent still calls the tool.</li>
+<li>Change the <code>system_prompt</code> to give the agent a different personality (a pirate, a sports announcer, a skeptical reviewer) and ask the same question again.</li>
+<li>Try a question you think an agent might be useful for in your field of study.</li>
 </ul>
 <p>With your partner, choose one interesting result and be ready to share:</p>
 <ol type="1">
@@ -481,13 +489,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="look-at-the-documentation" class="level1">
 <h1>Look at the documentation</h1>
-<p>Developers use documentation to answer questions that examples cannot. Spend a few minutes exploring the official <a href="https://ai.google.dev/gemini-api/docs">Gemini API documentation</a> and its <a href="https://ai.google.dev/gemini-api/docs/get-started">Python quickstart</a>.</p>
-<p>Find one detail that you did not need today but could imagine using later. Examples include model choices, streaming, image input, structured output, or tools. Bring that observation to the next class.</p>
+<p>Developers use documentation to answer questions that examples cannot. Spend a few minutes exploring the official <a href="https://docs.langchain.com/oss/python/langchain/quickstart">LangChain quickstart</a> and the <a href="https://ai.google.dev/gemini-api/docs">Gemini model provider docs</a>.</p>
+<p>Find one detail that you did not need today but could imagine using later. Examples include other model choices, streaming, memory, or writing your own tool. Bring that observation to the next class.</p>
 <hr>
 </section>
 <section id="before-next-class" class="level1">
 <h1>Before next class</h1>
-<p>Read the assigned documentation on tool calling. We will move from asking a model for text to giving it access to carefully defined capabilities.</p>
+<p>Read the assigned documentation on tool calling. Today you saw an agent call a tool without being told how the tool worked. Next lesson we look closely at what a tool actually is and how to write one yourself.</p>
 
 
 </section>

@@ -1,6 +1,6 @@
 ---
 title: "What is a Tool?"
-subtitle: "Primer 1.2   Read before Lesson 2"
+subtitle: "Prep 1.2   Read before Lesson 2"
 format: html
 ---
 

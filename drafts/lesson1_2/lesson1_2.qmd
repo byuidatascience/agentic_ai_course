@@ -13,7 +13,7 @@ execute:
   template. Not yet run in Colab — verify code before promoting.
 
   Known follow-on work, not done here:
-  - primers/primer1_2.qmd still covers the old Tools-only content; needs a
+  - preps/prep1_2.qmd still covers the old Tools-only content; needs a
     rewrite to match the new prep (just the LangChain quickstart, item 5)
   - fallback quickstart example notebook (independent .ipynb, linked below)
     is not yet built
@@ -24,21 +24,21 @@ execute:
 
 ## Quick Links
 
-| Practice | Primer | Slides | Examples | Lecture Notes | Next Lesson |
+| Practice | Prep | Slides | Examples | Lecture Notes | Next Lesson |
 |----------|--------|--------|----------|---------------|-------------|
-| [🏃‍♂️‍➡️](../practice/practice1_2.ipynb) | [🌱](../primers/primer1_2.html) | [🧑‍🏫](../lecture_slides/slide1_2.html) | [📓]({{< var example_base >}}1_2.ipynb "Opens in Google Colab - See README if broken") | [📋](../instructor_notes/notes1_2.html) | [➡️](lesson1_3.html) |
+| [🏃‍♂️‍➡️](../practice/practice1_2.ipynb) | [🌱](../preps/prep1_2.html) | [🧑‍🏫](../lecture_slides/slide1_2.html) | [📓]({{< var example_base >}}1_2.ipynb "Opens in Google Colab - See README if broken") | [📋](../instructor_notes/notes1_2.html) | [➡️](lesson1_3.html) |
 
 ## Before Class
 
-| Practice | Primer | Previous Lesson |
+| Practice | Prep | Previous Lesson |
 |----------|--------|-----------------|
-|          | [🌱](../primers/primer1_2.html) | [⬅️](lesson1_1.html) |
+|          | [🌱](../preps/prep1_2.html) | [⬅️](lesson1_1.html) |
 
 ## After Class
 
-| Practice | Primer | Next Lesson |
+| Practice | Prep | Next Lesson |
 |----------|--------|-------------|
-| [🏃‍♂️‍➡️](../practice/practice1_2.ipynb) | [🌱](../primers/primer1_3.html) | [➡️](lesson1_3.html) |
+| [🏃‍♂️‍➡️](../practice/practice1_2.ipynb) | [🌱](../preps/prep1_3.html) | [➡️](lesson1_3.html) |
 
 :::
 
@@ -273,8 +273,8 @@ Show your neighbor your shipment agent handling the follow-up correctly before m
 
 1. Finish the Supply Chain activity if you didn't in class
 2. Complete take-home practice (see [🏃‍♂️‍➡️ Practice 1.2](../practice/practice1_2.ipynb))
-3. Read the primer for Lesson 1.3
+3. Read the prep for Lesson 1.3
 
-| Practice | Primer | Next Lesson |
+| Practice | Prep | Next Lesson |
 |----------|--------|-------------|
-| [🏃‍♂️‍➡️](../practice/practice1_2.ipynb) | [🌱](../primers/primer1_3.html) | [➡️](lesson1_3.html) |
+| [🏃‍♂️‍➡️](../practice/practice1_2.ipynb) | [🌱](../preps/prep1_3.html) | [➡️](lesson1_3.html) |

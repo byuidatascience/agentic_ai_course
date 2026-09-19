@@ -28,6 +28,6 @@ Simple outline:
 - What and why Trace/run
 - Show how to navigate trace
 - They navigate and explore trace
-- Continue primer/practice, which is setting up their own account and running own traces
+- Continue prep/practice, which is setting up their own account and running own traces
 
 Traces can be shared, so prepare some traces for them to navigate and identify the parts of a trace.

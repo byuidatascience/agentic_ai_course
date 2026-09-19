@@ -71,7 +71,7 @@ When they start discussing how the output should behave, bring it back for a gro
 
 ## Rest of Class
 
-- Primer and practice
+- Prep and practice
     - Continue setting up
     - Run your own trace
 

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Unit 1.1 Instructor Notes</title>
+<title>What is an API?</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -22,6 +22,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -292,14 +327,15 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul class="collapse">
-  <li><a href="#the-most-important-thing" id="toc-the-most-important-thing" class="nav-link active" data-scroll-target="#the-most-important-thing">The Most Important Thing</a></li>
-  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives">Objectives</a></li>
-  <li><a href="#links" id="toc-links" class="nav-link" data-scroll-target="#links">Links</a></li>
-  <li><a href="#slide-notes" id="toc-slide-notes" class="nav-link" data-scroll-target="#slide-notes">Slide notes</a></li>
-  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a>
+  <li><a href="#takeaways" id="toc-takeaways" class="nav-link active" data-scroll-target="#takeaways">Takeaways</a></li>
+  <li><a href="#what-is-an-api" id="toc-what-is-an-api" class="nav-link" data-scroll-target="#what-is-an-api">What is an API?</a>
   <ul class="collapse">
-  <li><a href="#practice-notes" id="toc-practice-notes" class="nav-link" data-scroll-target="#practice-notes">practice notes</a></li>
+  <li><a href="#a-simple-analogy" id="toc-a-simple-analogy" class="nav-link" data-scroll-target="#a-simple-analogy">A Simple Analogy</a></li>
+  <li><a href="#why-do-apis-exist" id="toc-why-do-apis-exist" class="nav-link" data-scroll-target="#why-do-apis-exist">Why Do APIs Exist?</a></li>
   </ul></li>
+  <li><a href="#an-api-key-is-your-password" id="toc-an-api-key-is-your-password" class="nav-link" data-scroll-target="#an-api-key-is-your-password">An API Key is Your Password</a></li>
+  <li><a href="#apis-and-ai" id="toc-apis-and-ai" class="nav-link" data-scroll-target="#apis-and-ai">APIs and AI</a></li>
+  <li><a href="#what-to-think-about-before-class" id="toc-what-to-think-about-before-class" class="nav-link" data-scroll-target="#what-to-think-about-before-class">What to Think About Before Class</a></li>
   </ul>
 </nav>
 </nav>
@@ -313,7 +349,8 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Unit 1.1 Instructor Notes</h1>
+<h1 class="title">What is an API?</h1>
+<p class="subtitle lead">Prep 1.1 Read before Lesson 1</p>
 </div>
 
 
@@ -330,66 +367,98 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="the-most-important-thing" class="level1">
-<h1>The Most Important Thing</h1>
-<p>Give them the gratification of making an LLM call and getting a response</p>
+<!--
+  id: about-api
+  type: reading
+  competency: 1.1
+-->
+<section id="takeaways" class="level1">
+<h1>Takeaways</h1>
+<ol type="1">
+<li>An API is a backend connection to an online service.</li>
+<li>An API key is the password (also termed a “secret”)</li>
+<li>We will access big LLM providers via API (ie Gemini, GPT)</li>
+</ol>
 </section>
-<section id="objectives" class="level1">
-<h1>Objectives</h1>
-<p>APIs &amp; Your First LLM Call</p>
+<section id="what-is-an-api" class="level1">
+<h1>What is an API?</h1>
+<p>You have used APIs your entire life without knowing it.</p>
+<p>When you open a weather app and it shows you today’s forecast, the app did not generate that data itself. It sent a request to a weather company’s server, which sent back the data. That invisible conversation between two programs is an <strong>API</strong> an <strong>Application Programming Interface</strong>.</p>
+<p>An API is simply an agreed-upon way for two pieces of software to talk to each other.</p>
+<p>Optional short video diving into API’s:</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/ByGJQzlzxQg" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<hr>
+<section id="a-simple-analogy" class="level2">
+<h2 class="anchored" data-anchor-id="a-simple-analogy">A Simple Analogy</h2>
+<p>Think of a restaurant.</p>
 <ul>
-<li>Define what an API is, broadly and practically</li>
-<li>Make an API call to an LLM — seamless environment setup</li>
-<li>Be aware of common challenges when working with APIs</li>
-<li>Play with changing the models and model parameters</li>
+<li>You are the <strong>customer</strong> (your program)</li>
+<li>The kitchen is the <strong>server</strong> (the service you want to use)</li>
+<li>The waiter is the <strong>API</strong></li>
 </ul>
+<p>You do not walk into the kitchen and cook your own food. You tell the waiter what you want using the menu’s format <em>“I’ll have the pasta, please.”</em> The waiter takes that to the kitchen, and brings back a response <em>the pasta.</em></p>
+<p>The menu is the API. It defines exactly what you are allowed to ask for and what format to ask in.</p>
+<hr>
 </section>
-<section id="links" class="level1">
-<h1>Links</h1>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Powerpoint</th>
-<th>Example</th>
-<th>Prep</th>
-<th>Practice</th>
-<th>Lesson</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><a href="lecture_slides/slide1_1.pptx">🧑‍🏫</a></td>
-<td><a href="examples/example1_1.qmd">📓</a></td>
-<td><a href="preps/prep1_1.qmd">🌱</a></td>
-<td><a href="practice/practice1_1.qmd">🏃‍♂️‍➡️</a></td>
-<td>📋(units/unit1_1.qmd)</td>
-</tr>
-</tbody>
-</table>
+<section id="why-do-apis-exist" class="level2">
+<h2 class="anchored" data-anchor-id="why-do-apis-exist">Why Do APIs Exist?</h2>
+<p>Imagine if every app had to build its own maps, its own payment system, its own weather data from scratch. That would be insane.</p>
+<p>Instead, companies like Google, Stripe, and OpenAI build powerful services and expose them through APIs so that any developer in the world can use them in their own app without knowing anything about how the service works internally.</p>
+<p>You just follow the menu.</p>
+<hr>
 </section>
-<section id="slide-notes" class="level1">
-<h1>Slide notes</h1>
-<p>What’s an LLM? Stateless text in, text out</p>
-<p>An API is a password</p>
-<p>When you visit a website, it sends a message (HTTPS) to their server saying: “Give me an html!”</p>
-<p>In some cases, it just gives it to you, but other times, it wants to verify your identity with a username and password.</p>
-<p>In our case, the username is the service we are using, and an API key is the password.</p>
-<p>To get a password, we have to go through the service’s UI. It is different for every provider, but often lives in settings.</p>
 </section>
-<section id="notes" class="level1">
-<h1>Notes</h1>
-<p>Start by walking through the process once. If able, have a video or checklist that they can step through, or a video of the whole process playing on the project while you walk around and help.</p>
-<p>Make sure there is a clear and comprehensive guide for potential issues that is up to date (you could probably ask AI what issues are still relevant).</p>
-<p>Ensure that students who get theirs working walk around and help others. Especially if they encountered the same challenge.</p>
-<p>Check in regularly to see how many have gotten a response, invite buddies to help</p>
-<p>When more that half the class has finished that step, invite them to move on to the self-directed play</p>
-<p>If they can’t get the API working by the end of the day, you’ll have to authorize AI use for troubleshooting it or meet with them individually.</p>
-<section id="practice-notes" class="level2">
-<h2 class="anchored" data-anchor-id="practice-notes">practice notes</h2>
-<p>They should be invited to play with changing the model, temperature, and other model paramaters in the documentation. That requires: a meaningful example, a few questions, comparison, and links to documentation to find more parameters.</p>
+<section id="an-api-key-is-your-password" class="level1">
+<h1>An API Key is Your Password</h1>
+<p>Most APIs require an <strong>API key</strong> a long string of letters and numbers that proves you have an account.</p>
+<pre><code>AIzaSyB3xKttE9J6Pn93T3Dmo... (yours will look something like this)</code></pre>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Treat your API key like a password
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If someone gets your API key, they can use the service <strong>on your account</strong> and on <strong>your bill</strong>. Never paste it directly in your code. Never upload it to GitHub. We will cover exactly how to store it safely in class.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="apis-and-ai" class="level1">
+<h1>APIs and AI</h1>
+<p>LLMs like Gemini and GPT are not apps you download. They live on powerful servers owned by Google and OpenAI. To use them in your own program, you send your prompt to their server through an API, and they send back the response.</p>
+<p>That is the whole trick. When we write:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>model.invoke(<span class="st">"Tell me about the ocean."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Under the hood, Python is: 1. Packaging your message 2. Sending it to Google’s servers with your API key 3. Waiting for the response 4. Handing it back to you</p>
+<hr>
+</section>
+<section id="what-to-think-about-before-class" class="level1">
+<h1>What to Think About Before Class</h1>
+<p>Come to class ready to answer these in your head:</p>
+<ul>
+<li>In your own words, what is an API?</li>
+<li>Why would a company expose their service through an API instead of just building an app?</li>
+<li>What do you think would happen if your API key got posted publicly on GitHub?</li>
+</ul>
+<hr>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>You do not need to memorize anything
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This prep is just to get the concept in your head before we build with it. Everything will make more sense once you see it live in class.</p>
+</div>
+</div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

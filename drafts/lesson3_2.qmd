@@ -12,21 +12,21 @@ execute:
 
 ## Quick Links
 
-| Practice | Primer | Slides | Examples | Lecture Notes | Next Lesson |
+| Practice | Prep | Slides | Examples | Lecture Notes | Next Lesson |
 |----------|--------|--------|----------|---------------|-------------|
-| [🏃‍♂️‍➡️](../practice/practice3_2.qmd) | [🌱](../primers/primer3_2.qmd) | [🧑‍🏫](../lecture_slides/slide3_2.qmd) | [📓]({{< var example_base >}}3_2.ipynb "Opens in Google Colab - See README if broken") | [📋](../instructor_notes/notes3_2.qmd) | [➡️](lesson3_3.qmd) |
+| [🏃‍♂️‍➡️](../practice/practice3_2.qmd) | [🌱](../preps/prep3_2.qmd) | [🧑‍🏫](../lecture_slides/slide3_2.qmd) | [📓]({{< var example_base >}}3_2.ipynb "Opens in Google Colab - See README if broken") | [📋](../instructor_notes/notes3_2.qmd) | [➡️](lesson3_3.qmd) |
 
 ## Before Class
 
-| Practice | Primer | Previous Lesson |
+| Practice | Prep | Previous Lesson |
 |----------|--------|-------------|
-| [🏃‍♂️‍➡️](../practice/practice3_1.qmd) | [🌱](../primers/primer3_2.qmd) | [⬅️](lesson3_1.qmd) |
+| [🏃‍♂️‍➡️](../practice/practice3_1.qmd) | [🌱](../preps/prep3_2.qmd) | [⬅️](lesson3_1.qmd) |
 
 ## After Class
 
-| Practice | Primer | Next Lesson |
+| Practice | Prep | Next Lesson |
 |----------|--------|-------------|
-| [🏃‍♂️‍➡️](../practice/practice3_2.qmd) | [🌱](../primers/primer3_3.qmd) | [➡️](lesson3_3.qmd) |
+| [🏃‍♂️‍➡️](../practice/practice3_2.qmd) | [🌱](../preps/prep3_3.qmd) | [➡️](lesson3_3.qmd) |
 
 :::
 
@@ -102,6 +102,6 @@ In groups of 3-4, design an agentic system on the whiteboard for the following s
 
 Review today's whiteboard designs and prepare to implement one of them in code next time.
 
-| Practice | Primer | Next Lesson |
+| Practice | Prep | Next Lesson |
 |----------|--------|-------------|
-| [🏃‍♂️‍➡️](../practice/practice3_2.qmd) | [🌱](../primers/primer3_3.qmd) | [➡️](lesson3_3.qmd) |
+| [🏃‍♂️‍➡️](../practice/practice3_2.qmd) | [🌱](../preps/prep3_3.qmd) | [➡️](lesson3_3.qmd) |

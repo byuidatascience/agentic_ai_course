@@ -7,21 +7,21 @@ subtitle: "Unit 1, Lesson 3"
 
 ## Quick Links
 
-| Practice | Primer | Slides | Examples | Lecture Notes | Next Lesson |
+| Practice | Prep | Slides | Examples | Lecture Notes | Next Lesson |
 |----------|--------|--------|----------|---------------|-------------|
-| [🏃‍♂️‍➡️](../practice/practice1_3.ipynb) | [🌱](../primers/primer1_3.html) | [🧑‍🏫](../lecture_slides/slide1_3.html) | [📓]({{< var example_base >}}1_3.ipynb "Opens in Google Colab - See README if broken") | [📋](../instructor_notes/notes1_3.html) |  |
+| [🏃‍♂️‍➡️](../practice/practice1_3.ipynb) | [🌱](../preps/prep1_3.html) | [🧑‍🏫](../lecture_slides/slide1_3.html) | [📓]({{< var example_base >}}1_3.ipynb "Opens in Google Colab - See README if broken") | [📋](../instructor_notes/notes1_3.html) |  |
 
 ## Before Class
 
-| Practice | Primer | Previous Lesson |
+| Practice | Prep | Previous Lesson |
 |----------|--------|-----------------|
-|          | [🌱](../primers/primer1_3.html) | [⬅️](lesson1_2.html) |
+|          | [🌱](../preps/prep1_3.html) | [⬅️](lesson1_2.html) |
 
 ## After Class
 
-| Practice | Primer | Next Lesson |
+| Practice | Prep | Next Lesson |
 |----------|--------|-------------|
-| [🏃‍♂️‍➡️](../practice/practice1_3.ipynb) | [🌱](../primers/primer2_1.html) |  |
+| [🏃‍♂️‍➡️](../practice/practice1_3.ipynb) | [🌱](../preps/prep2_1.html) |  |
 
 :::
 
@@ -45,7 +45,7 @@ Before this lesson, you should have:
 
 | Resource | Description |
 |----------|-------------|
-| [🌱 Primer 1.3](../primers/primer1_3.html) | Community Tools & Real Data   read before class |
+| [🌱 Prep 1.3](../preps/prep1_3.html) | Community Tools & Real Data   read before class |
 | [📖 5 LangChain Tools Every LLM Developer Should Know](https://medium.com/@vamshiginna1606/langchain-tools-5-langchain-tools-every-llm-developer-should-know-ad698f06dcb5) | Read the full article |
 
 ---
@@ -453,8 +453,8 @@ In the next unit we go deeper into how agents think and make decisions. Before c
 
 1. Finish any activities from today
 2. Reflect: what surprised you about how the agent chose between tools?
-3. Read the primer for the next lesson
+3. Read the prep for the next lesson
 
-| Practice | Primer | Next Lesson |
+| Practice | Prep | Next Lesson |
 |----------|--------|-------------|
-| [🏃‍♂️‍➡️](../practice/practice1_3.ipynb) | [🌱](../primers/primer2_1.html) |  |
+| [🏃‍♂️‍➡️](../practice/practice1_3.ipynb) | [🌱](../preps/prep2_1.html) |  |

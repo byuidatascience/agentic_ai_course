@@ -1,6 +1,6 @@
 ---
 title: "Agent Engineering"
-subtitle: "Primer 1.1   Read before Lesson 1"
+subtitle: "Prep 1.1   Read before Lesson 1"
 ---
 
 What is agent engineering?

@@ -70,8 +70,8 @@ This outputs all rendered HTML to the `docs/` folder, which GitHub Pages serves.
 ├── practice/               # Practice assignments
 │   ├── practice1_1.qmd     # Unit 1, Day 1
 │   └── ...
-├── primers/                # Primer materials
-│   ├── slide1_1.qmd        # Unit 1, Day 1
+├── preps/                  # Prep materials
+│   ├── prep1_1.qmd         # Unit 1, Day 1
 │   └── ...
 ├── templates/              # Prompt templates
 │   └── lesson_template_prompt.md
@@ -91,12 +91,12 @@ This outputs all rendered HTML to the `docs/` folder, which GitHub Pages serves.
 | `lessons/lesson2_5.qmd` | Individual lesson — Unit 2, Day 5 |
 | `instructor_notes/notes1_1.qmd` | Instructor notes for a specific lesson |
 | `practice/practice1_1.qmd` | Practice assignment linked from lesson pages |
-| `primers/primer2_1.qmd` | Primer content for Unit 2, Day 1 |
+| `preps/prep2_1.qmd` | Prep content for Unit 2, Day 1 |
 | `lecture_slides/slide2_1.pptx` | Slide deck for Unit 2, Day 1 |
 | `examples/example2_1.qmd` | In-class example page for Unit 2, Day 1 |
 
 Additional filename rules:
-- Use the same `unit_day` suffix across linked assets for one class meeting (for example: `lesson2_1.qmd`, `practice2_1.qmd`, `primer2_1.qmd`, `slide2_1.pptx`, `example2_1.qmd`).
+- Use the same `unit_day` suffix across linked assets for one class meeting (for example: `lesson2_1.qmd`, `practice2_1.qmd`, `prep2_1.qmd`, `slide2_1.pptx`, `example2_1.qmd`).
 - Instructor notes follow `notes<unit>_<day>.qmd` (for example: `notes1_1.qmd`).
 - Lesson-to-lesson navigation links should target lesson files in `lessons/` (for example: `lesson2_2.qmd`).
 

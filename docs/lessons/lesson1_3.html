@@ -379,7 +379,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <thead>
 <tr class="header">
 <th>Practice</th>
-<th>Primer</th>
+<th>Prep</th>
 <th>Slides</th>
 <th>Examples</th>
 <th>Lecture Notes</th>
@@ -389,9 +389,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td><a href="../practice/practice1_3.html">🏃‍♂️‍➡️</a></td>
-<td><a href="../primers/primer1_3.html">🌱</a></td>
+<td><a href="../preps/prep1_3.html">🌱</a></td>
 <td><a href="../lecture_slides/slide1_3.html">🧑‍🏫</a></td>
-<td><a href="https://colab.research.google.com/github/ethanbyui/agentic_ai_course/blob/main/examples/example1_3.ipynb" title="Opens in Google Colab - See README if broken">📓</a></td>
+<td><a href="https://colab.research.google.com/github/byuidatascience/agentic_ai_course/blob/main/examples/example1_3.ipynb" title="Opens in Google Colab - See README if broken">📓</a></td>
 <td><a href="../instructor_notes/notes1_3.html">📋</a></td>
 <td></td>
 </tr>
@@ -403,14 +403,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <thead>
 <tr class="header">
 <th>Practice</th>
-<th>Primer</th>
+<th>Prep</th>
 <th>Previous Lesson</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td></td>
-<td><a href="../primers/primer1_3.html">🌱</a></td>
+<td><a href="../preps/prep1_3.html">🌱</a></td>
 <td><a href="lesson1_2.html">⬅️</a></td>
 </tr>
 </tbody>
@@ -421,14 +421,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <thead>
 <tr class="header">
 <th>Practice</th>
-<th>Primer</th>
+<th>Prep</th>
 <th>Next Lesson</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><a href="../practice/practice1_3.html">🏃‍♂️‍➡️</a></td>
-<td><a href="../primers/primer2_1.html">🌱</a></td>
+<td><a href="../preps/prep2_1.html">🌱</a></td>
 <td></td>
 </tr>
 </tbody>
@@ -461,7 +461,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="../primers/primer1_3.html">🌱 Primer 1.3</a></td>
+<td><a href="../preps/prep1_3.html">🌱 Prep 1.3</a></td>
 <td>Community Tools &amp; Real Data read before class</td>
 </tr>
 <tr class="even">
@@ -532,12 +532,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="tool-1-duckduckgo-search" class="level3">
 <h3 class="anchored" data-anchor-id="tool-1-duckduckgo-search">Tool 1: DuckDuckGo Search</h3>
 <p>Lets the agent search the web in real time without needing an API key.</p>
-<div id="00dffefe" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.tools <span class="im">import</span> DuckDuckGoSearchRun</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.tools <span class="im">import</span> DuckDuckGoSearchRun</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>search <span class="op">=</span> DuckDuckGoSearchRun()</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(search.invoke(<span class="st">"What is LangChain?"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 38%">
@@ -582,13 +580,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="tool-2-wikipedia" class="level3">
 <h3 class="anchored" data-anchor-id="tool-2-wikipedia">Tool 2: Wikipedia</h3>
 <p>Looks up factual information from Wikipedia articles.</p>
-<div id="ea14d77e" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.tools <span class="im">import</span> WikipediaQueryRun</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.tools <span class="im">import</span> WikipediaQueryRun</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.utilities <span class="im">import</span> WikipediaAPIWrapper</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>wikipedia <span class="op">=</span> WikipediaQueryRun(api_wrapper<span class="op">=</span>WikipediaAPIWrapper())</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(wikipedia.invoke(<span class="st">"Large language model"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 38%">
@@ -620,12 +616,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="tool-3-python-repl" class="level3">
 <h3 class="anchored" data-anchor-id="tool-3-python-repl">Tool 3: Python REPL</h3>
 <p>Lets the agent write and execute Python code directly.</p>
-<div id="60d3e0c1" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_experimental.tools <span class="im">import</span> PythonREPLTool</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_experimental.tools <span class="im">import</span> PythonREPLTool</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>repl <span class="op">=</span> PythonREPLTool()</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(repl.invoke(<span class="st">"print(sum([1, 2, 3, 4, 5]))"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 38%">
@@ -673,22 +667,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Let’s install and use DuckDuckGo search inside an agent.</p>
 <section id="step-1-install" class="level3">
 <h3 class="anchored" data-anchor-id="step-1-install">Step 1 Install</h3>
-<div id="49ee3caa" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install <span class="op">-</span>q <span class="op">-</span>U langchain langchain<span class="op">-</span>community langchain<span class="op">-</span>google<span class="op">-</span>genai langgraph duckduckgo<span class="op">-</span>search</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install <span class="op">-</span>q <span class="op">-</span>U langchain langchain<span class="op">-</span>community langchain<span class="op">-</span>google<span class="op">-</span>genai langgraph duckduckgo<span class="op">-</span>search</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="step-2-set-up-your-api-key" class="level3">
 <h3 class="anchored" data-anchor-id="step-2-set-up-your-api-key">Step 2 Set up your API key</h3>
-<div id="164b29b4" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>os.environ[<span class="st">'GOOGLE_API_KEY'</span>] <span class="op">=</span> userdata.get(<span class="st">'GOOGLE_API_KEY'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 </section>
 <section id="step-3-wire-duckduckgo-into-an-agent" class="level3">
 <h3 class="anchored" data-anchor-id="step-3-wire-duckduckgo-into-an-agent">Step 3 Wire DuckDuckGo into an agent</h3>
-<div id="e48f9145" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.chat_models <span class="im">import</span> init_chat_model</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.chat_models <span class="im">import</span> init_chat_model</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.agents <span class="im">import</span> create_react_agent</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.tools <span class="im">import</span> DuckDuckGoSearchRun</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -712,7 +701,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> agent.invoke({<span class="st">"messages"</span>: [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"What is the latest version of Python?"</span>}]})</span>
 <span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response[<span class="st">"messages"</span>][<span class="op">-</span><span class="dv">1</span>].content)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <p><strong>Try a few different questions and observe:</strong></p>
 <ul>
 <li>Which questions trigger a search?</li>
@@ -730,8 +718,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="the-problem-overlapping-tools" class="level3">
 <h3 class="anchored" data-anchor-id="the-problem-overlapping-tools">The Problem: Overlapping Tools</h3>
 <p>Here is a scenario with two tools that have bad descriptions:</p>
-<div id="73d33010" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="at">@tool</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="at">@tool</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> search_web(query: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Gets information."""</span>  <span class="co"># ← too vague</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    ...</span>
@@ -740,14 +727,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> read_file(filename: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Gets information from a file."""</span>  <span class="co"># ← still too vague</span></span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    ...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <p>When the agent has both, it cannot tell which to use. “Gets information” describes almost everything.</p>
 <hr>
 </section>
 <section id="the-fix-specific-mutually-exclusive-descriptions" class="level3">
 <h3 class="anchored" data-anchor-id="the-fix-specific-mutually-exclusive-descriptions">The Fix: Specific, Mutually Exclusive Descriptions</h3>
-<div id="c02fdd58" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">@tool</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">@tool</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> search_web(query: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Searches the internet for current information using DuckDuckGo.</span></span>
@@ -766,7 +751,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">    Do NOT use this for general web searches or current events.</span></span>
 <span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
 <span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    ...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <p>Now the agent can make a clear decision. Each description tells it: - What the tool does - When to use it - When <strong>not</strong> to use it</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -790,8 +774,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-1-create-the-sample-data-file" class="level3">
 <h3 class="anchored" data-anchor-id="step-1-create-the-sample-data-file">Step 1 Create the sample data file</h3>
 <p>Run this cell to create a small sales CSV file in your Colab environment:</p>
-<div id="29cc7c22" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a sample sales data file</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a sample sales data file</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sample_data <span class="op">=</span> <span class="st">"""month,product,units_sold,revenue</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="st">January,Widget A,120,2400</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="st">January,Widget B,85,3400</span></span>
@@ -807,13 +790,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    f.write(sample_data)</span>
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"sales_data.csv created!"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <hr>
 </section>
 <section id="step-2-build-the-file-reading-tool" class="level3">
 <h3 class="anchored" data-anchor-id="step-2-build-the-file-reading-tool">Step 2 Build the file reading tool</h3>
-<div id="4d269576" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> csv</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> csv</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.tools <span class="im">import</span> tool</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="at">@tool</span></span>
@@ -842,17 +823,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">FileNotFoundError</span>:</span>
 <span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Error: sales_data.csv not found. Make sure the file exists."</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <p>Test it directly first:</p>
-<div id="bdce92d2" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(read_sales_data.invoke({<span class="st">"query"</span>: <span class="st">"show me all sales data"</span>}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(read_sales_data.invoke({<span class="st">"query"</span>: <span class="st">"show me all sales data"</span>}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <hr>
 </section>
 <section id="step-3-wire-it-into-an-agent" class="level3">
 <h3 class="anchored" data-anchor-id="step-3-wire-it-into-an-agent">Step 3 Wire it into an agent</h3>
-<div id="3af388a6" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.chat_models <span class="im">import</span> init_chat_model</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.chat_models <span class="im">import</span> init_chat_model</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.agents <span class="im">import</span> create_react_agent</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> init_chat_model(</span>
@@ -873,7 +850,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> agent.invoke({<span class="st">"messages"</span>: [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"Which product made the most revenue overall?"</span>}]})</span>
 <span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response[<span class="st">"messages"</span>][<span class="op">-</span><span class="dv">1</span>].content)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <p><strong>Try these questions and observe:</strong></p>
 <ul>
 <li><code>"What month had the highest total revenue?"</code></li>
@@ -901,8 +877,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="activity-3-combine-web-search-local-data">Activity 3 Combine Web Search + Local Data</h2>
 <p>Now the real challenge: give the agent <strong>both tools at once</strong> and make sure it picks the right one.</p>
 <p>This is where your tool descriptions do the heavy lifting.</p>
-<div id="8a08f3b0" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.tools <span class="im">import</span> DuckDuckGoSearchRun</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.tools <span class="im">import</span> DuckDuckGoSearchRun</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Both tools available</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>search_tool <span class="op">=</span> DuckDuckGoSearchRun()</span>
@@ -927,16 +902,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="co"># This should use the SEARCH tool  </span></span>
 <span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> agent.invoke({<span class="st">"messages"</span>: [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"What are current trends in widget manufacturing?"</span>}]})</span>
 <span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Search question:"</span>, response[<span class="st">"messages"</span>][<span class="op">-</span><span class="dv">1</span>].content)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <hr>
 <section id="the-pressure-test" class="level3">
 <h3 class="anchored" data-anchor-id="the-pressure-test">The Pressure Test</h3>
 <p>Now deliberately try to break it. Ask questions that could go either way and see what the agent does:</p>
-<div id="6f0a5a82" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ambiguous   which tool will it pick?</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ambiguous   which tool will it pick?</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> agent.invoke({<span class="st">"messages"</span>: [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"How are widgets selling?"</span>}]})</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response[<span class="st">"messages"</span>][<span class="op">-</span><span class="dv">1</span>].content)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -981,20 +953,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol type="1">
 <li>Finish any activities from today</li>
 <li>Reflect: what surprised you about how the agent chose between tools?</li>
-<li>Read the primer for the next lesson</li>
+<li>Read the prep for the next lesson</li>
 </ol>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Practice</th>
-<th>Primer</th>
+<th>Prep</th>
 <th>Next Lesson</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><a href="../practice/practice1_3.html">🏃‍♂️‍➡️</a></td>
-<td><a href="../primers/primer2_1.html">🌱</a></td>
+<td><a href="../preps/prep2_1.html">🌱</a></td>
 <td></td>
 </tr>
 </tbody>

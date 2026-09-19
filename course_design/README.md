@@ -1,7 +1,7 @@
 # course_design/
 
 The design layer for DS 488. Everything the course *is* — as opposed to what it *says on a given day* —
-is decided here. Lesson content, primers, slides, and instructor notes elsewhere in the repo are
+is decided here. Lesson content, preps, slides, and instructor notes elsewhere in the repo are
 downstream of these files and must conform to them.
 
 ---

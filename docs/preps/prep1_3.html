@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Unit 1.1 Instructor Notes</title>
+<title>Community Tools &amp; Real Data</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -292,14 +292,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul class="collapse">
-  <li><a href="#the-most-important-thing" id="toc-the-most-important-thing" class="nav-link active" data-scroll-target="#the-most-important-thing">The Most Important Thing</a></li>
-  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives">Objectives</a></li>
-  <li><a href="#links" id="toc-links" class="nav-link" data-scroll-target="#links">Links</a></li>
-  <li><a href="#slide-notes" id="toc-slide-notes" class="nav-link" data-scroll-target="#slide-notes">Slide notes</a></li>
-  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a>
-  <ul class="collapse">
-  <li><a href="#practice-notes" id="toc-practice-notes" class="nav-link" data-scroll-target="#practice-notes">practice notes</a></li>
-  </ul></li>
+  <li><a href="#community-tools" id="toc-community-tools" class="nav-link active" data-scroll-target="#community-tools">Community Tools</a></li>
+  <li><a href="#read-this-before-class" id="toc-read-this-before-class" class="nav-link" data-scroll-target="#read-this-before-class">Read This Before Class</a></li>
+  <li><a href="#the-three-you-will-focus-on" id="toc-the-three-you-will-focus-on" class="nav-link" data-scroll-target="#the-three-you-will-focus-on">The Three You Will Focus On</a></li>
+  <li><a href="#a-new-challenge-local-data" id="toc-a-new-challenge-local-data" class="nav-link" data-scroll-target="#a-new-challenge-local-data">A New Challenge: Local Data</a></li>
+  <li><a href="#come-ready-to-answer" id="toc-come-ready-to-answer" class="nav-link" data-scroll-target="#come-ready-to-answer">Come Ready to Answer</a></li>
   </ul>
 </nav>
 </nav>
@@ -313,7 +310,8 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Unit 1.1 Instructor Notes</h1>
+<h1 class="title">Community Tools &amp; Real Data</h1>
+<p class="subtitle lead">Prep 1.3 Read before Lesson 3</p>
 </div>
 
 
@@ -330,66 +328,86 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="the-most-important-thing" class="level1">
-<h1>The Most Important Thing</h1>
-<p>Give them the gratification of making an LLM call and getting a response</p>
+<section id="community-tools" class="level1">
+<h1>Community Tools</h1>
+<p>Last lesson you built tools from scratch. That is an important skill but you do not always have to start from zero.</p>
+<p>LangChain has a large library of <strong>community tools</strong> pre-built tools made by LangChain and the open source community that cover the most common things agents need to do.</p>
+<hr>
 </section>
-<section id="objectives" class="level1">
-<h1>Objectives</h1>
-<p>APIs &amp; Your First LLM Call</p>
+<section id="read-this-before-class" class="level1">
+<h1>Read This Before Class</h1>
+<p>Read this article in full before class. It covers 5 tools that show up constantly in real agentic AI projects:</p>
+<p>👉 <a href="https://medium.com/@vamshiginna1606/langchain-tools-5-langchain-tools-every-llm-developer-should-know-ad698f06dcb5">5 LangChain Tools Every LLM Developer Should Know</a></p>
+<p>As you read, for each tool ask yourself:</p>
 <ul>
-<li>Define what an API is, broadly and practically</li>
-<li>Make an API call to an LLM — seamless environment setup</li>
-<li>Be aware of common challenges when working with APIs</li>
-<li>Play with changing the models and model parameters</li>
+<li>What does this tool do?</li>
+<li>What kind of question would make an agent want to use it?</li>
+<li>What would break or go wrong if you used it in the wrong situation?</li>
 </ul>
+<hr>
 </section>
-<section id="links" class="level1">
-<h1>Links</h1>
+<section id="the-three-you-will-focus-on" class="level1">
+<h1>The Three You Will Focus On</h1>
+<p>In class we will evaluate three of the five tools from the article in depth:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Powerpoint</th>
-<th>Example</th>
-<th>Prep</th>
-<th>Practice</th>
-<th>Lesson</th>
+<th>Tool</th>
+<th>What it does</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="lecture_slides/slide1_1.pptx">🧑‍🏫</a></td>
-<td><a href="examples/example1_1.qmd">📓</a></td>
-<td><a href="preps/prep1_1.qmd">🌱</a></td>
-<td><a href="practice/practice1_1.qmd">🏃‍♂️‍➡️</a></td>
-<td>📋(units/unit1_1.qmd)</td>
+<td><strong>DuckDuckGo Search</strong></td>
+<td>Searches the web without needing an API key</td>
+</tr>
+<tr class="even">
+<td><strong>Wikipedia</strong></td>
+<td>Looks up factual information from Wikipedia</td>
+</tr>
+<tr class="odd">
+<td><strong>Python REPL</strong></td>
+<td>Runs Python code directly inside the agent</td>
 </tr>
 </tbody>
 </table>
+<p>Come ready to discuss: when would you use each one, and when would you NOT?</p>
+<hr>
 </section>
-<section id="slide-notes" class="level1">
-<h1>Slide notes</h1>
-<p>What’s an LLM? Stateless text in, text out</p>
-<p>An API is a password</p>
-<p>When you visit a website, it sends a message (HTTPS) to their server saying: “Give me an html!”</p>
-<p>In some cases, it just gives it to you, but other times, it wants to verify your identity with a username and password.</p>
-<p>In our case, the username is the service we are using, and an API key is the password.</p>
-<p>To get a password, we have to go through the service’s UI. It is different for every provider, but often lives in settings.</p>
+<section id="a-new-challenge-local-data" class="level1">
+<h1>A New Challenge: Local Data</h1>
+<p>So far your agents have only worked with information from the internet or from their training. But in the real world, most of the data that matters lives in <strong>local files</strong> spreadsheets, CSVs, text documents, databases.</p>
+<p>Getting an agent to work with local data requires a tool. Just like web search gives the agent access to the internet, a file-reading tool gives it access to your files.</p>
+<p>Think about what that means: an agent that can search the web <strong>and</strong> read your internal files could answer questions like:</p>
+<blockquote class="blockquote">
+<p><em>“Based on our sales data from last quarter, what does current market research say about our biggest product category?”</em></p>
+</blockquote>
+<p>That is the kind of thing we will build toward in class.</p>
+<hr>
 </section>
-<section id="notes" class="level1">
-<h1>Notes</h1>
-<p>Start by walking through the process once. If able, have a video or checklist that they can step through, or a video of the whole process playing on the project while you walk around and help.</p>
-<p>Make sure there is a clear and comprehensive guide for potential issues that is up to date (you could probably ask AI what issues are still relevant).</p>
-<p>Ensure that students who get theirs working walk around and help others. Especially if they encountered the same challenge.</p>
-<p>Check in regularly to see how many have gotten a response, invite buddies to help</p>
-<p>When more that half the class has finished that step, invite them to move on to the self-directed play</p>
-<p>If they can’t get the API working by the end of the day, you’ll have to authorize AI use for troubleshooting it or meet with them individually.</p>
-<section id="practice-notes" class="level2">
-<h2 class="anchored" data-anchor-id="practice-notes">practice notes</h2>
-<p>They should be invited to play with changing the model, temperature, and other model paramaters in the documentation. That requires: a meaningful example, a few questions, comparison, and links to documentation to find more parameters.</p>
+<section id="come-ready-to-answer" class="level1">
+<h1>Come Ready to Answer</h1>
+<ul>
+<li>Which of the three tools from the article do you think is the most dangerous to give an agent? Why?</li>
+<li>What could go wrong if an agent had access to your local files with no restrictions?</li>
+<li>In your own words, why does a vague tool description cause problems when you have multiple tools?</li>
+</ul>
+<hr>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Focus on the concepts, not the syntax
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The article may show code that looks different from what we use in class. That is fine focus on understanding what each tool does, not memorizing the exact code.</p>
+</div>
+</div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

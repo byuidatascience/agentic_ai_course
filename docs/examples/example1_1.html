@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>example1_1</title>
+<title>Day 1: Your First LangChain Agent</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -323,25 +323,86 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#add-your-api-key-to-colab-secrets" id="toc-add-your-api-key-to-colab-secrets" class="nav-link active" data-scroll-target="#add-your-api-key-to-colab-secrets">1. Add your API key to Colab Secrets</a></li>
+  <li><a href="#install-langchain" id="toc-install-langchain" class="nav-link" data-scroll-target="#install-langchain">2. Install LangChain</a></li>
+  <li><a href="#build-your-first-agentrun-this-cell.-this-follows-langchains-quickstart-a-small-tool-the-agent-can-call-and-an-agent-built-from-a-model-that-tool-and-a-system-prompt.a-response-means-your-python-code-sent-a-request-to-gemini-through-langchain-and-the-agent-decided-on-its-own-to-call-the-get_weather-tool." id="toc-build-your-first-agentrun-this-cell.-this-follows-langchains-quickstart-a-small-tool-the-agent-can-call-and-an-agent-built-from-a-model-that-tool-and-a-system-prompt.a-response-means-your-python-code-sent-a-request-to-gemini-through-langchain-and-the-agent-decided-on-its-own-to-call-the-get_weather-tool." class="nav-link" data-scroll-target="#build-your-first-agentrun-this-cell.-this-follows-langchains-quickstart-a-small-tool-the-agent-can-call-and-an-agent-built-from-a-model-that-tool-and-a-system-prompt.a-response-means-your-python-code-sent-a-request-to-gemini-through-langchain-and-the-agent-decided-on-its-own-to-call-the-get_weather-tool.">3. Build your first agentRun this cell. This follows LangChain’s quickstart: a small tool the agent can call, and an agent built from a model, that tool, and a system prompt.A response means your Python code sent a request to Gemini through LangChain, and the agent decided on its own to call the <code>get_weather</code> tool.</a></li>
+  <li><a href="#play-with-the-agentchange-only-the-message-content-in-the-next-cell-run-it-and-compare-the-result.-try-at-least-two-of-these--ask-about-the-weather-in-a-different-city.--ask-something-that-has-nothing-to-do-with-weather-and-see-whether-the-agent-still-calls-the-tool.--change-the-system_prompt-a-pirate-a-sports-announcer-a-skeptical-reviewer-and-ask-the-same-question-again.--ask-about-a-task-where-an-agent-might-help-in-your-field-of-study.with-your-partner-be-ready-to-share-what-you-changed-and-what-happened." id="toc-play-with-the-agentchange-only-the-message-content-in-the-next-cell-run-it-and-compare-the-result.-try-at-least-two-of-these--ask-about-the-weather-in-a-different-city.--ask-something-that-has-nothing-to-do-with-weather-and-see-whether-the-agent-still-calls-the-tool.--change-the-system_prompt-a-pirate-a-sports-announcer-a-skeptical-reviewer-and-ask-the-same-question-again.--ask-about-a-task-where-an-agent-might-help-in-your-field-of-study.with-your-partner-be-ready-to-share-what-you-changed-and-what-happened." class="nav-link" data-scroll-target="#play-with-the-agentchange-only-the-message-content-in-the-next-cell-run-it-and-compare-the-result.-try-at-least-two-of-these--ask-about-the-weather-in-a-different-city.--ask-something-that-has-nothing-to-do-with-weather-and-see-whether-the-agent-still-calls-the-tool.--change-the-system_prompt-a-pirate-a-sports-announcer-a-skeptical-reviewer-and-ask-the-same-question-again.--ask-about-a-task-where-an-agent-might-help-in-your-field-of-study.with-your-partner-be-ready-to-share-what-you-changed-and-what-happened.">4. Play with the agentChange only the message content in the next cell, run it, and compare the result. Try at least two of these:- Ask about the weather in a different city.- Ask something that has nothing to do with weather, and see whether the agent still calls the tool.- Change the <code>system_prompt</code> (a pirate, a sports announcer, a skeptical reviewer) and ask the same question again.- Ask about a task where an agent might help in your field of study.With your partner, be ready to share what you changed and what happened.</a></li>
+  <li><a href="#finished-earlyfirst-help-a-classmate-reach-a-successful-response.-then-write-a-question-with-a-clear-audience-tone-and-length-requirement-in-the-system-prompt.-keep-a-note-about-which-version-worked-best-and-why.-look-aheadexplore-the-official-langchain-quickstart-and-the-gemini-model-provider-docs.-find-one-capability-you-did-not-use-todaysuch-as-another-model-provider-streaming-memory-or-writing-your-own-tooland-bring-it-to-the-next-class." id="toc-finished-earlyfirst-help-a-classmate-reach-a-successful-response.-then-write-a-question-with-a-clear-audience-tone-and-length-requirement-in-the-system-prompt.-keep-a-note-about-which-version-worked-best-and-why.-look-aheadexplore-the-official-langchain-quickstart-and-the-gemini-model-provider-docs.-find-one-capability-you-did-not-use-todaysuch-as-another-model-provider-streaming-memory-or-writing-your-own-tooland-bring-it-to-the-next-class." class="nav-link" data-scroll-target="#finished-earlyfirst-help-a-classmate-reach-a-successful-response.-then-write-a-question-with-a-clear-audience-tone-and-length-requirement-in-the-system-prompt.-keep-a-note-about-which-version-worked-best-and-why.-look-aheadexplore-the-official-langchain-quickstart-and-the-gemini-model-provider-docs.-find-one-capability-you-did-not-use-todaysuch-as-another-model-provider-streaming-memory-or-writing-your-own-tooland-bring-it-to-the-next-class.">Finished early?First, help a classmate reach a successful response. Then write a question with a clear <strong>audience</strong>, <strong>tone</strong>, and <strong>length</strong> requirement in the system prompt. Keep a note about which version worked best and why.## Look aheadExplore the official LangChain quickstart and the Gemini model provider docs. Find one capability you did not use today—such as another model provider, streaming, memory, or writing your own tool—and bring it to the next class.</a></li>
+  </ul>
+</nav>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
 
 
-
-
-
-<p>Here is a workbook to open in Google Colab</p>
-<div id="b63f1d86" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="op">+</span><span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Day 1: Your First LangChain Agent</h1>
 </div>
 
 
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Today you will securely load an API key, build a small agent with LangChain, and experiment with what you ask it. Work with your partner and stop after each section until you both have it working.</p>
+<p><strong>Keep your API key secret.</strong> Do not paste it into a code cell, share it, or commit it to GitHub.</p>
+<section id="add-your-api-key-to-colab-secrets" class="level2">
+<h2 class="anchored" data-anchor-id="add-your-api-key-to-colab-secrets">1. Add your API key to Colab Secrets</h2>
+<ol type="1">
+<li>Visit <a href="https://aistudio.google.com/apikey">Google AI Studio</a> and create or copy a Gemini API key.</li>
+<li>In Colab, select the <strong>Secrets</strong> panel (the key icon in the left sidebar).</li>
+<li>Add a secret named <code>GOOGLE_API_KEY</code>. Paste in the key and turn on <strong>Notebook access</strong>.</li>
+<li>Run the next cell. If Colab asks to access the secret, choose <strong>Allow</strong>.</li>
+</ol>
+<div id="cell-3" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>os.environ[<span class="st">"GOOGLE_API_KEY"</span>] <span class="op">=</span> userdata.get(<span class="st">"GOOGLE_API_KEY"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"API key loaded."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="install-langchain" class="level2">
+<h2 class="anchored" data-anchor-id="install-langchain">2. Install LangChain</h2>
+<div id="cell-5" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install <span class="op">-</span>q <span class="op">-</span>U langchain langchain<span class="op">-</span>google<span class="op">-</span>genai</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="build-your-first-agentrun-this-cell.-this-follows-langchains-quickstart-a-small-tool-the-agent-can-call-and-an-agent-built-from-a-model-that-tool-and-a-system-prompt.a-response-means-your-python-code-sent-a-request-to-gemini-through-langchain-and-the-agent-decided-on-its-own-to-call-the-get_weather-tool." class="level2">
+<h2 class="anchored" data-anchor-id="build-your-first-agentrun-this-cell.-this-follows-langchains-quickstart-a-small-tool-the-agent-can-call-and-an-agent-built-from-a-model-that-tool-and-a-system-prompt.a-response-means-your-python-code-sent-a-request-to-gemini-through-langchain-and-the-agent-decided-on-its-own-to-call-the-get_weather-tool.">3. Build your first agentRun this cell. This follows <a href="https://docs.langchain.com/oss/python/langchain/quickstart">LangChain’s quickstart</a>: a small tool the agent can call, and an agent built from a model, that tool, and a system prompt.A response means your Python code sent a request to Gemini through LangChain, and the agent decided on its own to call the <code>get_weather</code> tool.</h2>
+<div id="cell-7" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.agents <span class="im">import</span> create_agentdef get_weather(city: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:    <span class="st">"""Get weather for a given city."""</span>    <span class="cf">return</span> <span class="ss">f"It's always sunny in </span><span class="sc">{</span>city<span class="sc">}</span><span class="ss">!"</span>agent <span class="op">=</span> create_agent(    model<span class="op">=</span><span class="st">"google_genai:gemini-2.5-flash"</span>,    tools<span class="op">=</span>[get_weather],    system_prompt<span class="op">=</span><span class="st">"You are a helpful assistant"</span>,)result <span class="op">=</span> agent.invoke(    {<span class="st">"messages"</span>: [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"What's the weather in San Francisco?"</span>}]})<span class="bu">print</span>(result[<span class="st">"messages"</span>][<span class="op">-</span><span class="dv">1</span>].content_blocks)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="play-with-the-agentchange-only-the-message-content-in-the-next-cell-run-it-and-compare-the-result.-try-at-least-two-of-these--ask-about-the-weather-in-a-different-city.--ask-something-that-has-nothing-to-do-with-weather-and-see-whether-the-agent-still-calls-the-tool.--change-the-system_prompt-a-pirate-a-sports-announcer-a-skeptical-reviewer-and-ask-the-same-question-again.--ask-about-a-task-where-an-agent-might-help-in-your-field-of-study.with-your-partner-be-ready-to-share-what-you-changed-and-what-happened." class="level2">
+<h2 class="anchored" data-anchor-id="play-with-the-agentchange-only-the-message-content-in-the-next-cell-run-it-and-compare-the-result.-try-at-least-two-of-these--ask-about-the-weather-in-a-different-city.--ask-something-that-has-nothing-to-do-with-weather-and-see-whether-the-agent-still-calls-the-tool.--change-the-system_prompt-a-pirate-a-sports-announcer-a-skeptical-reviewer-and-ask-the-same-question-again.--ask-about-a-task-where-an-agent-might-help-in-your-field-of-study.with-your-partner-be-ready-to-share-what-you-changed-and-what-happened.">4. Play with the agentChange only the message content in the next cell, run it, and compare the result. Try at least two of these:- Ask about the weather in a different city.- Ask something that has nothing to do with weather, and see whether the agent still calls the tool.- Change the <code>system_prompt</code> (a pirate, a sports announcer, a skeptical reviewer) and ask the same question again.- Ask about a task where an agent might help in your field of study.With your partner, be ready to share what you changed and what happened.</h2>
+<div id="cell-9" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>my_question <span class="op">=</span> <span class="st">"What's the weather in Boise?"</span>result <span class="op">=</span> agent.invoke(    {<span class="st">"messages"</span>: [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: my_question}]})<span class="bu">print</span>(result[<span class="st">"messages"</span>][<span class="op">-</span><span class="dv">1</span>].content_blocks)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="finished-earlyfirst-help-a-classmate-reach-a-successful-response.-then-write-a-question-with-a-clear-audience-tone-and-length-requirement-in-the-system-prompt.-keep-a-note-about-which-version-worked-best-and-why.-look-aheadexplore-the-official-langchain-quickstart-and-the-gemini-model-provider-docs.-find-one-capability-you-did-not-use-todaysuch-as-another-model-provider-streaming-memory-or-writing-your-own-tooland-bring-it-to-the-next-class." class="level2">
+<h2 class="anchored" data-anchor-id="finished-earlyfirst-help-a-classmate-reach-a-successful-response.-then-write-a-question-with-a-clear-audience-tone-and-length-requirement-in-the-system-prompt.-keep-a-note-about-which-version-worked-best-and-why.-look-aheadexplore-the-official-langchain-quickstart-and-the-gemini-model-provider-docs.-find-one-capability-you-did-not-use-todaysuch-as-another-model-provider-streaming-memory-or-writing-your-own-tooland-bring-it-to-the-next-class.">Finished early?First, help a classmate reach a successful response. Then write a question with a clear <strong>audience</strong>, <strong>tone</strong>, and <strong>length</strong> requirement in the system prompt. Keep a note about which version worked best and why.## Look aheadExplore the official <a href="https://docs.langchain.com/oss/python/langchain/quickstart">LangChain quickstart</a> and the <a href="https://ai.google.dev/gemini-api/docs">Gemini model provider docs</a>. Find one capability you did not use today—such as another model provider, streaming, memory, or writing your own tool—and bring it to the next class.</h2>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
