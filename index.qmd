@@ -125,7 +125,7 @@ def label_for(emoji: str, suffix, noun: str) -> str:
 
 def local_link_cell(items, emoji: str, noun: str, html_dir: str) -> str:
     if not items:
-        return "—"
+        return ""
     cells = []
     for suffix, path in items:
         href = f"{html_dir}/{path.stem}.html"
@@ -136,7 +136,7 @@ def local_link_cell(items, emoji: str, noun: str, html_dir: str) -> str:
 
 def notebook_link_cell(items) -> str:
     if not items:
-        return "—"
+        return ""
     cells = []
     for suffix, path in items:
         label = label_for(NOTEBOOK_EMOJI, suffix, "Notebook")
