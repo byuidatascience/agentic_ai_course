@@ -162,12 +162,11 @@ body.quarto-dark .navbar {
    or the table below auto-styles the schedule table
    ============================================================ */
 
-/* Auto-style the Daily Schedule table as cards */
+/* Auto-style the Daily Schedule table with simple row lines */
 .schedule-table table,
 table.schedule {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 0.5rem;
+  border-collapse: collapse;
   margin-top: 1rem;
 }
 
@@ -179,41 +178,26 @@ table.schedule thead th {
   font-weight: 700;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  padding: 0.25rem 1rem;
-  border: none;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .schedule-table table tbody tr,
 table.schedule tbody tr {
-  background: var(--bg-card);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--transition), box-shadow var(--transition);
-}
-
-.schedule-table table tbody tr:hover,
-table.schedule tbody tr:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .schedule-table table tbody td,
 table.schedule tbody td {
-  padding: 0.75rem 1rem;
-  border: none;
+  padding: 0.65rem 1rem;
   vertical-align: middle;
 }
 
 .schedule-table table tbody td:first-child,
 table.schedule tbody td:first-child {
-  border-radius: var(--radius) 0 0 var(--radius);
   font-weight: 600;
   color: var(--byui-blue);
-}
-
-.schedule-table table tbody td:last-child,
-table.schedule tbody td:last-child {
-  border-radius: 0 var(--radius) var(--radius) 0;
 }
 
 /* Week badge pill */

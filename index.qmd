@@ -5,7 +5,216 @@ toc-depth: 1
 
 <!-- TODO: Useful information to access every day -->
 
-<!-- TODO: Big Table with all the links -->
+# Course Schedule
+
+Still in active development.
+
+```{python}
+#| echo: false
+#| eval: true
+#| output: asis
+
+import re
+import html
+from pathlib import Path
+from datetime import date, timedelta
+
+FIRST_MEETING = date(2026, 9, 14)  # Mon — course_design/syllabus.md: Fall 2026, MWF
+
+
+def read_var(name, path=Path("_variables.yml")):
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError:
+        return ""
+    m = re.search(rf'^{re.escape(name)}:\s*"(.*?)"\s*$', text, re.MULTILINE)
+    return m.group(1) if m else ""
+
+
+NOTEBOOK_BASE = read_var("notebook_base")
+NOTEBOOK_HOVER = read_var("example_hover") or "Opens in Google Colab"
+
+LESSON_EMOJI = "📖"
+PREP_EMOJI = "🌱"
+SLIDES_EMOJI = "🧑‍🏫"
+NOTEBOOK_EMOJI = "📓"
+PRACTICE_EMOJI = "🏃‍♂️‍➡️"
+
+FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---", re.DOTALL)
+TITLE_RE = re.compile(r'^title:\s*"?(.*?)"?\s*$', re.MULTILINE)
+
+
+def get_title(path: Path, fallback: str) -> str:
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError:
+        return fallback
+    fm = FRONTMATTER_RE.match(text)
+    if not fm:
+        return fallback
+    m = TITLE_RE.search(fm.group(1))
+    if not m:
+        return fallback
+    title = m.group(1).strip().replace('\\"', '"')
+    return title or fallback
+
+
+def exists_nonempty(p: Path) -> bool:
+    return p.is_file() and p.stat().st_size > 0
+
+
+def collect(folder: str, type_name: str, ext: str):
+    """Map (unit, day) -> list of (suffix_or_None, path) for every matching,
+    non-empty file. Accepts an optional trailing _<suffix> so a day can have
+    more than one file of the same kind (e.g. notebook1_1_example.ipynb)."""
+    pattern = re.compile(rf"^{type_name}(\d+)_(\d+)(?:_([A-Za-z0-9-]+))?\.{ext}$")
+    out = {}
+    d = Path(folder)
+    if not d.is_dir():
+        return out
+    for p in sorted(d.glob(f"*.{ext}")):
+        m = pattern.match(p.name)
+        if not m or not exists_nonempty(p):
+            continue
+        unit, day, suffix = int(m.group(1)), int(m.group(2)), m.group(3)
+        out.setdefault((unit, day), []).append((suffix, p))
+    for items in out.values():
+        items.sort(key=lambda t: (t[0] is not None, t[0] or ""))
+    return out
+
+
+lessons = collect("lessons", "lesson", "qmd")
+preps = collect("preps", "prep", "qmd")
+slides = collect("lecture_slides", "slide", "qmd")
+notebooks = collect("notebooks", "notebook", "ipynb")
+practice = collect("practice", "practice", "qmd")
+for key, items in collect("practice", "practice", "ipynb").items():
+    practice.setdefault(key, []).extend(items)
+for items in practice.values():
+    items.sort(key=lambda t: (t[0] is not None, t[0] or ""))
+
+row_keys = sorted(set(lessons) | set(preps) | set(slides) | set(notebooks) | set(practice))
+
+
+def mwf_dates(start: date, count: int):
+    d, out = start, []
+    while len(out) < count:
+        if d.weekday() in (0, 2, 4):  # Mon, Wed, Fri
+            out.append(d)
+        d += timedelta(days=1)
+    return out
+
+
+today = date.today()
+computed_dates = mwf_dates(FIRST_MEETING, len(row_keys))
+future_idx = next((i for i, dd in enumerate(computed_dates) if dd > today), None)
+
+
+def date_cell(i: int, d: date) -> str:
+    if d <= today or i == future_idx:
+        return f"{d.strftime('%b')} {d.day}, {d.year}"
+    return "TBD"
+
+
+def label_for(emoji: str, suffix, noun: str) -> str:
+    if suffix is None:
+        return emoji
+    extra = suffix.replace("_", " ").replace("-", " ").title()
+    return f"{emoji} {html.escape(extra)}"
+
+
+def local_link_cell(items, emoji: str, noun: str, html_dir: str) -> str:
+    if not items:
+        return "—"
+    cells = []
+    for suffix, path in items:
+        href = f"{html_dir}/{path.stem}.html"
+        title_attr = "" if suffix is None else f' title="{html.escape(noun)}: {html.escape(suffix)}"'
+        cells.append(f'<a href="{html.escape(href)}"{title_attr}>{label_for(emoji, suffix, noun)}</a>')
+    return " ".join(cells)
+
+
+def notebook_link_cell(items) -> str:
+    if not items:
+        return "—"
+    cells = []
+    for suffix, path in items:
+        label = label_for(NOTEBOOK_EMOJI, suffix, "Notebook")
+        if NOTEBOOK_BASE:
+            tail = path.stem[len("notebook"):]  # e.g. "1_1" or "1_1_example"
+            href = f"{NOTEBOOK_BASE}{tail}.ipynb"
+            cells.append(
+                f'<a href="{html.escape(href)}" title="{html.escape(NOTEBOOK_HOVER)}" target="_blank">'
+                f"{label}</a>"
+            )
+        else:
+            cells.append(label)
+    return " ".join(cells)
+
+
+def unit_label(u: int) -> str:
+    p = Path("lessons") / f"unit{u}.qmd"
+    if exists_nonempty(p):
+        return f'<a href="lessons/unit{u}.html">Unit {u}</a>'
+    return f"Unit {u}"
+
+
+rows = []
+for (u, d) in row_keys:
+    lesson_items = lessons.get((u, d), [])
+    if lesson_items:
+        _, lesson_path = lesson_items[0]
+        topic_cell = html.escape(get_title(lesson_path, f"Day {u}.{d}"))
+        lesson_cell = f'<a href="lessons/{lesson_path.stem}.html" title="Lesson">{LESSON_EMOJI}</a>'
+    else:
+        topic_cell = f"Day {u}.{d}"
+        lesson_cell = ""
+
+    rows.append({
+        "unit": u,
+        "topic": topic_cell,
+        "lesson": lesson_cell,
+        "prep": local_link_cell(preps.get((u, d), []), PREP_EMOJI, "Prep", "preps"),
+        "slides": local_link_cell(slides.get((u, d), []), SLIDES_EMOJI, "Slides", "lecture_slides"),
+        "notebook": notebook_link_cell(notebooks.get((u, d), [])),
+        "practice": local_link_cell(practice.get((u, d), []), PRACTICE_EMOJI, "Practice", "practice"),
+    })
+
+for i, r in enumerate(rows):
+    r["date"] = date_cell(i, computed_dates[i])
+
+if not rows:
+    print("_No lessons published yet — check back soon._")
+else:
+    body = []
+    i, n = 0, len(rows)
+    while i < n:
+        u = rows[i]["unit"]
+        span = 1
+        while i + span < n and rows[i + span]["unit"] == u:
+            span += 1
+        unit_html = unit_label(u)
+        for j in range(span):
+            r = rows[i + j]
+            unit_td = f'<td rowspan="{span}">{unit_html}</td>' if j == 0 else ""
+            body.append(
+                f'<tr>{unit_td}<td>{r["date"]}</td><td>{r["topic"]}</td><td>{r["lesson"]}</td>'
+                f'<td>{r["prep"]}</td><td>{r["slides"]}</td>'
+                f'<td>{r["notebook"]}</td><td>{r["practice"]}</td></tr>'
+            )
+        i += span
+
+    table = [
+        '<table class="schedule">',
+        "<thead><tr><th>Unit</th><th>Date</th><th>Topic</th><th>Lesson</th>"
+        "<th>Prep</th><th>Slides</th><th>Notebooks</th><th>Practice</th></tr></thead>",
+        "<tbody>",
+        *body,
+        "</tbody>",
+        "</table>",
+    ]
+    print("\n".join(table))
+```
 
 # Course Objectives
 
