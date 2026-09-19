@@ -1,7 +1,7 @@
 Week 1
 0.1 - Intro: Is this course for me? Yes
 1.1 - API: Make a call, get a response - 1.1
-1.2 - Concepts, finish troubleshooting - 1.
+1.2 - Concepts, internals of an agent, tools and memory - 1.3.1, 1.4.1
 Week 2
 1.3 - Group, solve a problem together
 1.4 - Setup tools and memory locally

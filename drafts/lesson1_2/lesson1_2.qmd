@@ -1,0 +1,280 @@
+---
+title: "Tools + Memory"
+subtitle: "Unit 1, Lesson 2"
+format: html
+execute:
+  eval: false
+---
+
+<!--
+  DRAFT — intended to supersede lessons/lesson1_2.qmd once approved. Compiled
+  from drafts/lesson1_2/planning.md (all 7 planning items) and formalizes the
+  walkthrough tested in drafts/lesson1_2/use-case-draft.qmd into the site
+  template. Not yet run in Colab — verify code before promoting.
+
+  Known follow-on work, not done here:
+  - primers/primer1_2.qmd still covers the old Tools-only content; needs a
+    rewrite to match the new prep (just the LangChain quickstart, item 5)
+  - fallback quickstart example notebook (independent .ipynb, linked below)
+    is not yet built
+  - practice1_2.qmd (take-home) drafted alongside this file
+-->
+
+::: {.panel-tabset}
+
+## Quick Links
+
+| Practice | Primer | Slides | Examples | Lecture Notes | Next Lesson |
+|----------|--------|--------|----------|---------------|-------------|
+| [🏃‍♂️‍➡️](../practice/practice1_2.ipynb) | [🌱](../primers/primer1_2.html) | [🧑‍🏫](../lecture_slides/slide1_2.html) | [📓]({{< var example_base >}}1_2.ipynb "Opens in Google Colab - See README if broken") | [📋](../instructor_notes/notes1_2.html) | [➡️](lesson1_3.html) |
+
+## Before Class
+
+| Practice | Primer | Previous Lesson |
+|----------|--------|-----------------|
+|          | [🌱](../primers/primer1_2.html) | [⬅️](lesson1_1.html) |
+
+## After Class
+
+| Practice | Primer | Next Lesson |
+|----------|--------|-------------|
+| [🏃‍♂️‍➡️](../practice/practice1_2.ipynb) | [🌱](../primers/primer1_3.html) | [➡️](lesson1_3.html) |
+
+:::
+
+---
+
+# Objectives
+
+Tools & Memory
+
+1. Explain why LLMs need a framework to hold a conversation, and what create_agent's loop actually does
+2. Explain what a tool is and what differentiates it from a Python function
+3. Build a custom tool to solve a problem and wire it into an agent
+4. Explain what short-term memory is, and how it differs from long-term memory
+
+---
+
+# Preparation
+
+Before this lesson:
+
+- Use the [quickstart](https://docs.langchain.com/oss/python/langchain/quickstart) to get an agent with tools and memory running
+
+Here is a [working version]({{< var example_base >}}1_2_quickstart.ipynb "Opens in Google Colab") <!-- TODO: build this notebook --> if you were unable to get it working.
+
+---
+
+## Part 0 — The anatomy of `create_agent`
+
+<!-- instructor: MVP delivery is verbal — walk through this out loud, no slides required. Land the key point: the loop that reads tool descriptions and decides what to call is code create_agent runs for you, not something the model provider does on its own. -->
+
+A plain LLM call is stateless — it has no memory of anything outside the text you send it. If you wanted an agent that could hold a conversation and use tools on its own, you'd have to write that looping logic yourself: send a message, check if the model wants to call something, run it, send the result back, repeat.
+
+`create_agent` does that looping for you. Today you'll see both halves of what it's doing under the hood: giving the agent something to call (a tool), and giving it something to remember (short-term memory).
+
+---
+
+## The Problem: Stale LLMs
+
+ACME Clothing finally made their first chatbot and tested it with their first customer. It knows all sorts of things about the company, but it wasn't ready for Shelley.
+
+Your customer, Shelley, messages your retail chatbot: *"Do you have the blue hoodie in stock?"* The agent doesn't yet have access to real-time inventory. Try it and see what happens:
+
+```python
+%pip install -q -U langchain langchain-google-genai
+
+import os
+from google.colab import userdata
+os.environ["GOOGLE_API_KEY"] = userdata.get("GOOGLE_API_KEY")
+
+from langchain_core.tools import tool
+from langchain.agents import create_agent
+
+agent = create_agent(
+    model="google_genai:gemini-2.5-flash",
+    tools=[],
+    system_prompt="You are a helpful retail assistant.",
+)
+
+response = agent.invoke({"messages": [{"role": "user", "content": "Do you have the blue hoodie in stock?"}]})
+print(response["messages"][-1].content)
+```
+
+The agent has no way to actually know. It will guess, hedge, or make something up.
+
+::: {.callout-note}
+## Discuss
+Why can't the agent answer this correctly on its own, no matter how the question is worded?
+:::
+
+### Give it real inventory access
+
+Fortunately, you already have a function that accesses inventory, but how do you give it to the agent?
+
+```python
+# FILL IN 1 — what decorator turns a plain function into a tool the agent can call?
+
+def check_inventory(item: str, color: str = None) -> str:
+    """FILL IN 2 — describe what this does and when the agent should use it"""
+    fake_stock = {
+        ("hoodie", "blue"): 4,
+        ("hoodie", "black"): 12,
+        ("t-shirt", "blue"): 30,
+    }
+    count = fake_stock.get((item.lower(), color.lower() if color else None), 0)
+    label = f"{color} {item}" if color else item
+    return f"We have {count} {label}(s) in stock." if count else f"We're out of {label} right now."
+
+agent = create_agent(
+    model="google_genai:gemini-2.5-flash",
+    tools=[],  # FILL IN 3 — add the tool here
+    system_prompt="You are a helpful retail assistant.",
+)
+```
+
+<!-- instructor: walk through filling these in together, but land on a deliberately weak docstring — "Handles inventory stuff." — so the next run misbehaves. Same "bad description" idea as the current lesson1_2.qmd's callout, now experienced instead of just read about. -->
+
+Filled in together, it looks like this:
+
+```python
+@tool
+def check_inventory(item: str, color: str = None) -> str:
+    """Handles inventory stuff."""
+    fake_stock = {
+        ("hoodie", "blue"): 4,
+        ("hoodie", "black"): 12,
+        ("t-shirt", "blue"): 30,
+    }
+    count = fake_stock.get((item.lower(), color.lower() if color else None), 0)
+    label = f"{color} {item}" if color else item
+    return f"We have {count} {label}(s) in stock." if count else f"We're out of {label} right now."
+
+agent = create_agent(
+    model="google_genai:gemini-2.5-flash",
+    tools=[check_inventory],
+    system_prompt="You are a helpful retail assistant.",
+)
+
+response = agent.invoke({"messages": [{"role": "user", "content": "Do you have the blue hoodie in stock?"}]})
+print(response["messages"][-1].content)
+```
+
+Run it. It still doesn't answer correctly — the docstring doesn't tell the agent *when* to use the tool or *what* it needs to call it.
+
+::: {.callout-note}
+## Discuss
+What do you think went wrong — was the tool even called? How could you check?
+:::
+
+### Fix it
+
+The function works fine. The description doesn't. Rewrite the docstring so the agent knows exactly when and how to use it:
+
+```python
+@tool
+def check_inventory(item: str, color: str = None) -> str:
+    """Check how many units of an item are in stock, optionally filtered by color.
+    Use this whenever a customer asks whether an item is available or in stock."""
+    fake_stock = {
+        ("hoodie", "blue"): 4,
+        ("hoodie", "black"): 12,
+        ("t-shirt", "blue"): 30,
+    }
+    count = fake_stock.get((item.lower(), color.lower() if color else None), 0)
+    label = f"{color} {item}" if color else item
+    return f"We have {count} {label}(s) in stock." if count else f"We're out of {label} right now."
+
+agent = create_agent(
+    model="google_genai:gemini-2.5-flash",
+    tools=[check_inventory],
+    system_prompt="You are a helpful retail assistant.",
+)
+
+response = agent.invoke({"messages": [{"role": "user", "content": "Do you have the blue hoodie in stock?"}]})
+print(response["messages"][-1].content)
+```
+
+Expected output: `We have 4 blue hoodie(s) in stock.` Now it works — because the docstring told the agent what the tool does and when to reach for it.
+
+::: {.callout-note}
+## Discuss
+What actually changed between the two docstrings? Which words do you think mattered most?
+:::
+
+---
+
+## Problem 2 — Shelley asks a follow-up
+
+<!-- instructor: run this as a completely fresh invoke, no shared history, so the failure is guaranteed and visible. -->
+
+Shelley isn't done: *"What about in black?"* Try it as a new question, same as before:
+
+```python
+response = agent.invoke({"messages": [{"role": "user", "content": "What about in black?"}]})
+print(response["messages"][-1].content)
+```
+
+The agent has no idea what "it" refers to — it never saw the word "hoodie" in this call. It might ask what item you mean, or guess wrong.
+
+::: {.callout-note}
+## Discuss
+The tool worked fine a minute ago — so why does the agent suddenly seem to have forgotten everything?
+:::
+
+### What's missing
+
+The model doesn't remember anything between calls. Each `agent.invoke()` starts from nothing unless *you* hand it the conversation so far. Fill in the blank below to carry the first exchange forward into the second:
+
+```python
+first_response = agent.invoke({"messages": [{"role": "user", "content": "Do you have the blue hoodie in stock?"}]})
+
+messages = ____  # FILL IN — how do we carry the conversation so far into the next call?
+messages.append({"role": "user", "content": "What about in black?"})
+
+second_response = agent.invoke({"messages": messages})
+print(second_response["messages"][-1].content)
+```
+
+<!-- instructor: blank is `first_response["messages"]`. Emphasize this is a list they're building up themselves — the mechanism, not magic. -->
+
+Filled in: `messages = first_response["messages"]`. Run it now.
+
+Expected output: `We have 12 black hoodie(s) in stock.` This time it resolves "it" correctly, because the whole conversation — not just the latest question — went into the call.
+
+::: {.callout-note}
+## Discuss
+Where does "memory" actually live here — in the model, in `create_agent`, or in your own code? What would happen if you forgot to include `first_response["messages"]`?
+:::
+
+---
+
+## Apply It — a fresh problem, on your own
+
+<!-- instructor: independent practice, no blanks. Supply Chain use case, combining both pieces from scratch in a new context. -->
+
+A customer messages your shipping company: *"Where is shipment TRK-4821?"* Your agent doesn't have shipment data yet, and after it answers, the customer will ask a follow-up ("Has it left the warehouse yet?") that only makes sense if the agent remembers the tracking ID.
+
+Build this yourself, start to finish:
+
+1. Write a `get_shipment_status(tracking_id: str) -> str` tool with a clear docstring, using fake data of your own
+2. Wire it into an agent and confirm the first question gets answered correctly
+3. Ask the follow-up question, carrying the conversation forward the same way you just did for Shelley
+4. Confirm the agent correctly resolves what "it" refers to *and* calls the tool again to answer
+
+::: {.callout-important}
+## 🛑 STOP HERE
+Show your neighbor your shipment agent handling the follow-up correctly before moving on.
+:::
+
+---
+
+# Before Next Class
+
+1. Finish the Supply Chain activity if you didn't in class
+2. Complete take-home practice (see [🏃‍♂️‍➡️ Practice 1.2](../practice/practice1_2.ipynb))
+3. Read the primer for Lesson 1.3
+
+| Practice | Primer | Next Lesson |
+|----------|--------|-------------|
+| [🏃‍♂️‍➡️](../practice/practice1_2.ipynb) | [🌱](../primers/primer1_3.html) | [➡️](lesson1_3.html) |

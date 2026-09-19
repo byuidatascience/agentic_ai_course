@@ -1,0 +1,93 @@
+---
+title: Group Day
+format: revealjs
+---
+
+## Scripture
+
+> "AI can help us plan activities, translate messages, organize our schedule—but then let us spend our best energy with people. In your personal life, please use AI for logistics and drafts, not as a substitute for trusted relationships. Set boundaries. If you feel tempted to confide more in a chatbot than in a parent, leader, or friend, may I invite you to reach out—today, now—to a real person who knows and loves you."
+> 
+> - Elder Gerrit W. Gong; *Faith, Dignity, and Human Flourishing: Hearing God's Voice in an Age of Artificial Intelligence*
+
+## Objectives
+
+- Pick your groups
+- Solve a problem together
+- Continue learning about functions
+
+# Discuss
+
+# Speed Meeting
+
+## Process
+
+- Find two people you don't know
+- Ask anything
+- Discussion question
+
+# Question 1
+
+## Question 1
+
+- How do you measure the quality of a hamburger?
+- Follow up: 
+    - Which measure do you optimize for? 
+    - Is this applicable across all food, or are hamburgers limited cases?
+
+# Question 2
+
+## Question 2
+
+- Derive a formula for how much wood a woodchuck could chuck if a woodchuck could chuck wood
+- Follow up:
+    - Does that formula include any psychological factors that would change the woodchuck's output?
+    - What are the unknowns in the formula? How would you find them?
+
+# Question 3
+
+## Question 3
+
+- What constitutes as a sandwich?
+- How might you address variable understanding between users when designing a sandwich classification agent?
+
+# Question 4
+
+## Question 4
+
+- Three specialized AI agents (a Researcher, a Writer, and a Critic) are given a budget of 1,000 tokens to collaboratively write a report. Each token spent by one agent reduces the shared pool. How do they negotiate token allocation, resolve creative disagreements, and know when the output is "good enough" to stop?
+
+# Whiteboard
+
+# Activities
+
+- Improve a Function
+- Documentation Hunt
+- What-If
+
+## Improve a Function
+
+Take this tool and make it goated
+
+```python
+def getit(item, color):
+    """Get stuff"""
+    fake_stock = {
+        ("hoodie", "blue"): 4,
+        ("hoodie", "black"): 12,
+        ("t-shirt", "blue"): 30,
+    }
+
+    if (item, color) in fake_stock:
+        return "We're in stock!"
+    else:
+        return "We're out of stock..."
+```
+
+## Documentation Hunt
+
+- Using one computer per group, search the documentation for how to give tools structured outputs. Implement it.
+
+## What-If
+
+- Could you make a second agent into a tool?
+- Try it. What can you do with it?

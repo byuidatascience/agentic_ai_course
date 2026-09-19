@@ -1,0 +1,55 @@
+---
+title: "Practice: Your Own Tool + Memory Agent"
+subtitle: "Take-home practice — Unit 1, Lesson 2"
+format: html
+execute:
+  eval: false
+---
+
+<!--
+  DRAFT — intended to become practice/practice1_2.ipynb (existing file is
+  stale/pre-dates this content). Written as take-home per drafts/lesson1_2/
+  planning.md item 7 — distinct from the in-class Retail/Supply Chain work
+  in drafts/lesson1_2/lesson1_2.qmd, reinforcing at the fluency/transfer
+  level rather than repeating the same fill-in-the-blank exercise.
+-->
+
+Today in class you built a retail agent that could check inventory and remember what a customer said earlier in the conversation. Now build your own — same idea, your own domain.
+
+## Your job
+
+1. **Pick a domain** that isn't retail or shipping — something you find genuinely interesting (sports stats, a recipe assistant, a study-schedule helper, anything).
+2. **Build one custom tool** with a clear docstring — something that gives your agent access to information it couldn't otherwise have.
+3. **Design a short conversation (2–3 turns)** where a later question only makes sense if the agent remembers something from an earlier turn — same shape as "What about in black?"
+4. **Confirm it fails first** — run your follow-up question as a fresh call with no shared history, and see the agent get confused.
+5. **Fix it** — carry the conversation forward the same way you did in class, and confirm the follow-up now resolves correctly.
+
+```python
+# Starter shape — adapt to your own domain
+
+from langchain_core.tools import tool
+from langchain.agents import create_agent
+
+@tool
+def your_tool_name(...) -> str:
+    """Write a docstring that tells the agent exactly when and how to use this."""
+    ...
+
+agent = create_agent(
+    model="google_genai:gemini-2.5-flash",
+    tools=[your_tool_name],
+    system_prompt="...",
+)
+```
+
+## Write-up
+
+In a few sentences:
+
+- What wording in your docstring mattered most, and how do you know?
+- Where did "memory" actually live in your solution — the model, `create_agent`, or your own code?
+
+::: {.callout-tip}
+## Stuck on an idea?
+A study-schedule agent that looks up your class times (tool) and later answers "when's my next one after that?" (memory) is a good example of the same shape as today's class — feel free to riff on it instead of inventing from scratch.
+:::

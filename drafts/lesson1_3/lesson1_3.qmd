@@ -1,0 +1,52 @@
+1. Explain: you're going to pick your groups - speed dating
+2. Sound off names
+3. 2 rounds of pick 2
+4. Put names on chart
+5. 1 more round of pick 2
+6. Pick groups
+
+
+TODO: Pick 2 games (based off instructor_notes/fun_group_questions.md)
+- [ ] 1
+- [ ] 2
+- [ ] 3
+
+Possible Activities:
+
+10 minute
+Take the tool and make it goated as a class
+
+```python
+def getit(item, color):
+    """Get stuff"""
+    fake_stock = {
+        ("hoodie", "blue"): 4,
+        ("hoodie", "black"): 12,
+        ("t-shirt", "blue"): 30,
+    }
+
+    if (item, color) in fake_stock:
+        return "We're in stock!"
+    else:
+        return "We're out of stock..."
+```
+
+10 minutes Find out how to use structured output
+- What have you learned so far about navigating documentation
+
+10-20 New problem-solution for sub-agents
+Every time you encounter an error, paste it in Slack
+
+What if you put an agent inside a function?
+
+```python
+def subagent(prompt: str) -> str:
+    agent = create_agent(
+        model = "google_genai:gemini-flash-lite",
+        system_prompt="You are a subagent. Congrats."
+    )
+
+    return agent.invoke(
+        {"messages": [HumanMessage(prompt)]}
+    )["messages"][-1].text
+```
