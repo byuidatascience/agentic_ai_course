@@ -1,0 +1,8 @@
+## What is at the CORE of an agent?
+
+- Use the [quickstart](https://docs.langchain.com/oss/python/langchain/quickstart) to get an agent with tools and memory running
+- Spend no more than 30 minutes
+- Towards the end of the quickstart: We are using LangChain Agents, not DeepAgents (for pedagogical purposes), and we are not using tracing yet.
+
+**All links:**
+- https://docs.langchain.com/oss/python/langchain/quickstart

@@ -7,21 +7,21 @@ subtitle: "Unit 1, Lesson 3"
 
 ## Quick Links
 
-| Practice | Primer | Slides | Examples | Lecture Notes | Next Lesson |
+| Practice | Prep | Slides | Examples | Lecture Notes | Next Lesson |
 |----------|--------|--------|----------|---------------|-------------|
-| [🏃‍♂️‍➡️](../practice/practice1_3.ipynb) | [🌱](../primers/primer1_3.html) | [🧑‍🏫](../lecture_slides/slide1_3.html) | [📓]({{< var example_base >}}1_3.ipynb "Opens in Google Colab - See README if broken") | [📋](../instructor_notes/notes1_3.html) |  |
+| [🏃‍♂️‍➡️](../practice/practice1_3.ipynb) | [🌱](../preps/prep1_3.html) | [🧑‍🏫](../lecture_slides/slide1_3.html) | [📓]({{< var notebook_base >}}1_3.ipynb "Opens in Google Colab - See README if broken") | [📋](../instructor_notes/notes1_3.html) |  |
 
 ## Before Class
 
-| Practice | Primer | Previous Lesson |
+| Practice | Prep | Previous Lesson |
 |----------|--------|-----------------|
-|          | [🌱](../primers/primer1_3.html) | [⬅️](lesson1_2.html) |
+|          | [🌱](../preps/prep1_3.html) | [⬅️](lesson1_2.html) |
 
 ## After Class
 
-| Practice | Primer | Next Lesson |
+| Practice | Prep | Next Lesson |
 |----------|--------|-------------|
-| [🏃‍♂️‍➡️](../practice/practice1_3.ipynb) | [🌱](../primers/primer2_1.html) |  |
+| [🏃‍♂️‍➡️](../practice/practice1_3.ipynb) | [🌱](../preps/prep2_1.html) |  |
 
 :::
 
@@ -45,7 +45,7 @@ Before this lesson, you should have:
 
 | Resource | Description |
 |----------|-------------|
-| [🌱 Primer 1.3](../primers/primer1_3.html) | Community Tools & Real Data   read before class |
+| [🌱 Prep 1.3](../preps/prep1_3.html) | Community Tools & Real Data   read before class |
 | [📖 5 LangChain Tools Every LLM Developer Should Know](https://medium.com/@vamshiginna1606/langchain-tools-5-langchain-tools-every-llm-developer-should-know-ad698f06dcb5) | Read the full article |
 
 ---
@@ -88,7 +88,7 @@ You read about 5 tools before class. Let's evaluate three of them in depth   not
 
 Lets the agent search the web in real time without needing an API key.
 
-```{python}
+```python
 from langchain_community.tools import DuckDuckGoSearchRun
 
 search = DuckDuckGoSearchRun()
@@ -112,7 +112,7 @@ DuckDuckGo is one of the few search tools that works without signing up for anyt
 
 Looks up factual information from Wikipedia articles.
 
-```{python}
+```python
 from langchain_community.tools import WikipediaQueryRun
 from langchain_community.utilities import WikipediaAPIWrapper
 
@@ -132,7 +132,7 @@ print(wikipedia.invoke("Large language model"))
 
 Lets the agent write and execute Python code directly.
 
-```{python}
+```python
 from langchain_experimental.tools import PythonREPLTool
 
 repl = PythonREPLTool()
@@ -158,13 +158,13 @@ Let's install and use DuckDuckGo search inside an agent.
 
 ### Step 1   Install
 
-```{python}
+```python
 %pip install -q -U langchain langchain-community langchain-google-genai langgraph duckduckgo-search
 ```
 
 ### Step 2   Set up your API key
 
-```{python}
+```python
 import os
 from google.colab import userdata
 os.environ['GOOGLE_API_KEY'] = userdata.get('GOOGLE_API_KEY')
@@ -172,7 +172,7 @@ os.environ['GOOGLE_API_KEY'] = userdata.get('GOOGLE_API_KEY')
 
 ### Step 3   Wire DuckDuckGo into an agent
 
-```{python}
+```python
 from langchain.chat_models import init_chat_model
 from langchain.agents import create_react_agent
 from langchain_community.tools import DuckDuckGoSearchRun
@@ -219,7 +219,7 @@ The agent has to read all four descriptions and pick the right one. If any descr
 
 Here is a scenario with two tools that have bad descriptions:
 
-```{python}
+```python
 @tool
 def search_web(query: str) -> str:
     """Gets information."""  # ← too vague
@@ -237,7 +237,7 @@ When the agent has both, it cannot tell which to use. "Gets information" describ
 
 ### The Fix: Specific, Mutually Exclusive Descriptions
 
-```{python}
+```python
 @tool
 def search_web(query: str) -> str:
     """
@@ -279,7 +279,7 @@ Now you will build a tool that reads a local CSV file and makes that data access
 
 Run this cell to create a small sales CSV file in your Colab environment:
 
-```{python}
+```python
 # Create a sample sales data file
 sample_data = """month,product,units_sold,revenue
 January,Widget A,120,2400
@@ -302,7 +302,7 @@ print("sales_data.csv created!")
 
 ### Step 2   Build the file reading tool
 
-```{python}
+```python
 import csv
 from langchain_core.tools import tool
 
@@ -336,7 +336,7 @@ def read_sales_data(query: str) -> str:
 
 Test it directly first:
 
-```{python}
+```python
 print(read_sales_data.invoke({"query": "show me all sales data"}))
 ```
 
@@ -344,7 +344,7 @@ print(read_sales_data.invoke({"query": "show me all sales data"}))
 
 ### Step 3   Wire it into an agent
 
-```{python}
+```python
 from langchain.chat_models import init_chat_model
 from langchain.agents import create_react_agent
 
@@ -389,7 +389,7 @@ Now the real challenge: give the agent **both tools at once** and make sure it p
 
 This is where your tool descriptions do the heavy lifting.
 
-```{python}
+```python
 from langchain_community.tools import DuckDuckGoSearchRun
 
 # Both tools available
@@ -423,7 +423,7 @@ print("Search question:", response["messages"][-1].content)
 
 Now deliberately try to break it. Ask questions that could go either way and see what the agent does:
 
-```{python}
+```python
 # Ambiguous   which tool will it pick?
 response = agent.invoke({"messages": [{"role": "user", "content": "How are widgets selling?"}]})
 print(response["messages"][-1].content)
@@ -453,8 +453,8 @@ In the next unit we go deeper into how agents think and make decisions. Before c
 
 1. Finish any activities from today
 2. Reflect: what surprised you about how the agent chose between tools?
-3. Read the primer for the next lesson
+3. Read the prep for the next lesson
 
-| Practice | Primer | Next Lesson |
+| Practice | Prep | Next Lesson |
 |----------|--------|-------------|
-| [🏃‍♂️‍➡️](../practice/practice1_3.ipynb) | [🌱](../primers/primer2_1.html) |  |
+| [🏃‍♂️‍➡️](../practice/practice1_3.ipynb) | [🌱](../preps/prep2_1.html) |  |

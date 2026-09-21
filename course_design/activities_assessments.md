@@ -171,7 +171,7 @@ This portfolio includes GitHub links (and may be a GitHub repo itself). Don't pr
   id: prep-reading-general
 -->
 
-Prep readings can be a primer for literally any competency.
+Prep readings can introduce literally any competency.
 
 ## LLM-as-Judge for Personal Definition Practice
 

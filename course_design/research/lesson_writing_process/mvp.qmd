@@ -1,0 +1,24 @@
+## True MVP
+
+1. Runnable code
+2. Working code separate from what they are given
+3. A process to getting there
+4. Insightful questions
+5. Potential responses to their failures and questions
+
+Start with: What should they know or do by the end of their practice
+
+Ask: what needs to be taught in class that will make the rest discoverable
+
+Ask: what do they need to know before class that will prepare them for class
+
+Create the content
+
+Ask: where will students get lost or confused?
+
+What are some alternate paths they may take? 
+
+What if they don't prepare?
+
+
+Philosophy: those that prepare, participate, and practice get the best experience. Those that don't prepare or practice but still participate in class don't fall behind; they get an ok experience.

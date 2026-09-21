@@ -39,7 +39,7 @@ A customer asks a telecom support agent: *"Why is my internet down?"* The real a
 
 Here's the fix: stand up an MCP server exposing the lookup as a tool, and let any agent connect to it — no custom integration code required on the agent side.
 
-```{python}
+```python
 # network_server.py — a small MCP server, owned by the network team
 from fastmcp import FastMCP
 
@@ -55,7 +55,7 @@ if __name__ == "__main__":
     mcp.run(transport="stdio")
 ```
 
-```{python}
+```python
 # agent.py — the support agent, owned by your team
 import asyncio
 from langchain_mcp_adapters.client import MultiServerMCPClient

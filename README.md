@@ -58,8 +58,8 @@ This outputs all rendered HTML to the `docs/` folder, which GitHub Pages serves.
 │   ├── lesson2_1.qmd       # Unit 2, Day 1
 │   └── ...
 ├── drafts/                # Unit 3 lesson drafts, not published
-├── examples/               # Examples for in-class use
-│   ├── example1_1.qmd      # Unit 1, Day 1
+├── notebooks/              # Notebooks for in-class use
+│   ├── notebook1_1.ipynb   # Unit 1, Day 1
 │   └── ...
 ├── instructor_notes/       # Instructor notes by class day
 │   ├── notes1_1.qmd        # Unit 1, Day 1
@@ -70,8 +70,8 @@ This outputs all rendered HTML to the `docs/` folder, which GitHub Pages serves.
 ├── practice/               # Practice assignments
 │   ├── practice1_1.qmd     # Unit 1, Day 1
 │   └── ...
-├── primers/                # Primer materials
-│   ├── slide1_1.qmd        # Unit 1, Day 1
+├── preps/                  # Prep materials
+│   ├── prep1_1.qmd         # Unit 1, Day 1
 │   └── ...
 ├── templates/              # Prompt templates
 │   └── lesson_template_prompt.md
@@ -91,12 +91,12 @@ This outputs all rendered HTML to the `docs/` folder, which GitHub Pages serves.
 | `lessons/lesson2_5.qmd` | Individual lesson — Unit 2, Day 5 |
 | `instructor_notes/notes1_1.qmd` | Instructor notes for a specific lesson |
 | `practice/practice1_1.qmd` | Practice assignment linked from lesson pages |
-| `primers/primer2_1.qmd` | Primer content for Unit 2, Day 1 |
+| `preps/prep2_1.qmd` | Prep content for Unit 2, Day 1 |
 | `lecture_slides/slide2_1.pptx` | Slide deck for Unit 2, Day 1 |
-| `examples/example2_1.qmd` | In-class example page for Unit 2, Day 1 |
+| `notebooks/notebook2_1.ipynb` | In-class example notebook for Unit 2, Day 1 |
 
 Additional filename rules:
-- Use the same `unit_day` suffix across linked assets for one class meeting (for example: `lesson2_1.qmd`, `practice2_1.qmd`, `primer2_1.qmd`, `slide2_1.pptx`, `example2_1.qmd`).
+- Use the same `unit_day` suffix across linked assets for one class meeting (for example: `lesson2_1.qmd`, `practice2_1.qmd`, `prep2_1.qmd`, `slide2_1.pptx`, `notebook2_1.ipynb`).
 - Instructor notes follow `notes<unit>_<day>.qmd` (for example: `notes1_1.qmd`).
 - Lesson-to-lesson navigation links should target lesson files in `lessons/` (for example: `lesson2_2.qmd`).
 
@@ -165,7 +165,7 @@ Each unit has 4 weeks × 3 days = 12 lessons.
 
 ## Broken Links
 
-Some links are dependent on the location of the repo, such as links to examples that are meant to open in Google Colab. Some of those breaks were planned for, and can be edited easily in the _variables.yml file.
+Some links are dependent on the location of the repo, such as links to notebooks that are meant to open in Google Colab. Some of those breaks were planned for, and can be edited easily in the _variables.yml file.
 
 If other links break, open a GitHub issue so the repo owner can go through and fix them.
 

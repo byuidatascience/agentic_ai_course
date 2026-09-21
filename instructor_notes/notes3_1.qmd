@@ -9,9 +9,9 @@ Help students review the lessons they have learned and realize that they need to
 
 # Links
 
-| Powerpoint | Example | Primer | Practice | Lesson |
+| Powerpoint | Example | Prep | Practice | Lesson |
 |------------|---------|--------|----------|--------|
-| [🧑‍🏫](lecture_slides/slide1_1.pptx) | [📓](examples/example1_1.qmd) | [🌱](primers/primer1_1.qmd) | [🏃‍♂️‍➡️](practice/practice1_1.qmd) | 📋(units/unit1_1.qmd)
+| [🧑‍🏫](lecture_slides/slide1_1.pptx) | [📓](notebooks/notebook1_1.qmd) | [🌱](preps/prep1_1.qmd) | [🏃‍♂️‍➡️](practice/practice1_1.qmd) | 📋(units/unit1_1.qmd)
 
 # Outcomes
 

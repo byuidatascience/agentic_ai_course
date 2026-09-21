@@ -206,7 +206,7 @@
     var blocks = findPropBlocks(text);
     var folder = topFolder(file.path);
     // A folder-level default is an explicit, configured signal (e.g. everything
-    // in primers/ is a prep reading). If neither the node nor its folder says
+    // in preps/ is a prep reading). If neither the node nor its folder says
     // what it is, we do NOT invent a type — it stays "untyped" (see mkNode).
     var folderType = config.folderTypeDefaults[folder] || roleDefaultType || null;
     var fileDayId = dayIdFromFilename(file.path);

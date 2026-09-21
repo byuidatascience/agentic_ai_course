@@ -7,22 +7,22 @@ subtitle: <!-- Unit x, Lesson x -->
 
 ## Quick Links
 
-| Practice | Primer | Slides | Examples | Lecture Notes | Next Lesson |
+| Practice | Prep | Slides | Examples | Lecture Notes | Next Lesson |
 |----------|--------|--------|----------|---------------|-------------|
-| [🏃‍♂️‍➡️](../practice/practice1_1.qmd) | [🌱](../primer/primerx_x.qmd) | [🧑‍🏫](../lecture_slides/lecture_slides1_1.qmd) | [📓]({{< var example_base >}}1_1.ipynb "Opens in Google Colab - See README if broken") | [📋](link) | [➡️](lesson1_2.qmd) |
+| [🏃‍♂️‍➡️](../practice/practice1_1.qmd) | [🌱](../preps/prepx_x.qmd) | [🧑‍🏫](../lecture_slides/lecture_slides1_1.qmd) | [📓]({{< var notebook_base >}}1_1.ipynb "Opens in Google Colab - See README if broken") | [📋](link) | [➡️](lesson1_2.qmd) |
 
 
 ## Before Class
 
-| Practice | Primer | Previous Lesson |
+| Practice | Prep | Previous Lesson |
 |----------|--------|-------------|
 | [🏃‍♂️‍➡️](link) | [🌱](link) | [⬅️](link) |
 
 ## After Class
 
-| Practice | Primer | Next Lesson |
+| Practice | Prep | Next Lesson |
 |----------|--------|-------------|
-| [🏃‍♂️‍➡️](../practice/practice1_1.qmd) | [🌱](../primer/primer1_1.qmd) | [➡️](lesson1_2.qmd) |
+| [🏃‍♂️‍➡️](../practice/practice1_1.qmd) | [🌱](../preps/prep1_1.qmd) | [➡️](lesson1_2.qmd) |
 
 :::
 
@@ -62,7 +62,7 @@ None today (first day of class!)
 
 <!-- Instructions, including any prep work, finishing class work, project work, or a practice homework -->
 
-| Practice | Primer | Slides | Next Lesson |
+| Practice | Prep | Slides | Next Lesson |
 |----------|--------|--------|-------------|
 | [🏃‍♂️‍➡️](link) | [🌱](link) | [🧑‍🏫](link) | [➡️](link) |
 </template>
@@ -89,9 +89,9 @@ None today (first day of class!)
 
 # Links
 
-| Powerpoint | Example | Primer | Practice | Lecture Notes |
+| Powerpoint | Example | Prep | Practice | Lecture Notes |
 |------------|---------|--------|----------|---------------|
-| [:teacher:](lecture_slides/slide1_1.pptx) | [:notebook:](examples/example1_1.qmd) | [:seedling:](primers/primer1_1.qmd) | [🏃‍♂️‍➡️](practice/practice1_1.qmd) | :clipboard:(instructor_notes/notes1_1.qmd)
+| [:teacher:](lecture_slides/slide1_1.pptx) | [:notebook:](notebooks/notebook1_1.qmd) | [:seedling:](preps/prep1_1.qmd) | [🏃‍♂️‍➡️](practice/practice1_1.qmd) | :clipboard:(instructor_notes/notes1_1.qmd)
 
 <!-- More stuff -->
 
@@ -101,7 +101,7 @@ None today (first day of class!)
 
 <!-- Instructions, including any prep work, finishing class work, project work, or a practice homework -->
 
-| Practice | Primer | Slides | Next Lesson |
+| Practice | Prep | Slides | Next Lesson |
 |----------|--------|--------|-------------|
 | [🏃‍♂️‍➡️](link) | [🌱](link) | [🧑‍🏫](link) | ➡️(link) |
 

@@ -24,7 +24,7 @@ This is the short-term working queue. Complete or consciously defer these before
 
 ### Day 1: first LLM call in Google Colab
 
-- [ ] Revise the opening discussion so it follows the actual preparation reading, **Agent Engineering**, rather than asking students to report on an API primer they did not read.
+- [ ] Revise the opening discussion so it follows the actual preparation reading, **Agent Engineering**, rather than asking students to report on an API prep they did not read.
 - [ ] Decide the in-class artifact: a purpose-built Day 1 Google Colab, or an adapted version of `practice/practice1_1.ipynb`.
   - [ ] Give students one canonical link that opens the artifact directly in Colab.
   - [ ] Include only the essential launch sequence: store `GOOGLE_API_KEY` in Colab Secrets, install packages, and make one LLM call.

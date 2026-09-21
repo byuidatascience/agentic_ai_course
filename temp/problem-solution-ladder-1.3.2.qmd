@@ -37,7 +37,7 @@ A hotel concierge agent chats with a returning guest. Last visit, the guest ment
 
 Here's the fix: give the agent a `store` — memory that lives outside any one conversation, per LangChain's long-term memory pattern.
 
-```{python}
+```python
 from langchain.agents import create_agent
 from langgraph.store.memory import InMemoryStore
 
@@ -53,7 +53,7 @@ agent = create_agent(
 
 Watch what happens when a guest preference is written straight into the store, keyed by namespace `(guest_id, "preferences")`, and then read back from a completely separate call — it survives across threads/sessions, unlike short-term memory.
 
-```{python}
+```python
 namespace = ("guest-482", "preferences")
 store.put(namespace, "dietary", {"note": "Shellfish allergy"})
 store.put(namespace, "checkout", {"note": "Always requests late checkout"})
