@@ -1,0 +1,152 @@
+---
+title: "Starting From Scratch"
+subtitle: "Build a terminal AI agent with LangChain and Gemini"
+format:
+  html:
+    toc: true
+    code-copy: true
+    code-overflow: wrap
+---
+
+## Setup
+
+1. Create a new folder for your project and open it in VS Code.
+
+2. Initialize the project with [uv](https://docs.astral.sh/uv/getting-started/installation/):
+
+   ```bash
+   uv init
+   ```
+
+3. Add `.env` to `.gitignore`.
+
+   ::: {.callout-important}
+   ## Crucial
+   Do this **before** you create the `.env` file. If your API key ever gets committed and pushed to a public repository, treat it as leaked and generate a new one.
+   :::
+
+   ```{.text filename=".gitignore"}
+   .env
+   ```
+
+4. Create a `.env` file containing your API key:
+
+   ```{.text filename=".env"}
+   GOOGLE_API_KEY=your-key-here
+   ```
+
+5. Install the dependencies:
+
+   ```bash
+   uv add langchain langchain-google-genai python-dotenv
+   ```
+
+## Building the agent
+
+6. Start coding in `main.py`, beginning with a terminal loop. For now, `get_response` simply echoes your input back. You will replace it with a real agent next.
+
+   ```{.python filename="main.py"}
+   def get_response(prompt: str) -> str:
+       return prompt
+
+   def main():
+       while True:
+           try:
+               prompt = input("Input: ")
+               if prompt == "exit": break
+               response = get_response(prompt)
+           except EOFError:
+               break
+           print(response)
+
+   if __name__ == "__main__":
+       main()
+   ```
+
+   Run it with:
+
+   ```bash
+   uv run main.py
+   ```
+
+7. From there, reference and copy/paste code from the LangChain docs to get a working agent.
+
+## Sharing
+
+8. Make your repository public so you and your classmates can share your work with each other.
+
+   ```bash
+   git add .
+   git commit -m "Initial agent"
+   git push
+   ```
+
+   ::: {.callout-warning}
+   Run `git status` before committing and check that `.env` is **not** listed.
+   :::
+
+9. Send a link to your GitHub repository in the Slack channel for easy access.
+
+## Hints
+
+Look at these only after you have made a significant effort and consulted your group members.
+
+::: {.callout-tip collapse="true"}
+## Loading your API key
+
+Load the API key from `.env` before you create the agent.
+
+```{.python filename="main.py"}
+from dotenv import load_dotenv
+load_dotenv()
+```
+:::
+
+::: {.callout-tip collapse="true"}
+## Pretty Markdown output with `rich`
+
+Models often reply in Markdown. `rich` renders it nicely in the terminal.
+
+```bash
+uv add rich
+```
+
+```{.python filename="main.py"}
+# At the top of the file
+from rich.console import Console
+from rich.markdown import Markdown
+
+console = Console()
+
+# In main(), replace print(response) with:
+console.print(Markdown(response))
+```
+:::
+
+::: {.callout-tip collapse="true"}
+## Putting tools in a separate file
+
+A tool is just a Python function with type hints and a docstring. The model reads the docstring to decide when to call the tool. You can keep tools in another file and import them.
+
+```{.python filename="tools.py"}
+def get_grandmas_name() -> str:
+    """Gets the name of the user's grandma"""
+    return "Gladys"
+```
+
+```{.python filename="main.py"}
+from tools import get_grandmas_name
+```
+:::
+
+::: {.callout-tip collapse="true"}
+## Giving each conversation a thread ID
+
+If your agent has memory (a checkpointer), it needs a thread ID to know which conversation it is in. `uuid` is part of Python's standard library, so you don't need to install anything.
+
+```{.python filename="main.py"}
+import uuid
+
+thread_config = {"configurable": {"thread_id": str(uuid.uuid4())}}
+```
+:::

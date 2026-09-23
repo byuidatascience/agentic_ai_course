@@ -1,0 +1,11 @@
+---
+title: "Prep 1.4: Environment Setup"
+---
+
+Make sure you have the following:
+
+- GitHub account
+- VS Code
+- Logged in to VS Code with your GitHub account (bottom left corner of VS Code)
+- Install [uv](https://docs.astral.sh/uv/getting-started/installation/) (better version of pip)
+- Have your Gemini API key accessible
