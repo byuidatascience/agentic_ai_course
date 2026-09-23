@@ -1,0 +1,10 @@
+---
+title: Starting From Scratch
+format: revealjs
+---
+
+## Scripture
+
+> "God left the world unfinished for man to work his skill upon. He left the electricity in the cloud, the oil in the earth. He left the rivers unbridged and the forests unfelled and the cities unbuilt. God gives to man the challenge of raw materials, not the ease of finished things. He leaves the pictures unpainted and the music unsung and the problems unsolved, that man might know the joys and glories of creation."
+>
+> - President Thomas S. Monson; ["In Quest of the Abundant Life,"](https://www.churchofjesuschrist.org/study/ensign/1988/03/in-quest-of-the-abundant-life?lang=eng) *Ensign*, March 1988
