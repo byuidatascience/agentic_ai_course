@@ -9,6 +9,8 @@ toc-depth: 1
 
 Still in active development.
 
+### [Project 1 Instructions](projects/project1_resources/project1_instructions.qmd)
+
 ```{python}
 #| echo: false
 #| eval: true
