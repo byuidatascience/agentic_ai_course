@@ -1,0 +1,245 @@
+---
+title: Connecting to the World via MCP
+format: revealjs
+---
+
+<!--
+  DRAFT: Lesson 1.6 lecture deck
+  competency: 1.4.2 Connect external tools through Model Context Protocol (MCP)
+  pairs with: temp/prep-reading-mcp-1.4.2.qmd, temp/example-mcp-1.4.2.ipynb,
+              temp/problem-solution-ladder-1.4.2.qmd
+-->
+
+## 
+
+
+
+---
+
+## The Problem
+
+A telecom support agent gets asked: *"Is there an outage near 84604?"*
+
+- The outage data lives in the **network team's** system
+- You don't own that code
+- You don't want to reverse-engineer it and hand-write a wrapper
+- Even if you did, it breaks the next time they change something
+
+. . .
+
+**How do you give your agent a tool you don't own?**
+
+---
+
+## What You Already Know
+
+You own the code, so you write the tool yourself:
+
+```python
+def check_outage(zip_code: str) -> str:
+    """Check whether there is a known network outage in a ZIP code."""
+    ...
+```
+
+That works for **your** code. It doesn't scale to Slack, GitHub, Canvas, Google Calendar...
+
+---
+
+## Enter MCP
+
+**Model Context Protocol**: a standard way for an agent to use tools it doesn't own the code for.
+
+. . .
+
+MCP standardizes **the connection**, not the tool.
+
+. . .
+
+Any browser can open any website because both speak HTTP.
+Any agent can use any MCP server because both speak MCP.
+
+---
+
+## The Waiter, Revisited
+
+Remember from Lesson 1.1: the API is the waiter, the kitchen is the service.
+
+Now imagine every restaurant in town agrees on the **same** uniform, the **same** order form, the **same** way of bringing food back.
+
+| Restaurant | MCP |
+|---|---|
+| Kitchen | **MCP server**: someone else's system (Slack, a database, a ticketing tool) |
+| Waiter | **MCP client**: the connector your agent uses |
+| Customer | **Your agent**: says what it wants, never learns the kitchen's layout |
+
+---
+
+## Before and After
+
+::: {.columns}
+::: {.column width="50%"}
+**Without MCP**
+
+- 5 systems = 5 custom wrappers
+- You maintain all 5
+- Every change on their end breaks yours
+:::
+::: {.column width="50%"}
+**With MCP**
+
+- 5 systems = 5 server connections
+- They maintain their server
+- You write **zero** integration code
+:::
+:::
+
+---
+
+## Two Processes, One Protocol
+
+```
+┌──────────────────┐        MCP         ┌──────────────────────┐
+│  Your agent      │  ◄──────────────►  │  MCP server          │
+│  + MCP client    │   (stdio or HTTP)  │  (network team's)    │
+└──────────────────┘                    └──────────────────────┘
+```
+
+- The server is a **separate process**, often owned by a different team
+- **stdio**: the client launches the server locally and talks through stdin/stdout
+- **HTTP**: the server runs somewhere and the client knows its URL
+
+---
+
+## Side 1: The Server (Their Code)
+
+```python
+# network_server.py, owned by the network team
+from fastmcp import FastMCP
+
+mcp = FastMCP("Network")
+
+@mcp.tool()
+def check_outage(zip_code: str) -> str:
+    """Check whether there is a known network outage in a ZIP code."""
+    known_outages = {"84604": "Outage reported, ETA 2 hours",
+                     "84601": "No known outages"}
+    return known_outages.get(zip_code, "No data for that ZIP code")
+
+if __name__ == "__main__":
+    mcp.run(transport="http", host="127.0.0.1", port=8000)
+```
+
+Looks a lot like `@tool`, doesn't it?
+
+---
+
+## Side 2: The Client (Your Code)
+
+```python
+from langchain_mcp_adapters.client import MultiServerMCPClient
+from langchain.agents import create_agent
+
+client = MultiServerMCPClient({
+    "network": {
+        "transport": "http",
+        "url": "http://127.0.0.1:8000/mcp",
+    }
+})
+
+tools = await client.get_tools()
+agent = create_agent("google_genai:gemini-2.5-flash", tools)
+```
+
+. . .
+
+Notice: this code **never imports** `network_server.py`. It only knows a URL.
+
+---
+
+## The Whole Pattern
+
+```python
+tools = await client.get_tools()
+agent = create_agent(model, tools)
+```
+
+- Tool names, descriptions, and argument schemas come **from the server**
+- To your agent, they look exactly like the `@tool` functions you wrote in Lesson 1.2
+- The agent can't tell the difference
+
+---
+
+## Many Servers, One Agent
+
+```python
+client = MultiServerMCPClient({
+    "network": {"transport": "http", "url": "http://127.0.0.1:8000/mcp"},
+    "docs":    {"transport": "http", "url": "https://docs.langchain.com/mcp"},
+})
+```
+
+One client, many servers, one combined list of tools.
+
+::: {.notes}
+docs.langchain.com/mcp is the zero-setup fallback if local servers misbehave in Colab.
+:::
+
+---
+
+## Demo
+
+Open **Example 1.6: Connecting Tools with MCP** in Colab.
+
+1. Write the server to disk
+2. Start it as its own process
+3. Connect an agent with `MultiServerMCPClient`
+4. Ask: *"Is there an outage near 84604?"* then *"What about 90210?"*
+
+---
+
+## Your Turn (15 min, pairs)
+
+Add a **second** `@mcp.tool()` to `network_server.py`.
+
+- Ideas: `check_data_usage(account_id)`, `list_plans()`, `schedule_technician(zip_code)`
+- Rerun the `%%writefile` cell
+- `server.terminate()`, then relaunch
+- Rerun the agent
+
+. . .
+
+**Success check:** you didn't touch the agent wiring at all.
+
+---
+
+## Trust Before You Connect
+
+An MCP server hands your agent tools, and your agent will **use** them.
+
+- Who wrote this server? Is it maintained?
+- What can its tools read? What can they **change** or **delete**?
+- What data leaves your machine when a tool runs?
+
+. . .
+
+Connecting a server is like installing software. Evaluate it first.
+
+---
+
+## Discuss
+
+- What's a system at your dream job that an agent would need, but you'd never want to hand-write an integration for?
+- Why would a company publish an MCP server instead of *just* an API?
+- What could go wrong connecting to a server you don't fully trust?
+
+---
+
+## Next Time: MCP from GitHub
+
+- Pull a **real** MCP server off GitHub (Canvas MCP)
+- Dissect it: what can go inside a server?
+- Evaluate it: maintained? current? safe?
+
+. . .
+
+For Project 1: every MCP server you connect counts toward the **most MCP servers connected** leaderboard.

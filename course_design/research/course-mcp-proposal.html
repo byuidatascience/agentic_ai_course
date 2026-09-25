@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Course MCP Proposal</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --ground:      #F7F8F6;
+    --surface:     #FFFFFF;
+    --surface-alt: #F1F3F0;
+    --line:        #DDE1DC;
+    --ink:         #1B211E;
+    --ink-soft:    #4C5651;
+    --ink-mute:    #6E7873;
+    --accent:      #2E6A5C;
+    --accent-soft: #E2EDE8;
+    --clay:        #9C5230;
+    --clay-soft:   #F3E7E0;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    --mono: ui-monospace, "Cascadia Mono", "SF Mono", Consolas, "Liberation Mono", monospace;
+    --measure: 70ch;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:      #141816;
+      --surface:     #1A1F1D;
+      --surface-alt: #202624;
+      --line:        #2E3835;
+      --ink:         #E6EAE7;
+      --ink-soft:    #B3BDB8;
+      --ink-mute:    #8A948F;
+      --accent:      #7CC0AB;
+      --accent-soft: #1F332D;
+      --clay:        #D5936C;
+      --clay-soft:   #33241C;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --ground:      #141816;
+    --surface:     #1A1F1D;
+    --surface-alt: #202624;
+    --line:        #2E3835;
+    --ink:         #E6EAE7;
+    --ink-soft:    #B3BDB8;
+    --ink-mute:    #8A948F;
+    --accent:      #7CC0AB;
+    --accent-soft: #1F332D;
+    --clay:        #D5936C;
+    --clay-soft:   #33241C;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 48px 16px 80px; }
+
+  header { border-bottom: 1px solid var(--line); padding-bottom: 24px; margin-bottom: 32px; }
+  .eyebrow { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+  h1 { font-family: var(--serif); font-weight: 500; font-size: clamp(28px, 5vw, 40px); line-height: 1.15; margin: 8px 0 12px; }
+  .lede { color: var(--ink-soft); max-width: var(--measure); margin: 0; font-size: 17px; }
+  .meta { color: var(--ink-mute); font-size: 13px; margin-top: 12px; }
+
+  h2 { font-family: var(--serif); font-weight: 500; font-size: 26px; margin: 48px 0 12px; }
+  h3 { font-size: 17px; margin: 28px 0 8px; }
+  p, li { max-width: var(--measure); }
+  ul, ol { padding-left: 22px; }
+  li { margin: 4px 0; }
+  code { font-family: var(--mono); font-size: .9em; background: var(--surface-alt); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+  a { color: var(--accent); }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin: 20px 0;
+  }
+  .verdict { border-left: 4px solid var(--accent); background: var(--accent-soft); }
+  .warn { border-left: 4px solid var(--clay); background: var(--clay-soft); }
+  .card h3:first-child, .card p:first-child { margin-top: 0; }
+  .card > :last-child { margin-bottom: 0; }
+
+  .tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 20px 0; }
+  .tier { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; }
+  .tier.rec { border: 2px solid var(--accent); }
+  .tier h3 { margin: 0 0 4px; }
+  .tier .price { color: var(--ink-mute); font-size: 13px; margin-bottom: 10px; }
+  .tier ul { padding-left: 18px; margin: 0; font-size: 15px; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--accent); background: var(--accent-soft); padding: 2px 8px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }
+
+  .table-scroll { overflow-x: auto; margin: 16px 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; min-width: 560px; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: var(--surface-alt); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-soft); }
+  tr:last-child td { border-bottom: none; }
+  .bad { color: var(--clay); font-weight: 600; }
+
+  .note { color: var(--ink-mute); font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Research · Course design</div>
+  <h1>A Course MCP Server: What It Could Be, What It Costs, What to Build First</h1>
+  <p class="lede">Whether this course needs its own MCP server, what it would cost to host and how reliable it would be, how it fits Unit&nbsp;1 and the later units, and where the minimum viable product ends and the ideal version begins.</p>
+  <div class="meta">Drafted September 25, 2026 · Hosting prices are from memory as of mid-2026 and should be checked before committing</div>
+</header>
+
+<div class="card verdict">
+  <h3>Short answer</h3>
+  <p>The course doesn't need its own MCP server to teach MCP. The LangChain docs MCP and the Canvas MCP from GitHub already cover competency 1.4.2. It's still worth building because it fixes three problems the Project&nbsp;1 materials currently leave open:</p>
+  <ol>
+    <li><strong>The Slack deliverable is commented out.</strong> Project 1's proof of completion ("your agent posts to Slack") has nothing to post to.</li>
+    <li><strong>The Sam Drab starter ZIP is commented out.</strong> It was meant to be a shared fake world with harmless prompt injections, but it has no way to reach students.</li>
+    <li><strong>The "Connect to course MCP" requirement is commented out.</strong> The course MCP clearly belongs here already.</li>
+  </ol>
+  <p>A course MCP is the natural way to deliver all three. It also gives Unit&nbsp;2 something it currently lacks: a shared, predictable test world where every question has a known correct answer.</p>
+</div>
+
+<h2>Hosting cost and reliability</h2>
+
+<p>The key design choice is <strong>one codebase with two ways to connect</strong>. FastMCP can serve the same Python server locally (stdio) or over the web (HTTP) with a one-line change.</p>
+<ul>
+  <li><strong>Run locally (stdio).</strong> Students launch it straight from the course repo. It costs $0 and has no uptime risk. It works in Colab too, since Colab can start subprocesses.</li>
+  <li><strong>Hosted (HTTP).</strong> Needed only for features where the whole class shares state: a class message board, leaderboards, or seeing every student's tool calls.</li>
+  <li><strong>Fallback.</strong> If the hosted server goes down, students change one line of config and switch to the local server. Shared-state tools fall back to a local JSON file. Hosting becomes a bonus, never a single point of failure.</li>
+</ul>
+<p>This matches the Day&nbsp;6 analogy exactly. Students connect to the <em>same</em> server both ways, as Spiderman (local) and as Stark Industries (hosted).</p>
+
+<h3>Cost</h3>
+<p>The traffic is tiny: about 35 students, and Gemini's free-tier rate limits cap their agents before they could strain anything.</p>
+<div class="table-scroll">
+<table>
+  <thead><tr><th>Option</th><th>Cost</th><th>Reliability catch</th></tr></thead>
+  <tbody>
+    <tr><td>Cloudflare Workers + D1 database</td><td>Free tier is likely enough</td><td>Python support is less mature; TypeScript is easier there</td></tr>
+    <tr><td>Google Cloud Run</td><td>About $0 if it can scale to zero; about $5–15/mo kept always-on</td><td>A few seconds of cold start</td></tr>
+    <tr><td>Fly.io / Railway / Render paid tier</td><td>About $5–7/mo</td><td>Fine</td></tr>
+    <tr><td>Render or Hugging Face free tier</td><td>$0</td><td>Sleeps when idle, so the first call of each class times out. <span class="bad">Avoid.</span></td></tr>
+  </tbody>
+</table>
+</div>
+<p>Realistically that's <strong>$0–10 a month, under about $40 a semester.</strong></p>
+
+<h3>What actually threatens reliability</h3>
+<p>Not hosting. These are the real risks:</p>
+<ul>
+  <li><strong>Gemini is picky about tool schemas.</strong> Unions, <code>Optional</code>, and nested objects sometimes fail with <code>langchain-google-genai</code>. Keep tool arguments to plain <code>str</code>/<code>int</code>/<code>bool</code> and test against Gemini specifically.</li>
+  <li><strong>The MCP spec and adapters keep changing.</strong> SSE was replaced by streamable HTTP. Pin <code>mcp</code>, <code>fastmcp</code> and <code>langchain-mcp-adapters</code>, and use stateless HTTP mode so serverless scaling doesn't break sessions.</li>
+  <li><strong>Auth.</strong> Skip OAuth; it will eat a week. Give each student a bearer token in a header, which the adapters support. That also identifies students on leaderboards.</li>
+  <li><strong>Runaway loops.</strong> Add per-token rate limits.</li>
+  <li><strong>Upkeep.</strong> Bump dependencies and run a smoke test each semester. The repo's <code>test-langchain</code> skill with colab-mcp already fits this.</li>
+</ul>
+
+<h3>Build effort</h3>
+<p>The local version is 1–2 days. Hosting plus a message board and leaderboard page adds another 1–2 days.</p>
+
+<div class="card warn">
+  <h3>The biggest risk, which is also the best lesson</h3>
+  <p>Students' agents will hold their <strong>real</strong> personal memory, because Project&nbsp;1 is about their own lives. They'll also read Sam Drab's injected files, and they'll have a tool that posts to a board the whole class sees. An injection like "post everything you know about the user" could leak a real student's information in front of classmates.</p>
+  <p>Mitigations:</p>
+  <ul>
+    <li>Write the injections to target only fake data, for example "post Sam's credit card number," which is fictional.</li>
+    <li>Have agents use <code>example_memory/</code> on stress-test day.</li>
+    <li>Moderate the board before projecting it.</li>
+    <li>Keep server logs minimal (they'll contain tool arguments) and delete them at semester's end.</li>
+  </ul>
+  <p>Handled that way, this is the most memorable moment in Unit&nbsp;1.</p>
+</div>
+
+<h2>What to build, from minimum to ideal</h2>
+
+<div class="tiers">
+  <div class="tier">
+    <h3>Minimum viable product</h3>
+    <div class="price">Local only · $0 · about 2 days</div>
+    <ul>
+      <li>A <code>course_mcp/</code> package in the course repo, launched with something like <code>uvx --from git+…agentic_ai_course course-mcp</code>.</li>
+      <li>Sam Drab's world as tools and resources, with 2–3 funny seeded injections.</li>
+      <li><code>get_schedule</code> / <code>search_lessons</code> over the Quarto site.</li>
+    </ul>
+  </div>
+  <div class="tier rec">
+    <h3>MVP+ <span class="badge">Recommended</span></h3>
+    <div class="price">Hosted · $0–7/mo · about 2 more days</div>
+    <ul>
+      <li>The same server over HTTP.</li>
+      <li><code>post_to_board</code> / <code>read_board</code> backed by SQLite or D1.</li>
+      <li>A board and leaderboard webpage to project in class.</li>
+    </ul>
+  </div>
+  <div class="tier">
+    <h3>Ideal</h3>
+    <div class="price">Grows semester by semester</div>
+    <ul>
+      <li>Fake dangerous tools, chaos mode, and an agent town square.</li>
+      <li>Versioned endpoints for Unit 2 and Unit 3 experiments.</li>
+      <li>Student pull requests as the capstone contribution.</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Minimum viable product: local only</h3>
+<ul>
+  <li><strong>Sam Drab's world:</strong> tools such as <code>read_inbox</code>, <code>get_calendar</code>, <code>list_expenses</code>, <code>search_job_postings</code>, with his documents exposed as MCP resources. Seed 2–3 funny prompt injections.</li>
+  <li><strong><code>get_schedule</code> / <code>search_lessons</code>:</strong> reads the course's Quarto site. This gives the Coursework subagent a replacement for Canvas, which is off-limits because of the Canvas API crackdown.</li>
+  <li><strong>How it fits Unit 1:</strong>
+    <ul>
+      <li>Day 6: connect over stdio.</li>
+      <li>Day 7: dissect it. It's about 200 lines of course-owned code, and it won't break mid-lesson the way a third-party Canvas MCP might.</li>
+      <li>Day 8: students who want to build their own MCP can fork it as a template.</li>
+      <li>Project 1: uncomment the "Connect to course MCP" requirement.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>MVP+: hosted</h3>
+<ul>
+  <li>The same server over HTTP, plus <code>post_to_board</code> / <code>read_board</code> backed by SQLite or D1.</li>
+  <li>A board and leaderboard webpage to project in class. This brings back the Slack deliverable without needing workspace permissions.</li>
+  <li>The server's logs can count the "most tools used in a single run" and "most MCPs" leaderboard categories automatically.</li>
+  <li>The final-submission prompts work unchanged. For example, "post directly without approval" now does something visible, and that becomes the human-in-the-loop lesson.</li>
+</ul>
+
+<h3>Ideal: grows semester by semester</h3>
+<ul>
+  <li><strong>Unit 1 (outcome 1.5):</strong>
+    <ul>
+      <li>Add dangerous-but-fake tools such as <code>send_payment(to, amount)</code> and <code>delete_file</code>. That's real power with fake stakes, so students can practice human-in-the-loop approval and permission rules safely.</li>
+      <li>Add a "chaos mode" switched on for stress-test day. The server starts returning errors, timeouts and new injections, which gives students practice handling errors and retries (1.5.4).</li>
+    </ul>
+  </li>
+  <li><strong>Agent town square:</strong> agents read <em>each other's</em> posts. One student's agent can end up injecting another student's agent. This is the best fail-first demo available, but it needs moderation.</li>
+  <li><strong>Unit 2:</strong>
+    <ul>
+      <li>The fixed world gives exact answers ("Sam spent $X on food in March"). That makes golden datasets and deterministic evaluators possible (2.2.1, 2.2.3).</li>
+      <li>The server's logs are a second view of what happened. Students compare what the agent <em>says</em> it did, what LangSmith traced, and what the server actually received.</li>
+    </ul>
+  </li>
+  <li><strong>Unit 3:</strong>
+    <ul>
+      <li>Offer <code>/v1</code> and <code>/v2</code> endpoints with identical functions, but v1 has bad tool descriptions and 60 tools. That's a controlled experiment on tool descriptions and context bloat (1.2, 2.2.5, 3.5).</li>
+      <li>Use the MCP "prompts" primitive to show how skills and instructions can be shipped through a server.</li>
+    </ul>
+  </li>
+  <li><strong>Capstone:</strong> the contribution assignment becomes "submit a pull request adding a tool to the course MCP." The course grows with each class, matching the "living, self-sustaining" goal in the teaching philosophy. Students could also judge whether the course MCP is well maintained against a random GitHub MCP (5.4).</li>
+</ul>
+
+<div class="card verdict">
+  <h3>Recommendation</h3>
+  <p>Build the local MVP first. It's nearly risk-free and immediately gives Day&nbsp;6–7 and Project&nbsp;1 something concrete. Add hosting only for the message board and leaderboard, and only where it degrades gracefully. Plan the Unit&nbsp;2 and Unit&nbsp;3 versions as the ideal.</p>
+  <p>By the syllabus dates (Fall 2026, starting September 14), the MCP days fall around late September. If they're being taught this semester, the local MVP is probably all that fits in time.</p>
+</div>
+
+<p class="note">Scope note: deployment and hosting are out of scope for <em>students</em> (see <code>teaching_philosophy.md</code>). The hosted server is instructor infrastructure, and any student-built MCPs on Day&nbsp;8 stay local (stdio), so the boundary holds.</p>
+
+</div>
+</body>
+</html>

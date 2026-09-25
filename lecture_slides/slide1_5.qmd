@@ -1,0 +1,45 @@
+---
+title: "Lesson 1-5: Review"
+format:
+    revealjs: 
+        incremental: true
+---
+
+## Group Discussion
+
+- Report on what you've done to practice
+- Discuss the reading together
+
+## Class Discussion
+
+- Point to someone who had an interesting insight
+
+## Scripture
+
+> "Now the Lord had shown unto me, Abraham, the intelligences that were organized before the world was; and among all these there were many of the noble and great ones;"
+>
+> - [Abraham 3:22](https://www.churchofjesuschrist.org/study/scriptures/pgp/abr/3?lang=eng&id=p22#p22)
+
+::: {.notes}
+Organized intelligence: individual intelligences become far more capable once they are organized. Today, an agent gets organized with other people's systems through one shared protocol.
+:::
+
+## Organized Intelligence
+
+- [What is it?](https://www.organizedintelligence.ai/about)
+- Why would it be called Organized Intelligence?
+- What do they care about most right now?
+- How does that change how you create agents right now?
+
+## Ethics Manifesto
+
+- Take a moment
+
+## Options
+
+- Review concepts learned
+- Show off agents so far
+- Discuss what is missing from your agents
+- Address anything unclear to this point
+- Go over project 1 requirements
+- Docs-hunting activity
