@@ -2,9 +2,9 @@
 title: "Project 1: Personal Assistant Agent"
 ---
 
-Build a personal assistant agent that you would actually use.
+Build a big beautiful personal assistant agent that you would actually use daily.
 
-You start this in Week 1 and add to it as you learn new skills. It is due TBD.
+You start this in Week 2 and add to it as you learn new skills. It is due TBD (mid to late week 4 most likely).
 
 ## The Point
 
@@ -12,11 +12,16 @@ Build something you want. Wire it up to real tools and give it real power.
 
 ## Rules
 
-- **No AI assistance.** No AI-written code, no AI-written prompts. Prompts must be your own words,
-  not a classmate's and not copied from the internet.
-- Get debugging help from class time and the Slack channel.
-- Set a time limit on any problem you get stuck on. Bringing it to class unfinished is fine.
-- Feel free to get ideas from other classmates as long as you understand how it works and why.
+- **No coding agents allowed (unless you build the coding agent using LangChain)** 
+- **Consult peers before AI**
+  - Your classmates and their repo's are a great source of inspiration; but only copy code if you understand it.
+- **Consult YOUR agent for help before chat interfaces (like ChatGPT)**
+  - Turning to your agent first gives a natural friction point that drives motivation for improvements.
+- **No burnout allowed**
+  - This is an open-ended trial-by-fire project that requires a lot of thought.
+  - Pause if you are strained or exhausted.
+  - Bringing it to class unfinished is fine. You can get help from your peers.
+  - Consider setting a time limit on any problem you get stuck on.
 
 ## What You Build
 
@@ -29,7 +34,7 @@ Your agent's memory directory must be in `.gitignore`. It will hold real informa
 that does not belong on GitHub. Commit an `example_memory/` folder with fake data instead so the
 repo still runs for anyone who clones it.
 
-### 2. A manager agent
+### 2. A main agent
 
 One agent receives your prompt and decides what tools to use and what to delegate to subagents.
 
@@ -43,14 +48,16 @@ your preferences, whatever you want it to know.
 Pick from this menu, or create your own idea (within reason):
 
 - **Job hunt.** Tailors your resume to a job description you paste in, tracks applications, drills
-  interview questions.
+  interview questions, "2-hour job search" framework (consider looking that up)
 - **Money.** Reads a CSV export from your bank, categorizes spending, answers questions about it.
   Or plans meals and groceries on a budget.
 - **Coursework.** You paste in your syllabi. It answers questions about deadlines and requirements.
 - **Scripture and study.** Search conference talks, brainstorm ministering ideas, track study goals.
 - **Roommates.** Chore rotations, splitting bills, apartment logistics.
-- **Your own code.** Points it at one of your repos. Explains it, finds your TODOs, drafts commit
+- **Your own code.** Points it at one of your repos (maybe even its own). Explains it, finds your TODOs, drafts commit
   messages.
+- **Translator.** Takes a concept you don't understand and relates it to things it knows you understand in language you are familiar with.
+- **Learning.** Personal tutor, spaced repetition practice, quizzes you
 
 ### 5. Required capabilities
 

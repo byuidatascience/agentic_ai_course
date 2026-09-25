@@ -326,8 +326,8 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Build a personal assistant agent that you would actually use.</p>
-<p>You start this in Week 1 and add to it as you learn new skills. It is due TBD.</p>
+<p>Build a big beautiful personal assistant agent that you would actually use daily.</p>
+<p>You start this in Week 2 and add to it as you learn new skills. It is due TBD (mid to late week 4 most likely).</p>
 <section id="the-point" class="level2">
 <h2 class="anchored" data-anchor-id="the-point">The Point</h2>
 <p>Build something you want. Wire it up to real tools and give it real power.</p>
@@ -335,10 +335,22 @@ ul.task-list li input[type="checkbox"] {
 <section id="rules" class="level2">
 <h2 class="anchored" data-anchor-id="rules">Rules</h2>
 <ul>
-<li><strong>No AI assistance.</strong> No AI-written code, no AI-written prompts. Prompts must be your own words, not a classmate’s and not copied from the internet.</li>
-<li>Get debugging help from class time and the Slack channel.</li>
-<li>Set a time limit on any problem you get stuck on. Bringing it to class unfinished is fine.</li>
-<li>Feel free to get ideas from other classmates as long as you understand how it works and why.</li>
+<li><strong>No coding agents allowed (unless you build the coding agent using LangChain)</strong></li>
+<li><strong>Consult peers before AI</strong>
+<ul>
+<li>Your classmates and their repo’s are a great source of inspiration; but only copy code if you understand it.</li>
+</ul></li>
+<li><strong>Consult YOUR agent for help before chat interfaces (like ChatGPT)</strong>
+<ul>
+<li>Turning to your agent first gives a natural friction point that drives motivation for improvements.</li>
+</ul></li>
+<li><strong>No burnout allowed</strong>
+<ul>
+<li>This is an open-ended trial-by-fire project that requires a lot of thought.</li>
+<li>Pause if you are strained or exhausted.</li>
+<li>Bringing it to class unfinished is fine. You can get help from your peers.</li>
+<li>Consider setting a time limit on any problem you get stuck on.</li>
+</ul></li>
 </ul>
 </section>
 <section id="what-you-build" class="level2">
@@ -348,8 +360,8 @@ ul.task-list li input[type="checkbox"] {
 <p>Create a GitHub repository for your agent. This is yours and it is public, so it can go in your portfolio later.</p>
 <p>Your agent’s memory directory must be in <code>.gitignore</code>. It will hold real information about you and that does not belong on GitHub. Commit an <code>example_memory/</code> folder with fake data instead so the repo still runs for anyone who clones it.</p>
 </section>
-<section id="a-manager-agent" class="level3">
-<h3 class="anchored" data-anchor-id="a-manager-agent">2. A manager agent</h3>
+<section id="a-main-agent" class="level3">
+<h3 class="anchored" data-anchor-id="a-main-agent">2. A main agent</h3>
 <p>One agent receives your prompt and decides what tools to use and what to delegate to subagents.</p>
 </section>
 <section id="personal-memory" class="level3">
@@ -360,12 +372,14 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="at-least-1-subagent-of-your-choosing">4. At least 1 subagent of your choosing</h3>
 <p>Pick from this menu, or create your own idea (within reason):</p>
 <ul>
-<li><strong>Job hunt.</strong> Tailors your resume to a job description you paste in, tracks applications, drills interview questions.</li>
+<li><strong>Job hunt.</strong> Tailors your resume to a job description you paste in, tracks applications, drills interview questions, “2-hour job search” framework (consider looking that up)</li>
 <li><strong>Money.</strong> Reads a CSV export from your bank, categorizes spending, answers questions about it. Or plans meals and groceries on a budget.</li>
 <li><strong>Coursework.</strong> You paste in your syllabi. It answers questions about deadlines and requirements.</li>
 <li><strong>Scripture and study.</strong> Search conference talks, brainstorm ministering ideas, track study goals.</li>
 <li><strong>Roommates.</strong> Chore rotations, splitting bills, apartment logistics.</li>
-<li><strong>Your own code.</strong> Points it at one of your repos. Explains it, finds your TODOs, drafts commit messages.</li>
+<li><strong>Your own code.</strong> Points it at one of your repos (maybe even its own). Explains it, finds your TODOs, drafts commit messages.</li>
+<li><strong>Translator.</strong> Takes a concept you don’t understand and relates it to things it knows you understand in language you are familiar with.</li>
+<li><strong>Learning.</strong> Personal tutor, spaced repetition practice, quizzes you</li>
 </ul>
 </section>
 <section id="required-capabilities" class="level3">
