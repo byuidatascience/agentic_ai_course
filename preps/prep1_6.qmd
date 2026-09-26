@@ -1,0 +1,30 @@
+## Overarching Goal: Get curious about MCP
+
+#### Why does MCP exist?
+- [MCP Will Finally Makes Sense After This Video](https://www.youtube.com/watch?v=9Gn3NewenYA)
+- [Anthropic Announcement: Introducing the Model Context Protocol](https://www.anthropic.com/news/model-context-protocol)
+
+#### What's actually in MCP?
+- [MCP Docs: Core Server Features](https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts#core-server-features) (just look at the core server features section unless you want to look into it more)
+
+#### What can I do with it?
+- [MCP Docs: Getting Started](https://modelcontextprotocol.io/docs/2026-07-28/getting-started/intro)
+- [Blog: Best MCP Servers](https://blog.mcpservers.org/posts/best-mcp-servers-2026)
+- [Browse MCPs](https://mcpmarket.com/)
+- Here are some fun ones:
+    - Spotify
+    - Blender
+    - Ableton
+    - Figma
+    - CapCut
+    - Google Drive
+    - Slack
+    - Windows Control MCP Server
+    - Playwright
+    - Web Search
+    - File System
+
+#### What could I use it for personally?
+
+#### Optional: How do I make one?
+- [FastMCP Docs](https://gofastmcp.com/getting-started/welcome) (the official package for creating MCP servers)
