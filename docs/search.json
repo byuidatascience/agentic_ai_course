@@ -1524,5 +1524,334 @@
     "title": "",
     "section": "",
     "text": "MCP Will Finally Makes Sense After This Video\nAnthropic Announcement: Introducing the Model Context Protocol\n\n\n\n\n\nMCP Docs: Core Server Features (just look at the core server features section unless you want to look into it more)\n\n\n\n\n\nMCP Docs: Getting Started\nBlog: Best MCP Servers\nBrowse MCPs\nHere are some fun ones:\n\nSpotify\nBlender\nAbleton\nFigma\nCapCut\nGoogle Drive\nSlack\nWindows Control MCP Server\nPlaywright\nWeb Search\nFile System\n\n\n\n\n\n\n\n\n\nFastMCP Docs (the official package for creating MCP servers)"
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#meet-ludwig",
+    "href": "lecture_slides/slide1_6.html#meet-ludwig",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Meet Ludwig",
+    "text": "Meet Ludwig\n\nRexburg, ID · 83440 · 9:40 PM\n\n\n\nSummit Wireless · Support Chat 9:40 PM\n\n\n\nLudwigMy internet has been out for 20 minutes. What’s going on?\n\n\nSummit Support BotGood news: there are no known outages in your area! Try unplugging your router for 30 seconds and plugging it back in. If that doesn’t work, I can schedule a technician visit ($79).\n\n\n\n\nRead it in character. Pause after the bot reply: “Seems like a pretty good answer, right?”"
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#what-ludwig-did-next",
+    "href": "lecture_slides/slide1_6.html#what-ludwig-did-next",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "What Ludwig did next",
+    "text": "What Ludwig did next\n\n\n↻ Restarted the router\nThree times.\n\n\n🧾 Booked the technician\nTomorrow, 8–10 AM. $79.\n\n\n📱 Got a text\n\n\n\nNeighboris your internet out too??"
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#there-was-an-outage",
+    "href": "lecture_slides/slide1_6.html#there-was-an-outage",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "There was an outage",
+    "text": "There was an outage\n\nNetwork Ops · Incident #4471\n83440 (Rexburg): Fiber cut reported at 9:15 PM\nCrews on site. Estimated restore: 11:30 PM\nReported 25 minutes before Ludwig asked.\n\n\nSo why did the bot say there wasn’t?"
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#why-might-that-have-happened",
+    "href": "lecture_slides/slide1_6.html#why-might-that-have-happened",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Why might that have happened?",
+    "text": "Why might that have happened?\nWith your partner, come up with at least two explanations.\n\nDid the model make it up?\nDid the bot even have access to outage data?\nIf it did, what could go wrong between the bot and that data?\n\n\n3 minutes. Collect answers on the board. Likely guesses: hallucination, stale data, no outage tool at all, wrong ZIP, API down. Don’t confirm any yet. “Hold onto those; let’s follow the code.”"
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#follow-the-code",
+    "href": "lecture_slides/slide1_6.html#follow-the-code",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Follow the code",
+    "text": "Follow the code\n\n  \n    \n  \n\n  \n  \n  CHATBOT TEAM\n  Support bot\n  Python · LangChain\n  talks to Ludwig\n\n  \n  \n  ALSO CHATBOT TEAM · WRAPPERS\n  \n  check_outage(zip)\n  \n  book_technician()\n  \n  get_account()\n\n  \n  \n  NETWORK OPS TEAM\n  Outage monitoring\n  Java service · internal API\n\n  \n  FIELDPRO (A VENDOR)\n  Technician scheduling\n  their cloud · their API\n\n  \n  BILLING TEAM\n  Accounts & credits\n  another language · another schedule\n\n  \n  \n  \n  \n  \n  \n  \n\n  \n  \n    \n    \n  \n\n\nThe bot answers Ludwig, but every fact it needs lives in a system the chatbot team doesn’t own. Months ago, they hand-wrote a wrapper for each one."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#the-wrapper",
+    "href": "lecture_slides/slide1_6.html#the-wrapper",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "The wrapper",
+    "text": "The wrapper\n# support_bot/wrappers.py · chatbot team · written in March\ndef check_outage(zip_code: str) -&gt; str:\n    \"\"\"Check whether there is a known network outage in a ZIP code.\"\"\"\n    outages = network_ops_api.get(\"/outages\", params={\"zip\": zip_code})\n    if not outages:\n        return \"No known outages.\"\n    return outages[0][\"summary\"]\n\nTotally reasonable code. It worked for six months. The chatbot team wrote it by reading Network Ops’ API docs as they were in March."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#meanwhile-in-another-repo",
+    "href": "lecture_slides/slide1_6.html#meanwhile-in-another-repo",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Meanwhile, in another repo",
+    "text": "Meanwhile, in another repo\n// network-ops/OutageController.java · Network Ops team · shipped last week\n@GetMapping(\"/outages\")\npublic List&lt;Outage&gt; outages(\n        @RequestParam(name = \"postal_code\", required = false) String postalCode) {  // was: \"zip\"\n    return repo.findByPostalCode(postalCode);\n}\n\nNetwork Ops renamed a parameter: zip → postal_code. Different team, different language, different release schedule. Nobody told the chatbot team. Why would they? It’s their API."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#put-them-together",
+    "href": "lecture_slides/slide1_6.html#put-them-together",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Put them together",
+    "text": "Put them together\n# support_bot/wrappers.py\ndef check_outage(zip_code: str) -&gt; str:\n    \"\"\"Check whether there is a known network outage in a ZIP code.\"\"\"\n    outages = network_ops_api.get(\"/outages\", params={\"zip\": zip_code})   # \"zip\" is ignored now\n    if not outages:                                                       # postal_code=null -&gt; []\n        return \"No known outages.\"\n    return outages[0][\"summary\"]\n\n  \n  \n    \n    zip → postal_coderenamed\n    \n    API returns []no error\n    \n    \"No known outages.\"wrapper\n    \n    Model trusts itit's a tool result\n    \n    Ludwig pays $79confident + wrong\n  \n  \n  \n  \n  \n\n\nNo crash. No error. No hallucination. The model did exactly what it should: it trusted its tool. The tool was wrong.\n\n\nGo back to the board. Whose guess was closest? “The model made it up” is the most common guess and it’s wrong: the model behaved perfectly."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#it-gets-worse",
+    "href": "lecture_slides/slide1_6.html#it-gets-worse",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "It gets worse",
+    "text": "It gets worse\n\n  \n    Customer chat bot\n    Rep assistant\n    Field-tech app\n\n    Outages\n    Scheduling\n    Billing\n  \n  \n    \n    \n    \n  \n  \n  9 wrappers\n\n\nSummit now wants the same three systems in three AI apps. 3 apps × 3 systems = 9 wrappers, all written and maintained by people who don’t own the systems they wrap. Add a fourth system and it’s 12."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#the-real-problems",
+    "href": "lecture_slides/slide1_6.html#the-real-problems",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "The real problems",
+    "text": "The real problems\n\nYou don’t own the code. Another team, another language, another release schedule.\nIntegrations drift and break silently. A renamed field became a confident wrong answer.\nEvery app × every system. Wrappers multiply.\nThe wrong people maintain them. The team that knows the system isn’t the team keeping the wrapper alive."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#how-would-you-make-sure-this-never-happens-again",
+    "href": "lecture_slides/slide1_6.html#how-would-you-make-sure-this-never-happens-again",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "How would you make sure this never happens again?",
+    "text": "How would you make sure this never happens again?\nWith your partner, pick one idea and be ready to defend it.\n\nYou can’t control when Network Ops ships changes.\nThree apps (and counting) need the same three systems.\nWhatever you pick, someone has to maintain it. Who?\n\n\n4 minutes. Expect: tests/monitoring on the wrapper, a shared company library, API versioning/contracts, “just tell us when you change it.” All reasonable. Push on the “who maintains it?” question until someone says “the team that owns the system.” That’s the door into MCP."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#what-if-the-owner-shipped-the-tool",
+    "href": "lecture_slides/slide1_6.html#what-if-the-owner-shipped-the-tool",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "What if the owner shipped the tool?",
+    "text": "What if the owner shipped the tool?\n\n  \n    Customer chat bot\n    Rep assistant\n    Field-tech app\n\n    MCP serverby Network Ops\n    MCP serverby FieldPro\n    MCP serverby Billing\n\n    Outages\n    Scheduling\n    Billing\n  \n  \n  \n    \n    \n    \n  \n  \n  \n  one standard\n\n\nSame nine connections, but no one writes them by hand. The owners publish 3 servers, once. Apps just plug in. When Network Ops renames a field, they update their own server."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#network-ops-side-a-server",
+    "href": "lecture_slides/slide1_6.html#network-ops-side-a-server",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Network Ops’ side: a server",
+    "text": "Network Ops’ side: a server\n\nnetwork_ops/outage_server.py · owned by Network Ops\n\nfrom fastmcp import FastMCP\n\nmcp = FastMCP(\"Network Ops\")\n\nFastMCP is the standard Python library for writing MCP servers. The name is what connecting apps see."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#network-ops-side-a-server-1",
+    "href": "lecture_slides/slide1_6.html#network-ops-side-a-server-1",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Network Ops’ side: a server",
+    "text": "Network Ops’ side: a server\n\nnetwork_ops/outage_server.py · owned by Network Ops\n\nfrom fastmcp import FastMCP\n\nmcp = FastMCP(\"Network Ops\")\n\nOUTAGES = {\"83440\": \"Fiber cut reported at 9:15 PM. Crews on site, ETA 11:30 PM.\"}\n\nA stand-in for their real monitoring database. The point: the data lives with the people who own it."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#network-ops-side-a-server-2",
+    "href": "lecture_slides/slide1_6.html#network-ops-side-a-server-2",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Network Ops’ side: a server",
+    "text": "Network Ops’ side: a server\n\nnetwork_ops/outage_server.py · owned by Network Ops\n\nfrom fastmcp import FastMCP\n\nmcp = FastMCP(\"Network Ops\")\n\nOUTAGES = {\"83440\": \"Fiber cut reported at 9:15 PM. Crews on site, ETA 11:30 PM.\"}\n\n@mcp.tool\ndef check_outage(zip_code: str) -&gt; str:\n    \"\"\"Check whether there is a known network outage in a ZIP code.\"\"\"\n    return OUTAGES.get(zip_code, \"No known outages.\")\n\nOne decorator. The function name, type hints, and docstring become the tool’s schema, just like @tool in LangChain."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#network-ops-side-a-server-3",
+    "href": "lecture_slides/slide1_6.html#network-ops-side-a-server-3",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Network Ops’ side: a server",
+    "text": "Network Ops’ side: a server\n\nnetwork_ops/outage_server.py · owned by Network Ops\n\nfrom fastmcp import FastMCP\n\nmcp = FastMCP(\"Network Ops\")\n\nOUTAGES = {\"83440\": \"Fiber cut reported at 9:15 PM. Crews on site, ETA 11:30 PM.\"}\n\n@mcp.tool\ndef check_outage(zip_code: str) -&gt; str:\n    \"\"\"Check whether there is a known network outage in a ZIP code.\"\"\"\n    return OUTAGES.get(zip_code, \"No known outages.\")\n\nif __name__ == \"__main__\":\n    mcp.run()\n\nThat’s the whole server. Thirteen lines, and Network Ops owns every one of them."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#look-familiar",
+    "href": "lecture_slides/slide1_6.html#look-familiar",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Look familiar?",
+    "text": "Look familiar?\n\n\nYour tool (Lesson 1-2)\nfrom langchain.tools import tool\n\n@tool\ndef check_outage(zip_code: str) -&gt; str:\n    \"\"\"Check for an outage in a ZIP code.\"\"\"\n    ...\nLives in your agent’s code.\n\nTheir MCP tool\nfrom fastmcp import FastMCP\nmcp = FastMCP(\"Network Ops\")\n\n@mcp.tool\ndef check_outage(zip_code: str) -&gt; str:\n    \"\"\"Check for an outage in a ZIP code.\"\"\"\n    ...\nLives in their server, in a separate process.\n\n\nSame shape, different owner. That’s most of MCP."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#your-side-the-agent",
+    "href": "lecture_slides/slide1_6.html#your-side-the-agent",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Your side: the agent",
+    "text": "Your side: the agent\n\nsupport_bot · owned by you\n\nfrom pathlib import Path\nfrom langchain.agents import create_agent\nfrom langchain.mcp import MCPAdapter\n\nMCPAdapter ships with LangChain: pip install \"langchain[mcp]\". Notice what’s not imported: nothing from Network Ops."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#your-side-the-agent-1",
+    "href": "lecture_slides/slide1_6.html#your-side-the-agent-1",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Your side: the agent",
+    "text": "Your side: the agent\n\nsupport_bot · owned by you\n\nfrom pathlib import Path\nfrom langchain.agents import create_agent\nfrom langchain.mcp import MCPAdapter\n\nasync with MCPAdapter(Path(\"outage_server.py\")) as adapter:\n\nOpen a connection. A Path to a script means “launch it and talk to it.” (A URL string would mean “it’s already running over there.”)"
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#your-side-the-agent-2",
+    "href": "lecture_slides/slide1_6.html#your-side-the-agent-2",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Your side: the agent",
+    "text": "Your side: the agent\n\nsupport_bot · owned by you\n\nfrom pathlib import Path\nfrom langchain.agents import create_agent\nfrom langchain.mcp import MCPAdapter\n\nasync with MCPAdapter(Path(\"outage_server.py\")) as adapter:\n    tools = await adapter.list_tools()\n\nAsk the server: “What tools do you have?” It answers with names, descriptions, and argument schemas. The adapter turns each one into a normal LangChain tool."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#your-side-the-agent-3",
+    "href": "lecture_slides/slide1_6.html#your-side-the-agent-3",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Your side: the agent",
+    "text": "Your side: the agent\n\nsupport_bot · owned by you\n\nfrom pathlib import Path\nfrom langchain.agents import create_agent\nfrom langchain.mcp import MCPAdapter\n\nasync with MCPAdapter(Path(\"outage_server.py\")) as adapter:\n    tools = await adapter.list_tools()\n\nagent = create_agent(\"google_genai:gemini-2.5-flash\", tools)\n\nFrom here on, it’s the agent you already know. The agent can’t tell an MCP tool from one you wrote."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#your-side-the-agent-4",
+    "href": "lecture_slides/slide1_6.html#your-side-the-agent-4",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Your side: the agent",
+    "text": "Your side: the agent\n\nsupport_bot · owned by you\n\nfrom pathlib import Path\nfrom langchain.agents import create_agent\nfrom langchain.mcp import MCPAdapter\n\nasync with MCPAdapter(Path(\"outage_server.py\")) as adapter:\n    tools = await adapter.list_tools()\n\nagent = create_agent(\"google_genai:gemini-2.5-flash\", tools)\n\nresult = await agent.ainvoke({\"messages\": [\n    {\"role\": \"user\", \"content\": \"My internet in 83440 is out. What's going on?\"}\n]})\n\nainvoke, not invoke: MCP tools talk over a connection, so they’re async-only. agent.invoke(...) fails the moment the model picks an MCP tool."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#now-network-ops-renames-the-field",
+    "href": "lecture_slides/slide1_6.html#now-network-ops-renames-the-field",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Now Network Ops renames the field",
+    "text": "Now Network Ops renames the field\n\nnetwork_ops/outage_server.py · Network Ops ships an update\n\nfrom fastmcp import FastMCP\n\nmcp = FastMCP(\"Network Ops\")\n\nOUTAGES = {\"83440\": \"Fiber cut reported at 9:15 PM. Crews on site, ETA 11:30 PM.\"}\n\n@mcp.tool\ndef check_outage(postal_code: str) -&gt; str:\n    \"\"\"Check whether there is a known network outage in a postal code.\"\"\"\n    return OUTAGES.get(postal_code, \"No known outages.\")\n\nif __name__ == \"__main__\":\n    mcp.run()\n\nThe exact change that broke Ludwig’s bot. This time, Network Ops makes it in their own server."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#and-your-agent-doesnt-change",
+    "href": "lecture_slides/slide1_6.html#and-your-agent-doesnt-change",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "…and your agent doesn’t change",
+    "text": "…and your agent doesn’t change\nasync with MCPAdapter(Path(\"outage_server.py\")) as adapter:\n    tools = await adapter.list_tools()\n\nprint(tools[0].name, tools[0].args)\ncheck_outage {'postal_code': {'type': 'string'}}\n\nZero lines changed on your side. The schema comes from the server every time you connect, so the model sees postal_code and calls it correctly. No stale wrapper, no guess from March."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#what-you-didnt-write",
+    "href": "lecture_slides/slide1_6.html#what-you-didnt-write",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "What you didn’t write",
+    "text": "What you didn’t write\n\nNo wrapper function\nNo import of Network Ops’ code\nNo field names, URLs, or request formats\nNo update when they changed their API\n\n\n\nYour turn."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#colab-example-1-6-15-min-pairs",
+    "href": "lecture_slides/slide1_6.html#colab-example-1-6-15-min-pairs",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Colab: Example 1-6 (15 min, pairs)",
+    "text": "Colab: Example 1-6 (15 min, pairs)\nOpen the notebook in Colab\n\nReproduce Ludwig’s bug in 10 lines\nWrite Network Ops’ server to disk\nConnect, and print the tools before any LLM runs\nAsk Ludwig’s question\nShip the rename, rerun without touching the agent\nAdd a second server: the hosted LangChain docs\n\n\nWalk the room. Most common snags: forgetting await, calling agent.invoke instead of ainvoke, and running asyncio.run() in a notebook (Colab already has an event loop, so top-level await just works). The FastMCP banner and the “langchain.mcp is in beta” warning are normal."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#what-model-context-protocol-means",
+    "href": "lecture_slides/slide1_6.html#what-model-context-protocol-means",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "What “Model Context Protocol” means",
+    "text": "What “Model Context Protocol” means\n\n\nModel\nFor AI models. The thing reading the tool list is an LLM, so descriptions are written for a model.\n\n\nContext\nEverything a model can use beyond its training: tools to call, resources to read, prompts to start from.\n\n\nProtocol\nAgreed-on rules for the messages. Like HTTP for web pages: any browser, any website. Any MCP client, any MCP server.\n\n\n\nMCP standardizes the connection, not the tools. Network Ops decides what their tools do. MCP decides how everyone asks for them."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#the-data-flow",
+    "href": "lecture_slides/slide1_6.html#the-data-flow",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "The data flow",
+    "text": "The data flow\n\n  \n    \n    \n  \n\n  \n  \n  Ludwig\n\n  \n  \n  YOUR PROCESS · SUPPORT BOT\n  \n  Model\n  decides which tool to call\n  check_outage(postal_code=\"83440\")\n  \n  MCP client\n  MCPAdapter(...)\n  speaks MCP for you\n\n  \n  \n  transport\n  stdio · HTTP\n\n  \n  \n  NETWORK OPS' PROCESS\n  \n  Outage system\n  their data, their code\n  \n  MCP server\n  @mcp.tool check_outage\n\n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n\n  \n  \n    1\n    2\n    3\n    4\n    5\n    6\n    7\n    8\n  \n\n\nBefore step 1, the client already asked the server “what tools do you have?” (tools/list). That’s how the model knew check_outage existed. Two processes, one protocol in the middle. Neither side sees the other’s code."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#what-goes-over-the-wire",
+    "href": "lecture_slides/slide1_6.html#what-goes-over-the-wire",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "What goes over the wire",
+    "text": "What goes over the wire\n\nYour agent → Network Ops\n\n{\"jsonrpc\": \"2.0\", \"id\": 1, \"method\": \"tools/list\"}\n\n\nNetwork Ops → your agent\n\n{\"jsonrpc\": \"2.0\", \"id\": 1, \"result\": {\"tools\": [{\n  \"name\": \"check_outage\",\n  \"description\": \"Check whether there is a known network outage in a postal code.\",\n  \"inputSchema\": {\n    \"type\": \"object\",\n    \"properties\": {\"postal_code\": {\"type\": \"string\"}},\n    \"required\": [\"postal_code\"]\n  }}]}}\n\n\nStep 0: discovery. This reply is where the model learned about postal_code. When Network Ops renamed it, this message changed, and your agent got the new name for free. (Real messages, trimmed.)"
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#what-goes-over-the-wire-1",
+    "href": "lecture_slides/slide1_6.html#what-goes-over-the-wire-1",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "What goes over the wire",
+    "text": "What goes over the wire\n→ {\"jsonrpc\": \"2.0\", \"id\": 2, \"method\": \"tools/call\",\n   \"params\": {\"name\": \"check_outage\",\n              \"arguments\": {\"postal_code\": \"83440\"}}}\n← {\"jsonrpc\": \"2.0\", \"id\": 2, \"result\": {\n      \"content\": [{\"type\": \"text\",\n                   \"text\": \"Fiber cut reported at 9:15 PM. Crews on site, ETA 11:30 PM.\"}]}}\n\nSteps 3 and 6: the call. Plain JSON. That’s why the server can be written in any language: Python, Java, TypeScript, it doesn’t matter. Anything that can read and write these messages can be an MCP server."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#more-than-tools",
+    "href": "lecture_slides/slide1_6.html#more-than-tools",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "More than tools",
+    "text": "More than tools\n\n\n🔧 Tools\nFunctions the model calls.\ncheck_outage(postal_code)\nMost servers are mostly this. It’s all we use today.\n\n\n📄 Resources\nData the app can read.\noutages://rexburg/map\nLike a file the server shares.\n\n\n💬 Prompts\nTemplates the user picks.\n/handle-outage-complaint\nNetwork Ops’ best script for outage calls.\n\n\n\nThe three core server features from the prep reading. One connection can carry all three."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#two-ways-to-connect",
+    "href": "lecture_slides/slide1_6.html#two-ways-to-connect",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Two ways to connect",
+    "text": "Two ways to connect\n\n\n\n  \n    \n    \n    \n    \n  \n\nstdio: Friendly Neighborhood Spider-Man\n\nLocal. Lives on your machine\nSwoops in when needed. The client launches the server, and it’s gone when the client quits\nOne per client. Other computers get their own (the Spider-Verse)\nFound on GitHub or a package: python outage_server.py, uvx ..., npx ...\n\n\n\n  \n    \n    \n    \n    \n    \n  \n\nHTTP: Stark Industries\n\nRemote. Lives on a server somewhere else\nAlways on. Already running before you connect\nServes many clients. Spin up more Iron Man suits when traffic grows\nFound on a company’s website: https://docs.langchain.com/mcp\n\n\n\nHold on to these two: in the cloned repo, they’ll run the same server both ways."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#same-server-two-transports",
+    "href": "lecture_slides/slide1_6.html#same-server-two-transports",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Same server, two transports",
+    "text": "Same server, two transports\n\n\n\n\n\n\n\n\n\nstdio (Spider-Man)\nHTTP (Stark)\n\n\n\n\nServer’s last line\nmcp.run()\nmcp.run(transport=\"http\", port=8000)\n\n\nWho starts the server\nyour agent, as a subprocess\nthe owner, and it keeps running\n\n\nYour agent’s target\nPath(\"outage_server.py\")\n\"http://127.0.0.1:8000/mcp\"\n\n\nClients per server\none\nmany\n\n\nWhere it can live\nyour machine\nanywhere with a URL\n\n\nEveryday examples\nfilesystem, Blender, desktop apps\nSlack, GitHub, LangChain docs\n\n\n\n\nOnly the target changes in your code. The tools, the agent, and the ainvoke stay the same."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#like-usb",
+    "href": "lecture_slides/slide1_6.html#like-usb",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Like USB",
+    "text": "Like USB\n\nYou plug in a mouse. You don’t know how USB talks to it. It just works.\nThe mouse maker didn’t write a driver for your laptop. The laptop maker didn’t write support for their mouse.\nBoth followed the standard.\n\n\n\nMCP is USB for AI tools: Network Ops builds the device (server), you build the laptop (agent), and the protocol is the port."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#but-usb-keeps-changing",
+    "href": "lecture_slides/slide1_6.html#but-usb-keeps-changing",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "But USB keeps changing",
+    "text": "But USB keeps changing\n\n  \n    \n    \n      \n      \n      \n      \n      USB-A\n      1996\n      the classic · one way up\n    \n    \n    \n      \n      \n      \n      USB-B\n      1996\n      printers\n    \n    \n    \n      \n      \n      \n      Mini-USB\n      2000\n      cameras, MP3 players\n    \n    \n    \n      \n      \n      \n      Micro-USB\n      2007\n      every Android phone\n    \n    \n    \n      \n      \n      \n      USB-C\n      2014\n      either way up · today\n    \n    \n    \n      \n      ?\n      Next\n      20??\n    \n  \n\n\nThe idea of USB never changed: one standard port, any device. The plug has come in five shapes, and your drawer is full of old cables to prove it."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#mcp-is-already-changing",
+    "href": "lecture_slides/slide1_6.html#mcp-is-already-changing",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "MCP is already changing",
+    "text": "MCP is already changing\n\n  \n  \n    \n    Nov 2024\n    MCP launched\n    stdio + HTTP/SSE\n\n    \n    Mar 2025\n    Streamable HTTP\n    replaces HTTP/SSE\n\n    \n    Jun 2025\n    spec revision\n\n    \n    Nov 2025\n    spec revision\n\n    \n    Jul 2026\n    \"modern era\":\n    new handshake\n  \n\n  LANGCHAIN'S SIDE\n  \n  langchain-mcp-adapters · MultiServerMCPClient\n  \n  langchain.mcp · MCPAdapter (beta)\n\n\nSame idea, new plugs. Tutorials from last year use MultiServerMCPClient and a \"transport\" key; today it’s MCPAdapter. Learn the ideas (client, server, transport, tools list) and check the date on anything you copy."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#the-summit-wireless-repo",
+    "href": "lecture_slides/slide1_6.html#the-summit-wireless-repo",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "The Summit Wireless repo",
+    "text": "The Summit Wireless repo\n\n  summit-wireless-mcp/\n  \n    \n    network_ops/\n    outage_server.py\n    field_service/\n    scheduling_server.py\n    support_bot/\n    agent.py\n  \n  \n    owned by Network Ops\n    owned by FieldPro (you'd never see it)\n    owned by you, the chatbot team\n  \n  \n\n\nIn a real company, these would be three repos and you’d only see support_bot/. They’re together so you can run everyone’s part on one laptop."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#run-it-both-ways-20-min-pairs",
+    "href": "lecture_slides/slide1_6.html#run-it-both-ways-20-min-pairs",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Run it both ways (20 min, pairs)",
+    "text": "Run it both ways (20 min, pairs)\ngit clone https://github.com/byuidatascience/summit-wireless-mcp\ncd summit-wireless-mcp\nuv sync                      # then copy .env.example to .env and add your key\n\n# 1. Spider-Man: one terminal. The agent launches the server itself.\nuv run support_bot/agent.py\n\n# 2. Stark: two terminals. Network Ops starts the server and leaves it running...\nuv run fastmcp run network_ops/outage_server.py:mcp --transport http --port 8000\n\n# ...and your agent only knows the URL.\nuv run support_bot/agent.py --http\n\nIn Stark mode, watch terminal 1: every POST /mcp line is your agent talking to Network Ops. Then stop the server and ask again. What happens?\n\n\nPlaceholder URL: this repo lives at drafts/summit-wireless-mcp/ in the course repo until it’s pushed as its own GitHub repo. Update the clone URL above when it exists."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#fix-ludwigs-whole-night",
+    "href": "lecture_slides/slide1_6.html#fix-ludwigs-whole-night",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Fix Ludwig’s whole night",
+    "text": "Fix Ludwig’s whole night\nLudwig also booked a $79 visit he doesn’t need. FieldPro’s server can find and cancel appointments.\nConnect your agent to both servers by changing only its target:\ntarget = {\"mcpServers\": {\n    \"network\": {\"command\": \"python\", \"args\": [str(NETWORK_OPS)]},\n    \"field\":   {\"command\": \"python\", \"args\": [str(REPO / \"field_service\" / \"scheduling_server.py\")]},\n}}\n\n“Hi, it’s Ludwig in 83440. My internet is out and I booked a technician for tomorrow. Do I still need them?”\n\n\nTool names get a prefix per server: network_check_outage, field_cancel_appointment. Stretch: be the billing team: write a server that gives Ludwig an outage credit, and connect it as a third."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#add-the-langchain-docs-to-your-agent",
+    "href": "lecture_slides/slide1_6.html#add-the-langchain-docs-to-your-agent",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Add the LangChain docs to your agent",
+    "text": "Add the LangChain docs to your agent\n\nYour Project 1 agent · main.py\n\nuv add \"langchain[mcp]\"\ndef get_response(prompt: str) -&gt; str:\n    result = agent.invoke({\"messages\": [{\"role\": \"user\", \"content\": prompt}]})\n    return result[\"messages\"][-1].text\n\ndef main():\n    while True:\n        prompt = input(\"Input: \")\n        if prompt == \"exit\": break\n        print(get_response(prompt))\n\nif __name__ == \"__main__\":\n    main()\n\nRoughly where your main.py is from Lesson 1-4. Yours probably has more (memory, rich, your own tools). Keep all of it."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#add-the-langchain-docs-to-your-agent-1",
+    "href": "lecture_slides/slide1_6.html#add-the-langchain-docs-to-your-agent-1",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Add the LangChain docs to your agent",
+    "text": "Add the LangChain docs to your agent\n\nYour Project 1 agent · main.py\n\nimport asyncio\nfrom langchain.mcp import MCPAdapter\n\nasync def build_agent():\n    async with MCPAdapter(\"https://docs.langchain.com/mcp\") as adapter:\n        docs_tools = await adapter.list_tools()\n    return create_agent(\"google_genai:gemini-2.5-flash\", docs_tools + my_tools)\n\ndef get_response(prompt: str) -&gt; str:\n    result = agent.invoke({\"messages\": [{\"role\": \"user\", \"content\": prompt}]})\n    return result[\"messages\"][-1].text\n\nA URL target: Stark Industries. LangChain runs this server; you just connect. docs_tools + my_tools mixes MCP tools with your own @tool functions."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#add-the-langchain-docs-to-your-agent-2",
+    "href": "lecture_slides/slide1_6.html#add-the-langchain-docs-to-your-agent-2",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Add the LangChain docs to your agent",
+    "text": "Add the LangChain docs to your agent\n\nYour Project 1 agent · main.py\n\nimport asyncio\nfrom langchain.mcp import MCPAdapter\n\nasync def build_agent():\n    async with MCPAdapter(\"https://docs.langchain.com/mcp\") as adapter:\n        docs_tools = await adapter.list_tools()\n    return create_agent(\"google_genai:gemini-2.5-flash\", docs_tools + my_tools)\n\nasync def get_response(agent, prompt: str) -&gt; str:\n    result = await agent.ainvoke({\"messages\": [{\"role\": \"user\", \"content\": prompt}]})\n    return result[\"messages\"][-1].text\n\nMCP tools are async-only, so invoke becomes await ... ainvoke, and the function becomes async def."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#add-the-langchain-docs-to-your-agent-3",
+    "href": "lecture_slides/slide1_6.html#add-the-langchain-docs-to-your-agent-3",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Add the LangChain docs to your agent",
+    "text": "Add the LangChain docs to your agent\n\nYour Project 1 agent · main.py\n\nimport asyncio\nfrom langchain.mcp import MCPAdapter\n\nasync def build_agent():\n    async with MCPAdapter(\"https://docs.langchain.com/mcp\") as adapter:\n        docs_tools = await adapter.list_tools()\n    return create_agent(\"google_genai:gemini-2.5-flash\", docs_tools + my_tools)\n\nasync def get_response(agent, prompt: str) -&gt; str:\n    result = await agent.ainvoke({\"messages\": [{\"role\": \"user\", \"content\": prompt}]})\n    return result[\"messages\"][-1].text\n\nasync def main():\n    agent = await build_agent()\n    while True:\n        prompt = input(\"Input: \")\n        if prompt == \"exit\": break\n        print(await get_response(agent, prompt))\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n\nmain becomes async too, and asyncio.run(main()) starts it. A script has no event loop until you start one. (Colab already had one, which is why plain await worked there.)"
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#now-ask-it",
+    "href": "lecture_slides/slide1_6.html#now-ask-it",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Now ask it",
+    "text": "Now ask it\n\n“How do I add short-term memory to a LangChain agent?”\n\n\nDid it call search_docs_by_lang_chain? How can you tell?\nYour agent can now read docs you didn’t write, maintained by people you’ve never met, and it’ll stay current when they update them.\n✅ That’s the “Connect to LangChain MCP” requirement for Project 1."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#keep-plugging-things-in",
+    "href": "lecture_slides/slide1_6.html#keep-plugging-things-in",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Keep plugging things in",
+    "text": "Keep plugging things in\ntarget = {\"mcpServers\": {\n    \"docs\":  {\"url\": \"https://docs.langchain.com/mcp\"},\n    \"fetch\": {\"command\": \"uvx\", \"args\": [\"mcp-server-fetch\"]},\n    # ...anything from the prep reading\n}}\n\nEvery server you connect counts toward the most MCP servers connected leaderboard. Before you connect one, ask: who wrote this, and what can its tools change?"
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#next-time",
+    "href": "lecture_slides/slide1_6.html#next-time",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "Next time",
+    "text": "Next time\nAn MCP server off GitHub.\n\nPull a real one (Canvas) and open it up: what’s inside?\nIs it maintained? Is it current? Is it safe to hand to your agent?\n\n\nToday, Network Ops was trustworthy because we wrote them. Out in the wild, connecting a server is installing software."
+  },
+  {
+    "objectID": "lecture_slides/slide1_6.html#what-goes-over-the-wire-continued",
+    "href": "lecture_slides/slide1_6.html#what-goes-over-the-wire-continued",
+    "title": "Lesson 1-6: Tools You Don’t Own",
+    "section": "What goes over the wire (continued)",
+    "text": "What goes over the wire (continued)\n\nYour agent → Network Ops\n\n{\"jsonrpc\": \"2.0\", \"id\": 2, \"method\": \"tools/call\",\n \"params\": {\"name\": \"check_outage\", \"arguments\": {\"postal_code\": \"83440\"}}}\n\n\nNetwork Ops → your agent\n\n{\"jsonrpc\": \"2.0\", \"id\": 2, \"result\": {\"content\": [{\n  \"type\": \"text\",\n  \"text\": \"Fiber cut reported at 9:15 PM. Crews on site, ETA 11:30 PM.\"}]}}\n\n\nSteps 3 and 6: the call. Plain JSON. That’s why the server can be written in any language: Python, Java, TypeScript, it doesn’t matter. Anything that can read and write these messages can be an MCP server."
   }
 ]

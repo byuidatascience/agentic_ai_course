@@ -1,0 +1,10 @@
+[project]
+name = "summit-wireless-mcp"
+version = "0.1.0"
+description = "Summit Wireless support bot: an agent that uses tools other teams own, through MCP"
+requires-python = ">=3.11"
+dependencies = [
+    "langchain[mcp]>=1.4",
+    "langchain-google-genai",
+    "python-dotenv",
+]

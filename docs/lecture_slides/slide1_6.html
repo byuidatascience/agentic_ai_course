@@ -1,0 +1,1810 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<link href="../Assets/Images/byui_logo.png" rel="icon" type="image/png">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-23bbe8b5e4efc1e257f6d59dce478b08.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
+
+  <title>Lesson 1-6: Tools You Don’t Own</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #e1e4e8; background-color: #24292e; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #e1e4e8; } /* Normal */
+    code span.al { color: #ff5555; font-weight: bold; } /* Alert */
+    code span.an { color: #6a737d; } /* Annotation */
+    code span.at { color: #f97583; } /* Attribute */
+    code span.bn { color: #79b8ff; } /* BaseN */
+    code span.bu { color: #f97583; } /* BuiltIn */
+    code span.cf { color: #f97583; } /* ControlFlow */
+    code span.ch { color: #9ecbff; } /* Char */
+    code span.cn { color: #79b8ff; } /* Constant */
+    code span.co { color: #6a737d; } /* Comment */
+    code span.cv { color: #6a737d; } /* CommentVar */
+    code span.do { color: #6a737d; } /* Documentation */
+    code span.dt { color: #f97583; } /* DataType */
+    code span.dv { color: #79b8ff; } /* DecVal */
+    code span.er { color: #ff5555; text-decoration: underline; } /* Error */
+    code span.ex { color: #f97583; font-weight: bold; } /* Extension */
+    code span.fl { color: #79b8ff; } /* Float */
+    code span.fu { color: #b392f0; } /* Function */
+    code span.im { color: #9ecbff; } /* Import */
+    code span.in { color: #6a737d; } /* Information */
+    code span.kw { color: #f97583; } /* Keyword */
+    code span.op { color: #e1e4e8; } /* Operator */
+    code span.ot { color: #b392f0; } /* Other */
+    code span.pp { color: #f97583; } /* Preprocessor */
+    code span.re { color: #6a737d; } /* RegionMarker */
+    code span.sc { color: #79b8ff; } /* SpecialChar */
+    code span.ss { color: #9ecbff; } /* SpecialString */
+    code span.st { color: #9ecbff; } /* String */
+    code span.va { color: #ffab70; } /* Variable */
+    code span.vs { color: #9ecbff; } /* VerbatimString */
+    code span.wa { color: #ff5555; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-a744a2b370710ab7168324db5d172d71.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-dark">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Lesson 1-6: Tools You Don’t Own</h1>
+  <p class="subtitle">Connecting agents to the world with MCP</p>
+
+<div class="quarto-title-authors">
+</div>
+
+</section>
+<section class="slide level2">
+
+<!--
+  competency: 1.4.2 Connect external tools through Model Context Protocol (MCP)
+  flow: problem -> discuss why -> what happened -> brainstorm -> smallest example
+        -> Colab -> how it works / what MCP means -> cloned repo -> own agent
+  pairs with: notebooks/notebook1_6.ipynb, drafts/summit-wireless-mcp/ (clone target)
+  code verified 2026-09-28 against langchain 1.4.2, fastmcp 4.0.10 (stdio, HTTP,
+  multi-server config, rename). Gemini call itself not run (no key on the build machine).
+-->
+<style>
+.reveal .why { font-size: 0.72em; color: #c9d1d9; margin-top: 0.6em; }
+.reveal .why strong { color: #7ee787; }
+.reveal .bad  { color: #ff7b72; }
+.reveal .good { color: #7ee787; }
+.reveal .tag { font-size: 0.45em; letter-spacing: .12em; text-transform: uppercase; color: #8b949e; }
+.reveal pre { width: 100%; box-shadow: none; }
+.reveal pre code { max-height: 520px; font-size: 0.95em; line-height: 1.4; }
+.reveal table { font-size: 0.62em; }
+.reveal ul, .reveal p { font-size: 0.8em; }
+.reveal section.compact pre code { font-size: 0.8em; max-height: 580px; }
+.reveal section.transports svg.diagram { width: 100%; height: 170px; margin: 0; }
+.reveal section.transports h3 { font-size: 0.85em; margin: 0.2em 0 0.3em; }
+.reveal section.transports li { font-size: 0.85em; }
+.reveal .big-q { font-size: 1.5em; font-weight: 700; text-align: center; margin-top: 1.2em; }
+/* inline SVG diagrams */
+.reveal svg.diagram { display: block; width: 100%; height: auto; margin: 0.3em auto 0.2em; }
+.reveal svg.diagram text { font-family: "Source Sans Pro", Helvetica, sans-serif; fill: #c9d1d9; }
+.reveal svg.diagram .dg-tag   { font-size: 14px; letter-spacing: .14em; fill: #8b949e; font-weight: 600; }
+.reveal svg.diagram .dg-title { font-size: 26px; font-weight: 700; }
+.reveal svg.diagram .dg-label { font-size: 18px; fill: #8b949e; }
+.reveal svg.diagram .dg-mono  { font-family: "SFMono-Regular", Consolas, Menlo, monospace; font-size: 19px; }
+.reveal svg.diagram .dg-box   { fill: #161b22; stroke-width: 2; }
+.reveal svg.diagram .dg-inner { fill: #0d1117; stroke: #30363d; stroke-width: 1.5; }
+/* chat mockups */
+.reveal .chat { max-width: 820px; margin: 0.4em auto 0; background: #0d1117; border: 2px solid #30363d; border-radius: 18px; overflow: hidden; }
+.reveal .chat-head { background: #161b22; color: #8b949e; font-size: 0.45em; letter-spacing: .12em; text-transform: uppercase; padding: 12px 22px; display: flex; justify-content: space-between; }
+.reveal .chat-body { padding: 18px 22px; display: flex; flex-direction: column; gap: 14px; }
+.reveal .bubble { font-size: 0.6em; line-height: 1.4; padding: 12px 18px; border-radius: 16px; max-width: 78%; }
+.reveal .bubble.me   { align-self: flex-end; background: #1f6feb; color: #fff; border-bottom-right-radius: 4px; }
+.reveal .bubble.them { align-self: flex-start; background: #21262d; color: #e6edf3; border-bottom-left-radius: 4px; }
+.reveal .bubble .who { display: block; font-size: 0.75em; opacity: 0.7; margin-bottom: 2px; }
+/* cards */
+.reveal .cards { display: flex; gap: 22px; margin-top: 0.6em; }
+.reveal .card { flex: 1; background: #161b22; border: 2px solid #30363d; border-radius: 14px; padding: 16px 20px; }
+.reveal .card .ct { display: block; font-weight: 700; font-size: 1.35em; margin-bottom: 6px; color: #e6edf3; }
+.reveal .card p, .reveal .card li { font-size: 0.55em; }
+.reveal .incident { max-width: 760px; margin: 0.8em auto 0; background: #161b22; border: 2px solid #ff7b72; border-radius: 14px; padding: 18px 26px; }
+.reveal .incident .tag { display: block; margin-bottom: 6px; }
+.reveal .incident p { margin: 4px 0; font-size: 0.7em; }
+</style>
+</section>
+<section>
+<section id="the-problem" class="title-slide slide level1 center">
+<h1>The Problem</h1>
+
+</section>
+<section id="meet-ludwig" class="slide level2">
+<h2>Meet Ludwig</h2>
+<div class="tag">
+<p>Rexburg, ID · 83440 · 9:40 PM</p>
+</div>
+<div class="chat">
+<div class="chat-head">
+<p><span>Summit Wireless · Support Chat</span> <span style="float:right">9:40 PM</span></p>
+</div>
+<div class="chat-body">
+<div class="bubble me">
+<p><span class="who">Ludwig</span>My internet has been out for 20 minutes. What’s going on?</p>
+</div>
+<div class="bubble them fragment">
+<p><span class="who">Summit Support Bot</span>Good news: there are <strong>no known outages in your area!</strong> Try unplugging your router for 30 seconds and plugging it back in. If that doesn’t work, I can schedule a technician visit ($79).</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>Read it in character. Pause after the bot reply: “Seems like a pretty good answer, right?”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="what-ludwig-did-next" class="slide level2">
+<h2>What Ludwig did next</h2>
+<div class="cards">
+<div class="card fragment">
+<p><span class="ct">↻ Restarted the router</span></p>
+<p>Three times.</p>
+</div>
+<div class="card fragment">
+<p><span class="ct">🧾 Booked the technician</span></p>
+<p>Tomorrow, 8–10 AM. <strong>$79.</strong></p>
+</div>
+<div class="card fragment">
+<p><span class="ct">📱 Got a text</span></p>
+<div class="chat" style="margin:0.3em 0 0; max-width:none">
+<div class="chat-body">
+<div class="bubble them" style="max-width:100%">
+<p><span class="who">Neighbor</span>is your internet out too??</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="there-was-an-outage" class="slide level2">
+<h2>There <em>was</em> an outage</h2>
+<div class="incident">
+<p><span class="tag">Network Ops · Incident #4471</span></p>
+<p><strong>83440 (Rexburg):</strong> Fiber cut reported at <strong>9:15 PM</strong></p>
+<p>Crews on site. Estimated restore: <strong>11:30 PM</strong></p>
+<p>Reported <strong>25 minutes</strong> before Ludwig asked.</p>
+</div>
+<div class="big-q fragment">
+<p>So why did the bot say there wasn’t?</p>
+</div>
+</section></section>
+<section>
+<section id="discuss" class="title-slide slide level1 center">
+<h1>Discuss</h1>
+
+</section>
+<section id="why-might-that-have-happened" class="slide level2">
+<h2>Why might that have happened?</h2>
+<p>With your partner, come up with <strong>at least two</strong> explanations.</p>
+<ul>
+<li class="fragment">Did the model make it up?</li>
+<li class="fragment">Did the bot even have access to outage data?</li>
+<li class="fragment">If it did, what could go wrong between the bot and that data?</li>
+</ul>
+<aside class="notes">
+<p>3 minutes. Collect answers on the board. Likely guesses: hallucination, stale data, no outage tool at all, wrong ZIP, API down. Don’t confirm any yet. “Hold onto those; let’s follow the code.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="what-actually-happened" class="title-slide slide level1 center">
+<h1>What Actually Happened</h1>
+
+</section>
+<section id="follow-the-code" class="slide level2">
+<h2>Follow the code</h2>
+<svg class="diagram" viewbox="0 0 1100 420" role="img" aria-label="The Summit support bot, owned by the chatbot team, calls three hand-written wrappers, also owned by the chatbot team. Each wrapper calls a system owned by someone else: Network Ops' outage monitoring, a vendor's technician scheduling, and the billing team's accounts. The outage wrapper is marked broken.">
+  <defs>
+    <marker id="fc-y" viewbox="0 0 10 10" refx="9" refy="5" markerwidth="7" markerheight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#d29922"></path></marker>
+  </defs>
+
+  <!-- bot -->
+  <rect class="dg-box" x="20" y="130" width="250" height="160" rx="14" stroke="#58a6ff"></rect>
+  <text class="dg-tag" x="42" y="165">CHATBOT TEAM</text>
+  <text class="dg-title" x="42" y="205" style="fill:#79c0ff">Support bot</text>
+  <text class="dg-label" x="42" y="240">Python · LangChain</text>
+  <text class="dg-label" x="42" y="266">talks to Ludwig</text>
+
+  <!-- wrappers -->
+  <rect x="350" y="20" width="320" height="380" rx="14" fill="none" stroke="#d29922" stroke-width="2" stroke-dasharray="8 6"></rect>
+  <text class="dg-tag" x="372" y="50" style="fill:#d29922">ALSO CHATBOT TEAM · WRAPPERS</text>
+  <rect class="dg-inner" x="372" y="75" width="276" height="64" rx="8"></rect>
+  <text class="dg-mono" x="390" y="114">check_outage(zip)</text>
+  <rect class="dg-inner" x="372" y="178" width="276" height="64" rx="8"></rect>
+  <text class="dg-mono" x="390" y="217">book_technician()</text>
+  <rect class="dg-inner" x="372" y="281" width="276" height="64" rx="8"></rect>
+  <text class="dg-mono" x="390" y="320">get_account()</text>
+
+  <!-- systems -->
+  <rect class="dg-box" x="760" y="60" width="320" height="94" rx="12" stroke="#7ee787"></rect>
+  <text class="dg-tag" x="780" y="88">NETWORK OPS TEAM</text>
+  <text x="780" y="118" style="font-size:21px;font-weight:700">Outage monitoring</text>
+  <text class="dg-label" x="780" y="142" style="font-size:16px">Java service · internal API</text>
+
+  <rect class="dg-box" x="760" y="163" width="320" height="94" rx="12" stroke="#d2a8ff"></rect>
+  <text class="dg-tag" x="780" y="191">FIELDPRO (A VENDOR)</text>
+  <text x="780" y="221" style="font-size:21px;font-weight:700">Technician scheduling</text>
+  <text class="dg-label" x="780" y="245" style="font-size:16px">their cloud · their API</text>
+
+  <rect class="dg-box" x="760" y="266" width="320" height="94" rx="12" stroke="#ffa657"></rect>
+  <text class="dg-tag" x="780" y="294">BILLING TEAM</text>
+  <text x="780" y="324" style="font-size:21px;font-weight:700">Accounts &amp; credits</text>
+  <text class="dg-label" x="780" y="348" style="font-size:16px">another language · another schedule</text>
+
+  <!-- arrows -->
+  <path d="M270,180 L362,107" stroke="#d29922" stroke-width="2.5" fill="none" marker-end="url(#fc-y)"></path>
+  <path d="M270,210 L362,210" stroke="#d29922" stroke-width="2.5" fill="none" marker-end="url(#fc-y)"></path>
+  <path d="M270,240 L362,313" stroke="#d29922" stroke-width="2.5" fill="none" marker-end="url(#fc-y)"></path>
+  <path d="M648,107 L750,107" stroke="#d29922" stroke-width="2.5" fill="none" marker-end="url(#fc-y)"></path>
+  <path d="M648,210 L750,210" stroke="#d29922" stroke-width="2.5" fill="none" marker-end="url(#fc-y)"></path>
+  <path d="M648,313 L750,313" stroke="#d29922" stroke-width="2.5" fill="none" marker-end="url(#fc-y)"></path>
+
+  <!-- broken -->
+  <g class="fragment" transform="translate(700,107)">
+    <circle r="20" fill="#161b22" stroke="#ff7b72" stroke-width="3"></circle>
+    <path d="M-8,-8 L8,8 M8,-8 L-8,8" stroke="#ff7b72" stroke-width="3.5" stroke-linecap="round"></path>
+  </g>
+</svg>
+<div class="why">
+<p>The bot answers Ludwig, but <strong>every fact it needs lives in a system the chatbot team doesn’t own</strong>. Months ago, they hand-wrote a wrapper for each one.</p>
+</div>
+</section>
+<section id="the-wrapper" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">The wrapper</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-code-line-numbers="|1|2-3|4|5-7"><pre class="sourceCode numberSource python number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode python hljs"><span id="cb1-1" class="hljs-ln-code"><a></a><span class="co"># support_bot/wrappers.py · chatbot team · written in March</span></span>
+<span id="cb1-2" class="hljs-ln-code"><a></a><span class="kw">def</span> check_outage(zip_code: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb1-3" class="hljs-ln-code"><a></a>    <span class="co">"""Check whether there is a known network outage in a ZIP code."""</span></span>
+<span id="cb1-4" class="hljs-ln-code"><a></a>    outages <span class="op">=</span> network_ops_api.get(<span class="st">"/outages"</span>, params<span class="op">=</span>{<span class="st">"zip"</span>: zip_code})</span>
+<span id="cb1-5" class="hljs-ln-code"><a></a>    <span class="cf">if</span> <span class="kw">not</span> outages:</span>
+<span id="cb1-6" class="hljs-ln-code"><a></a>        <span class="cf">return</span> <span class="st">"No known outages."</span></span>
+<span id="cb1-7" class="hljs-ln-code"><a></a>    <span class="cf">return</span> outages[<span class="dv">0</span>][<span class="st">"summary"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why">
+<p>Totally reasonable code. It worked for six months. The chatbot team wrote it by reading Network Ops’ API docs <strong>as they were in March</strong>.</p>
+</div>
+</section>
+<section id="meanwhile-in-another-repo" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Meanwhile, in another repo</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-code-line-numbers="|3|4|5"><pre class="sourceCode numberSource java number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode java hljs"><span id="cb2-1" class="hljs-ln-code"><a></a><span class="co">// network-ops/OutageController.java · Network Ops team · shipped last week</span></span>
+<span id="cb2-2" class="hljs-ln-code"><a></a><span class="at">@GetMapping</span><span class="op">(</span><span class="st">"/outages"</span><span class="op">)</span></span>
+<span id="cb2-3" class="hljs-ln-code"><a></a><span class="kw">public</span> <span class="bu">List</span><span class="op">&lt;</span>Outage<span class="op">&gt;</span> <span class="fu">outages</span><span class="op">(</span></span>
+<span id="cb2-4" class="hljs-ln-code"><a></a>        <span class="at">@RequestParam</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"postal_code"</span><span class="op">,</span> required <span class="op">=</span> <span class="kw">false</span><span class="op">)</span> <span class="bu">String</span> postalCode<span class="op">)</span> <span class="op">{</span>  <span class="co">// was: "zip"</span></span>
+<span id="cb2-5" class="hljs-ln-code"><a></a>    <span class="cf">return</span> repo<span class="op">.</span><span class="fu">findByPostalCode</span><span class="op">(</span>postalCode<span class="op">);</span></span>
+<span id="cb2-6" class="hljs-ln-code"><a></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why">
+<p>Network Ops renamed a parameter: <code>zip</code> → <code>postal_code</code>. Different team, different language, different release schedule. <strong>Nobody told the chatbot team.</strong> Why would they? It’s <em>their</em> API.</p>
+</div>
+</section>
+<section id="put-them-together" class="slide level2">
+<h2>Put them together</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-code-line-numbers="4|5-6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="co"># support_bot/wrappers.py</span></span>
+<span id="cb3-2"><a></a><span class="kw">def</span> check_outage(zip_code: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb3-3"><a></a>    <span class="co">"""Check whether there is a known network outage in a ZIP code."""</span></span>
+<span id="cb3-4"><a></a>    outages <span class="op">=</span> network_ops_api.get(<span class="st">"/outages"</span>, params<span class="op">=</span>{<span class="st">"zip"</span>: zip_code})   <span class="co"># "zip" is ignored now</span></span>
+<span id="cb3-5"><a></a>    <span class="cf">if</span> <span class="kw">not</span> outages:                                                       <span class="co"># postal_code=null -&gt; []</span></span>
+<span id="cb3-6"><a></a>        <span class="cf">return</span> <span class="st">"No known outages."</span></span>
+<span id="cb3-7"><a></a>    <span class="cf">return</span> outages[<span class="dv">0</span>][<span class="st">"summary"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<svg class="diagram" viewbox="0 0 1100 130" role="img" aria-label="Chain of failure: the parameter was renamed, the API ignored zip and returned an empty list, the wrapper returned no known outages, the model trusted its tool, and Ludwig paid 79 dollars.">
+  <defs><marker id="ch-g" viewbox="0 0 10 10" refx="9" refy="5" markerwidth="7" markerheight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8b949e"></path></marker></defs>
+  <g style="font-size:17px">
+    <rect class="dg-box" x="5" y="25" width="190" height="80" rx="10" stroke="#8b949e"></rect>
+    <text x="100" y="58" text-anchor="middle">zip → postal_code</text><text class="dg-label" x="100" y="84" text-anchor="middle" style="font-size:15px">renamed</text>
+    <rect class="dg-box" x="228" y="25" width="190" height="80" rx="10" stroke="#8b949e"></rect>
+    <text x="323" y="58" text-anchor="middle">API returns []</text><text class="dg-label" x="323" y="84" text-anchor="middle" style="font-size:15px">no error</text>
+    <rect class="dg-box" x="451" y="25" width="190" height="80" rx="10" stroke="#d29922"></rect>
+    <text x="546" y="58" text-anchor="middle">"No known outages."</text><text class="dg-label" x="546" y="84" text-anchor="middle" style="font-size:15px">wrapper</text>
+    <rect class="dg-box" x="674" y="25" width="190" height="80" rx="10" stroke="#79c0ff"></rect>
+    <text x="769" y="58" text-anchor="middle">Model trusts it</text><text class="dg-label" x="769" y="84" text-anchor="middle" style="font-size:15px">it's a tool result</text>
+    <rect class="dg-box" x="897" y="25" width="198" height="80" rx="10" stroke="#ff7b72"></rect>
+    <text x="996" y="58" text-anchor="middle" style="fill:#ff7b72;font-weight:700">Ludwig pays $79</text><text class="dg-label" x="996" y="84" text-anchor="middle" style="font-size:15px">confident + wrong</text>
+  </g>
+  <path d="M197,65 L224,65" stroke="#8b949e" stroke-width="2" marker-end="url(#ch-g)"></path>
+  <path d="M420,65 L447,65" stroke="#8b949e" stroke-width="2" marker-end="url(#ch-g)"></path>
+  <path d="M643,65 L670,65" stroke="#8b949e" stroke-width="2" marker-end="url(#ch-g)"></path>
+  <path d="M866,65 L893,65" stroke="#8b949e" stroke-width="2" marker-end="url(#ch-g)"></path>
+</svg>
+<div class="why">
+<p><span class="bad">No crash. No error. No hallucination.</span> The model did exactly what it should: it trusted its tool. The tool was wrong.</p>
+</div>
+<aside class="notes">
+<p>Go back to the board. Whose guess was closest? “The model made it up” is the most common guess and it’s wrong: the model behaved perfectly.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="it-gets-worse" class="slide level2">
+<h2>It gets worse</h2>
+<svg class="diagram" viewbox="0 0 1100 400" role="img" aria-label="Three AI apps, the customer chat bot, the rep assistant, and the field tech app, each need all three systems: outages, scheduling, and billing. That is nine hand-written wrappers, drawn as nine crossing lines.">
+  <g style="font-size:20px">
+    <rect class="dg-box" x="30" y="40" width="280" height="80" rx="12" stroke="#58a6ff"></rect><text x="170" y="88" text-anchor="middle">Customer chat bot</text>
+    <rect class="dg-box" x="30" y="160" width="280" height="80" rx="12" stroke="#58a6ff"></rect><text x="170" y="208" text-anchor="middle">Rep assistant</text>
+    <rect class="dg-box" x="30" y="280" width="280" height="80" rx="12" stroke="#58a6ff"></rect><text x="170" y="328" text-anchor="middle">Field-tech app</text>
+
+    <rect class="dg-box" x="790" y="40" width="280" height="80" rx="12" stroke="#7ee787"></rect><text x="930" y="88" text-anchor="middle">Outages</text>
+    <rect class="dg-box" x="790" y="160" width="280" height="80" rx="12" stroke="#d2a8ff"></rect><text x="930" y="208" text-anchor="middle">Scheduling</text>
+    <rect class="dg-box" x="790" y="280" width="280" height="80" rx="12" stroke="#ffa657"></rect><text x="930" y="328" text-anchor="middle">Billing</text>
+  </g>
+  <g stroke="#d29922" stroke-width="2.5" fill="none" opacity="0.85">
+    <path d="M310,80 L790,80"></path><path d="M310,80 L790,200"></path><path d="M310,80 L790,320"></path>
+    <path d="M310,200 L790,80"></path><path d="M310,200 L790,200"></path><path d="M310,200 L790,320"></path>
+    <path d="M310,320 L790,80"></path><path d="M310,320 L790,200"></path><path d="M310,320 L790,320"></path>
+  </g>
+  <rect x="440" y="170" width="220" height="60" rx="30" fill="#161b22" stroke="#d29922" stroke-width="2"></rect>
+  <text x="550" y="209" text-anchor="middle" style="font-size:22px;font-weight:700;fill:#d29922">9 wrappers</text>
+</svg>
+<div class="why">
+<p>Summit now wants the same three systems in <strong>three</strong> AI apps. 3 apps × 3 systems = <strong>9 wrappers</strong>, all written and maintained by people who don’t own the systems they wrap. Add a fourth system and it’s 12.</p>
+</div>
+</section>
+<section id="the-real-problems" class="slide level2">
+<h2>The real problems</h2>
+<ol type="1">
+<li class="fragment"><strong>You don’t own the code.</strong> Another team, another language, another release schedule.</li>
+<li class="fragment"><strong>Integrations drift and break silently.</strong> A renamed field became a confident wrong answer.</li>
+<li class="fragment"><strong>Every app × every system.</strong> Wrappers multiply.</li>
+<li class="fragment"><strong>The wrong people maintain them.</strong> The team that knows the system isn’t the team keeping the wrapper alive.</li>
+</ol>
+</section></section>
+<section>
+<section id="brainstorm" class="title-slide slide level1 center">
+<h1>Brainstorm</h1>
+
+</section>
+<section id="how-would-you-make-sure-this-never-happens-again" class="slide level2">
+<h2>How would you make sure this never happens again?</h2>
+<p>With your partner, pick <strong>one</strong> idea and be ready to defend it.</p>
+<ul>
+<li>You can’t control when Network Ops ships changes.</li>
+<li>Three apps (and counting) need the same three systems.</li>
+<li>Whatever you pick, someone has to maintain it. <strong>Who?</strong></li>
+</ul>
+<aside class="notes">
+<p>4 minutes. Expect: tests/monitoring on the wrapper, a shared company library, API versioning/contracts, “just tell us when you change it.” All reasonable. Push on the “who maintains it?” question until someone says “the team that owns the system.” That’s the door into MCP.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="the-smallest-mcp-integration" class="title-slide slide level1 center">
+<h1>The Smallest MCP Integration</h1>
+
+</section>
+<section id="what-if-the-owner-shipped-the-tool" class="slide level2">
+<h2>What if the owner shipped the tool?</h2>
+<svg class="diagram" viewbox="0 0 1100 400" role="img" aria-label="With MCP, each system's owner publishes one MCP server. All three apps connect to all three servers through the same standard plug: three servers instead of nine wrappers.">
+  <g style="font-size:20px">
+    <rect class="dg-box" x="30" y="40" width="260" height="80" rx="12" stroke="#58a6ff"></rect><text x="160" y="88" text-anchor="middle">Customer chat bot</text>
+    <rect class="dg-box" x="30" y="160" width="260" height="80" rx="12" stroke="#58a6ff"></rect><text x="160" y="208" text-anchor="middle">Rep assistant</text>
+    <rect class="dg-box" x="30" y="280" width="260" height="80" rx="12" stroke="#58a6ff"></rect><text x="160" y="328" text-anchor="middle">Field-tech app</text>
+
+    <rect class="dg-box" x="600" y="40" width="190" height="80" rx="12" stroke="#7ee787"></rect><text x="695" y="76" text-anchor="middle" style="font-size:17px">MCP server</text><text class="dg-label" x="695" y="100" text-anchor="middle" style="font-size:14px">by Network Ops</text>
+    <rect class="dg-box" x="600" y="160" width="190" height="80" rx="12" stroke="#d2a8ff"></rect><text x="695" y="196" text-anchor="middle" style="font-size:17px">MCP server</text><text class="dg-label" x="695" y="220" text-anchor="middle" style="font-size:14px">by FieldPro</text>
+    <rect class="dg-box" x="600" y="280" width="190" height="80" rx="12" stroke="#ffa657"></rect><text x="695" y="316" text-anchor="middle" style="font-size:17px">MCP server</text><text class="dg-label" x="695" y="340" text-anchor="middle" style="font-size:14px">by Billing</text>
+
+    <rect class="dg-box" x="840" y="40" width="230" height="80" rx="12" stroke="#7ee787"></rect><text x="955" y="88" text-anchor="middle">Outages</text>
+    <rect class="dg-box" x="840" y="160" width="230" height="80" rx="12" stroke="#d2a8ff"></rect><text x="955" y="208" text-anchor="middle">Scheduling</text>
+    <rect class="dg-box" x="840" y="280" width="230" height="80" rx="12" stroke="#ffa657"></rect><text x="955" y="328" text-anchor="middle">Billing</text>
+  </g>
+  <!-- identical plugs -->
+  <g stroke="#7ee787" stroke-width="2.5" fill="none" opacity="0.8">
+    <path d="M290,80 L600,80"></path><path d="M290,80 L600,200"></path><path d="M290,80 L600,320"></path>
+    <path d="M290,200 L600,80"></path><path d="M290,200 L600,200"></path><path d="M290,200 L600,320"></path>
+    <path d="M290,320 L600,80"></path><path d="M290,320 L600,200"></path><path d="M290,320 L600,320"></path>
+  </g>
+  <g stroke="#8b949e" stroke-width="2.5"><path d="M790,80 L840,80"></path><path d="M790,200 L840,200"></path><path d="M790,320 L840,320"></path></g>
+  <rect x="345" y="170" width="200" height="60" rx="30" fill="#161b22" stroke="#7ee787" stroke-width="2"></rect>
+  <text x="445" y="208" text-anchor="middle" style="font-size:21px;font-weight:700;fill:#7ee787">one standard</text>
+</svg>
+<div class="why">
+<p>Same nine connections, but <strong>no one writes them by hand.</strong> The owners publish <strong>3 servers</strong>, once. Apps just plug in. When Network Ops renames a field, they update <em>their own</em> server.</p>
+</div>
+</section>
+<section id="network-ops-side-a-server" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Network Ops’ side: a server</h2>
+<div class="tag">
+<p>network_ops/outage_server.py · owned by Network Ops</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy" data-id="quarto-animate-code"><code class="sourceCode python hljs"><span id="cb4-1" class="hljs-ln-code"><a aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastmcp <span class="im">import</span> FastMCP</span>
+<span id="cb4-2" class="hljs-ln-code"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3" class="hljs-ln-code"><a aria-hidden="true" tabindex="-1"></a>mcp <span class="op">=</span> FastMCP(<span class="st">"Network Ops"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why">
+<p><strong>FastMCP</strong> is the standard Python library for writing MCP servers. The name is what connecting apps see.</p>
+</div>
+</section>
+<section id="network-ops-side-a-server-1" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Network Ops’ side: a server</h2>
+<div class="tag">
+<p>network_ops/outage_server.py · owned by Network Ops</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-code-line-numbers="5"><pre class="sourceCode numberSource python number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode python hljs"><span id="cb5-1" class="hljs-ln-code"><a></a><span class="im">from</span> fastmcp <span class="im">import</span> FastMCP</span>
+<span id="cb5-2" class="hljs-ln-code"><a></a></span>
+<span id="cb5-3" class="hljs-ln-code"><a></a>mcp <span class="op">=</span> FastMCP(<span class="st">"Network Ops"</span>)</span>
+<span id="cb5-4" class="hljs-ln-code"><a></a></span>
+<span id="cb5-5" class="hljs-ln-code"><a></a>OUTAGES <span class="op">=</span> {<span class="st">"83440"</span>: <span class="st">"Fiber cut reported at 9:15 PM. Crews on site, ETA 11:30 PM."</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why">
+<p>A stand-in for their real monitoring database. The point: <strong>the data lives with the people who own it.</strong></p>
+</div>
+</section>
+<section id="network-ops-side-a-server-2" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Network Ops’ side: a server</h2>
+<div class="tag">
+<p>network_ops/outage_server.py · owned by Network Ops</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" data-code-line-numbers="7-10"><pre class="sourceCode numberSource python number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode python hljs"><span id="cb6-1" class="hljs-ln-code"><a></a><span class="im">from</span> fastmcp <span class="im">import</span> FastMCP</span>
+<span id="cb6-2" class="hljs-ln-code"><a></a></span>
+<span id="cb6-3" class="hljs-ln-code"><a></a>mcp <span class="op">=</span> FastMCP(<span class="st">"Network Ops"</span>)</span>
+<span id="cb6-4" class="hljs-ln-code"><a></a></span>
+<span id="cb6-5" class="hljs-ln-code"><a></a>OUTAGES <span class="op">=</span> {<span class="st">"83440"</span>: <span class="st">"Fiber cut reported at 9:15 PM. Crews on site, ETA 11:30 PM."</span>}</span>
+<span id="cb6-6" class="hljs-ln-code"><a></a></span>
+<span id="cb6-7" class="hljs-ln-code"><a></a><span class="at">@mcp.tool</span></span>
+<span id="cb6-8" class="hljs-ln-code"><a></a><span class="kw">def</span> check_outage(zip_code: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb6-9" class="hljs-ln-code"><a></a>    <span class="co">"""Check whether there is a known network outage in a ZIP code."""</span></span>
+<span id="cb6-10" class="hljs-ln-code"><a></a>    <span class="cf">return</span> OUTAGES.get(zip_code, <span class="st">"No known outages."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why">
+<p>One decorator. The <strong>function name, type hints, and docstring</strong> become the tool’s schema, just like <code>@tool</code> in LangChain.</p>
+</div>
+</section>
+<section id="network-ops-side-a-server-3" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Network Ops’ side: a server</h2>
+<div class="tag">
+<p>network_ops/outage_server.py · owned by Network Ops</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-code-line-numbers="12-13"><pre class="sourceCode numberSource python number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode python hljs"><span id="cb7-1" class="hljs-ln-code"><a></a><span class="im">from</span> fastmcp <span class="im">import</span> FastMCP</span>
+<span id="cb7-2" class="hljs-ln-code"><a></a></span>
+<span id="cb7-3" class="hljs-ln-code"><a></a>mcp <span class="op">=</span> FastMCP(<span class="st">"Network Ops"</span>)</span>
+<span id="cb7-4" class="hljs-ln-code"><a></a></span>
+<span id="cb7-5" class="hljs-ln-code"><a></a>OUTAGES <span class="op">=</span> {<span class="st">"83440"</span>: <span class="st">"Fiber cut reported at 9:15 PM. Crews on site, ETA 11:30 PM."</span>}</span>
+<span id="cb7-6" class="hljs-ln-code"><a></a></span>
+<span id="cb7-7" class="hljs-ln-code"><a></a><span class="at">@mcp.tool</span></span>
+<span id="cb7-8" class="hljs-ln-code"><a></a><span class="kw">def</span> check_outage(zip_code: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb7-9" class="hljs-ln-code"><a></a>    <span class="co">"""Check whether there is a known network outage in a ZIP code."""</span></span>
+<span id="cb7-10" class="hljs-ln-code"><a></a>    <span class="cf">return</span> OUTAGES.get(zip_code, <span class="st">"No known outages."</span>)</span>
+<span id="cb7-11" class="hljs-ln-code"><a></a></span>
+<span id="cb7-12" class="hljs-ln-code"><a></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb7-13" class="hljs-ln-code"><a></a>    mcp.run()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why">
+<p>That’s the whole server. <strong>Thirteen lines</strong>, and Network Ops owns every one of them.</p>
+</div>
+</section>
+<section id="look-familiar" class="slide level2">
+<h2>Look familiar?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Your tool (Lesson 1-2)</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.tools <span class="im">import</span> tool</span>
+<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a aria-hidden="true" tabindex="-1"></a><span class="at">@tool</span></span>
+<span id="cb8-4"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> check_outage(zip_code: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb8-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Check for an outage in a ZIP code."""</span></span>
+<span id="cb8-6"><a aria-hidden="true" tabindex="-1"></a>    ...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Lives <strong>in your agent’s code</strong>.</p>
+</div><div class="column" style="width:50%;">
+<p><strong>Their MCP tool</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastmcp <span class="im">import</span> FastMCP</span>
+<span id="cb9-2"><a aria-hidden="true" tabindex="-1"></a>mcp <span class="op">=</span> FastMCP(<span class="st">"Network Ops"</span>)</span>
+<span id="cb9-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a aria-hidden="true" tabindex="-1"></a><span class="at">@mcp.tool</span></span>
+<span id="cb9-5"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> check_outage(zip_code: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb9-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Check for an outage in a ZIP code."""</span></span>
+<span id="cb9-7"><a aria-hidden="true" tabindex="-1"></a>    ...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Lives <strong>in their server</strong>, in a separate process.</p>
+</div></div>
+<div class="why">
+<p>Same shape, different owner. That’s most of MCP.</p>
+</div>
+</section>
+<section id="your-side-the-agent" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Your side: the agent</h2>
+<div class="tag">
+<p>support_bot · owned by you</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy" data-id="quarto-animate-code"><code class="sourceCode python hljs"><span id="cb10-1" class="hljs-ln-code"><a aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb10-2" class="hljs-ln-code"><a aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.agents <span class="im">import</span> create_agent</span>
+<span id="cb10-3" class="hljs-ln-code"><a aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.mcp <span class="im">import</span> MCPAdapter</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why">
+<p><code>MCPAdapter</code> ships with LangChain: <code>pip install "langchain[mcp]"</code>. Notice what’s <strong>not</strong> imported: nothing from Network Ops.</p>
+</div>
+</section>
+<section id="your-side-the-agent-1" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Your side: the agent</h2>
+<div class="tag">
+<p>support_bot · owned by you</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11" data-code-line-numbers="5"><pre class="sourceCode numberSource python number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode python hljs"><span id="cb11-1" class="hljs-ln-code"><a></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb11-2" class="hljs-ln-code"><a></a><span class="im">from</span> langchain.agents <span class="im">import</span> create_agent</span>
+<span id="cb11-3" class="hljs-ln-code"><a></a><span class="im">from</span> langchain.mcp <span class="im">import</span> MCPAdapter</span>
+<span id="cb11-4" class="hljs-ln-code"><a></a></span>
+<span id="cb11-5" class="hljs-ln-code"><a></a><span class="cf">async</span> <span class="cf">with</span> MCPAdapter(Path(<span class="st">"outage_server.py"</span>)) <span class="im">as</span> adapter:</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why">
+<p>Open a connection. A <code>Path</code> to a script means “<strong>launch it</strong> and talk to it.” (A URL string would mean “it’s already running over there.”)</p>
+</div>
+</section>
+<section id="your-side-the-agent-2" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Your side: the agent</h2>
+<div class="tag">
+<p>support_bot · owned by you</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12" data-code-line-numbers="6"><pre class="sourceCode numberSource python number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode python hljs"><span id="cb12-1" class="hljs-ln-code"><a></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb12-2" class="hljs-ln-code"><a></a><span class="im">from</span> langchain.agents <span class="im">import</span> create_agent</span>
+<span id="cb12-3" class="hljs-ln-code"><a></a><span class="im">from</span> langchain.mcp <span class="im">import</span> MCPAdapter</span>
+<span id="cb12-4" class="hljs-ln-code"><a></a></span>
+<span id="cb12-5" class="hljs-ln-code"><a></a><span class="cf">async</span> <span class="cf">with</span> MCPAdapter(Path(<span class="st">"outage_server.py"</span>)) <span class="im">as</span> adapter:</span>
+<span id="cb12-6" class="hljs-ln-code"><a></a>    tools <span class="op">=</span> <span class="cf">await</span> adapter.list_tools()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why">
+<p>Ask the server: <strong>“What tools do you have?”</strong> It answers with names, descriptions, and argument schemas. The adapter turns each one into a normal LangChain tool.</p>
+</div>
+</section>
+<section id="your-side-the-agent-3" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Your side: the agent</h2>
+<div class="tag">
+<p>support_bot · owned by you</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13" data-code-line-numbers="8"><pre class="sourceCode numberSource python number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode python hljs"><span id="cb13-1" class="hljs-ln-code"><a></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb13-2" class="hljs-ln-code"><a></a><span class="im">from</span> langchain.agents <span class="im">import</span> create_agent</span>
+<span id="cb13-3" class="hljs-ln-code"><a></a><span class="im">from</span> langchain.mcp <span class="im">import</span> MCPAdapter</span>
+<span id="cb13-4" class="hljs-ln-code"><a></a></span>
+<span id="cb13-5" class="hljs-ln-code"><a></a><span class="cf">async</span> <span class="cf">with</span> MCPAdapter(Path(<span class="st">"outage_server.py"</span>)) <span class="im">as</span> adapter:</span>
+<span id="cb13-6" class="hljs-ln-code"><a></a>    tools <span class="op">=</span> <span class="cf">await</span> adapter.list_tools()</span>
+<span id="cb13-7" class="hljs-ln-code"><a></a></span>
+<span id="cb13-8" class="hljs-ln-code"><a></a>agent <span class="op">=</span> create_agent(<span class="st">"google_genai:gemini-2.5-flash"</span>, tools)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why">
+<p>From here on, it’s the agent you already know. The agent can’t tell an MCP tool from one you wrote.</p>
+</div>
+</section>
+<section id="your-side-the-agent-4" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Your side: the agent</h2>
+<div class="tag">
+<p>support_bot · owned by you</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14" data-code-line-numbers="10-12"><pre class="sourceCode numberSource python number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode python hljs"><span id="cb14-1" class="hljs-ln-code"><a></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb14-2" class="hljs-ln-code"><a></a><span class="im">from</span> langchain.agents <span class="im">import</span> create_agent</span>
+<span id="cb14-3" class="hljs-ln-code"><a></a><span class="im">from</span> langchain.mcp <span class="im">import</span> MCPAdapter</span>
+<span id="cb14-4" class="hljs-ln-code"><a></a></span>
+<span id="cb14-5" class="hljs-ln-code"><a></a><span class="cf">async</span> <span class="cf">with</span> MCPAdapter(Path(<span class="st">"outage_server.py"</span>)) <span class="im">as</span> adapter:</span>
+<span id="cb14-6" class="hljs-ln-code"><a></a>    tools <span class="op">=</span> <span class="cf">await</span> adapter.list_tools()</span>
+<span id="cb14-7" class="hljs-ln-code"><a></a></span>
+<span id="cb14-8" class="hljs-ln-code"><a></a>agent <span class="op">=</span> create_agent(<span class="st">"google_genai:gemini-2.5-flash"</span>, tools)</span>
+<span id="cb14-9" class="hljs-ln-code"><a></a></span>
+<span id="cb14-10" class="hljs-ln-code"><a></a>result <span class="op">=</span> <span class="cf">await</span> agent.ainvoke({<span class="st">"messages"</span>: [</span>
+<span id="cb14-11" class="hljs-ln-code"><a></a>    {<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"My internet in 83440 is out. What's going on?"</span>}</span>
+<span id="cb14-12" class="hljs-ln-code"><a></a>]})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why">
+<p><code>ainvoke</code>, not <code>invoke</code>: MCP tools talk over a connection, so they’re <strong>async-only</strong>. <code>agent.invoke(...)</code> fails the moment the model picks an MCP tool.</p>
+</div>
+</section>
+<section id="now-network-ops-renames-the-field" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Now Network Ops renames the field</h2>
+<div class="tag">
+<p>network_ops/outage_server.py · Network Ops ships an update</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15" data-code-line-numbers="8-10"><pre class="sourceCode numberSource python number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode python hljs"><span id="cb15-1" class="hljs-ln-code"><a></a><span class="im">from</span> fastmcp <span class="im">import</span> FastMCP</span>
+<span id="cb15-2" class="hljs-ln-code"><a></a></span>
+<span id="cb15-3" class="hljs-ln-code"><a></a>mcp <span class="op">=</span> FastMCP(<span class="st">"Network Ops"</span>)</span>
+<span id="cb15-4" class="hljs-ln-code"><a></a></span>
+<span id="cb15-5" class="hljs-ln-code"><a></a>OUTAGES <span class="op">=</span> {<span class="st">"83440"</span>: <span class="st">"Fiber cut reported at 9:15 PM. Crews on site, ETA 11:30 PM."</span>}</span>
+<span id="cb15-6" class="hljs-ln-code"><a></a></span>
+<span id="cb15-7" class="hljs-ln-code"><a></a><span class="at">@mcp.tool</span></span>
+<span id="cb15-8" class="hljs-ln-code"><a></a><span class="kw">def</span> check_outage(postal_code: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb15-9" class="hljs-ln-code"><a></a>    <span class="co">"""Check whether there is a known network outage in a postal code."""</span></span>
+<span id="cb15-10" class="hljs-ln-code"><a></a>    <span class="cf">return</span> OUTAGES.get(postal_code, <span class="st">"No known outages."</span>)</span>
+<span id="cb15-11" class="hljs-ln-code"><a></a></span>
+<span id="cb15-12" class="hljs-ln-code"><a></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb15-13" class="hljs-ln-code"><a></a>    mcp.run()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why">
+<p>The exact change that broke Ludwig’s bot. This time, Network Ops makes it <strong>in their own server</strong>.</p>
+</div>
+</section>
+<section id="and-your-agent-doesnt-change" class="slide level2">
+<h2>…and your agent doesn’t change</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="cf">with</span> MCPAdapter(Path(<span class="st">"outage_server.py"</span>)) <span class="im">as</span> adapter:</span>
+<span id="cb16-2"><a aria-hidden="true" tabindex="-1"></a>    tools <span class="op">=</span> <span class="cf">await</span> adapter.list_tools()</span>
+<span id="cb16-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tools[<span class="dv">0</span>].name, tools[<span class="dv">0</span>].args)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="text"><code>check_outage {'postal_code': {'type': 'string'}}</code></pre>
+<div class="why">
+<p><span class="good">Zero lines changed on your side.</span> The schema comes from the server <strong>every time you connect</strong>, so the model sees <code>postal_code</code> and calls it correctly. No stale wrapper, no guess from March.</p>
+</div>
+</section>
+<section id="what-you-didnt-write" class="slide level2">
+<h2>What you didn’t write</h2>
+<ul>
+<li class="fragment">No wrapper function</li>
+<li class="fragment">No import of Network Ops’ code</li>
+<li class="fragment">No field names, URLs, or request formats</li>
+<li class="fragment">No update when they changed their API</li>
+</ul>
+<div class="fragment">
+<div class="big-q">
+<p>Your turn.</p>
+</div>
+</div>
+</section></section>
+<section>
+<section id="try-it-colab" class="title-slide slide level1 center">
+<h1>Try It: Colab</h1>
+
+</section>
+<section id="colab-example-1-6-15-min-pairs" class="slide level2">
+<h2>Colab: Example 1-6 (15 min, pairs)</h2>
+<p><a href="https://colab.research.google.com/github/byuidatascience/agentic_ai_course/blob/main/notebooks/notebook1_6.ipynb">Open the notebook in Colab</a></p>
+<ol type="1">
+<li>Reproduce Ludwig’s bug in 10 lines</li>
+<li>Write Network Ops’ server to disk</li>
+<li>Connect, and <strong>print the tools before any LLM runs</strong></li>
+<li>Ask Ludwig’s question</li>
+<li>Ship the rename, rerun <strong>without touching the agent</strong></li>
+<li>Add a second server: the hosted LangChain docs</li>
+</ol>
+<aside class="notes">
+<p>Walk the room. Most common snags: forgetting <code>await</code>, calling <code>agent.invoke</code> instead of <code>ainvoke</code>, and running <code>asyncio.run()</code> in a notebook (Colab already has an event loop, so top-level <code>await</code> just works). The FastMCP banner and the “langchain.mcp is in beta” warning are normal.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="how-it-actually-works" class="title-slide slide level1 center">
+<h1>How It Actually Works</h1>
+
+</section>
+<section id="what-model-context-protocol-means" class="slide level2">
+<h2>What “Model Context Protocol” means</h2>
+<div class="cards">
+<div class="card">
+<p><span class="ct">Model</span></p>
+<p>For AI models. The thing reading the tool list is an LLM, so descriptions are written <em>for a model</em>.</p>
+</div>
+<div class="card fragment">
+<p><span class="ct">Context</span></p>
+<p>Everything a model can use beyond its training: <strong>tools</strong> to call, <strong>resources</strong> to read, <strong>prompts</strong> to start from.</p>
+</div>
+<div class="card fragment">
+<p><span class="ct">Protocol</span></p>
+<p>Agreed-on rules for the messages. Like HTTP for web pages: any browser, any website. Any MCP client, any MCP server.</p>
+</div>
+</div>
+<div class="why fragment">
+<p>MCP standardizes <strong>the connection</strong>, not the tools. Network Ops decides what their tools do. MCP decides how everyone asks for them.</p>
+</div>
+</section>
+<section id="the-data-flow" class="slide level2">
+<h2>The data flow</h2>
+<svg class="diagram" viewbox="0 0 1100 440" role="img" aria-label="Ludwig asks the support bot. Inside your process, the model decides to call check_outage and hands it to the MCP client. The client sends tools/call over a transport, stdio or HTTP, to the MCP server in Network Ops' process. The server queries their outage system, returns the result to the client, the client hands it to the model, and the model answers Ludwig.">
+  <defs>
+    <marker id="df-b" viewbox="0 0 10 10" refx="9" refy="5" markerwidth="7" markerheight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#79c0ff"></path></marker>
+    <marker id="df-g" viewbox="0 0 10 10" refx="9" refy="5" markerwidth="7" markerheight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#7ee787"></path></marker>
+  </defs>
+
+  <!-- Ludwig -->
+  <rect class="dg-box" x="10" y="165" width="115" height="90" rx="45" stroke="#c9d1d9"></rect>
+  <text x="67" y="217" text-anchor="middle" style="font-size:21px;font-weight:700">Ludwig</text>
+
+  <!-- your process -->
+  <rect x="160" y="30" width="440" height="385" rx="16" fill="none" stroke="#58a6ff" stroke-width="2"></rect>
+  <text class="dg-tag" x="180" y="58">YOUR PROCESS · SUPPORT BOT</text>
+  <rect class="dg-box" x="185" y="80" width="390" height="115" rx="12" stroke="#58a6ff"></rect>
+  <text class="dg-title" x="205" y="120" style="fill:#79c0ff">Model</text>
+  <text class="dg-label" x="205" y="152">decides which tool to call</text>
+  <text class="dg-mono" x="205" y="180" style="font-size:16px">check_outage(postal_code="83440")</text>
+  <rect class="dg-box" x="185" y="265" width="390" height="125" rx="12" stroke="#58a6ff"></rect>
+  <text class="dg-title" x="205" y="305" style="fill:#79c0ff">MCP client</text>
+  <text class="dg-mono" x="205" y="340" style="font-size:17px">MCPAdapter(...)</text>
+  <text class="dg-label" x="205" y="370" style="font-size:16px">speaks MCP for you</text>
+
+  <!-- transport -->
+  <rect x="610" y="303" width="100" height="44" rx="22" fill="#21262d" stroke="#8b949e" stroke-width="1.5"></rect>
+  <text x="660" y="323" text-anchor="middle" style="font-size:13px;fill:#8b949e">transport</text>
+  <text x="660" y="340" text-anchor="middle" style="font-size:13px;font-weight:700">stdio · HTTP</text>
+
+  <!-- their process -->
+  <rect x="720" y="30" width="370" height="385" rx="16" fill="none" stroke="#7ee787" stroke-width="2"></rect>
+  <text class="dg-tag" x="740" y="58">NETWORK OPS' PROCESS</text>
+  <rect class="dg-box" x="745" y="80" width="320" height="115" rx="12" stroke="#7ee787"></rect>
+  <text class="dg-title" x="765" y="120" style="fill:#7ee787">Outage system</text>
+  <text class="dg-label" x="765" y="152">their data, their code</text>
+  <rect class="dg-box" x="745" y="265" width="320" height="125" rx="12" stroke="#7ee787"></rect>
+  <text class="dg-title" x="765" y="305" style="fill:#7ee787">MCP server</text>
+  <text class="dg-mono" x="765" y="340" style="font-size:17px">@mcp.tool check_outage</text>
+
+  <!-- 1: Ludwig -> model -->
+  <path d="M125,195 L180,150" stroke="#79c0ff" stroke-width="2.5" fill="none" marker-end="url(#df-b)"></path>
+  <!-- 2: model -> client -->
+  <path d="M300,195 L300,258" stroke="#79c0ff" stroke-width="2.5" fill="none" marker-end="url(#df-b)"></path>
+  <!-- 3: client -> server -->
+  <path d="M575,295 L738,295" stroke="#79c0ff" stroke-width="2.5" fill="none" marker-end="url(#df-b)"></path>
+  <!-- 4: server -> data -->
+  <path d="M870,265 L870,202" stroke="#79c0ff" stroke-width="2.5" fill="none" marker-end="url(#df-b)"></path>
+  <!-- 5: data -> server -->
+  <path d="M960,195 L960,258" stroke="#7ee787" stroke-width="2.5" fill="none" marker-end="url(#df-g)"></path>
+  <!-- 6: server -> client -->
+  <path d="M745,360 L582,360" stroke="#7ee787" stroke-width="2.5" fill="none" marker-end="url(#df-g)"></path>
+  <!-- 7: client -> model -->
+  <path d="M470,265 L470,202" stroke="#7ee787" stroke-width="2.5" fill="none" marker-end="url(#df-g)"></path>
+  <!-- 8: model -> Ludwig -->
+  <path d="M182,175 L130,225" stroke="#7ee787" stroke-width="2.5" fill="none" marker-end="url(#df-g)"></path>
+
+  <!-- step badges -->
+  <g style="font-size:15px;font-weight:700" text-anchor="middle">
+    <circle cx="140" cy="160" r="14" fill="#1f6feb"></circle><text x="140" y="165" style="fill:#fff">1</text>
+    <circle cx="282" cy="228" r="14" fill="#1f6feb"></circle><text x="282" y="233" style="fill:#fff">2</text>
+    <circle cx="660" cy="280" r="14" fill="#1f6feb"></circle><text x="660" y="285" style="fill:#fff">3</text>
+    <circle cx="852" cy="232" r="14" fill="#1f6feb"></circle><text x="852" y="237" style="fill:#fff">4</text>
+    <circle cx="978" cy="228" r="14" fill="#238636"></circle><text x="978" y="233" style="fill:#fff">5</text>
+    <circle cx="660" cy="378" r="14" fill="#238636"></circle><text x="660" y="383" style="fill:#fff">6</text>
+    <circle cx="488" cy="232" r="14" fill="#238636"></circle><text x="488" y="237" style="fill:#fff">7</text>
+    <circle cx="135" cy="245" r="14" fill="#238636"></circle><text x="135" y="250" style="fill:#fff">8</text>
+  </g>
+</svg>
+<div class="why">
+<p><strong>Before step 1</strong>, the client already asked the server “what tools do you have?” (<code>tools/list</code>). That’s how the model knew <code>check_outage</code> existed. Two processes, <strong>one protocol</strong> in the middle. Neither side sees the other’s code.</p>
+</div>
+</section>
+<section id="what-goes-over-the-wire" class="slide level2">
+<h2>What goes over the wire</h2>
+<div class="tag">
+<p>Your agent → Network Ops</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb18-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"jsonrpc"</span><span class="fu">:</span> <span class="st">"2.0"</span><span class="fu">,</span> <span class="dt">"id"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span> <span class="dt">"method"</span><span class="fu">:</span> <span class="st">"tools/list"</span><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="fragment">
+<div class="tag">
+<p>Network Ops → your agent</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"jsonrpc"</span><span class="fu">:</span> <span class="st">"2.0"</span><span class="fu">,</span> <span class="dt">"id"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span> <span class="dt">"result"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"tools"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span></span>
+<span id="cb19-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"check_outage"</span><span class="fu">,</span></span>
+<span id="cb19-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"Check whether there is a known network outage in a postal code."</span><span class="fu">,</span></span>
+<span id="cb19-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="dt">"inputSchema"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb19-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"object"</span><span class="fu">,</span></span>
+<span id="cb19-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"postal_code"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"type"</span><span class="fu">:</span> <span class="st">"string"</span><span class="fu">}},</span></span>
+<span id="cb19-7"><a aria-hidden="true" tabindex="-1"></a>    <span class="dt">"required"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"postal_code"</span><span class="ot">]</span></span>
+<span id="cb19-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">}}</span><span class="ot">]</span><span class="fu">}}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="why fragment">
+<p>Step 0: <strong>discovery.</strong> This reply is where the model learned about <code>postal_code</code>. When Network Ops renamed it, this message changed, and your agent got the new name for free. (Real messages, trimmed.)</p>
+</div>
+</section>
+<section id="what-goes-over-the-wire-continued" class="slide level2">
+<h2>What goes over the wire (continued)</h2>
+<div class="tag">
+<p>Your agent → Network Ops</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb20-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"jsonrpc"</span><span class="fu">:</span> <span class="st">"2.0"</span><span class="fu">,</span> <span class="dt">"id"</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span> <span class="dt">"method"</span><span class="fu">:</span> <span class="st">"tools/call"</span><span class="fu">,</span></span>
+<span id="cb20-2"><a aria-hidden="true" tabindex="-1"></a> <span class="dt">"params"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"name"</span><span class="fu">:</span> <span class="st">"check_outage"</span><span class="fu">,</span> <span class="dt">"arguments"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"postal_code"</span><span class="fu">:</span> <span class="st">"83440"</span><span class="fu">}}}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="fragment">
+<div class="tag">
+<p>Network Ops → your agent</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb21-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"jsonrpc"</span><span class="fu">:</span> <span class="st">"2.0"</span><span class="fu">,</span> <span class="dt">"id"</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span> <span class="dt">"result"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"content"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span></span>
+<span id="cb21-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span><span class="fu">,</span></span>
+<span id="cb21-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="dt">"text"</span><span class="fu">:</span> <span class="st">"Fiber cut reported at 9:15 PM. Crews on site, ETA 11:30 PM."</span><span class="fu">}</span><span class="ot">]</span><span class="fu">}}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="why fragment">
+<p>Steps 3 and 6: <strong>the call.</strong> Plain JSON. That’s why the server can be written in any language: Python, Java, TypeScript, it doesn’t matter. Anything that can read and write these messages can be an MCP server.</p>
+</div>
+</section>
+<section id="more-than-tools" class="slide level2">
+<h2>More than tools</h2>
+<div class="cards">
+<div class="card" style="border-color:#7ee787">
+<p><span class="ct">🔧 Tools</span></p>
+<p>Functions the model <strong>calls</strong>.</p>
+<p><code>check_outage(postal_code)</code></p>
+<p><em>Most servers are mostly this. It’s all we use today.</em></p>
+</div>
+<div class="card" style="border-color:#79c0ff">
+<p><span class="ct">📄 Resources</span></p>
+<p>Data the app can <strong>read</strong>.</p>
+<p><code>outages://rexburg/map</code></p>
+<p><em>Like a file the server shares.</em></p>
+</div>
+<div class="card" style="border-color:#d2a8ff">
+<p><span class="ct">💬 Prompts</span></p>
+<p>Templates the <strong>user</strong> picks.</p>
+<p><code>/handle-outage-complaint</code></p>
+<p><em>Network Ops’ best script for outage calls.</em></p>
+</div>
+</div>
+<div class="why">
+<p>The three <strong>core server features</strong> from the prep reading. One connection can carry all three.</p>
+</div>
+</section>
+<section id="two-ways-to-connect" class="slide level2 transports">
+<h2>Two ways to connect</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<svg class="diagram" viewbox="0 0 400 190" role="img" aria-label="A spider web icon for stdio.">
+  <g stroke="#ff7b72" stroke-width="2" fill="none" transform="translate(200,95)">
+    <path d="M0,-85 L0,85 M-85,0 L85,0 M-60,-60 L60,60 M60,-60 L-60,60"></path>
+    <polygon points="0,-25 18,-18 25,0 18,18 0,25 -18,18 -25,0 -18,-18"></polygon>
+    <polygon points="0,-50 35,-35 50,0 35,35 0,50 -35,35 -50,0 -35,-35"></polygon>
+    <polygon points="0,-75 53,-53 75,0 53,53 0,75 -53,53 -75,0 -53,-53"></polygon>
+  </g>
+</svg>
+<h3 id="stdio-friendly-neighborhood-spider-man">stdio: Friendly Neighborhood Spider-Man</h3>
+<ul>
+<li><strong>Local.</strong> Lives on your machine</li>
+<li><strong>Swoops in when needed.</strong> The client launches the server, and it’s gone when the client quits</li>
+<li><strong>One per client.</strong> Other computers get their own (the Spider-Verse)</li>
+<li><strong>Found on GitHub</strong> or a package: <code>python outage_server.py</code>, <code>uvx ...</code>, <code>npx ...</code></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<svg class="diagram" viewbox="0 0 400 190" role="img" aria-label="An arc reactor icon for HTTP.">
+  <g transform="translate(200,95)">
+    <circle r="80" fill="none" stroke="#79c0ff" stroke-width="2" opacity="0.5"></circle>
+    <circle r="62" fill="none" stroke="#79c0ff" stroke-width="10" stroke-dasharray="18 9"></circle>
+    <circle r="40" fill="#161b22" stroke="#79c0ff" stroke-width="3"></circle>
+    <polygon points="0,-30 26,15 -26,15" fill="none" stroke="#79c0ff" stroke-width="3"></polygon>
+    <circle r="12" fill="#79c0ff"></circle>
+  </g>
+</svg>
+<h3 id="http-stark-industries">HTTP: Stark Industries</h3>
+<ul>
+<li><strong>Remote.</strong> Lives on a server somewhere else</li>
+<li><strong>Always on.</strong> Already running before you connect</li>
+<li><strong>Serves many clients.</strong> Spin up more Iron Man suits when traffic grows</li>
+<li><strong>Found on a company’s website:</strong> <code>https://docs.langchain.com/mcp</code></li>
+</ul>
+</div></div>
+<aside class="notes">
+<p>Hold on to these two: in the cloned repo, they’ll run the same server both ways.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="same-server-two-transports" class="slide level2">
+<h2>Same server, two transports</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>stdio (Spider-Man)</th>
+<th>HTTP (Stark)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Server’s last line</td>
+<td><code>mcp.run()</code></td>
+<td><code>mcp.run(transport="http", port=8000)</code></td>
+</tr>
+<tr class="even">
+<td>Who starts the server</td>
+<td><strong>your agent</strong>, as a subprocess</td>
+<td><strong>the owner</strong>, and it keeps running</td>
+</tr>
+<tr class="odd">
+<td>Your agent’s target</td>
+<td><code>Path("outage_server.py")</code></td>
+<td><code>"http://127.0.0.1:8000/mcp"</code></td>
+</tr>
+<tr class="even">
+<td>Clients per server</td>
+<td>one</td>
+<td>many</td>
+</tr>
+<tr class="odd">
+<td>Where it can live</td>
+<td>your machine</td>
+<td>anywhere with a URL</td>
+</tr>
+<tr class="even">
+<td>Everyday examples</td>
+<td>filesystem, Blender, desktop apps</td>
+<td>Slack, GitHub, LangChain docs</td>
+</tr>
+</tbody>
+</table>
+<div class="why">
+<p>Only the <strong>target</strong> changes in your code. The tools, the agent, and the <code>ainvoke</code> stay the same.</p>
+</div>
+</section>
+<section id="like-usb" class="slide level2">
+<h2>Like USB</h2>
+<ul>
+<li class="fragment">You plug in a mouse. You don’t know how USB talks to it. <strong>It just works.</strong></li>
+<li class="fragment">The mouse maker didn’t write a driver for <em>your</em> laptop. The laptop maker didn’t write support for <em>their</em> mouse.</li>
+<li class="fragment">Both followed <strong>the standard</strong>.</li>
+</ul>
+<div class="fragment">
+<div class="why">
+<p>MCP is USB for AI tools: Network Ops builds the device (server), you build the laptop (agent), and <strong>the protocol is the port</strong>.</p>
+</div>
+</div>
+</section>
+<section id="but-usb-keeps-changing" class="slide level2">
+<h2>But USB keeps changing</h2>
+<svg class="diagram" viewbox="0 0 1100 330" role="img" aria-label="Five USB connector types drawn face-on: USB-A from 1996, USB-B from 1996, Mini-USB from 2000, Micro-USB from 2007, and USB-C from 2014.">
+  <g style="font-size:20px" text-anchor="middle">
+    <!-- USB-A -->
+    <g class="fragment" data-fragment-index="1">
+      <rect x="35" y="95" width="160" height="70" rx="4" fill="#8b949e" stroke="#c9d1d9" stroke-width="3"></rect>
+      <rect x="47" y="107" width="136" height="46" rx="2" fill="#0d1117"></rect>
+      <rect x="47" y="107" width="136" height="20" fill="#e6edf3"></rect>
+      <g fill="#d29922"><rect x="60" y="127" width="18" height="6"></rect><rect x="92" y="127" width="18" height="6"></rect><rect x="121" y="127" width="18" height="6"></rect><rect x="152" y="127" width="18" height="6"></rect></g>
+      <text x="115" y="225" style="font-weight:700">USB-A</text>
+      <text class="dg-label" x="115" y="252">1996</text>
+      <text class="dg-label" x="115" y="278" style="font-size:15px">the classic · one way up</text>
+    </g>
+    <!-- USB-B -->
+    <g class="fragment" data-fragment-index="2">
+      <path d="M270,80 L330,80 L348,98 L348,170 L252,170 L252,98 Z" fill="#8b949e" stroke="#c9d1d9" stroke-width="3"></path>
+      <path d="M273,93 L327,93 L335,101 L335,158 L265,158 L265,101 Z" fill="#0d1117"></path>
+      <rect x="282" y="112" width="36" height="32" fill="#e6edf3"></rect>
+      <text x="300" y="225" style="font-weight:700">USB-B</text>
+      <text class="dg-label" x="300" y="252">1996</text>
+      <text class="dg-label" x="300" y="278" style="font-size:15px">printers</text>
+    </g>
+    <!-- Mini -->
+    <g class="fragment" data-fragment-index="3">
+      <path d="M425,112 L515,112 L515,135 L503,150 L437,150 L425,135 Z" fill="#8b949e" stroke="#c9d1d9" stroke-width="3"></path>
+      <path d="M434,119 L506,119 L506,133 L498,143 L442,143 L434,133 Z" fill="#0d1117"></path>
+      <rect x="446" y="124" width="48" height="7" fill="#e6edf3"></rect>
+      <text x="470" y="225" style="font-weight:700">Mini-USB</text>
+      <text class="dg-label" x="470" y="252">2000</text>
+      <text class="dg-label" x="470" y="278" style="font-size:15px">cameras, MP3 players</text>
+    </g>
+    <!-- Micro -->
+    <g class="fragment" data-fragment-index="4">
+      <path d="M595,118 L685,118 L685,130 L673,144 L607,144 L595,130 Z" fill="#8b949e" stroke="#c9d1d9" stroke-width="3"></path>
+      <path d="M603,124 L677,124 L677,129 L669,138 L611,138 L603,129 Z" fill="#0d1117"></path>
+      <rect x="617" y="127" width="46" height="4" fill="#e6edf3"></rect>
+      <text x="640" y="225" style="font-weight:700">Micro-USB</text>
+      <text class="dg-label" x="640" y="252">2007</text>
+      <text class="dg-label" x="640" y="278" style="font-size:15px">every Android phone</text>
+    </g>
+    <!-- USB-C -->
+    <g class="fragment" data-fragment-index="5">
+      <rect x="765" y="112" width="120" height="38" rx="19" fill="#8b949e" stroke="#c9d1d9" stroke-width="3"></rect>
+      <rect x="775" y="120" width="100" height="22" rx="11" fill="#0d1117"></rect>
+      <rect x="790" y="127" width="70" height="8" rx="4" fill="#e6edf3"></rect>
+      <text x="825" y="225" style="font-weight:700">USB-C</text>
+      <text class="dg-label" x="825" y="252">2014</text>
+      <text class="dg-label" x="825" y="278" style="font-size:15px">either way up · today</text>
+    </g>
+    <!-- next -->
+    <g class="fragment" data-fragment-index="6">
+      <rect x="950" y="100" width="120" height="62" rx="12" fill="none" stroke="#8b949e" stroke-width="2.5" stroke-dasharray="7 6"></rect>
+      <text x="1010" y="143" style="font-size:34px;fill:#8b949e">?</text>
+      <text x="1010" y="225" style="font-weight:700">Next</text>
+      <text class="dg-label" x="1010" y="252">20??</text>
+    </g>
+  </g>
+</svg>
+<div class="why fragment" data-fragment-index="6">
+<p>The <strong>idea</strong> of USB never changed: one standard port, any device. The <strong>plug</strong> has come in five shapes, and your drawer is full of old cables to prove it.</p>
+</div>
+</section>
+<section id="mcp-is-already-changing" class="slide level2">
+<h2>MCP is already changing</h2>
+<svg class="diagram" viewbox="0 0 1100 330" role="img" aria-label="Timeline of MCP changes: November 2024 launch; March 2025 Streamable HTTP replaces the earlier HTTP plus SSE transport; June 2025 and November 2025 spec revisions; July 2026 the modern era replaces the initialize handshake with server discover. Below, LangChain's side: langchain-mcp-adapters with MultiServerMCPClient, then langchain.mcp with MCPAdapter in LangChain 1.4, still beta.">
+  <line x1="40" y1="120" x2="1060" y2="120" stroke="#8b949e" stroke-width="3"></line>
+  <g style="font-size:17px" text-anchor="middle">
+    <circle cx="100" cy="120" r="10" fill="#79c0ff"></circle>
+    <text x="100" y="92" style="font-weight:700">Nov 2024</text>
+    <text class="dg-label" x="100" y="158" style="font-size:15px">MCP launched</text>
+    <text class="dg-label" x="100" y="178" style="font-size:15px">stdio + HTTP/SSE</text>
+
+    <circle cx="320" cy="120" r="10" fill="#79c0ff"></circle>
+    <text x="320" y="92" style="font-weight:700">Mar 2025</text>
+    <text class="dg-label" x="320" y="158" style="font-size:15px">Streamable HTTP</text>
+    <text class="dg-label" x="320" y="178" style="font-size:15px">replaces HTTP/SSE</text>
+
+    <circle cx="540" cy="120" r="10" fill="#79c0ff"></circle>
+    <text x="540" y="92" style="font-weight:700">Jun 2025</text>
+    <text class="dg-label" x="540" y="158" style="font-size:15px">spec revision</text>
+
+    <circle cx="760" cy="120" r="10" fill="#79c0ff"></circle>
+    <text x="760" y="92" style="font-weight:700">Nov 2025</text>
+    <text class="dg-label" x="760" y="158" style="font-size:15px">spec revision</text>
+
+    <circle cx="980" cy="120" r="12" fill="#7ee787"></circle>
+    <text x="980" y="92" style="font-weight:700;fill:#7ee787">Jul 2026</text>
+    <text class="dg-label" x="980" y="158" style="font-size:15px">"modern era":</text>
+    <text class="dg-label" x="980" y="178" style="font-size:15px">new handshake</text>
+  </g>
+
+  <text class="dg-tag" x="40" y="240">LANGCHAIN'S SIDE</text>
+  <rect class="dg-box" x="40" y="255" width="560" height="56" rx="10" stroke="#8b949e"></rect>
+  <text class="dg-mono" x="60" y="290" style="font-size:17px">langchain-mcp-adapters · MultiServerMCPClient</text>
+  <rect class="dg-box" x="640" y="255" width="420" height="56" rx="10" stroke="#7ee787"></rect>
+  <text class="dg-mono" x="660" y="290" style="font-size:17px">langchain.mcp · MCPAdapter <tspan style="fill:#d29922">(beta)</tspan></text>
+</svg>
+<div class="why">
+<p>Same idea, new plugs. Tutorials from last year use <code>MultiServerMCPClient</code> and a <code>"transport"</code> key; today it’s <code>MCPAdapter</code>. <strong>Learn the ideas (client, server, transport, tools list) and check the date on anything you copy.</strong></p>
+</div>
+</section></section>
+<section>
+<section id="try-it-a-real-repo" class="title-slide slide level1 center">
+<h1>Try It: A Real Repo</h1>
+
+</section>
+<section id="the-summit-wireless-repo" class="slide level2">
+<h2>The Summit Wireless repo</h2>
+<svg class="diagram" viewbox="0 0 1100 330" role="img" aria-label="The summit-wireless-mcp repo has three folders, colored by owner: network_ops with outage_server.py owned by Network Ops, field_service with scheduling_server.py owned by the vendor FieldPro, and support_bot with agent.py owned by you.">
+  <text class="dg-mono" x="40" y="45" style="font-size:24px;font-weight:700">summit-wireless-mcp/</text>
+  <g class="dg-mono" style="font-size:21px">
+    <path d="M60,60 L60,280 M60,110 L90,110 M60,190 L90,190 M60,270 L90,270" stroke="#30363d" stroke-width="2" fill="none"></path>
+    <text x="100" y="105" style="fill:#7ee787">network_ops/</text>
+    <text x="130" y="135" style="font-size:18px">outage_server.py</text>
+    <text x="100" y="185" style="fill:#d2a8ff">field_service/</text>
+    <text x="130" y="215" style="font-size:18px">scheduling_server.py</text>
+    <text x="100" y="265" style="fill:#79c0ff">support_bot/</text>
+    <text x="130" y="295" style="font-size:18px">agent.py</text>
+  </g>
+  <g style="font-size:19px">
+    <rect class="dg-box" x="560" y="80" width="500" height="62" rx="10" stroke="#7ee787"></rect><text x="585" y="118">owned by <tspan style="font-weight:700;fill:#7ee787">Network Ops</tspan></text>
+    <rect class="dg-box" x="560" y="160" width="500" height="62" rx="10" stroke="#d2a8ff"></rect><text x="585" y="198">owned by <tspan style="font-weight:700;fill:#d2a8ff">FieldPro</tspan> (you'd never see it)</text>
+    <rect class="dg-box" x="560" y="240" width="500" height="62" rx="10" stroke="#79c0ff"></rect><text x="585" y="278">owned by <tspan style="font-weight:700;fill:#79c0ff">you</tspan>, the chatbot team</text>
+  </g>
+  <g stroke="#30363d" stroke-width="2" stroke-dasharray="5 5"><path d="M400,120 L555,111"></path><path d="M430,200 L555,191"></path><path d="M260,280 L555,271"></path></g>
+</svg>
+<div class="why">
+<p>In a real company, these would be three repos and you’d only see <code>support_bot/</code>. They’re together so you can run everyone’s part on one laptop.</p>
+</div>
+</section>
+<section id="run-it-both-ways-20-min-pairs" class="slide level2">
+<h2>Run it both ways (20 min, pairs)</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22" data-code-line-numbers="|1-3|5-6|8-12"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a></a><span class="fu">git</span> clone https://github.com/byuidatascience/summit-wireless-mcp</span>
+<span id="cb22-2"><a></a><span class="bu">cd</span> summit-wireless-mcp</span>
+<span id="cb22-3"><a></a><span class="ex">uv</span> sync                      <span class="co"># then copy .env.example to .env and add your key</span></span>
+<span id="cb22-4"><a></a></span>
+<span id="cb22-5"><a></a><span class="co"># 1. Spider-Man: one terminal. The agent launches the server itself.</span></span>
+<span id="cb22-6"><a></a><span class="ex">uv</span> run support_bot/agent.py</span>
+<span id="cb22-7"><a></a></span>
+<span id="cb22-8"><a></a><span class="co"># 2. Stark: two terminals. Network Ops starts the server and leaves it running...</span></span>
+<span id="cb22-9"><a></a><span class="ex">uv</span> run fastmcp run network_ops/outage_server.py:mcp <span class="at">--transport</span> http <span class="at">--port</span> 8000</span>
+<span id="cb22-10"><a></a></span>
+<span id="cb22-11"><a></a><span class="co"># ...and your agent only knows the URL.</span></span>
+<span id="cb22-12"><a></a><span class="ex">uv</span> run support_bot/agent.py <span class="at">--http</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why">
+<p>In Stark mode, <strong>watch terminal 1</strong>: every <code>POST /mcp</code> line is your agent talking to Network Ops. Then stop the server and ask again. What happens?</p>
+</div>
+<aside class="notes">
+<p>Placeholder URL: this repo lives at drafts/summit-wireless-mcp/ in the course repo until it’s pushed as its own GitHub repo. Update the clone URL above when it exists.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="fix-ludwigs-whole-night" class="slide level2">
+<h2>Fix Ludwig’s whole night</h2>
+<p>Ludwig also booked a <strong>$79 visit</strong> he doesn’t need. FieldPro’s server can find and cancel appointments.</p>
+<p>Connect your agent to <strong>both</strong> servers by changing only its <code>target</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23" data-code-line-numbers="|2|3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a>target <span class="op">=</span> {<span class="st">"mcpServers"</span>: {</span>
+<span id="cb23-2"><a></a>    <span class="st">"network"</span>: {<span class="st">"command"</span>: <span class="st">"python"</span>, <span class="st">"args"</span>: [<span class="bu">str</span>(NETWORK_OPS)]},</span>
+<span id="cb23-3"><a></a>    <span class="st">"field"</span>:   {<span class="st">"command"</span>: <span class="st">"python"</span>, <span class="st">"args"</span>: [<span class="bu">str</span>(REPO <span class="op">/</span> <span class="st">"field_service"</span> <span class="op">/</span> <span class="st">"scheduling_server.py"</span>)]},</span>
+<span id="cb23-4"><a></a>}}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<blockquote>
+<p><em>“Hi, it’s Ludwig in 83440. My internet is out and I booked a technician for tomorrow. Do I still need them?”</em></p>
+</blockquote>
+<div class="why">
+<p>Tool names get a prefix per server: <code>network_check_outage</code>, <code>field_cancel_appointment</code>. <strong>Stretch:</strong> be the billing team: write a server that gives Ludwig an outage credit, and connect it as a third.</p>
+</div>
+</section></section>
+<section>
+<section id="try-it-your-agent" class="title-slide slide level1 center">
+<h1>Try It: Your Agent</h1>
+
+</section>
+<section id="add-the-langchain-docs-to-your-agent" class="slide level2 compact" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Add the LangChain docs to your agent</h2>
+<div class="tag">
+<p>Your Project 1 agent · main.py</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> add <span class="st">"langchain[mcp]"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_response(prompt: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb25-2"><a aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> agent.invoke({<span class="st">"messages"</span>: [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: prompt}]})</span>
+<span id="cb25-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result[<span class="st">"messages"</span>][<span class="op">-</span><span class="dv">1</span>].text</span>
+<span id="cb25-4"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> main():</span>
+<span id="cb25-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb25-7"><a aria-hidden="true" tabindex="-1"></a>        prompt <span class="op">=</span> <span class="bu">input</span>(<span class="st">"Input: "</span>)</span>
+<span id="cb25-8"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> prompt <span class="op">==</span> <span class="st">"exit"</span>: <span class="cf">break</span></span>
+<span id="cb25-9"><a aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(get_response(prompt))</span>
+<span id="cb25-10"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb25-12"><a aria-hidden="true" tabindex="-1"></a>    main()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why">
+<p>Roughly where your <code>main.py</code> is from Lesson 1-4. Yours probably has more (memory, <code>rich</code>, your own tools). Keep all of it.</p>
+</div>
+</section>
+<section id="add-the-langchain-docs-to-your-agent-1" class="slide level2 compact" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Add the LangChain docs to your agent</h2>
+<div class="tag">
+<p>Your Project 1 agent · main.py</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26" data-code-line-numbers="1-2|4-7"><pre class="sourceCode numberSource python number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode python hljs"><span id="cb26-1" class="hljs-ln-code"><a></a><span class="im">import</span> asyncio</span>
+<span id="cb26-2" class="hljs-ln-code"><a></a><span class="im">from</span> langchain.mcp <span class="im">import</span> MCPAdapter</span>
+<span id="cb26-3" class="hljs-ln-code"><a></a></span>
+<span id="cb26-4" class="hljs-ln-code"><a></a><span class="cf">async</span> <span class="kw">def</span> build_agent():</span>
+<span id="cb26-5" class="hljs-ln-code"><a></a>    <span class="cf">async</span> <span class="cf">with</span> MCPAdapter(<span class="st">"https://docs.langchain.com/mcp"</span>) <span class="im">as</span> adapter:</span>
+<span id="cb26-6" class="hljs-ln-code"><a></a>        docs_tools <span class="op">=</span> <span class="cf">await</span> adapter.list_tools()</span>
+<span id="cb26-7" class="hljs-ln-code"><a></a>    <span class="cf">return</span> create_agent(<span class="st">"google_genai:gemini-2.5-flash"</span>, docs_tools <span class="op">+</span> my_tools)</span>
+<span id="cb26-8" class="hljs-ln-code"><a></a></span>
+<span id="cb26-9" class="hljs-ln-code"><a></a><span class="kw">def</span> get_response(prompt: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb26-10" class="hljs-ln-code"><a></a>    result <span class="op">=</span> agent.invoke({<span class="st">"messages"</span>: [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: prompt}]})</span>
+<span id="cb26-11" class="hljs-ln-code"><a></a>    <span class="cf">return</span> result[<span class="st">"messages"</span>][<span class="op">-</span><span class="dv">1</span>].text</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why">
+<p>A <strong>URL</strong> target: Stark Industries. LangChain runs this server; you just connect. <code>docs_tools + my_tools</code> mixes MCP tools with your own <code>@tool</code> functions.</p>
+</div>
+</section>
+<section id="add-the-langchain-docs-to-your-agent-2" class="slide level2 compact" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Add the LangChain docs to your agent</h2>
+<div class="tag">
+<p>Your Project 1 agent · main.py</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27" data-code-line-numbers="9-11"><pre class="sourceCode numberSource python number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode python hljs"><span id="cb27-1" class="hljs-ln-code"><a></a><span class="im">import</span> asyncio</span>
+<span id="cb27-2" class="hljs-ln-code"><a></a><span class="im">from</span> langchain.mcp <span class="im">import</span> MCPAdapter</span>
+<span id="cb27-3" class="hljs-ln-code"><a></a></span>
+<span id="cb27-4" class="hljs-ln-code"><a></a><span class="cf">async</span> <span class="kw">def</span> build_agent():</span>
+<span id="cb27-5" class="hljs-ln-code"><a></a>    <span class="cf">async</span> <span class="cf">with</span> MCPAdapter(<span class="st">"https://docs.langchain.com/mcp"</span>) <span class="im">as</span> adapter:</span>
+<span id="cb27-6" class="hljs-ln-code"><a></a>        docs_tools <span class="op">=</span> <span class="cf">await</span> adapter.list_tools()</span>
+<span id="cb27-7" class="hljs-ln-code"><a></a>    <span class="cf">return</span> create_agent(<span class="st">"google_genai:gemini-2.5-flash"</span>, docs_tools <span class="op">+</span> my_tools)</span>
+<span id="cb27-8" class="hljs-ln-code"><a></a></span>
+<span id="cb27-9" class="hljs-ln-code"><a></a><span class="cf">async</span> <span class="kw">def</span> get_response(agent, prompt: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb27-10" class="hljs-ln-code"><a></a>    result <span class="op">=</span> <span class="cf">await</span> agent.ainvoke({<span class="st">"messages"</span>: [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: prompt}]})</span>
+<span id="cb27-11" class="hljs-ln-code"><a></a>    <span class="cf">return</span> result[<span class="st">"messages"</span>][<span class="op">-</span><span class="dv">1</span>].text</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why">
+<p>MCP tools are async-only, so <code>invoke</code> becomes <strong><code>await ... ainvoke</code></strong>, and the function becomes <code>async def</code>.</p>
+</div>
+</section>
+<section id="add-the-langchain-docs-to-your-agent-3" class="slide level2 compact" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Add the LangChain docs to your agent</h2>
+<div class="tag">
+<p>Your Project 1 agent · main.py</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28" data-code-line-numbers="13-21"><pre class="sourceCode numberSource python number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode python hljs"><span id="cb28-1" class="hljs-ln-code"><a></a><span class="im">import</span> asyncio</span>
+<span id="cb28-2" class="hljs-ln-code"><a></a><span class="im">from</span> langchain.mcp <span class="im">import</span> MCPAdapter</span>
+<span id="cb28-3" class="hljs-ln-code"><a></a></span>
+<span id="cb28-4" class="hljs-ln-code"><a></a><span class="cf">async</span> <span class="kw">def</span> build_agent():</span>
+<span id="cb28-5" class="hljs-ln-code"><a></a>    <span class="cf">async</span> <span class="cf">with</span> MCPAdapter(<span class="st">"https://docs.langchain.com/mcp"</span>) <span class="im">as</span> adapter:</span>
+<span id="cb28-6" class="hljs-ln-code"><a></a>        docs_tools <span class="op">=</span> <span class="cf">await</span> adapter.list_tools()</span>
+<span id="cb28-7" class="hljs-ln-code"><a></a>    <span class="cf">return</span> create_agent(<span class="st">"google_genai:gemini-2.5-flash"</span>, docs_tools <span class="op">+</span> my_tools)</span>
+<span id="cb28-8" class="hljs-ln-code"><a></a></span>
+<span id="cb28-9" class="hljs-ln-code"><a></a><span class="cf">async</span> <span class="kw">def</span> get_response(agent, prompt: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb28-10" class="hljs-ln-code"><a></a>    result <span class="op">=</span> <span class="cf">await</span> agent.ainvoke({<span class="st">"messages"</span>: [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: prompt}]})</span>
+<span id="cb28-11" class="hljs-ln-code"><a></a>    <span class="cf">return</span> result[<span class="st">"messages"</span>][<span class="op">-</span><span class="dv">1</span>].text</span>
+<span id="cb28-12" class="hljs-ln-code"><a></a></span>
+<span id="cb28-13" class="hljs-ln-code"><a></a><span class="cf">async</span> <span class="kw">def</span> main():</span>
+<span id="cb28-14" class="hljs-ln-code"><a></a>    agent <span class="op">=</span> <span class="cf">await</span> build_agent()</span>
+<span id="cb28-15" class="hljs-ln-code"><a></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb28-16" class="hljs-ln-code"><a></a>        prompt <span class="op">=</span> <span class="bu">input</span>(<span class="st">"Input: "</span>)</span>
+<span id="cb28-17" class="hljs-ln-code"><a></a>        <span class="cf">if</span> prompt <span class="op">==</span> <span class="st">"exit"</span>: <span class="cf">break</span></span>
+<span id="cb28-18" class="hljs-ln-code"><a></a>        <span class="bu">print</span>(<span class="cf">await</span> get_response(agent, prompt))</span>
+<span id="cb28-19" class="hljs-ln-code"><a></a></span>
+<span id="cb28-20" class="hljs-ln-code"><a></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb28-21" class="hljs-ln-code"><a></a>    asyncio.run(main())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why">
+<p><code>main</code> becomes async too, and <strong><code>asyncio.run(main())</code></strong> starts it. A script has no event loop until you start one. (Colab already had one, which is why plain <code>await</code> worked there.)</p>
+</div>
+</section>
+<section id="now-ask-it" class="slide level2">
+<h2>Now ask it</h2>
+<blockquote>
+<p><em>“How do I add short-term memory to a LangChain agent?”</em></p>
+</blockquote>
+<ul>
+<li class="fragment">Did it call <code>search_docs_by_lang_chain</code>? How can you tell?</li>
+<li class="fragment">Your agent can now read docs <strong>you didn’t write, maintained by people you’ve never met</strong>, and it’ll stay current when they update them.</li>
+<li class="fragment">✅ That’s the <strong>“Connect to LangChain MCP”</strong> requirement for Project 1.</li>
+</ul>
+</section>
+<section id="keep-plugging-things-in" class="slide level2">
+<h2>Keep plugging things in</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a aria-hidden="true" tabindex="-1"></a>target <span class="op">=</span> {<span class="st">"mcpServers"</span>: {</span>
+<span id="cb29-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="st">"docs"</span>:  {<span class="st">"url"</span>: <span class="st">"https://docs.langchain.com/mcp"</span>},</span>
+<span id="cb29-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="st">"fetch"</span>: {<span class="st">"command"</span>: <span class="st">"uvx"</span>, <span class="st">"args"</span>: [<span class="st">"mcp-server-fetch"</span>]},</span>
+<span id="cb29-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="co"># ...anything from the prep reading</span></span>
+<span id="cb29-5"><a aria-hidden="true" tabindex="-1"></a>}}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why">
+<p>Every server you connect counts toward the <strong>most MCP servers connected</strong> leaderboard. Before you connect one, ask: <em>who wrote this, and what can its tools change?</em></p>
+</div>
+</section>
+<section id="next-time" class="slide level2">
+<h2>Next time</h2>
+<p><strong>An MCP server off GitHub.</strong></p>
+<ul>
+<li>Pull a real one (Canvas) and open it up: what’s inside?</li>
+<li>Is it maintained? Is it current? Is it safe to hand to your agent?</li>
+</ul>
+<div class="why">
+<p>Today, Network Ops was trustworthy because we wrote them. Out in the wild, <strong>connecting a server is installing software.</strong></p>
+</div>
+
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 0.6,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 760,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
