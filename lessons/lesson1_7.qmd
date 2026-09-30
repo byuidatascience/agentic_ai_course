@@ -1,0 +1,192 @@
+---
+title: "Someone Already Built It"
+subtitle: "Unit 1, Lesson 7"
+---
+
+<!--
+  NOT APPROVED (Phase 4 prototype). Published 2026-09-30 for lack of time; needs revision.
+  Related files:
+    slides    lecture_slides/slide1_7.qmd     (also not approved)
+    notebook  notebooks/notebook1_7.ipynb     (also not approved)
+    prep      preps/prep1_7.qmd               (not written yet)
+    practice  practice/practice1_7.ipynb      (not written yet)
+    notes     instructor_notes/notes1_7.qmd   (exists, superseded; needs rewrite)
+  design log: drafts/lesson1_7/README.md
+-->
+
+::: {.panel-tabset}
+
+## Quick Links
+
+| Practice | Prep | Slides | Examples | Lecture Notes | Next Lesson |
+|----------|--------|--------|----------|---------------|-------------|
+| [🏃‍♂️‍➡️](../practice/practice1_7.ipynb) | [🌱](../preps/prep1_7.html) | [🧑‍🏫](../lecture_slides/slide1_7.html) | [📓]({{< var notebook_base >}}1_7.ipynb "{{< var example_hover >}}") | [📋](../instructor_notes/notes1_7.html) | [➡️](lesson1_8.html) |
+
+## Before Class
+
+| Practice | Prep | Previous Lesson |
+|----------|--------|-----------------|
+| [🏃‍♂️‍➡️](../practice/practice1_6.ipynb) | [🌱](../preps/prep1_7.html) | [⬅️](lesson1_6.html) |
+
+## After Class
+
+| Practice | Prep | Next Lesson |
+|----------|--------|-------------|
+| [🏃‍♂️‍➡️](../practice/practice1_7.ipynb) | [🌱](../preps/prep1_8.html) | [➡️](lesson1_8.html) |
+
+:::
+
+---
+
+# Outcomes
+
+Ready-made MCP servers, several on one agent
+
+By the end of this lesson, you will be able to:
+
+- **Connect** a ready-made stdio MCP server (arXiv) to an agent and use its tools. `[1.4.2]`
+- **Explain** how the stdio and HTTP transports differ. `[1.4.2, 4.1]`
+- **Run** one agent with several MCP servers at once by adding servers to a single config. `[1.4.2]`
+- **Find** an MCP server that fills a gap in your own Project 1 agent, and connect it. `[5.1.2]`
+
+---
+
+# Preparation
+
+Before class, work through the [prep](../preps/prep1_7.html). You'll need `uv` and Node.js installed on
+your own machine for the last part of class.
+
+---
+
+# Lecture
+
+::: {style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;"}
+<iframe
+  src="../lecture_slides/slide1_7.html"
+  style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+  allowfullscreen>
+</iframe>
+:::
+
+<a href="../lecture_slides/slide1_7.html" target="_blank">Fullscreen Presentation</a>
+
+---
+
+# The story: Mateo's Friday digest
+
+At a conference, Mateo's lab finds out a paper scooped their project. It had been in the arXiv results
+three weeks earlier, and Mateo skimmed past it in a rush.
+
+It keeps happening because of how the lab works. Every Friday from 1 to 4 PM, Mateo, an undergrad RA,
+searches arXiv, saves the new papers to the lab folder, and writes the digest. That's about 150 hours a year.
+So he asks his AI agent to do it, and it can't.
+
+::: {.callout-note}
+## Discuss
+The model knows what arXiv is, and it knows how to write a digest. **What would the agent need?**
+:::
+
+---
+
+# Activity
+
+Open the [class notebook]({{< var notebook_base >}}1_7.ipynb "{{< var example_hover >}}") in Colab and
+follow along.
+
+1. **"I can't."** Send Mateo's request to an agent with no tools. Read closely. Does it admit it can't,
+   or does it make something up?
+2. **Plug in someone else's server.** Add the arXiv MCP server to the config. `uvx` downloads it and
+   launches it on the Colab machine. That's **stdio**: the server runs next to your agent, like Spider-Man
+   in your neighborhood. The LangChain docs server from last class was **HTTP**: it's already running
+   somewhere else (Stark Industries), and you connect to a URL.
+3. **Try it.** Change `TOPIC` to something you care about and rerun.
+4. **Next Friday.** Look in `lab_papers`. Where did the agent save the papers? What does it need now?
+5. **Add a second server.** Add the filesystem server to the **same** config and rerun. Then check the
+   **Files** pane.
+
+::: {.callout-tip collapse="true"}
+## Hint: what one config with two servers looks like
+
+```python
+config = {"mcpServers": {
+    "arxiv": {"command": "uvx", "args": ["arxiv-mcp-server"]},
+    "files": {"command": "npx", "args": ["-y", "@modelcontextprotocol/server-filesystem", LAB_FOLDER, ARXIV_FOLDER]},
+}}
+```
+
+Each server's tools get its name as a prefix: `arxiv_search_papers`, `files_move_file`.
+:::
+
+::: {.callout-tip collapse="true"}
+## Hint: "Access denied - path outside allowed directories"
+The folders at the end of the filesystem server's `args` are the **only** folders it can touch.
+If the agent tries to write anywhere else, the server refuses. That's a feature.
+:::
+
+## Pair quiz
+
+With a partner, answer these without looking back:
+
+a. What's the difference between stdio and HTTP?
+b. What problems does MCP solve?
+c. What can an MCP server offer besides tools?
+d. Your instructor will show two snippets. Which one is stdio, which one is HTTP, and where does the
+   processing happen for each?
+
+---
+
+# Apply: your Project 1 agent
+
+Today's goal: **your Project 1 agent runs with 3 or more MCP servers at once.**
+
+1. Start from your agent from [Lesson 1.6](lesson1_6.html), the one connected to the LangChain docs server.
+2. Switch from a single URL to a config, so you can list more than one server.
+
+   ```{.python filename="main.py"}
+   config = {"mcpServers": {
+       "docs":  {"url": "https://docs.langchain.com/mcp"},    # HTTP: already running
+       "files": {"command": "npx", "args": ["-y", "@modelcontextprotocol/server-filesystem", "C:/path/to/a/folder"]},  # stdio
+   }}
+
+   async def build_agent():
+       async with MCPAdapter(config) as adapter:
+           mcp_tools = await adapter.list_tools()
+       return create_agent("google_genai:gemini-flash-lite-latest", mcp_tools + my_tools)
+   ```
+
+3. Give the filesystem server **one** folder you don't mind the agent changing. Don't give it your whole drive.
+4. Pick a third server that fills a gap in your agent. Browse the [prep](../preps/prep1_7.html) lists
+   for ideas, then add it to the config.
+5. Ask your agent something that needs two servers at once, and check which tools it called.
+
+::: {.callout-tip collapse="true"}
+## Hint: `npx` isn't found
+The official filesystem server runs on Node.js. Install it from [nodejs.org](https://nodejs.org/), then
+open a new terminal. Check it with `node --version`.
+:::
+
+::: {.callout-tip collapse="true"}
+## Hint: seeing which tools the agent called
+
+```python
+for m in result["messages"]:
+    for call in getattr(m, "tool_calls", []):
+        print("called:", call["name"])
+```
+:::
+
+::: {.callout-tip collapse="true"}
+## Hint: too many tools
+Every server adds its tools to the list the model reads. If your agent starts picking the wrong tool,
+count your tools with `len(mcp_tools)`. Do you need every server you added?
+:::
+
+---
+
+# Before next class
+
+Finish **Apply** if you didn't get there in class, then work through the practice.
+
+| Practice | Prep | Slides | Next Lesson |
+|----------|--------|--------|-------------|
+| [🏃‍♂️‍➡️](../practice/practice1_7.ipynb) | [🌱](../preps/prep1_8.html) | [🧑‍🏫](../lecture_slides/slide1_7.html) | [➡️](lesson1_8.html) |

@@ -236,7 +236,7 @@ If you close and reopen the notebook, run it again.
 from langchain.chat_models import init_chat_model
 
 model = init_chat_model(
-    model="google_genai:gemini-2.5-flash"
+    model="google_genai:gemini-flash-lite-latest"
 )
 
 response = model.invoke("Hello! What are you?")
@@ -345,7 +345,7 @@ from langchain.agents import create_react_agent
 
 # Configure the model
 model = init_chat_model(
-    model="google_genai:gemini-2.5-flash",
+    model="google_genai:gemini-flash-lite-latest",
     temperature=0.7,
     max_tokens=300
 )

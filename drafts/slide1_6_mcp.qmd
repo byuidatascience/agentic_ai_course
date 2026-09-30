@@ -147,7 +147,7 @@ client = MultiServerMCPClient({
 })
 
 tools = await client.get_tools()
-agent = create_agent("google_genai:gemini-2.5-flash", tools)
+agent = create_agent("google_genai:gemini-flash-lite-latest", tools)
 ```
 
 . . .

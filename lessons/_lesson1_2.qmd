@@ -310,7 +310,7 @@ from langchain.chat_models import init_chat_model
 from langchain.agents import create_react_agent
 
 model = init_chat_model(
-    model="google_genai:gemini-2.5-flash",
+    model="google_genai:gemini-flash-lite-latest",
     temperature=0
 )
 

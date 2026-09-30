@@ -729,7 +729,7 @@
 <span id="cb13-5" class="hljs-ln-code"><a></a><span class="cf">async</span> <span class="cf">with</span> MCPAdapter(Path(<span class="st">"outage_server.py"</span>)) <span class="im">as</span> adapter:</span>
 <span id="cb13-6" class="hljs-ln-code"><a></a>    tools <span class="op">=</span> <span class="cf">await</span> adapter.list_tools()</span>
 <span id="cb13-7" class="hljs-ln-code"><a></a></span>
-<span id="cb13-8" class="hljs-ln-code"><a></a>agent <span class="op">=</span> create_agent(<span class="st">"google_genai:gemini-2.5-flash"</span>, tools)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-8" class="hljs-ln-code"><a></a>agent <span class="op">=</span> create_agent(<span class="st">"google_genai:gemini-flash-lite-latest"</span>, tools)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="why">
 <p>From here on, it’s the agent you already know. The agent can’t tell an MCP tool from one you wrote.</p>
 </div>
@@ -746,7 +746,7 @@
 <span id="cb14-5" class="hljs-ln-code"><a></a><span class="cf">async</span> <span class="cf">with</span> MCPAdapter(Path(<span class="st">"outage_server.py"</span>)) <span class="im">as</span> adapter:</span>
 <span id="cb14-6" class="hljs-ln-code"><a></a>    tools <span class="op">=</span> <span class="cf">await</span> adapter.list_tools()</span>
 <span id="cb14-7" class="hljs-ln-code"><a></a></span>
-<span id="cb14-8" class="hljs-ln-code"><a></a>agent <span class="op">=</span> create_agent(<span class="st">"google_genai:gemini-2.5-flash"</span>, tools)</span>
+<span id="cb14-8" class="hljs-ln-code"><a></a>agent <span class="op">=</span> create_agent(<span class="st">"google_genai:gemini-flash-lite-latest"</span>, tools)</span>
 <span id="cb14-9" class="hljs-ln-code"><a></a></span>
 <span id="cb14-10" class="hljs-ln-code"><a></a>result <span class="op">=</span> <span class="cf">await</span> agent.ainvoke({<span class="st">"messages"</span>: [</span>
 <span id="cb14-11" class="hljs-ln-code"><a></a>    {<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"My internet in 83440 is out. What's going on?"</span>}</span>
@@ -1328,7 +1328,7 @@
 <span id="cb26-4" class="hljs-ln-code"><a></a><span class="cf">async</span> <span class="kw">def</span> build_agent():</span>
 <span id="cb26-5" class="hljs-ln-code"><a></a>    <span class="cf">async</span> <span class="cf">with</span> MCPAdapter(<span class="st">"https://docs.langchain.com/mcp"</span>) <span class="im">as</span> adapter:</span>
 <span id="cb26-6" class="hljs-ln-code"><a></a>        docs_tools <span class="op">=</span> <span class="cf">await</span> adapter.list_tools()</span>
-<span id="cb26-7" class="hljs-ln-code"><a></a>    <span class="cf">return</span> create_agent(<span class="st">"google_genai:gemini-2.5-flash"</span>, docs_tools <span class="op">+</span> my_tools)</span>
+<span id="cb26-7" class="hljs-ln-code"><a></a>    <span class="cf">return</span> create_agent(<span class="st">"google_genai:gemini-flash-lite-latest"</span>, docs_tools <span class="op">+</span> my_tools)</span>
 <span id="cb26-8" class="hljs-ln-code"><a></a></span>
 <span id="cb26-9" class="hljs-ln-code"><a></a><span class="kw">def</span> get_response(prompt: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb26-10" class="hljs-ln-code"><a></a>    result <span class="op">=</span> agent.invoke({<span class="st">"messages"</span>: [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: prompt}]})</span>
@@ -1348,7 +1348,7 @@
 <span id="cb27-4" class="hljs-ln-code"><a></a><span class="cf">async</span> <span class="kw">def</span> build_agent():</span>
 <span id="cb27-5" class="hljs-ln-code"><a></a>    <span class="cf">async</span> <span class="cf">with</span> MCPAdapter(<span class="st">"https://docs.langchain.com/mcp"</span>) <span class="im">as</span> adapter:</span>
 <span id="cb27-6" class="hljs-ln-code"><a></a>        docs_tools <span class="op">=</span> <span class="cf">await</span> adapter.list_tools()</span>
-<span id="cb27-7" class="hljs-ln-code"><a></a>    <span class="cf">return</span> create_agent(<span class="st">"google_genai:gemini-2.5-flash"</span>, docs_tools <span class="op">+</span> my_tools)</span>
+<span id="cb27-7" class="hljs-ln-code"><a></a>    <span class="cf">return</span> create_agent(<span class="st">"google_genai:gemini-flash-lite-latest"</span>, docs_tools <span class="op">+</span> my_tools)</span>
 <span id="cb27-8" class="hljs-ln-code"><a></a></span>
 <span id="cb27-9" class="hljs-ln-code"><a></a><span class="cf">async</span> <span class="kw">def</span> get_response(agent, prompt: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb27-10" class="hljs-ln-code"><a></a>    result <span class="op">=</span> <span class="cf">await</span> agent.ainvoke({<span class="st">"messages"</span>: [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: prompt}]})</span>
@@ -1368,7 +1368,7 @@
 <span id="cb28-4" class="hljs-ln-code"><a></a><span class="cf">async</span> <span class="kw">def</span> build_agent():</span>
 <span id="cb28-5" class="hljs-ln-code"><a></a>    <span class="cf">async</span> <span class="cf">with</span> MCPAdapter(<span class="st">"https://docs.langchain.com/mcp"</span>) <span class="im">as</span> adapter:</span>
 <span id="cb28-6" class="hljs-ln-code"><a></a>        docs_tools <span class="op">=</span> <span class="cf">await</span> adapter.list_tools()</span>
-<span id="cb28-7" class="hljs-ln-code"><a></a>    <span class="cf">return</span> create_agent(<span class="st">"google_genai:gemini-2.5-flash"</span>, docs_tools <span class="op">+</span> my_tools)</span>
+<span id="cb28-7" class="hljs-ln-code"><a></a>    <span class="cf">return</span> create_agent(<span class="st">"google_genai:gemini-flash-lite-latest"</span>, docs_tools <span class="op">+</span> my_tools)</span>
 <span id="cb28-8" class="hljs-ln-code"><a></a></span>
 <span id="cb28-9" class="hljs-ln-code"><a></a><span class="cf">async</span> <span class="kw">def</span> get_response(agent, prompt: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb28-10" class="hljs-ln-code"><a></a>    result <span class="op">=</span> <span class="cf">await</span> agent.ainvoke({<span class="st">"messages"</span>: [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: prompt}]})</span>

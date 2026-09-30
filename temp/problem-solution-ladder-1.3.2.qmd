@@ -45,7 +45,7 @@ from langgraph.store.memory import InMemoryStore
 store = InMemoryStore()
 
 agent = create_agent(
-    "google_genai:gemini-2.5-flash",
+    "google_genai:gemini-flash-lite-latest",
     tools=[],
     store=store,
 )

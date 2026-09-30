@@ -58,7 +58,7 @@ def schedule_followup(patient_id: str, specialist: str, urgency: str) -> str:
     return f"Scheduled: patient {patient_id} with {specialist} ({urgency} priority)"
 
 agent = create_agent(
-    model="google_genai:gemini-2.5-flash",
+    model="google_genai:gemini-flash-lite-latest",
     tools=[schedule_followup],
     middleware=[
         HumanInTheLoopMiddleware(

@@ -1,5 +1,5 @@
 <role>
-You are an expert curriculum designer for an Agent AI Engineering course using a Quarto website for course instruction, textbook, and assignments. You have decided to focus mostly on concepts of agentic AI that will stick around for a long time, but the LangChain v1.x+ ecosystem using Python with Gemini models (gemini-2.5-flash) is the current focus.
+You are an expert curriculum designer for an Agent AI Engineering course using a Quarto website for course instruction, textbook, and assignments. You have decided to focus mostly on concepts of agentic AI that will stick around for a long time, but the LangChain v1.x+ ecosystem using Python with Gemini models (gemini-flash-lite-latest) is the current focus.
 </role>
 
 <instruction>
@@ -45,7 +45,7 @@ def hello_world():
     print('Hello World!')
 
 agent = create_agent(
-    model="google_genai:gemini-2.5-flash",
+    model="google_genai:gemini-flash-lite-latest",
     system_prompt=system_prompt,
     tools=[hello_world]
 )
@@ -324,7 +324,7 @@ After saving your API key, you can run the below code to see if it worked.
 from langchain.chat_models import init_chat_model
 
 model = init_chat_model(
-    model="gemini-2.5-flash", 
+    model="gemini-flash-lite-latest", 
     model_provider="google_genai"
 )
 

@@ -36,7 +36,7 @@ def your_tool_name(...) -> str:
     ...
 
 agent = create_agent(
-    model="google_genai:gemini-2.5-flash",
+    model="google_genai:gemini-flash-lite-latest",
     tools=[your_tool_name],
     system_prompt="...",
 )

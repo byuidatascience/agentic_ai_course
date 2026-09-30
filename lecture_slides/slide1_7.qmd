@@ -1,0 +1,986 @@
+---
+title: "Lesson 1-7: Someone Already Built It"
+subtitle: "Ready-made MCP servers, several on one agent"
+format:
+  revealjs:
+    theme: dark
+    highlight-style: github-dark
+    code-line-numbers: false
+    slide-number: true
+    transition: none
+    auto-animate-duration: 0.6
+    width: 1280
+    height: 760
+execute:
+  eval: false
+---
+
+<!--
+  competency: 1.4.2 Connect external tools through MCP; 4.1 (transports)
+  design log: drafts/lesson1_7/README.md
+  pairs with: notebooks/notebook1_7.ipynb
+  status: NOT APPROVED. Phase 4 prototype, full deck, published 2026-09-30 for lack of time; needs revision. Scripture pending approval. Styles copied from slide1_6.qmd.
+  MCPAdapter opens one session per tool call, so a stdio server is launched per call and exits after.
+-->
+
+<style>
+.reveal .why { font-size: 0.72em; color: #c9d1d9; margin-top: 0.6em; }
+.reveal .why strong { color: #7ee787; }
+.reveal .bad  { color: #ff7b72; }
+.reveal .good { color: #7ee787; }
+.reveal .tag { font-size: 0.45em; letter-spacing: .12em; text-transform: uppercase; color: #8b949e; }
+.reveal pre { width: 100%; box-shadow: none; }
+.reveal pre code { max-height: 520px; font-size: 0.95em; line-height: 1.4; }
+.reveal table { font-size: 0.62em; }
+.reveal ul, .reveal p { font-size: 0.8em; }
+.reveal section.compact pre code { font-size: 0.8em; max-height: 580px; }
+.reveal section.transports svg.diagram { width: 100%; height: 170px; margin: 0; }
+.reveal section.transports h3 { font-size: 0.85em; margin: 0.2em 0 0.3em; }
+.reveal section.transports li { font-size: 0.85em; }
+.reveal .big-q { font-size: 1.5em; font-weight: 700; text-align: center; margin-top: 1.2em; }
+/* inline SVG diagrams */
+.reveal svg.diagram { display: block; width: 100%; height: auto; margin: 0.3em auto 0.2em; }
+.reveal svg.diagram text { font-family: "Source Sans Pro", Helvetica, sans-serif; fill: #c9d1d9; }
+.reveal svg.diagram .dg-tag   { font-size: 14px; letter-spacing: .14em; fill: #8b949e; font-weight: 600; }
+.reveal svg.diagram .dg-title { font-size: 26px; font-weight: 700; }
+.reveal svg.diagram .dg-label { font-size: 18px; fill: #8b949e; }
+.reveal svg.diagram .dg-mono  { font-family: "SFMono-Regular", Consolas, Menlo, monospace; font-size: 19px; }
+.reveal svg.diagram .dg-box   { fill: #161b22; stroke-width: 2; }
+.reveal svg.diagram .dg-inner { fill: #0d1117; stroke: #30363d; stroke-width: 1.5; }
+/* chat mockups */
+.reveal .chat { max-width: 820px; margin: 0.4em auto 0; background: #0d1117; border: 2px solid #30363d; border-radius: 18px; overflow: hidden; }
+.reveal .chat-head { background: #161b22; color: #8b949e; font-size: 0.45em; letter-spacing: .12em; text-transform: uppercase; padding: 12px 22px; display: flex; justify-content: space-between; }
+.reveal .chat-body { padding: 18px 22px; display: flex; flex-direction: column; gap: 14px; }
+.reveal .bubble { font-size: 0.6em; line-height: 1.4; padding: 12px 18px; border-radius: 16px; max-width: 78%; }
+.reveal .bubble.me   { align-self: flex-end; background: #1f6feb; color: #fff; border-bottom-right-radius: 4px; }
+.reveal .bubble.them { align-self: flex-start; background: #21262d; color: #e6edf3; border-bottom-left-radius: 4px; }
+.reveal .bubble .who { display: block; font-size: 0.75em; opacity: 0.7; margin-bottom: 2px; }
+/* cards */
+.reveal .cards { display: flex; gap: 22px; margin-top: 0.6em; }
+.reveal .card { flex: 1; background: #161b22; border: 2px solid #30363d; border-radius: 14px; padding: 16px 20px; }
+.reveal .card .ct { display: block; font-weight: 700; font-size: 1.35em; margin-bottom: 6px; color: #e6edf3; }
+.reveal .card p, .reveal .card li { font-size: 0.55em; }
+.reveal .incident { max-width: 760px; margin: 0.8em auto 0; background: #161b22; border: 2px solid #ff7b72; border-radius: 14px; padding: 18px 26px; }
+.reveal .incident .tag { display: block; margin-bottom: 6px; }
+.reveal .incident p { margin: 4px 0; font-size: 0.7em; }
+/* 1.7 additions */
+.reveal svg.diagram .dg-machine { fill: none; stroke: #8b949e; stroke-width: 1.5; stroke-dasharray: 6 6; }
+.reveal svg.diagram .dg-step  { font-size: 19px; font-weight: 700; fill: #e6edf3; }
+.reveal section.stdio-map svg.diagram { max-height: 520px; }
+.reveal .finder { max-width: 820px; margin: 0.4em auto 0; background: #0d1117; border: 2px solid #30363d; border-radius: 14px; overflow: hidden; }
+.reveal .finder-head { background: #161b22; color: #c9d1d9; font-size: 0.55em; padding: 10px 22px; }
+.reveal .finder table { font-size: 0.6em; margin: 10px auto 14px; }
+.reveal .objectives li { font-size: 0.95em; margin: 0.4em 0; }
+.reveal .fridays { display: flex; gap: 12px; justify-content: center; margin-top: 0.6em; }
+.reveal .fri { width: 150px; background: #161b22; border: 2px solid #30363d; border-radius: 12px; padding: 10px 12px; text-align: center; }
+.reveal .fri .d { display: block; font-size: 0.45em; color: #8b949e; letter-spacing: .08em; }
+.reveal .fri .b { display: block; margin-top: 8px; padding: 8px 6px; font-size: 0.45em; line-height: 1.3; text-align: left; background: #1f6feb26; border-left: 4px solid #58a6ff; border-radius: 4px; color: #e6edf3; }
+.reveal .fri.miss { border-color: #ff7b72; }
+.reveal .fri.miss .b { background: #ff7b7226; border-left-color: #ff7b72; }
+.reveal .stat { font-size: 1.9em; font-weight: 800; text-align: center; color: #ffa657; margin-top: 0.5em; }
+.reveal .stat small { display: block; font-size: 0.3em; font-weight: 400; color: #8b949e; }
+.reveal .gh-link { font-size: 1.3em; text-align: center; margin-top: 1.4em; }
+.reveal .gh-link a { color: #79c0ff; }
+.reveal .answer { font-size: 0.65em; margin-top: 0.4em; padding: 10px 16px; border-left: 4px solid #7ee787; background: #7ee78714; border-radius: 4px; }
+.reveal .quiz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 0.5em; }
+.reveal .quiz-grid .card p { font-size: 0.62em; }
+.reveal .quiz-grid .card .ct { font-size: 1.1em; }
+</style>
+
+<!-- Speaker notes are inline {.notes} for the prototype; Phase 5 moves them to the notes file. -->
+
+## Scripture
+
+> "I sent you to reap that whereon ye bestowed no labour: other men laboured, and ye are entered into their labours."
+>
+> - [John 4:38](https://www.churchofjesuschrist.org/study/scriptures/nt/john/4?lang=eng&id=p38#p38)
+
+::: {.notes}
+- Suggestion, pending approval.
+- Someone else sowed: the people who wrote the arXiv server and the filesystem server. Today we reap.
+- v36: "both he that soweth and he that reapeth may rejoice together." Say thank you to the people whose work you build on. Give back when you can (a star, a bug report, a fix).
+:::
+
+## Today you will
+
+::: {.objectives}
+1. **Connect** a ready-made MCP server to an agent and use its tools
+2. **Explain** how stdio and HTTP servers differ
+3. **Run** one agent with several MCP servers at once
+4. **Find** a server that fills a gap in your Project 1 agent, and connect it
+:::
+
+# The Problem {.center}
+
+## The talk
+
+::: {.incident}
+::: {.tag}
+Conference · Session 4B · Thursday 2:15 PM
+:::
+
+**Agents That Read So You Don't: Automating Literature Review with LLMs**
+
+Chen, Okafor & Ruiz
+:::
+
+::: {.fragment .why style="text-align:center"}
+That's **our** project.
+:::
+
+::: {.fragment .why style="text-align:center"}
+It was posted to arXiv **three weeks ago**.
+:::
+
+::: {.notes}
+- Tell it as a story. Mateo's lab has worked on this for a year. They sit down at a conference talk and watch someone else present it.
+- The PI leans over: "How did we miss this?"
+- Pause on the second line. It was public. Anyone could have seen it.
+:::
+
+## Mateo's Fridays
+
+::: {.fridays}
+::: {.fri}
+[Aug 21]{.d}
+[1–4 PM · search arXiv, save papers, write digest]{.b}
+:::
+::: {.fri}
+[Aug 28]{.d}
+[1–4 PM · search arXiv, save papers, write digest]{.b}
+:::
+::: {.fri}
+[Sep 4]{.d}
+[1–4 PM · search arXiv, save papers, write digest]{.b}
+:::
+::: {.fri .miss}
+[Sep 11]{.d}
+[1–4 PM · search arXiv, save papers, write digest]{.b}
+:::
+::: {.fri}
+[Sep 18]{.d}
+[1–4 PM · search arXiv, save papers, write digest]{.b}
+:::
+::: {.fri}
+[Sep 25]{.d}
+[1–4 PM · search arXiv, save papers, write digest]{.b}
+:::
+:::
+
+::: {.stat .fragment}
+~150 hours a year
+<small>3 hours × every Friday</small>
+:::
+
+::: {.why .fragment style="text-align:center"}
+On **Sep 11**, in a rush, he skimmed right past it.
+:::
+
+::: {.notes}
+- Mateo is an undergrad RA. Every Friday afternoon he does the same three things.
+- It's tedious, so it's easy to rush. The paper was in his results; he scrolled past.
+- This isn't a Mateo problem. It's a "humans are bad at tedious, repeated work" problem.
+:::
+
+## So he asks his agent
+
+::: {.chat}
+::: {.chat-head}
+<span>Mateo's agent</span> <span style="float:right">Friday · 1:02 PM</span>
+:::
+::: {.chat-body}
+::: {.bubble .me}
+<span class="who">Mateo</span>Find this week's new arXiv papers on LLM agents that automate scientific literature review. Pick the 3 most relevant, save them for the lab, and write a short digest.
+:::
+
+::: {.bubble .them .fragment}
+<span class="who">Agent</span>I can't.
+:::
+:::
+:::
+
+::: {.notes}
+- Deliver "I can't" flat. Let it sit.
+- The model knows what arXiv is. It can write a digest. So why can't it?
+- OPEN (from the Colab test): the no-tools notebook agent didn't say "I can't". It made up 3 plausible papers with fake arXiv IDs. If we keep the notebook's version, this bubble could show the confident fake digest instead. That's scarier, and it's what students will see in section 3.
+:::
+
+# Brainstorm {.center}
+
+## {.center}
+
+::: {.big-q}
+What would the agent need?
+:::
+
+::: {.notes}
+- Groups, 1–2 minutes. Then collect answers.
+- Follow-ups, as they come up:
+  - You can write tools (1.4). *Should* you? Who keeps an arXiv scraper working when arXiv changes? (1.6: the owner.)
+  - Would someone already have built these?
+  - Two capabilities: does that mean two agents?
+  - Where would these tools run? On your machine, or someone else's?
+:::
+
+# Someone Already Built It {.center}
+
+## {.center}
+
+::: {.gh-link}
+[github.com](https://github.com)
+:::
+
+::: {.notes}
+- Live: search GitHub for "arxiv mcp server". Open blazickjp/arxiv-mcp-server.
+- Scroll the README: the tools list, and the install line `uvx arxiv-mcp-server`.
+- "Someone already built it. So how much work is it to plug in?"
+:::
+
+## Install {auto-animate=true .compact}
+
+::: {.tag}
+Colab · notebook 1-7
+:::
+
+```{.bash}
+%pip install -q -U "langchain[mcp]>=1.4" langchain-google-genai uv
+```
+
+::: {.why}
+**`uv`** brings `uvx`: download a Python program and launch it, in one step.
+:::
+
+## Plug it in {auto-animate=true .compact}
+
+::: {.tag}
+Colab · notebook 1-7
+:::
+
+```{.python code-line-numbers="1-5"}
+from langchain.mcp import MCPAdapter
+
+config = {"mcpServers": {
+    "arxiv": {"command": "uvx", "args": ["arxiv-mcp-server"]},
+}}
+```
+
+::: {.why}
+The line from the README, as a config entry.
+:::
+
+## Plug it in {auto-animate=true .compact}
+
+::: {.tag}
+Colab · notebook 1-7
+:::
+
+```{.python code-line-numbers="7-10"}
+from langchain.mcp import MCPAdapter
+
+config = {"mcpServers": {
+    "arxiv": {"command": "uvx", "args": ["arxiv-mcp-server"]},
+}}
+
+async with MCPAdapter(config) as adapter:
+    tools = await adapter.list_tools()
+
+print(len(tools), "tools")
+```
+
+::: {.why}
+Ask the server what it has. **Print the tools before any LLM runs.**
+:::
+
+## Plug it in {auto-animate=true .compact}
+
+::: {.tag}
+Colab · notebook 1-7
+:::
+
+```{.python code-line-numbers="12-20"}
+from langchain.mcp import MCPAdapter
+
+config = {"mcpServers": {
+    "arxiv": {"command": "uvx", "args": ["arxiv-mcp-server"]},
+}}
+
+async with MCPAdapter(config) as adapter:
+    tools = await adapter.list_tools()
+
+print(len(tools), "tools")
+
+SYSTEM_PROMPT = (
+    f"Today is {date.today()}. You are the research assistant for Mateo's lab. "
+    "Use your tools; don't guess about papers."
+)
+
+agent = create_agent(MODEL, tools, system_prompt=SYSTEM_PROMPT)
+result = await agent.ainvoke({"messages": [{"role": "user", "content": FRIDAY}]})
+
+print(result["messages"][-1].text)
+```
+
+::: {.why}
+Same request, same model. Now it has tools.
+:::
+
+::: {.notes}
+- `date.today()` is there because the model assumed it was 2024 when it picked search dates.
+- `MODEL` and `FRIDAY` come from the "I can't" cell earlier in the notebook.
+:::
+
+# Try It: Colab {.center}
+
+## Colab: sections 1–5 (10 min, pairs)
+
+[Open the notebook in Colab](https://colab.research.google.com/github/byuidatascience/agentic_ai_course/blob/main/notebooks/notebook1_7.ipynb)
+
+1. Send Mateo's request to an agent with **no tools**
+2. Plug in the arXiv server and **print its tools**
+3. Send the same request again
+4. **Change `TOPIC`** to something you care about, and rerun
+
+::: {.notes}
+- Link is a placeholder until the notebook moves to `notebooks/`.
+- Section 2 has a "Colab quirk" cell (stderr to a file). Without it, stdio servers crash with a `fileno` error.
+- Ask: what did the no-tools agent do? (In testing it made up papers.) How many tools does the arXiv server have? (19.)
+- Watch for free-tier rate limits: the model is `gemini-flash-lite-latest`.
+:::
+
+## How much code did you write? {auto-animate=true}
+
+::: {.tag}
+Last time · LangChain docs
+:::
+
+```{.python}
+config = {"mcpServers": {
+    "docs": {"url": "https://docs.langchain.com/mcp"},
+}}
+```
+
+::: {.why}
+A **URL**. The server was already running somewhere.
+:::
+
+## How much code did you write? {auto-animate=true}
+
+::: {.tag}
+Today · arXiv
+:::
+
+```{.python}
+config = {"mcpServers": {
+    "arxiv": {"command": "uvx", "args": ["arxiv-mcp-server"]},
+}}
+```
+
+::: {.why .fragment}
+No URL. A **command**. So where is the server?
+:::
+
+::: {.notes}
+- One entry. Zero lines of arXiv code.
+- Let them notice `url` became `command` before the fragment.
+- "A command is something you *run*. Who runs it?" Lead into the diagram.
+:::
+
+## Where does it run? {.stdio-map}
+
+```{=html}
+<svg class="diagram" viewBox="0 0 1100 410" role="img" aria-label="Left, last time: the agent on your machine connects over a URL to the docs server running on LangChain's machine. Right, today: on your machine the agent launches the arXiv server itself; they talk through stdin and stdout; the server makes the web request to arxiv.org; after each call the server exits.">
+  <defs>
+    <marker id="s7-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#79c0ff"/></marker>
+    <marker id="s7-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7ee787"/></marker>
+    <marker id="s7-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8b949e"/></marker>
+    <marker id="s7-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d2a8ff"/></marker>
+  </defs>
+
+  <!-- LEFT: last time, HTTP -->
+  <g>
+    <text class="dg-tag" x="10" y="22">LAST TIME · HTTP</text>
+    <rect class="dg-machine" x="10" y="40" width="220" height="250" rx="14"/>
+    <text class="dg-tag" x="26" y="276">YOUR MACHINE</text>
+    <rect class="dg-box" x="30" y="115" width="180" height="90" rx="12" stroke="#58a6ff"/>
+    <text class="dg-title" x="120" y="155" text-anchor="middle" style="fill:#79c0ff">agent</text>
+    <text class="dg-label" x="120" y="185" text-anchor="middle">MCP client</text>
+    <rect class="dg-machine" x="300" y="40" width="220" height="250" rx="14"/>
+    <text class="dg-tag" x="316" y="276">LANGCHAIN'S MACHINE</text>
+    <rect class="dg-box" x="320" y="115" width="180" height="90" rx="12" stroke="#7ee787"/>
+    <text class="dg-title" x="410" y="155" text-anchor="middle" style="fill:#7ee787">docs server</text>
+    <text class="dg-label" x="410" y="185" text-anchor="middle">always running</text>
+    <line x1="212" y1="145" x2="318" y2="145" stroke="#79c0ff" stroke-width="2.5" marker-end="url(#s7-blue)"/>
+    <line x1="318" y1="178" x2="212" y2="178" stroke="#7ee787" stroke-width="2.5" marker-end="url(#s7-green)"/>
+    <text class="dg-label" x="265" y="232" text-anchor="middle">URL</text>
+  </g>
+
+  <!-- RIGHT: today, stdio -->
+  <g class="fragment" data-fragment-index="1">
+    <text class="dg-tag" x="580" y="22">TODAY · STDIO</text>
+    <rect class="dg-machine" x="580" y="40" width="510" height="250" rx="14"/>
+    <text class="dg-tag" x="596" y="276">YOUR MACHINE · COLAB VM</text>
+    <rect class="dg-box" x="600" y="115" width="180" height="90" rx="12" stroke="#58a6ff"/>
+    <text class="dg-title" x="690" y="155" text-anchor="middle" style="fill:#79c0ff">agent</text>
+    <text class="dg-label" x="690" y="185" text-anchor="middle">MCP client</text>
+  </g>
+  <g class="fragment" data-fragment-index="2">
+    <path d="M690,113 C720,62 950,62 980,113" fill="none" stroke="#8b949e" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#s7-gray)"/>
+    <text class="dg-step" x="835" y="68" text-anchor="middle">① agent starts it: uvx</text>
+    <rect class="dg-box" x="890" y="115" width="180" height="90" rx="12" stroke="#7ee787"/>
+    <text class="dg-title" x="980" y="155" text-anchor="middle" style="fill:#7ee787">arXiv server</text>
+    <text class="dg-label" x="980" y="185" text-anchor="middle">a subprocess</text>
+  </g>
+  <g class="fragment" data-fragment-index="3">
+    <line x1="782" y1="133" x2="888" y2="133" stroke="#79c0ff" stroke-width="2.5" marker-end="url(#s7-blue)"/>
+    <line x1="888" y1="190" x2="782" y2="190" stroke="#7ee787" stroke-width="2.5" marker-end="url(#s7-green)"/>
+    <text class="dg-step" x="835" y="168" text-anchor="middle" style="font-size:15px">② stdin/stdout</text>
+  </g>
+  <g class="fragment" data-fragment-index="4">
+    <line x1="1055" y1="207" x2="1055" y2="342" stroke="#d2a8ff" stroke-width="2.5" marker-end="url(#s7-purple)"/>
+    <rect x="960" y="345" width="130" height="48" rx="24" fill="#161b22" stroke="#d2a8ff" stroke-width="2"/>
+    <text x="1025" y="376" text-anchor="middle" style="font-size:20px;font-weight:700;fill:#d2a8ff">arxiv.org</text>
+    <text class="dg-step" x="1040" y="330" text-anchor="end">③ the server calls arXiv</text>
+  </g>
+  <g class="fragment" data-fragment-index="5">
+    <text class="dg-step" x="960" y="245" text-anchor="middle" style="fill:#ff7b72">④ gone after each call</text>
+  </g>
+</svg>
+```
+
+::: {.notes}
+- Start on the left: recap 1.6. Someone else started the server; we only knew its URL.
+- (1) Today there's no second machine.
+- (2) `uvx` downloads the package and starts it **as a child of your agent**. No URL, no port.
+- (3) They talk through the process's own input and output: stdin and stdout.
+- (4) Who talks to arxiv.org? The **server**, not the agent. The processing happens on your machine. (Quiz item d asks this.)
+- (5) LangChain opens one session per tool call. For stdio, the server starts for the call and exits when it returns. That's why the tools still work after the `async with` block.
+:::
+
+## Two ways to connect {.transports}
+
+:::: {.columns}
+::: {.column width="50%"}
+```{=html}
+<svg class="diagram" viewBox="0 0 400 190" role="img" aria-label="A spider web icon for stdio.">
+  <g stroke="#ff7b72" stroke-width="2" fill="none" transform="translate(200,95)">
+    <path d="M0,-85 L0,85 M-85,0 L85,0 M-60,-60 L60,60 M60,-60 L-60,60"/>
+    <polygon points="0,-25 18,-18 25,0 18,18 0,25 -18,18 -25,0 -18,-18"/>
+    <polygon points="0,-50 35,-35 50,0 35,35 0,50 -35,35 -50,0 -35,-35"/>
+    <polygon points="0,-75 53,-53 75,0 53,53 0,75 -53,53 -75,0 -53,-53"/>
+  </g>
+</svg>
+```
+
+### stdio: Friendly Neighborhood Spider-Man
+
+::: {.incremental}
+- **Local.** On your machine
+- **Swoops in** when your agent calls, gone after
+- **Everyone gets their own** (the Spider-Verse)
+- `uvx ...` · `npx ...`
+:::
+:::
+
+::: {.column width="50%" .fragment}
+```{=html}
+<svg class="diagram" viewBox="0 0 400 190" role="img" aria-label="An arc reactor icon for HTTP.">
+  <g transform="translate(200,95)">
+    <circle r="80" fill="none" stroke="#79c0ff" stroke-width="2" opacity="0.5"/>
+    <circle r="62" fill="none" stroke="#79c0ff" stroke-width="10" stroke-dasharray="18 9"/>
+    <circle r="40" fill="#161b22" stroke="#79c0ff" stroke-width="3"/>
+    <polygon points="0,-30 26,15 -26,15" fill="none" stroke="#79c0ff" stroke-width="3"/>
+    <circle r="12" fill="#79c0ff"/>
+  </g>
+</svg>
+```
+
+### HTTP: Stark Industries
+
+- **Remote.** Someone else's machine
+- **Always on**, before you connect
+- **Serves many clients** at once
+- `https://docs.langchain.com/mcp`
+:::
+::::
+
+::: {.notes}
+- Spider-Man is new today; Stark is the 1.6 recap. (Moved here from 1.6 per the scope cut.)
+- Ask: which one is Mateo's arXiv server? Why is that fine for him? (One lab member, one machine.)
+- Don't define the difference for them yet. The pair quiz makes them say it.
+:::
+
+# Next Friday {.center}
+
+## A week later
+
+::: {.tag}
+Friday · 10:12 AM
+:::
+
+::: {.chat}
+::: {.chat-head}
+<span>Lab Slack · #reading-group</span> <span style="float:right">10:12 AM</span>
+:::
+::: {.chat-body}
+::: {.bubble .them}
+<span class="who">Prof. Lin</span>Mateo, can you send me that paper on agent memory from last week's digest? I want to cite it in the grant.
+:::
+
+::: {.bubble .me .fragment}
+<span class="who">Mateo</span>Sure! It's in the lab folder.
+:::
+:::
+:::
+
+::: {.notes}
+- The digest went out. Everyone's happy. Mateo got his Friday afternoon back.
+- Placeholder PI name.
+:::
+
+## The lab folder
+
+::: {.finder}
+::: {.finder-head}
+<span>📁 lab_papers/</span>
+:::
+
+| Name | Saved |
+|---|---|
+| `2608.04417_tool-use-survey.pdf` | Aug 28 · Mateo |
+| `2609.00731_rag-for-lit-review.pdf` | Sep 4 · Mateo |
+| `2609.01288_agentic-search.pdf` | Sep 11 · Mateo |
+
+:::
+
+::: {.why .fragment}
+Nothing since the agent took over.
+:::
+
+::: {.notes}
+- Pause on the dates. Every paper was saved by Mateo.
+- He used to download each paper himself. Once the agent took over Fridays, he stopped.
+- The agent searched and wrote the digest. Did it save anything? Where?
+:::
+
+## Where did it go?
+
+```{.bash}
+$ ls lab_papers/
+2608.04417_tool-use-survey.pdf  2609.00731_rag-for-lit-review.pdf  2609.01288_agentic-search.pdf
+```
+
+::: {.fragment}
+```{.bash}
+$ ls ~/.arxiv-mcp-server/papers/
+2609.02215.md  2609.02604.md  2609.03391.md
+```
+:::
+
+```{=html}
+<svg class="diagram fragment" viewBox="0 0 1100 200" role="img" aria-label="The arXiv server can only save into its own hidden folder. The lab folder sits outside its reach.">
+  <defs>
+    <marker id="w7-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7ee787"/></marker>
+  </defs>
+  <rect class="dg-box" x="40" y="45" width="220" height="90" rx="12" stroke="#7ee787"/>
+  <text class="dg-title" x="150" y="98" text-anchor="middle" style="fill:#7ee787">arXiv server</text>
+  <line x1="262" y1="90" x2="408" y2="90" stroke="#7ee787" stroke-width="2.5" marker-end="url(#w7-green)"/>
+  <text class="dg-label" x="335" y="75" text-anchor="middle">download_paper</text>
+  <rect class="dg-box" x="410" y="45" width="290" height="90" rx="12" stroke="#30363d"/>
+  <text class="dg-mono" x="555" y="85" text-anchor="middle">~/.arxiv-mcp-server/</text>
+  <text class="dg-label" x="555" y="115" text-anchor="middle">its own hidden folder</text>
+  <rect class="dg-box" x="820" y="45" width="240" height="90" rx="12" stroke="#ff7b72" stroke-dasharray="8 6"/>
+  <text class="dg-mono" x="940" y="85" text-anchor="middle">lab_papers/</text>
+  <text class="dg-label" x="940" y="115" text-anchor="middle" style="fill:#ff7b72">no tool reaches here</text>
+</svg>
+```
+
+::: {.notes}
+- The agent *did* download them. The server saved the papers **for itself**, where the server can read them later.
+- That folder isn't the lab's folder. Nobody else in the lab knows it exists.
+- The arXiv server only has arXiv tools. The agent has no way to write to `lab_papers/`.
+:::
+
+## {.center}
+
+::: {.big-q}
+What does the agent need now?
+:::
+
+::: {.big-q .fragment style="font-size:1.1em; color:#8b949e"}
+Would someone already have built it?
+:::
+
+::: {.notes}
+- Let them answer: something that can read and write files in a folder you choose.
+- Second line: yes. Search "filesystem MCP server". The official one lives in modelcontextprotocol/servers.
+- Push: does that mean a second agent? (No. Same agent, same config, one more entry.)
+:::
+
+# One Agent, Two Servers {.center}
+
+## One more entry {auto-animate=true .compact}
+
+```{.python}
+config = {"mcpServers": {
+    "arxiv": {"command": "uvx", "args": ["arxiv-mcp-server"]},
+}}
+```
+
+## One more entry {auto-animate=true .compact}
+
+```{.python code-line-numbers="1-2,6"}
+ARXIV_FOLDER = "/root/.arxiv-mcp-server/papers"   # where the arXiv server saves papers
+LAB_FOLDER = "/content/lab_papers"                # where the lab looks
+
+config = {"mcpServers": {
+    "arxiv": {"command": "uvx", "args": ["arxiv-mcp-server"]},
+    "files": {"command": "npx", "args": ["-y", "@modelcontextprotocol/server-filesystem", LAB_FOLDER, ARXIV_FOLDER]},
+}}
+```
+
+::: {.why}
+The folders at the end of `args` are the **only** folders it can touch.
+:::
+
+::: {.notes}
+- `npx` is Node's `uvx`. This server is written in TypeScript, and Colab already has Node.
+- Two folders: the lab's, and the arXiv server's hidden one, so the agent can move papers across.
+:::
+
+## Then ask for the whole Friday {.compact}
+
+```{.python}
+FRIDAY = (
+    f"Find this week's new arXiv papers on {TOPIC}. Pick the 3 most relevant and download them. "
+    f"Move each downloaded paper's .md file from {ARXIV_FOLDER} into {LAB_FOLDER}. "
+    f"Then save {LAB_FOLDER}/digest.md with each paper's title, arXiv link, and a 2-sentence summary."
+)
+```
+
+::: {.why}
+Same agent code as before. Only the config and the request changed.
+:::
+
+## Colab: sections 6–7 (10 min, pairs)
+
+1. Check the lab folder. **Where are the papers?**
+2. Add the filesystem server to the **same config**
+3. Print the tools. **How many now?**
+4. Run Mateo's whole Friday, then open the **Files** pane
+
+::: {.notes}
+- Expect 33 tools: 19 from arXiv plus 14 from files, prefixed `arxiv_` and `files_`.
+- In testing it took ~19 tool calls and used `files_move_file`. It reads each paper first, which costs tokens.
+- Leftover `.meta.json` files in the arXiv folder are fine.
+:::
+
+## One agent, two servers
+
+```{=html}
+<svg class="diagram" viewBox="0 0 1100 400" role="img" aria-label="On your machine, one agent launches two stdio servers: the arXiv server, which calls arxiv.org, and the filesystem server, which can only reach the two folders it was given.">
+  <defs>
+    <marker id="t7-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#79c0ff"/></marker>
+    <marker id="t7-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d2a8ff"/></marker>
+    <marker id="t7-gold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ffa657"/></marker>
+  </defs>
+  <rect class="dg-machine" x="10" y="20" width="800" height="360" rx="14"/>
+  <text class="dg-tag" x="28" y="364">YOUR MACHINE · COLAB VM</text>
+
+  <rect class="dg-box" x="40" y="150" width="200" height="100" rx="12" stroke="#58a6ff"/>
+  <text class="dg-title" x="140" y="192" text-anchor="middle" style="fill:#79c0ff">agent</text>
+  <text class="dg-label" x="140" y="222" text-anchor="middle">33 tools</text>
+
+  <rect class="dg-box" x="360" y="50" width="220" height="90" rx="12" stroke="#7ee787"/>
+  <text class="dg-title" x="470" y="90" text-anchor="middle" style="fill:#7ee787">arXiv server</text>
+  <text class="dg-mono" x="470" y="120" text-anchor="middle" style="font-size:16px">arxiv_*  · 19</text>
+
+  <rect class="dg-box fragment" data-fragment-index="1" x="360" y="260" width="220" height="90" rx="12" stroke="#7ee787"/>
+  <g class="fragment" data-fragment-index="1">
+    <text class="dg-title" x="470" y="300" text-anchor="middle" style="fill:#7ee787">files server</text>
+    <text class="dg-mono" x="470" y="330" text-anchor="middle" style="font-size:16px">files_*  · 14</text>
+    <path d="M242,225 C300,225 300,305 358,305" fill="none" stroke="#79c0ff" stroke-width="2.5" marker-end="url(#t7-blue)"/>
+    <text class="dg-label" x="300" y="300" text-anchor="middle" style="font-size:15px">stdio</text>
+  </g>
+  <path d="M242,175 C300,175 300,95 358,95" fill="none" stroke="#79c0ff" stroke-width="2.5" marker-end="url(#t7-blue)"/>
+  <text class="dg-label" x="300" y="110" text-anchor="middle" style="font-size:15px">stdio</text>
+
+  <line x1="582" y1="95" x2="918" y2="95" stroke="#d2a8ff" stroke-width="2.5" marker-end="url(#t7-purple)"/>
+  <rect x="920" y="71" width="150" height="48" rx="24" fill="#161b22" stroke="#d2a8ff" stroke-width="2"/>
+  <text x="995" y="102" text-anchor="middle" style="font-size:20px;font-weight:700;fill:#d2a8ff">arxiv.org</text>
+
+  <g class="fragment" data-fragment-index="2">
+    <line x1="582" y1="285" x2="628" y2="250" stroke="#ffa657" stroke-width="2.5" marker-end="url(#t7-gold)"/>
+    <line x1="582" y1="325" x2="628" y2="335" stroke="#ffa657" stroke-width="2.5" marker-end="url(#t7-gold)"/>
+    <text class="dg-mono" x="636" y="255" style="font-size:16px">lab_papers/</text>
+    <text class="dg-mono" x="636" y="340" style="font-size:16px">~/.arxiv-mcp-server/</text>
+  </g>
+</svg>
+```
+
+::: {.why .fragment}
+One agent. Two servers. You wrote **neither**.
+:::
+
+::: {.notes}
+- Build: start from what they already had (arXiv), then the files server appears, then the two folders it's allowed to touch.
+- Answer to "two servers means two agents?": no. One config, one tool list, one agent.
+- If time: the filesystem server refuses paths outside those folders ("Access denied - path outside allowed directories"). Who decided which folders? You did, in `args`.
+:::
+
+# Pair Quiz {.center}
+
+## Pair quiz (5 min)
+
+::: {.quiz-grid}
+::: {.card}
+[a.]{.ct}
+
+How do **stdio** and **HTTP** servers differ?
+:::
+::: {.card}
+[b.]{.ct}
+
+What problems does **MCP** solve?
+:::
+::: {.card}
+[c.]{.ct}
+
+What can an MCP server **offer**?
+:::
+::: {.card}
+[d.]{.ct}
+
+Two configs, next slide: which is which, and **where does the work happen**?
+:::
+:::
+
+::: {.notes}
+- Pairs, notes app or paper, no Colab. Put the next slide up too so they can do (d).
+- Then walk through the answers one slide at a time. Call on pairs before revealing.
+:::
+
+## d. Which is which?
+
+:::: {.columns}
+::: {.column width="50%"}
+::: {.tag}
+Config A
+:::
+
+```{.python}
+config = {"mcpServers": {
+    "fetch": {"command": "uvx",
+              "args": ["mcp-server-fetch"]},
+}}
+```
+
+::: {.answer .fragment data-fragment-index="1"}
+**stdio.** Runs on **your machine**, even though it fetches web pages.
+:::
+:::
+
+::: {.column width="50%"}
+::: {.tag}
+Config B
+:::
+
+```{.python}
+config = {"mcpServers": {
+    "docs": {"url": "https://docs.langchain.com/mcp"},
+}}
+```
+
+::: {.answer .fragment data-fragment-index="1"}
+**HTTP.** Runs on **LangChain's machine**. You only send requests.
+:::
+:::
+::::
+
+::: {.notes}
+- The trap: "fetch touches the internet, so it must be HTTP." No. The transport is about how *your agent* talks to the *server*, not what the server does.
+- `command` → your agent starts it → your machine. `url` → someone else started it → their machine.
+:::
+
+## a. stdio vs HTTP
+
+| | stdio (Spider-Man) | HTTP (Stark) |
+|---|---|---|
+| Who starts the server | **your agent**, per call | **the owner**, and it stays up |
+| Where it runs | your machine | their machine |
+| Your config says | `"command"` | `"url"` |
+| Clients per server | one | many |
+| Today's examples | arXiv, filesystem, fetch | LangChain docs |
+
+::: {.notes}
+- Bring the "Where does it run?" diagram back (next slide) if pairs mixed these up.
+:::
+
+## Where does it run? (again) {.stdio-map}
+
+```{=html}
+<svg class="diagram" viewBox="0 0 1100 410" role="img" aria-label="Recap: HTTP means the server runs on someone else's machine at a URL; stdio means your agent starts the server on your machine and they talk through stdin and stdout.">
+  <defs>
+    <marker id="r7-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#79c0ff"/></marker>
+    <marker id="r7-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7ee787"/></marker>
+    <marker id="r7-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8b949e"/></marker>
+    <marker id="r7-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d2a8ff"/></marker>
+  </defs>
+  <text class="dg-tag" x="10" y="22">HTTP</text>
+  <rect class="dg-machine" x="10" y="40" width="220" height="250" rx="14"/>
+  <text class="dg-tag" x="26" y="276">YOUR MACHINE</text>
+  <rect class="dg-box" x="30" y="115" width="180" height="90" rx="12" stroke="#58a6ff"/>
+  <text class="dg-title" x="120" y="155" text-anchor="middle" style="fill:#79c0ff">agent</text>
+  <text class="dg-label" x="120" y="185" text-anchor="middle">MCP client</text>
+  <rect class="dg-machine" x="300" y="40" width="220" height="250" rx="14"/>
+  <text class="dg-tag" x="316" y="276">LANGCHAIN'S MACHINE</text>
+  <rect class="dg-box" x="320" y="115" width="180" height="90" rx="12" stroke="#7ee787"/>
+  <text class="dg-title" x="410" y="155" text-anchor="middle" style="fill:#7ee787">docs server</text>
+  <text class="dg-label" x="410" y="185" text-anchor="middle">always running</text>
+  <line x1="212" y1="145" x2="318" y2="145" stroke="#79c0ff" stroke-width="2.5" marker-end="url(#r7-blue)"/>
+  <line x1="318" y1="178" x2="212" y2="178" stroke="#7ee787" stroke-width="2.5" marker-end="url(#r7-green)"/>
+  <text class="dg-label" x="265" y="232" text-anchor="middle">URL</text>
+
+  <text class="dg-tag" x="580" y="22">STDIO</text>
+  <rect class="dg-machine" x="580" y="40" width="510" height="250" rx="14"/>
+  <text class="dg-tag" x="596" y="276">YOUR MACHINE</text>
+  <rect class="dg-box" x="600" y="115" width="180" height="90" rx="12" stroke="#58a6ff"/>
+  <text class="dg-title" x="690" y="155" text-anchor="middle" style="fill:#79c0ff">agent</text>
+  <text class="dg-label" x="690" y="185" text-anchor="middle">MCP client</text>
+  <path d="M690,113 C720,62 950,62 980,113" fill="none" stroke="#8b949e" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#r7-gray)"/>
+  <text class="dg-step" x="835" y="68" text-anchor="middle">agent starts it</text>
+  <rect class="dg-box" x="890" y="115" width="180" height="90" rx="12" stroke="#7ee787"/>
+  <text class="dg-title" x="980" y="155" text-anchor="middle" style="fill:#7ee787">fetch server</text>
+  <text class="dg-label" x="980" y="185" text-anchor="middle">a subprocess</text>
+  <line x1="782" y1="133" x2="888" y2="133" stroke="#79c0ff" stroke-width="2.5" marker-end="url(#r7-blue)"/>
+  <line x1="888" y1="190" x2="782" y2="190" stroke="#7ee787" stroke-width="2.5" marker-end="url(#r7-green)"/>
+  <text class="dg-step" x="835" y="168" text-anchor="middle" style="font-size:15px">stdin/stdout</text>
+  <line x1="1055" y1="207" x2="1055" y2="342" stroke="#d2a8ff" stroke-width="2.5" marker-end="url(#r7-purple)"/>
+  <rect x="960" y="345" width="130" height="48" rx="24" fill="#161b22" stroke="#d2a8ff" stroke-width="2"/>
+  <text x="1025" y="376" text-anchor="middle" style="font-size:20px;font-weight:700;fill:#d2a8ff">the web</text>
+  <text class="dg-step" x="1040" y="330" text-anchor="end">the server does the work</text>
+</svg>
+```
+
+::: {.notes}
+- Same diagram as the Reveal, now with Config A's fetch server on the right and Config B's docs server on the left.
+- Point at each box: where does the code run? Who started it?
+:::
+
+## b. What problems does MCP solve?
+
+::: {.cards}
+::: {.card .fragment style="border-color:#ff7b72"}
+[🔧 Tools you don't own]{.ct}
+
+The owner ships and maintains them. They change the code; your agent doesn't break.
+
+*Ludwig, 1.6*
+:::
+
+::: {.card .fragment style="border-color:#79c0ff"}
+[🔌 One standard]{.ct}
+
+Any agent, any server. Like USB.
+
+*Stark and Spider-Man both plug in the same way*
+:::
+
+::: {.card .fragment style="border-color:#7ee787"}
+[📦 Someone already built it]{.ct}
+
+Common capabilities ship as servers. You plug them in.
+
+*Mateo, today*
+:::
+:::
+
+## c. What can a server offer?
+
+::: {.cards}
+::: {.card style="border-color:#7ee787"}
+[🔧 Tools]{.ct}
+
+Functions the model **calls**.
+
+`search_papers`, `move_file`
+:::
+
+::: {.card .fragment style="border-color:#79c0ff"}
+[📄 Resources]{.ct}
+
+Data the app can **read**.
+
+*Like a file the server shares*
+:::
+
+::: {.card .fragment style="border-color:#d2a8ff"}
+[💬 Prompts]{.ct}
+
+Templates the **user** picks.
+
+*A server's best script for a job*
+:::
+:::
+
+::: {.notes}
+- Recap from the 1.6 prep reading.
+- LangChain's `MCPAdapter` only loads **tools** today; prompts and resources aren't supported yet. That's why we've only used tools.
+:::
+
+# Your Agent {.center}
+
+## Three servers, one agent {.compact}
+
+::: {.tag}
+Your Project 1 agent · main.py
+:::
+
+```{.python code-line-numbers="1-6|8-11"}
+config = {"mcpServers": {
+    "docs":  {"url": "https://docs.langchain.com/mcp"},
+    "files": {"command": "npx",
+              "args": ["-y", "@modelcontextprotocol/server-filesystem", NOTES_FOLDER]},
+    # "???": one you pick
+}}
+
+async def build_agent():
+    async with MCPAdapter(config) as adapter:
+        mcp_tools = await adapter.list_tools()
+    return create_agent(MODEL, mcp_tools + my_tools)
+```
+
+::: {.why}
+Your 1.6 `build_agent`, with the URL swapped for a config. Locally you need **uv** and **Node**.
+:::
+
+::: {.notes}
+- `NOTES_FOLDER` is an absolute path to a folder they choose. Don't give it your home directory.
+- stdio servers now run on *their laptop*. Same code; the machine changed.
+- Every server counts toward the "most MCP servers connected" leaderboard.
+:::
+
+## Pick the third one
+
+::: {.big-q style="font-size:1.2em"}
+What can your agent still not reach?
+:::
+
+::: {.fragment style="text-align:center; margin-top:1em"}
+[github.com/modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) · [registry.modelcontextprotocol.io](https://registry.modelcontextprotocol.io)
+:::
+
+::: {.notes}
+- Start from a gap in *their* agent, not from the list. (Objective 4: find a feature to solve a predetermined problem.)
+- Judging whether a server is safe is a later lesson. For now: prefer official or well-known servers, and give it only the folders or keys it needs.
+:::
+
+## Next time
+
+**Ethics discussion and a work day.**
+
+- Bring your Project 1 agent with its servers connected
+- Think about Mateo: what did the lab lose, and gain, when the agent took over his Fridays?
+
+::: {.notes}
+- Outline 1.8: ethics discussion + work day [6.1, 6.2]. Adjust once 1.8 is designed.
+:::

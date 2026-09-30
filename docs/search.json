@@ -74,7 +74,7 @@
     "href": "practice/practice1_3.html#setup",
     "title": "Practice 1.3 — Community Tools & Real Data",
     "section": "🔑 Setup",
-    "text": "🔑 Setup\n\n%pip install -q -U langchain langchain-google-genai langgraph langchain-core langchain-community duckduckgo-search wikipedia\n\n\nimport os\nfrom google.colab import userdata\nfrom langchain.chat_models import init_chat_model\nfrom langchain.agents import create_react_agent\nfrom langchain_core.tools import tool\n\nos.environ['GOOGLE_API_KEY'] = userdata.get('GOOGLE_API_KEY')\n\nmodel = init_chat_model(\n    model=\"google_genai:gemini-2.5-flash\",\n    temperature=0\n)\n\nprint(\"Ready!\")"
+    "text": "🔑 Setup\n\n%pip install -q -U langchain langchain-google-genai langgraph langchain-core langchain-community duckduckgo-search wikipedia\n\n\nimport os\nfrom google.colab import userdata\nfrom langchain.chat_models import init_chat_model\nfrom langchain.agents import create_react_agent\nfrom langchain_core.tools import tool\n\nos.environ['GOOGLE_API_KEY'] = userdata.get('GOOGLE_API_KEY')\n\nmodel = init_chat_model(\n    model=\"google_genai:gemini-flash-lite-latest\",\n    temperature=0\n)\n\nprint(\"Ready!\")"
   },
   {
     "objectID": "practice/practice1_3.html#part-1-evaluate-community-tools",
@@ -144,7 +144,7 @@
     "href": "practice/practice1_1.html#part-3-temperature-token-limits",
     "title": "Practice 1.1 — APIs & Your First Configured Agent",
     "section": "Part 3 — Temperature & Token Limits",
-    "text": "Part 3 — Temperature & Token Limits\n\n3a — Temperature experiment\nRun the exact same question at three different temperatures. Record what changes.\n\nquestion = \"Give me a creative name for an AI assistant that helps with cooking.\"\n\nfor temp in [0.0, 0.7, 1.5]:\n    temp_model = init_chat_model(\n        model=\"google_genai:gemini-2.5-flash\",\n        temperature=temp\n    )\n    response = temp_model.invoke(question)\n    print(f\"Temperature {temp}: {response.content}\")\n    print()\n\n\ntemperature_observations = \"\"\"\n# Describe what changed between temperature 0.0, 0.7, and 1.5:\n# - At 0.0:\n# - At 0.7:\n# - At 1.5:\n# Which temperature would you use for a SQL query generator? Why?\n# YOUR ANSWER HERE\n\"\"\"\nprint(temperature_observations)\n\n\n\n3b — Token limit experiment\nRun the same question with three different max_tokens values. At what point does the response get cut off in a way that would be a problem for a real user?\n\nquestion = \"Explain how the internet works.\"\n\nfor max_tok in [20, 100, 500]:\n    limited_model = init_chat_model(\n        model=\"google_genai:gemini-2.5-flash\",\n        temperature=0.5,\n        max_tokens=max_tok\n    )\n    response = limited_model.invoke(question)\n    print(f\"max_tokens={max_tok}:\")\n    print(response.content)\n    print()\n\n\ntoken_observations = \"\"\"\n# At what max_tokens value did the response become unusable? Why?\n# If you were building a customer service chatbot, what max_tokens would you choose? Why?\n# YOUR ANSWER HERE\n\"\"\"\nprint(token_observations)"
+    "text": "Part 3 — Temperature & Token Limits\n\n3a — Temperature experiment\nRun the exact same question at three different temperatures. Record what changes.\n\nquestion = \"Give me a creative name for an AI assistant that helps with cooking.\"\n\nfor temp in [0.0, 0.7, 1.5]:\n    temp_model = init_chat_model(\n        model=\"google_genai:gemini-flash-lite-latest\",\n        temperature=temp\n    )\n    response = temp_model.invoke(question)\n    print(f\"Temperature {temp}: {response.content}\")\n    print()\n\n\ntemperature_observations = \"\"\"\n# Describe what changed between temperature 0.0, 0.7, and 1.5:\n# - At 0.0:\n# - At 0.7:\n# - At 1.5:\n# Which temperature would you use for a SQL query generator? Why?\n# YOUR ANSWER HERE\n\"\"\"\nprint(temperature_observations)\n\n\n\n3b — Token limit experiment\nRun the same question with three different max_tokens values. At what point does the response get cut off in a way that would be a problem for a real user?\n\nquestion = \"Explain how the internet works.\"\n\nfor max_tok in [20, 100, 500]:\n    limited_model = init_chat_model(\n        model=\"google_genai:gemini-flash-lite-latest\",\n        temperature=0.5,\n        max_tokens=max_tok\n    )\n    response = limited_model.invoke(question)\n    print(f\"max_tokens={max_tok}:\")\n    print(response.content)\n    print()\n\n\ntoken_observations = \"\"\"\n# At what max_tokens value did the response become unusable? Why?\n# If you were building a customer service chatbot, what max_tokens would you choose? Why?\n# YOUR ANSWER HERE\n\"\"\"\nprint(token_observations)"
   },
   {
     "objectID": "practice/practice1_1.html#part-4-build-it-from-scratch",
@@ -165,7 +165,7 @@
     "href": "notebooks/chat_interface.html",
     "title": "",
     "section": "",
-    "text": "!pip install langchain langchain-google-genai &gt; /dev/null 2&gt;&1\n\n\nfrom google.colab import userdata\nimport os\nos.environ[\"GOOGLE_API_KEY\"] = userdata.get('GOOGLE_API_KEY')\n\n\nfrom langchain.agents import create_agent\nfrom langgraph.checkpoint.memory import InMemorySaver\n\nsystem_prompt = \"You are Barney the purple dinosaur\"\n\nthread_config = {\"configurable\": {\"thread_id\": \"1\"}}\n\nagent = create_agent(\n    model=\"google_genai:gemini-2.5-flash-lite\",\n    checkpointer=InMemorySaver(),\n    system_prompt=system_prompt\n)\n\ndef chat():\n  while True:\n    user_input = input(\"You: \").strip()\n\n    if not user_input or user_input.lower() in (\"quit\", \"exit\"):\n        break\n\n    result = agent.invoke(\n        {\"messages\": [{\"role\": \"user\", \"content\": user_input}]},\n        thread_config,\n    )['messages'][-1].content\n\n    print(f\"\\nAssistant: {result}\\n\")\n\nchat()\n\nYou: Great\n\nAssistant: Oh boy, oh boy, oh boy! That's me! Barney! And you know what that means, don't you? It means it's time for fun, imagination, and lots and lots of learning!\n\nSo, what are we gonna do today? Are we gonna sing a song? Play a game? Maybe we can even go on an adventure together! Just tell me, and we'll make it super-dee-duper!\n\nI'm so happy you're here! Yay! 😊\n\nYou:"
+    "text": "!pip install langchain langchain-google-genai &gt; /dev/null 2&gt;&1\n\n\nfrom google.colab import userdata\nimport os\nos.environ[\"GOOGLE_API_KEY\"] = userdata.get('GOOGLE_API_KEY')\n\n\nfrom langchain.agents import create_agent\nfrom langgraph.checkpoint.memory import InMemorySaver\n\nsystem_prompt = \"You are Barney the purple dinosaur\"\n\nthread_config = {\"configurable\": {\"thread_id\": \"1\"}}\n\nagent = create_agent(\n    model=\"google_genai:gemini-flash-lite-latest\",\n    checkpointer=InMemorySaver(),\n    system_prompt=system_prompt\n)\n\ndef chat():\n  while True:\n    user_input = input(\"You: \").strip()\n\n    if not user_input or user_input.lower() in (\"quit\", \"exit\"):\n        break\n\n    result = agent.invoke(\n        {\"messages\": [{\"role\": \"user\", \"content\": user_input}]},\n        thread_config,\n    )['messages'][-1].content\n\n    print(f\"\\nAssistant: {result}\\n\")\n\nchat()\n\nYou: Great\n\nAssistant: Oh boy, oh boy, oh boy! That's me! Barney! And you know what that means, don't you? It means it's time for fun, imagination, and lots and lots of learning!\n\nSo, what are we gonna do today? Are we gonna sing a song? Play a game? Maybe we can even go on an adventure together! Just tell me, and we'll make it super-dee-duper!\n\nI'm so happy you're here! Yay! 😊\n\nYou:"
   },
   {
     "objectID": "lessons/lesson1_3.html#lesson-overview",
@@ -186,7 +186,7 @@
     "href": "lessons/lesson1_3.html#activity-1-use-a-community-tool",
     "title": "Community Tools & Real Data",
     "section": "Activity 1 Use a Community Tool",
-    "text": "Activity 1 Use a Community Tool\nLet’s install and use DuckDuckGo search inside an agent.\n\nStep 1 Install\n%pip install -q -U langchain langchain-community langchain-google-genai langgraph duckduckgo-search\n\n\nStep 2 Set up your API key\nimport os\nfrom google.colab import userdata\nos.environ['GOOGLE_API_KEY'] = userdata.get('GOOGLE_API_KEY')\n\n\nStep 3 Wire DuckDuckGo into an agent\nfrom langchain.chat_models import init_chat_model\nfrom langchain.agents import create_react_agent\nfrom langchain_community.tools import DuckDuckGoSearchRun\n\n# Load the community tool   no setup needed\nsearch_tool = DuckDuckGoSearchRun()\n\nmodel = init_chat_model(\n    model=\"google_genai:gemini-2.5-flash\",\n    temperature=0\n)\n\nsystem_prompt = \"\"\"You are a helpful research assistant. \nUse the search tool to find current information when needed.\nAlways search before answering questions about recent events or current facts.\"\"\"\n\nagent = create_react_agent(\n    model=model,\n    tools=[search_tool],\n    prompt=system_prompt\n)\n\nresponse = agent.invoke({\"messages\": [{\"role\": \"user\", \"content\": \"What is the latest version of Python?\"}]})\nprint(response[\"messages\"][-1].content)\nTry a few different questions and observe:\n\nWhich questions trigger a search?\nWhich ones does the agent answer from memory without searching?\nDoes the system prompt affect when it searches?"
+    "text": "Activity 1 Use a Community Tool\nLet’s install and use DuckDuckGo search inside an agent.\n\nStep 1 Install\n%pip install -q -U langchain langchain-community langchain-google-genai langgraph duckduckgo-search\n\n\nStep 2 Set up your API key\nimport os\nfrom google.colab import userdata\nos.environ['GOOGLE_API_KEY'] = userdata.get('GOOGLE_API_KEY')\n\n\nStep 3 Wire DuckDuckGo into an agent\nfrom langchain.chat_models import init_chat_model\nfrom langchain.agents import create_react_agent\nfrom langchain_community.tools import DuckDuckGoSearchRun\n\n# Load the community tool   no setup needed\nsearch_tool = DuckDuckGoSearchRun()\n\nmodel = init_chat_model(\n    model=\"google_genai:gemini-flash-lite-latest\",\n    temperature=0\n)\n\nsystem_prompt = \"\"\"You are a helpful research assistant. \nUse the search tool to find current information when needed.\nAlways search before answering questions about recent events or current facts.\"\"\"\n\nagent = create_react_agent(\n    model=model,\n    tools=[search_tool],\n    prompt=system_prompt\n)\n\nresponse = agent.invoke({\"messages\": [{\"role\": \"user\", \"content\": \"What is the latest version of Python?\"}]})\nprint(response[\"messages\"][-1].content)\nTry a few different questions and observe:\n\nWhich questions trigger a search?\nWhich ones does the agent answer from memory without searching?\nDoes the system prompt affect when it searches?"
   },
   {
     "objectID": "lessons/lesson1_3.html#part-2-tool-descriptions-under-pressure",
@@ -200,7 +200,7 @@
     "href": "lessons/lesson1_3.html#activity-2-build-a-local-file-tool",
     "title": "Community Tools & Real Data",
     "section": "Activity 2 Build a Local File Tool",
-    "text": "Activity 2 Build a Local File Tool\nNow you will build a tool that reads a local CSV file and makes that data accessible to the agent.\n\nStep 1 Create the sample data file\nRun this cell to create a small sales CSV file in your Colab environment:\n# Create a sample sales data file\nsample_data = \"\"\"month,product,units_sold,revenue\nJanuary,Widget A,120,2400\nJanuary,Widget B,85,3400\nFebruary,Widget A,140,2800\nFebruary,Widget B,90,3600\nMarch,Widget A,95,1900\nMarch,Widget B,110,4400\nApril,Widget A,160,3200\nApril,Widget B,75,3000\n\"\"\"\n\nwith open(\"sales_data.csv\", \"w\") as f:\n    f.write(sample_data)\n\nprint(\"sales_data.csv created!\")\n\n\n\nStep 2 Build the file reading tool\nimport csv\nfrom langchain_core.tools import tool\n\n@tool\ndef read_sales_data(query: str) -&gt; str:\n    \"\"\"\n    Reads our internal sales data CSV file and returns relevant information.\n    Use this tool when the user asks about sales figures, revenue, units sold,\n    product performance, or any question about our company's internal sales data.\n    Do NOT use this for general questions or current events   use web search for those.\n\n    Args:\n        query: A plain English description of what information you need from the sales data\n    \"\"\"\n    try:\n        with open(\"sales_data.csv\", \"r\") as f:\n            reader = csv.DictReader(f)\n            rows = list(reader)\n\n        # Return all the data as a readable string\n        result = \"Sales Data:\\n\"\n        result += \"month | product | units_sold | revenue\\n\"\n        result += \"-\" * 45 + \"\\n\"\n        for row in rows:\n            result += f\"{row['month']} | {row['product']} | {row['units_sold']} | ${row['revenue']}\\n\"\n        return result\n\n    except FileNotFoundError:\n        return \"Error: sales_data.csv not found. Make sure the file exists.\"\nTest it directly first:\nprint(read_sales_data.invoke({\"query\": \"show me all sales data\"}))\n\n\n\nStep 3 Wire it into an agent\nfrom langchain.chat_models import init_chat_model\nfrom langchain.agents import create_react_agent\n\nmodel = init_chat_model(\n    model=\"google_genai:gemini-2.5-flash\",\n    temperature=0\n)\n\nsystem_prompt = \"\"\"You are a sales data analyst assistant.\nYou have access to our internal sales data through your tool.\nUse the read_sales_data tool whenever the user asks about sales, revenue, or product performance.\nAnswer in clear, plain English with specific numbers from the data.\"\"\"\n\nagent = create_react_agent(\n    model=model,\n    tools=[read_sales_data],\n    prompt=system_prompt\n)\n\nresponse = agent.invoke({\"messages\": [{\"role\": \"user\", \"content\": \"Which product made the most revenue overall?\"}]})\nprint(response[\"messages\"][-1].content)\nTry these questions and observe:\n\n\"What month had the highest total revenue?\"\n\"How many units of Widget A were sold in total?\"\n\"Which product performed better on average?\"\n\n\n\n\n\n\n\n\nImportant🛑 STOP HERE\n\n\n\nMake sure your agent is reading from the file and answering correctly before moving to the next activity. If the answers look wrong, check that sales_data.csv was created in Step 1."
+    "text": "Activity 2 Build a Local File Tool\nNow you will build a tool that reads a local CSV file and makes that data accessible to the agent.\n\nStep 1 Create the sample data file\nRun this cell to create a small sales CSV file in your Colab environment:\n# Create a sample sales data file\nsample_data = \"\"\"month,product,units_sold,revenue\nJanuary,Widget A,120,2400\nJanuary,Widget B,85,3400\nFebruary,Widget A,140,2800\nFebruary,Widget B,90,3600\nMarch,Widget A,95,1900\nMarch,Widget B,110,4400\nApril,Widget A,160,3200\nApril,Widget B,75,3000\n\"\"\"\n\nwith open(\"sales_data.csv\", \"w\") as f:\n    f.write(sample_data)\n\nprint(\"sales_data.csv created!\")\n\n\n\nStep 2 Build the file reading tool\nimport csv\nfrom langchain_core.tools import tool\n\n@tool\ndef read_sales_data(query: str) -&gt; str:\n    \"\"\"\n    Reads our internal sales data CSV file and returns relevant information.\n    Use this tool when the user asks about sales figures, revenue, units sold,\n    product performance, or any question about our company's internal sales data.\n    Do NOT use this for general questions or current events   use web search for those.\n\n    Args:\n        query: A plain English description of what information you need from the sales data\n    \"\"\"\n    try:\n        with open(\"sales_data.csv\", \"r\") as f:\n            reader = csv.DictReader(f)\n            rows = list(reader)\n\n        # Return all the data as a readable string\n        result = \"Sales Data:\\n\"\n        result += \"month | product | units_sold | revenue\\n\"\n        result += \"-\" * 45 + \"\\n\"\n        for row in rows:\n            result += f\"{row['month']} | {row['product']} | {row['units_sold']} | ${row['revenue']}\\n\"\n        return result\n\n    except FileNotFoundError:\n        return \"Error: sales_data.csv not found. Make sure the file exists.\"\nTest it directly first:\nprint(read_sales_data.invoke({\"query\": \"show me all sales data\"}))\n\n\n\nStep 3 Wire it into an agent\nfrom langchain.chat_models import init_chat_model\nfrom langchain.agents import create_react_agent\n\nmodel = init_chat_model(\n    model=\"google_genai:gemini-flash-lite-latest\",\n    temperature=0\n)\n\nsystem_prompt = \"\"\"You are a sales data analyst assistant.\nYou have access to our internal sales data through your tool.\nUse the read_sales_data tool whenever the user asks about sales, revenue, or product performance.\nAnswer in clear, plain English with specific numbers from the data.\"\"\"\n\nagent = create_react_agent(\n    model=model,\n    tools=[read_sales_data],\n    prompt=system_prompt\n)\n\nresponse = agent.invoke({\"messages\": [{\"role\": \"user\", \"content\": \"Which product made the most revenue overall?\"}]})\nprint(response[\"messages\"][-1].content)\nTry these questions and observe:\n\n\"What month had the highest total revenue?\"\n\"How many units of Widget A were sold in total?\"\n\"Which product performed better on average?\"\n\n\n\n\n\n\n\n\nImportant🛑 STOP HERE\n\n\n\nMake sure your agent is reading from the file and answering correctly before moving to the next activity. If the answers look wrong, check that sales_data.csv was created in Step 1."
   },
   {
     "objectID": "lessons/lesson1_3.html#activity-3-combine-web-search-local-data",
@@ -242,7 +242,7 @@
     "href": "lessons/lesson1_1.html#build-your-first-agent",
     "title": "Your First LangChain Agent",
     "section": "4. Build your first agent",
-    "text": "4. Build your first agent\nRun this cell. This follows LangChain’s quickstart: a small tool the agent can call, and an agent built from a model, that tool, and a system prompt.\nfrom langchain.agents import create_agent\n\ndef get_weather(city: str) -&gt; str:\n    \"\"\"Get weather for a given city.\"\"\"\n    return f\"It's always sunny in {city}!\"\n\nagent = create_agent(\n    model=\"google_genai:gemini-2.5-flash\",\n    tools=[get_weather],\n    system_prompt=\"You are a helpful assistant\",\n)\n\nresult = agent.invoke(\n    {\"messages\": [{\"role\": \"user\", \"content\": \"What's the weather in San Francisco?\"}]}\n)\n\nprint(result[\"messages\"][-1].content_blocks)\nYou have made an API call, but through an agent: your code sent a message to agent.invoke, the agent decided it needed the get_weather tool, called it, and used the result to answer. We will look much closer at tools next lesson — for today, just notice that something decided to call get_weather on its own."
+    "text": "4. Build your first agent\nRun this cell. This follows LangChain’s quickstart: a small tool the agent can call, and an agent built from a model, that tool, and a system prompt.\nfrom langchain.agents import create_agent\n\ndef get_weather(city: str) -&gt; str:\n    \"\"\"Get weather for a given city.\"\"\"\n    return f\"It's always sunny in {city}!\"\n\nagent = create_agent(\n    model=\"google_genai:gemini-flash-lite-latest\",\n    tools=[get_weather],\n    system_prompt=\"You are a helpful assistant\",\n)\n\nresult = agent.invoke(\n    {\"messages\": [{\"role\": \"user\", \"content\": \"What's the weather in San Francisco?\"}]}\n)\n\nprint(result[\"messages\"][-1].content_blocks)\nYou have made an API call, but through an agent: your code sent a message to agent.invoke, the agent decided it needed the get_weather tool, called it, and used the result to answer. We will look much closer at tools next lesson — for today, just notice that something decided to call get_weather on its own."
   },
   {
     "objectID": "lecture_slides/slide2_alignment.html",
@@ -522,7 +522,7 @@
     "href": "index.html",
     "title": "Welcome to the Agentic AI Course!",
     "section": "",
-    "text": "Course Schedule\nStill in active development.\n\nProject 1 Instructions\n\n\n\n\nUnit\n\n\nDate\n\n\nTopic\n\n\nLesson\n\n\nPrep\n\n\nSlides\n\n\nNotebooks\n\n\nPractice\n\n\n\n\n\n\nUnit 0\n\n\nSep 14, 2026\n\n\nGet Oriented\n\n\n📖\n\n\n\n\n\n\n\n\n\n\n\n\nUnit 1\n\n\nSep 16, 2026\n\n\nDay 1.1\n\n\n\n\n🌱\n\n\n\n\n\n\n\n\n\n\nSep 18, 2026\n\n\nDay 1.2\n\n\n\n\n🌱\n\n\n\n\n\n\n\n\n\n\nSep 21, 2026\n\n\nDay 1.3\n\n\n\n\n\n\n🧑‍🏫\n\n\n\n\n\n\n\n\nSep 23, 2026\n\n\nStarting From Scratch\n\n\n📖\n\n\n🌱\n\n\n🧑‍🏫\n\n\n\n\n\n\n\n\nSep 25, 2026\n\n\nDay 1.5\n\n\n\n\n\n\n🧑‍🏫\n\n\n\n\n\n\n\n\nSep 28, 2026\n\n\nDay 1.6\n\n\n\n\n🌱\n\n\n\n\n\n\n\n\n\n\n\n\n\nCourse Objectives\n\nBuild AI agent harnesses\nEvaluate agents using agent observability tools\nTranslate ambiguous production goals into explicit architectural decisions and measurable success criteria\nCommunicate about AI using language fitted to the audience\nUse quality sources to self-learn in an ever-changing AI landscape\nForm and live a personal ethic for the use of AI agents"
+    "text": "Course Schedule\nStill in active development.\n\nProject 1 Instructions\n\n\n\n\nUnit\n\n\nDate\n\n\nTopic\n\n\nLesson\n\n\nPrep\n\n\nSlides\n\n\nNotebooks\n\n\nPractice\n\n\n\n\n\n\nUnit 0\n\n\nSep 14, 2026\n\n\nGet Oriented\n\n\n📖\n\n\n\n\n\n\n\n\n\n\n\n\nUnit 1\n\n\nSep 16, 2026\n\n\nDay 1.1\n\n\n\n\n🌱\n\n\n\n\n\n\n\n\n\n\nSep 18, 2026\n\n\nDay 1.2\n\n\n\n\n🌱\n\n\n\n\n\n\n\n\n\n\nSep 21, 2026\n\n\nDay 1.3\n\n\n\n\n\n\n🧑‍🏫\n\n\n\n\n\n\n\n\nSep 23, 2026\n\n\nStarting From Scratch\n\n\n📖\n\n\n🌱\n\n\n🧑‍🏫\n\n\n\n\n\n\n\n\nSep 25, 2026\n\n\nDay 1.5\n\n\n\n\n\n\n🧑‍🏫\n\n\n\n\n\n\n\n\nSep 28, 2026\n\n\nDay 1.6\n\n\n\n\n🌱\n\n\n🧑‍🏫\n\n\n📓\n\n\n\n\n\n\nSep 30, 2026\n\n\nSomeone Already Built It\n\n\n📖\n\n\n\n\n🧑‍🏫\n\n\n📓\n\n\n\n\n\n\n\n\n\nCourse Objectives\n\nBuild AI agent harnesses\nEvaluate agents using agent observability tools\nTranslate ambiguous production goals into explicit architectural decisions and measurable success criteria\nCommunicate about AI using language fitted to the audience\nUse quality sources to self-learn in an ever-changing AI landscape\nForm and live a personal ethic for the use of AI agents"
   },
   {
     "objectID": "instructor_notes/notes0_1.html",
@@ -1075,7 +1075,7 @@
     "href": "lessons/lesson1_2.html#activity-2-build-your-first-tool-from-scratch",
     "title": "Tools: Giving Your Agent Hands",
     "section": "Activity 2 Build Your First Tool From Scratch",
-    "text": "Activity 2 Build Your First Tool From Scratch\nNow it’s your turn. You are going to build a tool completely from scratch.\n\n\n\n\n\n\nNoteSetup first\n\n\n\nMake sure you have run these in Colab:\n%pip install -q -U langchain langchain-google-genai langgraph langchain-core\n\nimport os\nfrom google.colab import userdata\nos.environ['GOOGLE_API_KEY'] = userdata.get('GOOGLE_API_KEY')\n\n\n\n\nStep 1 Build the simplest possible tool\nStart here. Build a tool that returns your name.\nfrom langchain_core.tools import tool\n\n@tool\ndef get_my_name() -&gt; str:\n    \"\"\"Returns the name of the assistant's owner. \n    Use this when the user asks who owns this assistant or what your name is.\"\"\"\n    return \"My name is Camila.\"\nCall it directly to confirm it works:\nprint(get_my_name.invoke({}))\n\n\n\nStep 2 Give it to an agent\nNow wire it into an agent and ask it a question that triggers the tool.\nfrom langchain.chat_models import init_chat_model\nfrom langchain.agents import create_react_agent\n\nmodel = init_chat_model(\n    model=\"google_genai:gemini-2.5-flash\",\n    temperature=0\n)\n\nsystem_prompt = \"You are a helpful assistant. Use your tools when relevant.\"\n\nagent = create_react_agent(\n    model=model,\n    tools=[get_my_name],\n    prompt=system_prompt\n)\n\nresponse = agent.invoke({\"messages\": [{\"role\": \"user\", \"content\": \"What is your owner's name?\"}]})\nprint(response[\"messages\"][-1].content)\n\n\n\n\n\n\nTipWatch the agent think\n\n\n\nTry setting verbose=True in the agent if you want to see step by step what it does which tool it calls, what it gets back, and how it forms the final answer.\n\n\n\n\n\nStep 3 Make it your own\nNow build your own tool. It can return anything your favorite food, your grandma’s name, your hometown, anything. The goal is to practice the pattern.\nRequirements: - Use the @tool decorator - Write a clear docstring that tells the agent exactly when to use it - Test it directly with .invoke() first - Then wire it into the agent and ask a question that triggers it\nfrom langchain_core.tools import tool\n\n@tool\ndef your_tool_name() -&gt; str:\n    \"\"\"Write your description here.\"\"\"\n    return \"Your value here\"\n\n# Test it\nprint(your_tool_name.invoke({}))\n\n\n\n\n\n\n\nImportant🛑 STOP HERE\n\n\n\nMake sure your custom tool works before moving on. Show your neighbor. Can they guess what your tool does just by reading the docstring?"
+    "text": "Activity 2 Build Your First Tool From Scratch\nNow it’s your turn. You are going to build a tool completely from scratch.\n\n\n\n\n\n\nNoteSetup first\n\n\n\nMake sure you have run these in Colab:\n%pip install -q -U langchain langchain-google-genai langgraph langchain-core\n\nimport os\nfrom google.colab import userdata\nos.environ['GOOGLE_API_KEY'] = userdata.get('GOOGLE_API_KEY')\n\n\n\n\nStep 1 Build the simplest possible tool\nStart here. Build a tool that returns your name.\nfrom langchain_core.tools import tool\n\n@tool\ndef get_my_name() -&gt; str:\n    \"\"\"Returns the name of the assistant's owner. \n    Use this when the user asks who owns this assistant or what your name is.\"\"\"\n    return \"My name is Camila.\"\nCall it directly to confirm it works:\nprint(get_my_name.invoke({}))\n\n\n\nStep 2 Give it to an agent\nNow wire it into an agent and ask it a question that triggers the tool.\nfrom langchain.chat_models import init_chat_model\nfrom langchain.agents import create_react_agent\n\nmodel = init_chat_model(\n    model=\"google_genai:gemini-flash-lite-latest\",\n    temperature=0\n)\n\nsystem_prompt = \"You are a helpful assistant. Use your tools when relevant.\"\n\nagent = create_react_agent(\n    model=model,\n    tools=[get_my_name],\n    prompt=system_prompt\n)\n\nresponse = agent.invoke({\"messages\": [{\"role\": \"user\", \"content\": \"What is your owner's name?\"}]})\nprint(response[\"messages\"][-1].content)\n\n\n\n\n\n\nTipWatch the agent think\n\n\n\nTry setting verbose=True in the agent if you want to see step by step what it does which tool it calls, what it gets back, and how it forms the final answer.\n\n\n\n\n\nStep 3 Make it your own\nNow build your own tool. It can return anything your favorite food, your grandma’s name, your hometown, anything. The goal is to practice the pattern.\nRequirements: - Use the @tool decorator - Write a clear docstring that tells the agent exactly when to use it - Test it directly with .invoke() first - Then wire it into the agent and ask a question that triggers it\nfrom langchain_core.tools import tool\n\n@tool\ndef your_tool_name() -&gt; str:\n    \"\"\"Write your description here.\"\"\"\n    return \"Your value here\"\n\n# Test it\nprint(your_tool_name.invoke({}))\n\n\n\n\n\n\n\nImportant🛑 STOP HERE\n\n\n\nMake sure your custom tool works before moving on. Show your neighbor. Can they guess what your tool does just by reading the docstring?"
   },
   {
     "objectID": "lessons/lesson1_2.html#activity-3-turn-existing-code-into-a-tool",
@@ -1166,7 +1166,7 @@
     "href": "notebooks/notebook1_1.html#build-your-first-agentrun-this-cell.-this-follows-langchains-quickstart-a-small-tool-the-agent-can-call-and-an-agent-built-from-a-model-that-tool-and-a-system-prompt.a-response-means-your-python-code-sent-a-request-to-gemini-through-langchain-and-the-agent-decided-on-its-own-to-call-the-get_weather-tool.",
     "title": "Day 1: Your First LangChain Agent",
     "section": "3. Build your first agentRun this cell. This follows LangChain’s quickstart: a small tool the agent can call, and an agent built from a model, that tool, and a system prompt.A response means your Python code sent a request to Gemini through LangChain, and the agent decided on its own to call the get_weather tool.",
-    "text": "3. Build your first agentRun this cell. This follows LangChain’s quickstart: a small tool the agent can call, and an agent built from a model, that tool, and a system prompt.A response means your Python code sent a request to Gemini through LangChain, and the agent decided on its own to call the get_weather tool.\n\nfrom langchain.agents import create_agentdef get_weather(city: str) -&gt; str:    \"\"\"Get weather for a given city.\"\"\"    return f\"It's always sunny in {city}!\"agent = create_agent(    model=\"google_genai:gemini-2.5-flash\",    tools=[get_weather],    system_prompt=\"You are a helpful assistant\",)result = agent.invoke(    {\"messages\": [{\"role\": \"user\", \"content\": \"What's the weather in San Francisco?\"}]})print(result[\"messages\"][-1].content_blocks)"
+    "text": "3. Build your first agentRun this cell. This follows LangChain’s quickstart: a small tool the agent can call, and an agent built from a model, that tool, and a system prompt.A response means your Python code sent a request to Gemini through LangChain, and the agent decided on its own to call the get_weather tool.\n\nfrom langchain.agents import create_agentdef get_weather(city: str) -&gt; str:    \"\"\"Get weather for a given city.\"\"\"    return f\"It's always sunny in {city}!\"agent = create_agent(    model=\"google_genai:gemini-flash-lite-latest\",    tools=[get_weather],    system_prompt=\"You are a helpful assistant\",)result = agent.invoke(    {\"messages\": [{\"role\": \"user\", \"content\": \"What's the weather in San Francisco?\"}]})print(result[\"messages\"][-1].content_blocks)"
   },
   {
     "objectID": "notebooks/notebook1_1.html#play-with-the-agentchange-only-the-message-content-in-the-next-cell-run-it-and-compare-the-result.-try-at-least-two-of-these--ask-about-the-weather-in-a-different-city.--ask-something-that-has-nothing-to-do-with-weather-and-see-whether-the-agent-still-calls-the-tool.--change-the-system_prompt-a-pirate-a-sports-announcer-a-skeptical-reviewer-and-ask-the-same-question-again.--ask-about-a-task-where-an-agent-might-help-in-your-field-of-study.with-your-partner-be-ready-to-share-what-you-changed-and-what-happened.",
@@ -1194,7 +1194,7 @@
     "href": "practice/practice1_2.html#setup",
     "title": "Practice 1.2 — Tools: Giving Your Agent Hands",
     "section": "🔑 Setup",
-    "text": "🔑 Setup\n\n%pip install -q -U langchain langchain-google-genai langgraph langchain-core\n\n\nimport os\nfrom google.colab import userdata\nfrom langchain.chat_models import init_chat_model\nfrom langchain.agents import create_react_agent\nfrom langchain_core.tools import tool\n\nos.environ['GOOGLE_API_KEY'] = userdata.get('GOOGLE_API_KEY')\n\nmodel = init_chat_model(\n    model=\"google_genai:gemini-2.5-flash\",\n    temperature=0\n)\n\nprint(\"Ready!\")"
+    "text": "🔑 Setup\n\n%pip install -q -U langchain langchain-google-genai langgraph langchain-core\n\n\nimport os\nfrom google.colab import userdata\nfrom langchain.chat_models import init_chat_model\nfrom langchain.agents import create_react_agent\nfrom langchain_core.tools import tool\n\nos.environ['GOOGLE_API_KEY'] = userdata.get('GOOGLE_API_KEY')\n\nmodel = init_chat_model(\n    model=\"google_genai:gemini-flash-lite-latest\",\n    temperature=0\n)\n\nprint(\"Ready!\")"
   },
   {
     "objectID": "practice/practice1_2.html#part-1-read-and-evaluate",
@@ -1670,14 +1670,14 @@
     "href": "lecture_slides/slide1_6.html#your-side-the-agent-3",
     "title": "Lesson 1-6: Tools You Don’t Own",
     "section": "Your side: the agent",
-    "text": "Your side: the agent\n\nsupport_bot · owned by you\n\nfrom pathlib import Path\nfrom langchain.agents import create_agent\nfrom langchain.mcp import MCPAdapter\n\nasync with MCPAdapter(Path(\"outage_server.py\")) as adapter:\n    tools = await adapter.list_tools()\n\nagent = create_agent(\"google_genai:gemini-2.5-flash\", tools)\n\nFrom here on, it’s the agent you already know. The agent can’t tell an MCP tool from one you wrote."
+    "text": "Your side: the agent\n\nsupport_bot · owned by you\n\nfrom pathlib import Path\nfrom langchain.agents import create_agent\nfrom langchain.mcp import MCPAdapter\n\nasync with MCPAdapter(Path(\"outage_server.py\")) as adapter:\n    tools = await adapter.list_tools()\n\nagent = create_agent(\"google_genai:gemini-flash-lite-latest\", tools)\n\nFrom here on, it’s the agent you already know. The agent can’t tell an MCP tool from one you wrote."
   },
   {
     "objectID": "lecture_slides/slide1_6.html#your-side-the-agent-4",
     "href": "lecture_slides/slide1_6.html#your-side-the-agent-4",
     "title": "Lesson 1-6: Tools You Don’t Own",
     "section": "Your side: the agent",
-    "text": "Your side: the agent\n\nsupport_bot · owned by you\n\nfrom pathlib import Path\nfrom langchain.agents import create_agent\nfrom langchain.mcp import MCPAdapter\n\nasync with MCPAdapter(Path(\"outage_server.py\")) as adapter:\n    tools = await adapter.list_tools()\n\nagent = create_agent(\"google_genai:gemini-2.5-flash\", tools)\n\nresult = await agent.ainvoke({\"messages\": [\n    {\"role\": \"user\", \"content\": \"My internet in 83440 is out. What's going on?\"}\n]})\n\nainvoke, not invoke: MCP tools talk over a connection, so they’re async-only. agent.invoke(...) fails the moment the model picks an MCP tool."
+    "text": "Your side: the agent\n\nsupport_bot · owned by you\n\nfrom pathlib import Path\nfrom langchain.agents import create_agent\nfrom langchain.mcp import MCPAdapter\n\nasync with MCPAdapter(Path(\"outage_server.py\")) as adapter:\n    tools = await adapter.list_tools()\n\nagent = create_agent(\"google_genai:gemini-flash-lite-latest\", tools)\n\nresult = await agent.ainvoke({\"messages\": [\n    {\"role\": \"user\", \"content\": \"My internet in 83440 is out. What's going on?\"}\n]})\n\nainvoke, not invoke: MCP tools talk over a connection, so they’re async-only. agent.invoke(...) fails the moment the model picks an MCP tool."
   },
   {
     "objectID": "lecture_slides/slide1_6.html#now-network-ops-renames-the-field",
@@ -1810,21 +1810,21 @@
     "href": "lecture_slides/slide1_6.html#add-the-langchain-docs-to-your-agent-1",
     "title": "Lesson 1-6: Tools You Don’t Own",
     "section": "Add the LangChain docs to your agent",
-    "text": "Add the LangChain docs to your agent\n\nYour Project 1 agent · main.py\n\nimport asyncio\nfrom langchain.mcp import MCPAdapter\n\nasync def build_agent():\n    async with MCPAdapter(\"https://docs.langchain.com/mcp\") as adapter:\n        docs_tools = await adapter.list_tools()\n    return create_agent(\"google_genai:gemini-2.5-flash\", docs_tools + my_tools)\n\ndef get_response(prompt: str) -&gt; str:\n    result = agent.invoke({\"messages\": [{\"role\": \"user\", \"content\": prompt}]})\n    return result[\"messages\"][-1].text\n\nA URL target: Stark Industries. LangChain runs this server; you just connect. docs_tools + my_tools mixes MCP tools with your own @tool functions."
+    "text": "Add the LangChain docs to your agent\n\nYour Project 1 agent · main.py\n\nimport asyncio\nfrom langchain.mcp import MCPAdapter\n\nasync def build_agent():\n    async with MCPAdapter(\"https://docs.langchain.com/mcp\") as adapter:\n        docs_tools = await adapter.list_tools()\n    return create_agent(\"google_genai:gemini-flash-lite-latest\", docs_tools + my_tools)\n\ndef get_response(prompt: str) -&gt; str:\n    result = agent.invoke({\"messages\": [{\"role\": \"user\", \"content\": prompt}]})\n    return result[\"messages\"][-1].text\n\nA URL target: Stark Industries. LangChain runs this server; you just connect. docs_tools + my_tools mixes MCP tools with your own @tool functions."
   },
   {
     "objectID": "lecture_slides/slide1_6.html#add-the-langchain-docs-to-your-agent-2",
     "href": "lecture_slides/slide1_6.html#add-the-langchain-docs-to-your-agent-2",
     "title": "Lesson 1-6: Tools You Don’t Own",
     "section": "Add the LangChain docs to your agent",
-    "text": "Add the LangChain docs to your agent\n\nYour Project 1 agent · main.py\n\nimport asyncio\nfrom langchain.mcp import MCPAdapter\n\nasync def build_agent():\n    async with MCPAdapter(\"https://docs.langchain.com/mcp\") as adapter:\n        docs_tools = await adapter.list_tools()\n    return create_agent(\"google_genai:gemini-2.5-flash\", docs_tools + my_tools)\n\nasync def get_response(agent, prompt: str) -&gt; str:\n    result = await agent.ainvoke({\"messages\": [{\"role\": \"user\", \"content\": prompt}]})\n    return result[\"messages\"][-1].text\n\nMCP tools are async-only, so invoke becomes await ... ainvoke, and the function becomes async def."
+    "text": "Add the LangChain docs to your agent\n\nYour Project 1 agent · main.py\n\nimport asyncio\nfrom langchain.mcp import MCPAdapter\n\nasync def build_agent():\n    async with MCPAdapter(\"https://docs.langchain.com/mcp\") as adapter:\n        docs_tools = await adapter.list_tools()\n    return create_agent(\"google_genai:gemini-flash-lite-latest\", docs_tools + my_tools)\n\nasync def get_response(agent, prompt: str) -&gt; str:\n    result = await agent.ainvoke({\"messages\": [{\"role\": \"user\", \"content\": prompt}]})\n    return result[\"messages\"][-1].text\n\nMCP tools are async-only, so invoke becomes await ... ainvoke, and the function becomes async def."
   },
   {
     "objectID": "lecture_slides/slide1_6.html#add-the-langchain-docs-to-your-agent-3",
     "href": "lecture_slides/slide1_6.html#add-the-langchain-docs-to-your-agent-3",
     "title": "Lesson 1-6: Tools You Don’t Own",
     "section": "Add the LangChain docs to your agent",
-    "text": "Add the LangChain docs to your agent\n\nYour Project 1 agent · main.py\n\nimport asyncio\nfrom langchain.mcp import MCPAdapter\n\nasync def build_agent():\n    async with MCPAdapter(\"https://docs.langchain.com/mcp\") as adapter:\n        docs_tools = await adapter.list_tools()\n    return create_agent(\"google_genai:gemini-2.5-flash\", docs_tools + my_tools)\n\nasync def get_response(agent, prompt: str) -&gt; str:\n    result = await agent.ainvoke({\"messages\": [{\"role\": \"user\", \"content\": prompt}]})\n    return result[\"messages\"][-1].text\n\nasync def main():\n    agent = await build_agent()\n    while True:\n        prompt = input(\"Input: \")\n        if prompt == \"exit\": break\n        print(await get_response(agent, prompt))\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n\nmain becomes async too, and asyncio.run(main()) starts it. A script has no event loop until you start one. (Colab already had one, which is why plain await worked there.)"
+    "text": "Add the LangChain docs to your agent\n\nYour Project 1 agent · main.py\n\nimport asyncio\nfrom langchain.mcp import MCPAdapter\n\nasync def build_agent():\n    async with MCPAdapter(\"https://docs.langchain.com/mcp\") as adapter:\n        docs_tools = await adapter.list_tools()\n    return create_agent(\"google_genai:gemini-flash-lite-latest\", docs_tools + my_tools)\n\nasync def get_response(agent, prompt: str) -&gt; str:\n    result = await agent.ainvoke({\"messages\": [{\"role\": \"user\", \"content\": prompt}]})\n    return result[\"messages\"][-1].text\n\nasync def main():\n    agent = await build_agent()\n    while True:\n        prompt = input(\"Input: \")\n        if prompt == \"exit\": break\n        print(await get_response(agent, prompt))\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n\nmain becomes async too, and asyncio.run(main()) starts it. A script has no event loop until you start one. (Colab already had one, which is why plain await worked there.)"
   },
   {
     "objectID": "lecture_slides/slide1_6.html#now-ask-it",
@@ -1853,5 +1853,313 @@
     "title": "Lesson 1-6: Tools You Don’t Own",
     "section": "What goes over the wire (continued)",
     "text": "What goes over the wire (continued)\n\nYour agent → Network Ops\n\n{\"jsonrpc\": \"2.0\", \"id\": 2, \"method\": \"tools/call\",\n \"params\": {\"name\": \"check_outage\", \"arguments\": {\"postal_code\": \"83440\"}}}\n\n\nNetwork Ops → your agent\n\n{\"jsonrpc\": \"2.0\", \"id\": 2, \"result\": {\"content\": [{\n  \"type\": \"text\",\n  \"text\": \"Fiber cut reported at 9:15 PM. Crews on site, ETA 11:30 PM.\"}]}}\n\n\nSteps 3 and 6: the call. Plain JSON. That’s why the server can be written in any language: Python, Java, TypeScript, it doesn’t matter. Anything that can read and write these messages can be an MCP server."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#scripture",
+    "href": "lecture_slides/slide1_7.html#scripture",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "Scripture",
+    "text": "Scripture\n\n“I sent you to reap that whereon ye bestowed no labour: other men laboured, and ye are entered into their labours.”\n\nJohn 4:38\n\n\n\n\nSuggestion, pending approval.\nSomeone else sowed: the people who wrote the arXiv server and the filesystem server. Today we reap.\nv36: “both he that soweth and he that reapeth may rejoice together.” Say thank you to the people whose work you build on. Give back when you can (a star, a bug report, a fix)."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#today-you-will",
+    "href": "lecture_slides/slide1_7.html#today-you-will",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "Today you will",
+    "text": "Today you will\n\n\nConnect a ready-made MCP server to an agent and use its tools\nExplain how stdio and HTTP servers differ\nRun one agent with several MCP servers at once\nFind a server that fills a gap in your Project 1 agent, and connect it"
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#the-talk",
+    "href": "lecture_slides/slide1_7.html#the-talk",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "The talk",
+    "text": "The talk\n\n\nConference · Session 4B · Thursday 2:15 PM\n\nAgents That Read So You Don’t: Automating Literature Review with LLMs\nChen, Okafor & Ruiz\n\n\nThat’s our project.\n\n\nIt was posted to arXiv three weeks ago.\n\n\n\nTell it as a story. Mateo’s lab has worked on this for a year. They sit down at a conference talk and watch someone else present it.\nThe PI leans over: “How did we miss this?”\nPause on the second line. It was public. Anyone could have seen it."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#mateos-fridays",
+    "href": "lecture_slides/slide1_7.html#mateos-fridays",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "Mateo’s Fridays",
+    "text": "Mateo’s Fridays\n\n\nAug 21 1–4 PM · search arXiv, save papers, write digest\n\n\nAug 28 1–4 PM · search arXiv, save papers, write digest\n\n\nSep 4 1–4 PM · search arXiv, save papers, write digest\n\n\nSep 11 1–4 PM · search arXiv, save papers, write digest\n\n\nSep 18 1–4 PM · search arXiv, save papers, write digest\n\n\nSep 25 1–4 PM · search arXiv, save papers, write digest\n\n\n\n~150 hours a year 3 hours × every Friday\n\n\nOn Sep 11, in a rush, he skimmed right past it.\n\n\n\nMateo is an undergrad RA. Every Friday afternoon he does the same three things.\nIt’s tedious, so it’s easy to rush. The paper was in his results; he scrolled past.\nThis isn’t a Mateo problem. It’s a “humans are bad at tedious, repeated work” problem."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#so-he-asks-his-agent",
+    "href": "lecture_slides/slide1_7.html#so-he-asks-his-agent",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "So he asks his agent",
+    "text": "So he asks his agent\n\n\nMateo’s agent Friday · 1:02 PM\n\n\n\nMateoFind this week’s new arXiv papers on LLM agents that automate scientific literature review. Pick the 3 most relevant, save them for the lab, and write a short digest.\n\n\nAgentI can’t.\n\n\n\n\n\nDeliver “I can’t” flat. Let it sit.\nThe model knows what arXiv is. It can write a digest. So why can’t it?\nOPEN (from the Colab test): the no-tools notebook agent didn’t say “I can’t”. It made up 3 plausible papers with fake arXiv IDs. If we keep the notebook’s version, this bubble could show the confident fake digest instead. That’s scarier, and it’s what students will see in section 3."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#section",
+    "href": "lecture_slides/slide1_7.html#section",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "",
+    "text": "What would the agent need?\n\n\n\nGroups, 1–2 minutes. Then collect answers.\nFollow-ups, as they come up:\n\nYou can write tools (1.4). Should you? Who keeps an arXiv scraper working when arXiv changes? (1.6: the owner.)\nWould someone already have built these?\nTwo capabilities: does that mean two agents?\nWhere would these tools run? On your machine, or someone else’s?"
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#section-1",
+    "href": "lecture_slides/slide1_7.html#section-1",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "",
+    "text": "github.com\n\n\n\nLive: search GitHub for “arxiv mcp server”. Open blazickjp/arxiv-mcp-server.\nScroll the README: the tools list, and the install line uvx arxiv-mcp-server.\n“Someone already built it. So how much work is it to plug in?”"
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#install",
+    "href": "lecture_slides/slide1_7.html#install",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "Install",
+    "text": "Install\n\nColab · notebook 1-7\n\n%pip install -q -U \"langchain[mcp]&gt;=1.4\" langchain-google-genai uv\n\nuv brings uvx: download a Python program and launch it, in one step."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#plug-it-in",
+    "href": "lecture_slides/slide1_7.html#plug-it-in",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "Plug it in",
+    "text": "Plug it in\n\nColab · notebook 1-7\n\nfrom langchain.mcp import MCPAdapter\n\nconfig = {\"mcpServers\": {\n    \"arxiv\": {\"command\": \"uvx\", \"args\": [\"arxiv-mcp-server\"]},\n}}\n\nThe line from the README, as a config entry."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#plug-it-in-1",
+    "href": "lecture_slides/slide1_7.html#plug-it-in-1",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "Plug it in",
+    "text": "Plug it in\n\nColab · notebook 1-7\n\nfrom langchain.mcp import MCPAdapter\n\nconfig = {\"mcpServers\": {\n    \"arxiv\": {\"command\": \"uvx\", \"args\": [\"arxiv-mcp-server\"]},\n}}\n\nasync with MCPAdapter(config) as adapter:\n    tools = await adapter.list_tools()\n\nprint(len(tools), \"tools\")\n\nAsk the server what it has. Print the tools before any LLM runs."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#plug-it-in-2",
+    "href": "lecture_slides/slide1_7.html#plug-it-in-2",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "Plug it in",
+    "text": "Plug it in\n\nColab · notebook 1-7\n\nfrom langchain.mcp import MCPAdapter\n\nconfig = {\"mcpServers\": {\n    \"arxiv\": {\"command\": \"uvx\", \"args\": [\"arxiv-mcp-server\"]},\n}}\n\nasync with MCPAdapter(config) as adapter:\n    tools = await adapter.list_tools()\n\nprint(len(tools), \"tools\")\n\nSYSTEM_PROMPT = (\n    f\"Today is {date.today()}. You are the research assistant for Mateo's lab. \"\n    \"Use your tools; don't guess about papers.\"\n)\n\nagent = create_agent(MODEL, tools, system_prompt=SYSTEM_PROMPT)\nresult = await agent.ainvoke({\"messages\": [{\"role\": \"user\", \"content\": FRIDAY}]})\n\nprint(result[\"messages\"][-1].text)\n\nSame request, same model. Now it has tools.\n\n\n\ndate.today() is there because the model assumed it was 2024 when it picked search dates.\nMODEL and FRIDAY come from the “I can’t” cell earlier in the notebook."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#colab-sections-15-10-min-pairs",
+    "href": "lecture_slides/slide1_7.html#colab-sections-15-10-min-pairs",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "Colab: sections 1–5 (10 min, pairs)",
+    "text": "Colab: sections 1–5 (10 min, pairs)\nOpen the notebook in Colab\n\nSend Mateo’s request to an agent with no tools\nPlug in the arXiv server and print its tools\nSend the same request again\nChange TOPIC to something you care about, and rerun\n\n\n\nLink is a placeholder until the notebook moves to notebooks/.\nSection 2 has a “Colab quirk” cell (stderr to a file). Without it, stdio servers crash with a fileno error.\nAsk: what did the no-tools agent do? (In testing it made up papers.) How many tools does the arXiv server have? (19.)\nWatch for free-tier rate limits: the model is gemini-flash-lite-latest."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#how-much-code-did-you-write",
+    "href": "lecture_slides/slide1_7.html#how-much-code-did-you-write",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "How much code did you write?",
+    "text": "How much code did you write?\n\nLast time · LangChain docs\n\nconfig = {\"mcpServers\": {\n    \"docs\": {\"url\": \"https://docs.langchain.com/mcp\"},\n}}\n\nA URL. The server was already running somewhere."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#how-much-code-did-you-write-1",
+    "href": "lecture_slides/slide1_7.html#how-much-code-did-you-write-1",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "How much code did you write?",
+    "text": "How much code did you write?\n\nToday · arXiv\n\nconfig = {\"mcpServers\": {\n    \"arxiv\": {\"command\": \"uvx\", \"args\": [\"arxiv-mcp-server\"]},\n}}\n\nNo URL. A command. So where is the server?\n\n\n\nOne entry. Zero lines of arXiv code.\nLet them notice url became command before the fragment.\n“A command is something you run. Who runs it?” Lead into the diagram."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#where-does-it-run",
+    "href": "lecture_slides/slide1_7.html#where-does-it-run",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "Where does it run?",
+    "text": "Where does it run?\n\n  \n    \n    \n    \n    \n  \n\n  \n  \n    LAST TIME · HTTP\n    \n    YOUR MACHINE\n    \n    agent\n    MCP client\n    \n    LANGCHAIN'S MACHINE\n    \n    docs server\n    always running\n    \n    \n    URL\n  \n\n  \n  \n    TODAY · STDIO\n    \n    YOUR MACHINE · COLAB VM\n    \n    agent\n    MCP client\n  \n  \n    \n    ① agent starts it: uvx\n    \n    arXiv server\n    a subprocess\n  \n  \n    \n    \n    ② stdin/stdout\n  \n  \n    \n    \n    arxiv.org\n    ③ the server calls arXiv\n  \n  \n    ④ gone after each call\n  \n\n\n\nStart on the left: recap 1.6. Someone else started the server; we only knew its URL.\n\nToday there’s no second machine.\n\n\nuvx downloads the package and starts it as a child of your agent. No URL, no port.\n\n\nThey talk through the process’s own input and output: stdin and stdout.\n\n\nWho talks to arxiv.org? The server, not the agent. The processing happens on your machine. (Quiz item d asks this.)\n\n\nLangChain opens one session per tool call. For stdio, the server starts for the call and exits when it returns. That’s why the tools still work after the async with block."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#two-ways-to-connect",
+    "href": "lecture_slides/slide1_7.html#two-ways-to-connect",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "Two ways to connect",
+    "text": "Two ways to connect\n\n\n\n  \n    \n    \n    \n    \n  \n\nstdio: Friendly Neighborhood Spider-Man\n\nLocal. On your machine\nSwoops in when your agent calls, gone after\nEveryone gets their own (the Spider-Verse)\nuvx ... · npx ...\n\n\n\n  \n    \n    \n    \n    \n    \n  \n\nHTTP: Stark Industries\n\nRemote. Someone else’s machine\nAlways on, before you connect\nServes many clients at once\nhttps://docs.langchain.com/mcp\n\n\n\n\nSpider-Man is new today; Stark is the 1.6 recap. (Moved here from 1.6 per the scope cut.)\nAsk: which one is Mateo’s arXiv server? Why is that fine for him? (One lab member, one machine.)\nDon’t define the difference for them yet. The pair quiz makes them say it."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#a-week-later",
+    "href": "lecture_slides/slide1_7.html#a-week-later",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "A week later",
+    "text": "A week later\n\nFriday · 10:12 AM\n\n\n\nLab Slack · #reading-group 10:12 AM\n\n\n\nProf. LinMateo, can you send me that paper on agent memory from last week’s digest? I want to cite it in the grant.\n\n\nMateoSure! It’s in the lab folder.\n\n\n\n\n\nThe digest went out. Everyone’s happy. Mateo got his Friday afternoon back.\nPlaceholder PI name."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#the-lab-folder",
+    "href": "lecture_slides/slide1_7.html#the-lab-folder",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "The lab folder",
+    "text": "The lab folder\n\n\n📁 lab_papers/\n\n\n\n\nName\nSaved\n\n\n\n\n2608.04417_tool-use-survey.pdf\nAug 28 · Mateo\n\n\n2609.00731_rag-for-lit-review.pdf\nSep 4 · Mateo\n\n\n2609.01288_agentic-search.pdf\nSep 11 · Mateo\n\n\n\n\n\nNothing since the agent took over.\n\n\n\nPause on the dates. Every paper was saved by Mateo.\nHe used to download each paper himself. Once the agent took over Fridays, he stopped.\nThe agent searched and wrote the digest. Did it save anything? Where?"
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#where-did-it-go",
+    "href": "lecture_slides/slide1_7.html#where-did-it-go",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "Where did it go?",
+    "text": "Where did it go?\n$ ls lab_papers/\n2608.04417_tool-use-survey.pdf  2609.00731_rag-for-lit-review.pdf  2609.01288_agentic-search.pdf\n\n$ ls ~/.arxiv-mcp-server/papers/\n2609.02215.md  2609.02604.md  2609.03391.md\n\n\n  \n    \n  \n  \n  arXiv server\n  \n  download_paper\n  \n  ~/.arxiv-mcp-server/\n  its own hidden folder\n  \n  lab_papers/\n  no tool reaches here\n\n\n\nThe agent did download them. The server saved the papers for itself, where the server can read them later.\nThat folder isn’t the lab’s folder. Nobody else in the lab knows it exists.\nThe arXiv server only has arXiv tools. The agent has no way to write to lab_papers/."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#section-2",
+    "href": "lecture_slides/slide1_7.html#section-2",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "",
+    "text": "What does the agent need now?\n\n\nWould someone already have built it?\n\n\n\nLet them answer: something that can read and write files in a folder you choose.\nSecond line: yes. Search “filesystem MCP server”. The official one lives in modelcontextprotocol/servers.\nPush: does that mean a second agent? (No. Same agent, same config, one more entry.)"
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#one-more-entry",
+    "href": "lecture_slides/slide1_7.html#one-more-entry",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "One more entry",
+    "text": "One more entry\nconfig = {\"mcpServers\": {\n    \"arxiv\": {\"command\": \"uvx\", \"args\": [\"arxiv-mcp-server\"]},\n}}"
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#one-more-entry-1",
+    "href": "lecture_slides/slide1_7.html#one-more-entry-1",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "One more entry",
+    "text": "One more entry\nARXIV_FOLDER = \"/root/.arxiv-mcp-server/papers\"   # where the arXiv server saves papers\nLAB_FOLDER = \"/content/lab_papers\"                # where the lab looks\n\nconfig = {\"mcpServers\": {\n    \"arxiv\": {\"command\": \"uvx\", \"args\": [\"arxiv-mcp-server\"]},\n    \"files\": {\"command\": \"npx\", \"args\": [\"-y\", \"@modelcontextprotocol/server-filesystem\", LAB_FOLDER, ARXIV_FOLDER]},\n}}\n\nThe folders at the end of args are the only folders it can touch.\n\n\n\nnpx is Node’s uvx. This server is written in TypeScript, and Colab already has Node.\nTwo folders: the lab’s, and the arXiv server’s hidden one, so the agent can move papers across."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#then-ask-for-the-whole-friday",
+    "href": "lecture_slides/slide1_7.html#then-ask-for-the-whole-friday",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "Then ask for the whole Friday",
+    "text": "Then ask for the whole Friday\nFRIDAY = (\n    f\"Find this week's new arXiv papers on {TOPIC}. Pick the 3 most relevant and download them. \"\n    f\"Move each downloaded paper's .md file from {ARXIV_FOLDER} into {LAB_FOLDER}. \"\n    f\"Then save {LAB_FOLDER}/digest.md with each paper's title, arXiv link, and a 2-sentence summary.\"\n)\n\nSame agent code as before. Only the config and the request changed."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#colab-sections-67-10-min-pairs",
+    "href": "lecture_slides/slide1_7.html#colab-sections-67-10-min-pairs",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "Colab: sections 6–7 (10 min, pairs)",
+    "text": "Colab: sections 6–7 (10 min, pairs)\n\nCheck the lab folder. Where are the papers?\nAdd the filesystem server to the same config\nPrint the tools. How many now?\nRun Mateo’s whole Friday, then open the Files pane\n\n\n\nExpect 33 tools: 19 from arXiv plus 14 from files, prefixed arxiv_ and files_.\nIn testing it took ~19 tool calls and used files_move_file. It reads each paper first, which costs tokens.\nLeftover .meta.json files in the arXiv folder are fine."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#one-agent-two-servers-1",
+    "href": "lecture_slides/slide1_7.html#one-agent-two-servers-1",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "One agent, two servers",
+    "text": "One agent, two servers\n\n  \n    \n    \n    \n  \n  \n  YOUR MACHINE · COLAB VM\n\n  \n  agent\n  33 tools\n\n  \n  arXiv server\n  arxiv_*  · 19\n\n  \n  \n    files server\n    files_*  · 14\n    \n    stdio\n  \n  \n  stdio\n\n  \n  \n  arxiv.org\n\n  \n    \n    \n    lab_papers/\n    ~/.arxiv-mcp-server/\n  \n\n\nOne agent. Two servers. You wrote neither.\n\n\n\nBuild: start from what they already had (arXiv), then the files server appears, then the two folders it’s allowed to touch.\nAnswer to “two servers means two agents?”: no. One config, one tool list, one agent.\nIf time: the filesystem server refuses paths outside those folders (“Access denied - path outside allowed directories”). Who decided which folders? You did, in args."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#pair-quiz-5-min",
+    "href": "lecture_slides/slide1_7.html#pair-quiz-5-min",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "Pair quiz (5 min)",
+    "text": "Pair quiz (5 min)\n\n\na.\nHow do stdio and HTTP servers differ?\n\n\nb.\nWhat problems does MCP solve?\n\n\nc.\nWhat can an MCP server offer?\n\n\nd.\nTwo configs, next slide: which is which, and where does the work happen?\n\n\n\n\nPairs, notes app or paper, no Colab. Put the next slide up too so they can do (d).\nThen walk through the answers one slide at a time. Call on pairs before revealing."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#d.-which-is-which",
+    "href": "lecture_slides/slide1_7.html#d.-which-is-which",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "d. Which is which?",
+    "text": "d. Which is which?\n\n\n\nConfig A\n\nconfig = {\"mcpServers\": {\n    \"fetch\": {\"command\": \"uvx\",\n              \"args\": [\"mcp-server-fetch\"]},\n}}\n\nstdio. Runs on your machine, even though it fetches web pages.\n\n\n\nConfig B\n\nconfig = {\"mcpServers\": {\n    \"docs\": {\"url\": \"https://docs.langchain.com/mcp\"},\n}}\n\nHTTP. Runs on LangChain’s machine. You only send requests.\n\n\n\n\nThe trap: “fetch touches the internet, so it must be HTTP.” No. The transport is about how your agent talks to the server, not what the server does.\ncommand → your agent starts it → your machine. url → someone else started it → their machine."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#a.-stdio-vs-http",
+    "href": "lecture_slides/slide1_7.html#a.-stdio-vs-http",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "a. stdio vs HTTP",
+    "text": "a. stdio vs HTTP\n\n\n\n\n\n\n\n\n\nstdio (Spider-Man)\nHTTP (Stark)\n\n\n\n\nWho starts the server\nyour agent, per call\nthe owner, and it stays up\n\n\nWhere it runs\nyour machine\ntheir machine\n\n\nYour config says\n\"command\"\n\"url\"\n\n\nClients per server\none\nmany\n\n\nToday’s examples\narXiv, filesystem, fetch\nLangChain docs\n\n\n\n\n\nBring the “Where does it run?” diagram back (next slide) if pairs mixed these up."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#where-does-it-run-again",
+    "href": "lecture_slides/slide1_7.html#where-does-it-run-again",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "Where does it run? (again)",
+    "text": "Where does it run? (again)\n\n  \n    \n    \n    \n    \n  \n  HTTP\n  \n  YOUR MACHINE\n  \n  agent\n  MCP client\n  \n  LANGCHAIN'S MACHINE\n  \n  docs server\n  always running\n  \n  \n  URL\n\n  STDIO\n  \n  YOUR MACHINE\n  \n  agent\n  MCP client\n  \n  agent starts it\n  \n  fetch server\n  a subprocess\n  \n  \n  stdin/stdout\n  \n  \n  the web\n  the server does the work\n\n\n\nSame diagram as the Reveal, now with Config A’s fetch server on the right and Config B’s docs server on the left.\nPoint at each box: where does the code run? Who started it?"
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#b.-what-problems-does-mcp-solve",
+    "href": "lecture_slides/slide1_7.html#b.-what-problems-does-mcp-solve",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "b. What problems does MCP solve?",
+    "text": "b. What problems does MCP solve?\n\n\n🔧 Tools you don’t own\nThe owner ships and maintains them. They change the code; your agent doesn’t break.\nLudwig, 1.6\n\n\n🔌 One standard\nAny agent, any server. Like USB.\nStark and Spider-Man both plug in the same way\n\n\n📦 Someone already built it\nCommon capabilities ship as servers. You plug them in.\nMateo, today"
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#c.-what-can-a-server-offer",
+    "href": "lecture_slides/slide1_7.html#c.-what-can-a-server-offer",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "c. What can a server offer?",
+    "text": "c. What can a server offer?\n\n\n🔧 Tools\nFunctions the model calls.\nsearch_papers, move_file\n\n\n📄 Resources\nData the app can read.\nLike a file the server shares\n\n\n💬 Prompts\nTemplates the user picks.\nA server’s best script for a job\n\n\n\n\nRecap from the 1.6 prep reading.\nLangChain’s MCPAdapter only loads tools today; prompts and resources aren’t supported yet. That’s why we’ve only used tools."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#three-servers-one-agent",
+    "href": "lecture_slides/slide1_7.html#three-servers-one-agent",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "Three servers, one agent",
+    "text": "Three servers, one agent\n\nYour Project 1 agent · main.py\n\nconfig = {\"mcpServers\": {\n    \"docs\":  {\"url\": \"https://docs.langchain.com/mcp\"},\n    \"files\": {\"command\": \"npx\",\n              \"args\": [\"-y\", \"@modelcontextprotocol/server-filesystem\", NOTES_FOLDER]},\n    # \"???\": one you pick\n}}\n\nasync def build_agent():\n    async with MCPAdapter(config) as adapter:\n        mcp_tools = await adapter.list_tools()\n    return create_agent(MODEL, mcp_tools + my_tools)\n\nYour 1.6 build_agent, with the URL swapped for a config. Locally you need uv and Node.\n\n\n\nNOTES_FOLDER is an absolute path to a folder they choose. Don’t give it your home directory.\nstdio servers now run on their laptop. Same code; the machine changed.\nEvery server counts toward the “most MCP servers connected” leaderboard."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#pick-the-third-one",
+    "href": "lecture_slides/slide1_7.html#pick-the-third-one",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "Pick the third one",
+    "text": "Pick the third one\n\nWhat can your agent still not reach?\n\n\ngithub.com/modelcontextprotocol/servers · registry.modelcontextprotocol.io\n\n\n\nStart from a gap in their agent, not from the list. (Objective 4: find a feature to solve a predetermined problem.)\nJudging whether a server is safe is a later lesson. For now: prefer official or well-known servers, and give it only the folders or keys it needs."
+  },
+  {
+    "objectID": "lecture_slides/slide1_7.html#next-time",
+    "href": "lecture_slides/slide1_7.html#next-time",
+    "title": "Lesson 1-7: Someone Already Built It",
+    "section": "Next time",
+    "text": "Next time\nEthics discussion and a work day.\n\nBring your Project 1 agent with its servers connected\nThink about Mateo: what did the lab lose, and gain, when the agent took over his Fridays?\n\n\n\nOutline 1.8: ethics discussion + work day [6.1, 6.2]. Adjust once 1.8 is designed."
+  },
+  {
+    "objectID": "lessons/lesson1_7.html#pair-quiz",
+    "href": "lessons/lesson1_7.html#pair-quiz",
+    "title": "Someone Already Built It",
+    "section": "Pair quiz",
+    "text": "Pair quiz\nWith a partner, answer these without looking back:\n\nWhat’s the difference between stdio and HTTP?\nWhat problems does MCP solve?\nWhat can an MCP server offer besides tools?\nYour instructor will show two snippets. Which one is stdio, which one is HTTP, and where does the processing happen for each?"
+  },
+  {
+    "objectID": "notebooks/notebook1_7.html",
+    "href": "notebooks/notebook1_7.html",
+    "title": "Day 1-7: Someone Already Built It",
+    "section": "",
+    "text": "Every Friday from 1 to 4 PM, Mateo searches arXiv, saves the new papers to the lab folder, and writes the lab’s digest. Three weeks ago he skimmed past the paper that scooped the lab’s project.\nHe asked his agent to take over Fridays. It said “I can’t.”\nFollow along with the slides. Stop at each Try it."
+  },
+  {
+    "objectID": "notebooks/notebook1_7.html#add-your-api-key",
+    "href": "notebooks/notebook1_7.html#add-your-api-key",
+    "title": "Day 1-7: Someone Already Built It",
+    "section": "1. Add your API key",
+    "text": "1. Add your API key\nIn the Secrets panel (the key icon), make sure GOOGLE_API_KEY exists and Notebook access is on.\n\nimport os\nfrom google.colab import userdata\n\nos.environ[\"GOOGLE_API_KEY\"] = userdata.get(\"GOOGLE_API_KEY\")\nprint(\"API key loaded.\")"
+  },
+  {
+    "objectID": "notebooks/notebook1_7.html#install",
+    "href": "notebooks/notebook1_7.html#install",
+    "title": "Day 1-7: Someone Already Built It",
+    "section": "2. Install",
+    "text": "2. Install\nuv gives you uvx, which downloads and launches a Python program in one step. Ready-made MCP servers are usually started this way.\n\n%pip install -q -U \"langchain[mcp]&gt;=1.4\" langchain-google-genai uv\n\nA Colab quirk: servers launched from a notebook need a real file to write their logs to. Run this once and move on.\n\nimport sys, logging\n\nsys.stderr = open(\"server_logs.txt\", \"a\")\nlogging.getLogger(\"fastmcp\").setLevel(logging.WARNING)"
+  },
+  {
+    "objectID": "notebooks/notebook1_7.html#i-cant",
+    "href": "notebooks/notebook1_7.html#i-cant",
+    "title": "Day 1-7: Someone Already Built It",
+    "section": "3. “I can’t”",
+    "text": "3. “I can’t”\nMateo’s request, sent to an agent with no tools.\n\nfrom langchain.agents import create_agent\n\nMODEL = \"google_genai:gemini-flash-lite-latest\"\nTOPIC = \"LLM agents that automate scientific literature review\"\n\nFRIDAY = (\n    f\"Find this week's new arXiv papers on {TOPIC}. \"\n    \"Pick the 3 most relevant, save them for the lab, and write a short digest.\"\n)\n\nagent = create_agent(MODEL, tools=[])\nresult = await agent.ainvoke({\"messages\": [{\"role\": \"user\", \"content\": FRIDAY}]})\nprint(result[\"messages\"][-1].text)\n\nThe model knows what arXiv is. It knows how to write a digest. What’s missing?"
+  },
+  {
+    "objectID": "notebooks/notebook1_7.html#plug-in-someone-elses-server",
+    "href": "notebooks/notebook1_7.html#plug-in-someone-elses-server",
+    "title": "Day 1-7: Someone Already Built It",
+    "section": "4. Plug in someone else’s server",
+    "text": "4. Plug in someone else’s server\nSomeone already built an arXiv MCP server. You don’t write it, and you don’t download its code yourself: uvx fetches it and launches it on this machine.\n\nfrom langchain.mcp import MCPAdapter\n\nconfig = {\"mcpServers\": {\n    \"arxiv\": {\"command\": \"uvx\", \"args\": [\"arxiv-mcp-server\"]},   # launched here (stdio)\n}}\n\nasync with MCPAdapter(config) as adapter:\n    tools = await adapter.list_tools()\n\nprint(len(tools), \"tools\")\nfor t in tools:\n    print(t.name)\n\nHow many lines of arXiv code did you write?"
+  },
+  {
+    "objectID": "notebooks/notebook1_7.html#mateos-friday-again",
+    "href": "notebooks/notebook1_7.html#mateos-friday-again",
+    "title": "Day 1-7: Someone Already Built It",
+    "section": "5. Mateo’s Friday, again",
+    "text": "5. Mateo’s Friday, again\nSame request, same model. Now it has tools.\n\nfrom datetime import date\n\nSYSTEM_PROMPT = (\n    f\"Today is {date.today()}. You are the research assistant for Mateo's lab. \"\n    \"Use your tools; don't guess about papers.\"\n)\n\nagent = create_agent(MODEL, tools, system_prompt=SYSTEM_PROMPT)\nresult = await agent.ainvoke({\"messages\": [{\"role\": \"user\", \"content\": FRIDAY}]})\n\nfor m in result[\"messages\"]:\n    for call in getattr(m, \"tool_calls\", []):\n        print(\"called:\", call[\"name\"])\nprint()\nprint(result[\"messages\"][-1].text)\n\nTry it: change TOPIC in section 3 to something you care about, then rerun sections 3 and 5."
+  },
+  {
+    "objectID": "notebooks/notebook1_7.html#next-friday",
+    "href": "notebooks/notebook1_7.html#next-friday",
+    "title": "Day 1-7: Someone Already Built It",
+    "section": "6. Next Friday",
+    "text": "6. Next Friday\nMateo goes to the lab folder to find last week’s paper. Where did the agent save it?\n\n!mkdir -p lab_papers\nprint(\"Lab folder:\")\n!ls lab_papers\nprint()\nprint(\"Where the arXiv server put them:\")\n!ls ~/.arxiv-mcp-server/papers\n\nThe arXiv server saved the papers for itself, in a hidden folder. The lab’s folder is empty.\nWhat does the agent need now? Would someone already have built it?"
+  },
+  {
+    "objectID": "notebooks/notebook1_7.html#a-second-server",
+    "href": "notebooks/notebook1_7.html#a-second-server",
+    "title": "Day 1-7: Someone Already Built It",
+    "section": "7. A second server",
+    "text": "7. A second server\nAdd the official filesystem server to the same config. The folders at the end of args are the only folders it’s allowed to touch: the lab’s folder, and the arXiv server’s hidden one.\n\nARXIV_FOLDER = \"/root/.arxiv-mcp-server/papers\"   # where the arXiv server saves papers\nLAB_FOLDER = \"/content/lab_papers\"                # where the lab looks\n\nconfig = {\"mcpServers\": {\n    \"arxiv\": {\"command\": \"uvx\", \"args\": [\"arxiv-mcp-server\"]},\n    \"files\": {\"command\": \"npx\", \"args\": [\"-y\", \"@modelcontextprotocol/server-filesystem\", LAB_FOLDER, ARXIV_FOLDER]},\n}}\n\nasync with MCPAdapter(config) as adapter:\n    tools = await adapter.list_tools()\n\nprint(len(tools), \"tools\")\nfor t in tools:\n    print(t.name)\n\n\nFRIDAY = (\n    f\"Find this week's new arXiv papers on {TOPIC}. Pick the 3 most relevant and download them. \"\n    f\"Move each downloaded paper's .md file from {ARXIV_FOLDER} into {LAB_FOLDER}. \"\n    f\"Then save {LAB_FOLDER}/digest.md with each paper's title, arXiv link, and a 2-sentence summary.\"\n)\n\nagent = create_agent(MODEL, tools, system_prompt=SYSTEM_PROMPT)\nresult = await agent.ainvoke({\"messages\": [{\"role\": \"user\", \"content\": FRIDAY}]})\n\nfor m in result[\"messages\"]:\n    for call in getattr(m, \"tool_calls\", []):\n        print(\"called:\", call[\"name\"])\nprint()\nprint(result[\"messages\"][-1].text)\n\nOpen the Files pane (folder icon) and look in lab_papers. One agent, two servers, and you wrote neither.\n\n!ls lab_papers\n!cat lab_papers/digest.md"
+  },
+  {
+    "objectID": "notebooks/notebook1_7.html#your-turn",
+    "href": "notebooks/notebook1_7.html#your-turn",
+    "title": "Day 1-7: Someone Already Built It",
+    "section": "8. Your turn",
+    "text": "8. Your turn\nHead to the lesson’s Apply section: give your Project 1 agent the docs server, a filesystem server, and one server you pick."
   }
 ]

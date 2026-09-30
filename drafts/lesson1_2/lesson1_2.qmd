@@ -92,7 +92,7 @@ from langchain_core.tools import tool
 from langchain.agents import create_agent
 
 agent = create_agent(
-    model="google_genai:gemini-2.5-flash",
+    model="google_genai:gemini-flash-lite-latest",
     tools=[],
     system_prompt="You are a helpful retail assistant.",
 )
@@ -127,7 +127,7 @@ def check_inventory(item: str, color: str = None) -> str:
     return f"We have {count} {label}(s) in stock." if count else f"We're out of {label} right now."
 
 agent = create_agent(
-    model="google_genai:gemini-2.5-flash",
+    model="google_genai:gemini-flash-lite-latest",
     tools=[],  # FILL IN 3 — add the tool here
     system_prompt="You are a helpful retail assistant.",
 )
@@ -151,7 +151,7 @@ def check_inventory(item: str, color: str = None) -> str:
     return f"We have {count} {label}(s) in stock." if count else f"We're out of {label} right now."
 
 agent = create_agent(
-    model="google_genai:gemini-2.5-flash",
+    model="google_genai:gemini-flash-lite-latest",
     tools=[check_inventory],
     system_prompt="You are a helpful retail assistant.",
 )
@@ -186,7 +186,7 @@ def check_inventory(item: str, color: str = None) -> str:
     return f"We have {count} {label}(s) in stock." if count else f"We're out of {label} right now."
 
 agent = create_agent(
-    model="google_genai:gemini-2.5-flash",
+    model="google_genai:gemini-flash-lite-latest",
     tools=[check_inventory],
     system_prompt="You are a helpful retail assistant.",
 )

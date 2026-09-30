@@ -562,7 +562,7 @@ from langchain.mcp import MCPAdapter
 async with MCPAdapter(Path("outage_server.py")) as adapter:
     tools = await adapter.list_tools()
 
-agent = create_agent("google_genai:gemini-2.5-flash", tools)
+agent = create_agent("google_genai:gemini-flash-lite-latest", tools)
 ```
 
 ::: {.why}
@@ -583,7 +583,7 @@ from langchain.mcp import MCPAdapter
 async with MCPAdapter(Path("outage_server.py")) as adapter:
     tools = await adapter.list_tools()
 
-agent = create_agent("google_genai:gemini-2.5-flash", tools)
+agent = create_agent("google_genai:gemini-flash-lite-latest", tools)
 
 result = await agent.ainvoke({"messages": [
     {"role": "user", "content": "My internet in 83440 is out. What's going on?"}
@@ -1171,7 +1171,7 @@ from langchain.mcp import MCPAdapter
 async def build_agent():
     async with MCPAdapter("https://docs.langchain.com/mcp") as adapter:
         docs_tools = await adapter.list_tools()
-    return create_agent("google_genai:gemini-2.5-flash", docs_tools + my_tools)
+    return create_agent("google_genai:gemini-flash-lite-latest", docs_tools + my_tools)
 
 def get_response(prompt: str) -> str:
     result = agent.invoke({"messages": [{"role": "user", "content": prompt}]})
@@ -1195,7 +1195,7 @@ from langchain.mcp import MCPAdapter
 async def build_agent():
     async with MCPAdapter("https://docs.langchain.com/mcp") as adapter:
         docs_tools = await adapter.list_tools()
-    return create_agent("google_genai:gemini-2.5-flash", docs_tools + my_tools)
+    return create_agent("google_genai:gemini-flash-lite-latest", docs_tools + my_tools)
 
 async def get_response(agent, prompt: str) -> str:
     result = await agent.ainvoke({"messages": [{"role": "user", "content": prompt}]})
@@ -1219,7 +1219,7 @@ from langchain.mcp import MCPAdapter
 async def build_agent():
     async with MCPAdapter("https://docs.langchain.com/mcp") as adapter:
         docs_tools = await adapter.list_tools()
-    return create_agent("google_genai:gemini-2.5-flash", docs_tools + my_tools)
+    return create_agent("google_genai:gemini-flash-lite-latest", docs_tools + my_tools)
 
 async def get_response(agent, prompt: str) -> str:
     result = await agent.ainvoke({"messages": [{"role": "user", "content": prompt}]})
@@ -1266,11 +1266,7 @@ Every server you connect counts toward the **most MCP servers connected** leader
 
 ## Next time
 
-**An MCP server off GitHub.**
+**Servers someone already built.**
 
-- Pull a real one (Canvas) and open it up: what's inside?
-- Is it maintained? Is it current? Is it safe to hand to your agent?
-
-::: {.why}
-Today, Network Ops was trustworthy because we wrote them. Out in the wild, **connecting a server is installing software.**
-:::
+- Browsing the web, reading your files: do you have to write those tools yourself?
+- How many servers can one agent hold at once?

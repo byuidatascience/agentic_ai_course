@@ -31,7 +31,7 @@ async def build_agent(target):
     async with MCPAdapter(target) as adapter:
         tools = await adapter.list_tools()
     print("Tools from MCP:", [tool.name for tool in tools])
-    return create_agent("google_genai:gemini-2.5-flash", tools, system_prompt=SYSTEM_PROMPT)
+    return create_agent("google_genai:gemini-flash-lite-latest", tools, system_prompt=SYSTEM_PROMPT)
 
 
 async def main():

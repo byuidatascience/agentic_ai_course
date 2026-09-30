@@ -70,7 +70,7 @@ async def main():
         }
     })
     tools = await client.get_tools()
-    agent = create_agent("google_genai:gemini-2.5-flash", tools)
+    agent = create_agent("google_genai:gemini-flash-lite-latest", tools)
     response = await agent.ainvoke(
         {"messages": [{"role": "user", "content": "Is there an outage near 84604?"}]}
     )
