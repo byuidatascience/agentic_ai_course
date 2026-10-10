@@ -1,118 +1,98 @@
 ---
-title: "Problem Solution Ladder: MCP"
-subtitle: "Activity — Competency 1.4.2"
+title: "Problem Solution Ladder: Long-Term Memory"
+subtitle: "Activity — Competency 1.3.2"
 ---
 
 <!--
-  id: problem-solution-ladder-1.4.2
+  id: problem-solution-ladder-1.3.2
   type: activity
-  day: 1_6
-  competency: 1.4.2
-  use_case: telecom
+  day: 1_5
+  competency: 1.3.2
+  use_case: hospitality
   template: problem-solution-ladder
-  example: mcp-telecom-demo
 -->
 
-*Prototype instance of [Problem Solution Ladder](../course_design/activities_assessments.md#problem-solution-ladder). Matches [LangChain — MCP](https://docs.langchain.com/oss/python/langchain/mcp). Informed by [use-case-competency-map.md](../course_design/research/use-case-competency-map.md) — Telecom → 1.4.2.*
+*Prototype instance of [Problem Solution Ladder](../course_design/activities_assessments.md#problem-solution-ladder). Matches [LangChain — Long-term memory](https://docs.langchain.com/oss/python/langchain/long-term-memory).*
 
 ## Industry Problem
 
 <!--
-  instructor: Ask "who owns the code for the system that would answer this?"
-  before revealing it isn't the agent team. Land the distinction from 1_2's
-  custom tools: you don't own or want to maintain the network-status service,
-  you just want to borrow its tools. That's the whole reason MCP exists.
+  instructor: Cold-call for a personal "I had to re-explain myself" story
+  (hotel, airline, support line) — ~1 min, don't let it become a gripe
+  session. Land this: they already have short-term memory from Day 1_1
+  (thread history). Today's gap is specifically that it dies with the thread.
 -->
 
-A customer asks a telecom support agent: *"Why is my internet down?"* The real answer lives in a network-status system your team doesn't own the code for — a different team maintains it, in a different language, on a different release cycle. You can't just import their Python function.
+A hotel concierge agent chats with a returning guest. Last visit, the guest mentioned they're allergic to shellfish and always request a late checkout. Today's conversation is a brand-new thread — a plain agent with only short-term (conversation) memory has already forgotten all of it, and the guest has to repeat themselves every stay.
 
-## Instructor Example / Demonstration
+## Instructor example / demonstration
 
 <!--
-  instructor: Live-run this as two files (server + client) side by side, not
-  one notebook cell — students need to see that the MCP server is a wholly
-  separate process the agent talks to, not code they wrote. Prereq: pip
-  install langchain-mcp-adapters + fastmcp. If a live subprocess is too
-  fiddly for the room, fall back to the hosted example
-  (https://docs.langchain.com/mcp) which needs no local server at all.
+  instructor: Live-code this — don't paste a finished cell. The moment that
+  sells the competency is running store.put in one cell, then store.get in a
+  fresh cell/kernel and having it still resolve. Say out loud: "notice I
+  haven't touched the agent yet — this is just a dictionary that survives."
+  Prereq: only needs 1_1's API key setup; nothing new to install.
 -->
 
-Here's the fix: stand up an MCP server exposing the lookup as a tool, and let any agent connect to it — no custom integration code required on the agent side.
+Here's the fix: give the agent a `store` — memory that lives outside any one conversation, per LangChain's long-term memory pattern.
 
 ```python
-# network_server.py — a small MCP server, owned by the network team
-from fastmcp import FastMCP
-
-mcp = FastMCP("Network")
-
-@mcp.tool()
-def check_outage(zip_code: str) -> str:
-    """Check whether there is a known network outage in a ZIP code."""
-    known_outages = {"84604": "Outage reported, ETA 2 hours", "84601": "No known outages"}
-    return known_outages.get(zip_code, "No data for that ZIP code")
-
-if __name__ == "__main__":
-    mcp.run(transport="stdio")
-```
-
-```python
-# agent.py — the support agent, owned by your team
-import asyncio
-from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain.agents import create_agent
+from langgraph.store.memory import InMemoryStore
 
-async def main():
-    client = MultiServerMCPClient({
-        "network": {
-            "transport": "stdio",
-            "command": "python",
-            "args": ["/path/to/network_server.py"],
-        }
-    })
-    tools = await client.get_tools()
-    agent = create_agent("google_genai:gemini-flash-lite-latest", tools)
-    response = await agent.ainvoke(
-        {"messages": [{"role": "user", "content": "Is there an outage near 84604?"}]}
-    )
-    print(response["messages"][-1].content)
+# InMemoryStore saves data to an in-memory dictionary; a DB-backed store is used in production
+store = InMemoryStore()
 
-if __name__ == "__main__":
-    asyncio.run(main())
+agent = create_agent(
+    "google_genai:gemini-flash-lite-latest",
+    tools=[],
+    store=store,
+)
 ```
 
-Notice `agent.py` never imports anything from `network_server.py` — `client.get_tools()` is the entire integration.
+Watch what happens when a guest preference is written straight into the store, keyed by namespace `(guest_id, "preferences")`, and then read back from a completely separate call — it survives across threads/sessions, unlike short-term memory.
+
+```python
+namespace = ("guest-482", "preferences")
+store.put(namespace, "dietary", {"note": "Shellfish allergy"})
+store.put(namespace, "checkout", {"note": "Always requests late checkout"})
+
+item = store.get(namespace, "dietary")
+print(item.value)
+```
 
 ## Run It Yourself
 
 <!--
-  instructor: ~10 min. Most common snag: relative vs. absolute path in `args`
-  — the docs explicitly call for an absolute path to the server file, and a
-  relative one fails silently-ish (connection error, not an obvious message).
-  Have them print `tools` right after `get_tools()` so they see the schema
-  MCP generated before the agent ever runs.
+  instructor: ~10 min. Circulate for the two most common snags: (1) they name
+  the tool parameter `store` instead of using `runtime.store` — flag it
+  immediately, it's the #1 error the docs warn about; (2) they forget the
+  namespace tuple has to match exactly between put and get. Don't rescue too
+  fast — let them hit the KeyError once.
 -->
 
-Run both files yourself — start with a plain `python network_server.py` isn't needed; the client launches it as a subprocess automatically. Confirm the agent answers correctly for a ZIP in `known_outages` and gracefully for one that isn't.
+Run the snippet above yourself. Then write a tool that lets your *agent* read from the store via `runtime.store` (per [Long-term memory](https://docs.langchain.com/oss/python/langchain/long-term-memory)), and confirm it can answer *"Any dietary notes for guest-482?"* correctly — in a brand-new conversation thread.
 
-## Modify It, Build It
+## odify It, Build It
 
 <!--
-  instructor: ~15 min, pairs. Good work looks like a second @mcp.tool()
-  added to the server with zero changes needed on the agent side beyond
-  re-running get_tools() — that's the payoff moment, make sure they notice
-  they didn't have to touch agent.py's tool-wiring logic at all.
+  instructor: ~15 min, pairs. Good work looks like: a new namespace they
+  chose themselves, a tool with a docstring specific enough the agent calls
+  it unprompted, and a live demo where a preference mentioned mid-chat is
+  still there after starting a new thread. Have partners try to break each
+  other's tool before moving on.
 -->
 
-Add a second tool to `network_server.py` — a billing lookup, a ticket-status check, anything a real telecom rep would need — and confirm your agent can call it after only restarting the client. You should not need to change how `agent.py` is wired up.
+Pick a preference the demo tool doesn't cover — room temperature, pillow type, anything you'd want remembered — and build both a namespace and a tool that *writes* it to the store mid-conversation. If a guest mentions it once, your agent should never need to ask again.
 
 ## Apply It
 
 <!--
-  instructor: Flag that MCP is how they'll connect to real third-party
-  systems (Slack, Google Calendar) in the Unit 1 personal-assistant project
-  — this toy server is a stand-in for those hosted MCP servers. Worth
-  pointing at the hosted docs.langchain.com/mcp server as a zero-setup
-  example they can try tonight.
+  instructor: This is the hook forward — flag explicitly that long-term
+  memory is a required wire-in for the Unit 1 personal-assistant project
+  (not optional polish), and that it's fair game as a Pass-off case once
+  Unit 3 opens. Worth a 30-second callout before moving to the next segment.
 -->
 
-Wire an MCP connection into your Unit 1 personal-assistant project — Slack, Google Calendar, or another hosted MCP server — instead of hand-writing a custom tool for a system you don't own.
+Wire this into your Unit 1 personal-assistant project: pick a returning user your agent should recognize (a guest, client, or patient, depending on the use case you're building toward), and make it recall their preferences across sessions — not just within one chat.
