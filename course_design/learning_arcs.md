@@ -8,7 +8,19 @@ Unit 2: You have been hired at ACME.io, the one stop shop for everything tech re
 
 Unit 3: Armed with what you know about safety and architecture, it is time to plan your new startup's agents from the ground up with reliability and safety in mind. Blow the competition away with something that really works.
 
-## The Path
+## Student-Facing Names
+
+Unit 1: **Build**
+
+Unit 2: **Diagnose**
+
+Unit 3: **Design**
+
+Students never hear that their Unit 1 agent is "bad." That framing hurts morale. The reveal comes gradually in Units 2 and 3: it wasn't as good as they thought, and now they can make it better.
+
+Unit 3 language: use "architect" and "engineer" throughout, as in becoming a *true* agent engineer. The point is that they weren't fully engineering before. In Unit 3, they turn fuzzy, ambiguous business needs into architectural decisions with metrics and safety standards. Context engineering is the term they learn inside the unit, not the unit's name.
+
+## The Path (instructor only)
 
 Unit 1: Build a **"Bad"** Agent
 
