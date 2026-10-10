@@ -1,0 +1,1075 @@
+---
+title: "Lesson 1-8: Memory from Scratch"
+subtitle: "Threads, long-term memory, and whose memory is whose"
+format:
+  revealjs:
+    theme: dark
+    highlight-style: github-dark
+    code-line-numbers: false
+    slide-number: true
+    transition: none
+    auto-animate-duration: 0.6
+    width: 1280
+    height: 760
+execute:
+  eval: false
+---
+
+<!--
+  design log: none yet (no approved lesson-design for 1.8)
+  pairs with: drafts/lesson1_8/memory_from_scratch.ipynb
+  status: NOT APPROVED. Draft walkthrough of the notebook: each stage leads with a diagram, then the code.
+  No scripture or objectives slide yet. Styles copied from slide1_7.qmd.
+-->
+
+<style>
+.reveal .why { font-size: 0.72em; color: #c9d1d9; margin-top: 0.6em; }
+.reveal .why strong { color: #7ee787; }
+.reveal .bad  { color: #ff7b72; }
+.reveal .good { color: #7ee787; }
+.reveal .tag { font-size: 0.45em; letter-spacing: .12em; text-transform: uppercase; color: #8b949e; }
+.reveal pre { width: 100%; box-shadow: none; }
+.reveal pre code { max-height: 520px; font-size: 0.95em; line-height: 1.4; }
+.reveal table { font-size: 0.62em; }
+.reveal ul, .reveal p { font-size: 0.8em; }
+.reveal section.compact pre code { font-size: 0.78em; max-height: 590px; }
+.reveal .big-q { font-size: 1.5em; font-weight: 700; text-align: center; margin-top: 1.2em; }
+/* inline SVG diagrams */
+.reveal svg.diagram { display: block; width: 100%; height: auto; max-height: 540px; margin: 0.3em auto 0.2em; }
+.reveal svg.diagram text { font-family: "Source Sans Pro", Helvetica, sans-serif; fill: #c9d1d9; }
+.reveal svg.diagram .dg-tag   { font-size: 14px; letter-spacing: .14em; fill: #8b949e; font-weight: 600; }
+.reveal svg.diagram .dg-title { font-size: 26px; font-weight: 700; }
+.reveal svg.diagram .dg-label { font-size: 18px; fill: #8b949e; }
+.reveal svg.diagram .dg-mono  { font-family: "SFMono-Regular", Consolas, Menlo, monospace; font-size: 19px; }
+.reveal svg.diagram .dg-box   { fill: #161b22; stroke-width: 2; }
+.reveal svg.diagram .dg-inner { fill: #0d1117; stroke: #30363d; stroke-width: 1.5; }
+.reveal svg.diagram .dg-machine { fill: none; stroke: #8b949e; stroke-width: 1.5; stroke-dasharray: 6 6; }
+/* message chips: H = human (blue), A = AI (gray), T = tool (purple), S = system (orange) */
+.reveal svg.diagram .chip-h { fill: #1f6feb; }
+.reveal svg.diagram .chip-a { fill: #30363d; }
+.reveal svg.diagram .chip-t { fill: #8957e5; }
+.reveal svg.diagram .chip-s { fill: #9e6a03; }
+.reveal svg.diagram .chip-p { fill: #bd561d; }
+.reveal svg.diagram .chip-txt { font-size: 15px; fill: #fff; font-weight: 600; }
+/* chat mockups */
+.reveal .chat { max-width: 820px; margin: 0.4em auto 0; background: #0d1117; border: 2px solid #30363d; border-radius: 18px; overflow: hidden; }
+.reveal .chat-head { background: #161b22; color: #8b949e; font-size: 0.45em; letter-spacing: .12em; text-transform: uppercase; padding: 12px 22px; display: flex; justify-content: space-between; }
+.reveal .chat-body { padding: 18px 22px; display: flex; flex-direction: column; gap: 14px; }
+.reveal .bubble { font-size: 0.6em; line-height: 1.4; padding: 12px 18px; border-radius: 16px; max-width: 78%; }
+.reveal .bubble.me   { align-self: flex-end; background: #1f6feb; color: #fff; border-bottom-right-radius: 4px; }
+.reveal .bubble.them { align-self: flex-start; background: #21262d; color: #e6edf3; border-bottom-left-radius: 4px; }
+.reveal .bubble .who { display: block; font-size: 0.75em; opacity: 0.7; margin-bottom: 2px; }
+/* cards */
+.reveal .cards { display: flex; gap: 22px; margin-top: 0.6em; }
+.reveal .card { flex: 1; background: #161b22; border: 2px solid #30363d; border-radius: 14px; padding: 16px 20px; }
+.reveal .card .ct { display: block; font-weight: 700; font-size: 1.1em; margin-bottom: 6px; color: #e6edf3; }
+.reveal .card p, .reveal .card li { font-size: 0.6em; }
+.reveal .card.warn { border-color: #ff7b72; }
+.reveal .stages td:first-child { color: #ffa657; font-weight: 700; text-align: center; }
+</style>
+
+<!-- Speaker notes are inline {.notes} for the draft. -->
+
+## Seven stages
+
+::: {.stages}
+| Stage | The complaint | What we build |
+|:-:|---|---|
+| 0 | (the baseline) | an agent with no memory |
+| 1 | "You forgot what I said a second ago" | one thread: a list of messages |
+| 2 | "I want separate conversations" | many threads: a dict of lists |
+| 3 | "You forgot me when I started a new chat" | long-term memory: a `remember` tool + a prompt |
+| 4 | "Now my roommate uses it too" | (no new code) the shared memory leaks |
+| 5 | "Ben shouldn't see Ana's memories" | memory namespaced by user |
+| 6 | "What do you actually know about me?" | one memory file per user, via the filesystem MCP server |
+:::
+
+::: {.why}
+Each stage fixes the problem the last one exposed. Stages 2 and 5 end with the **framework version**.
+:::
+
+::: {.notes}
+- Notebook: drafts/lesson1_8/memory_from_scratch.ipynb. Same order as the slides.
+- The thread through the whole lesson: the model is stateless. "Memory" is always just what the app decides to send.
+:::
+
+## Setup {.compact}
+
+::: {.tag}
+Colab · memory_from_scratch.ipynb
+:::
+
+```{.python}
+%pip install -q -U "langchain>=1.4" langchain-google-genai
+
+import os
+from google.colab import userdata
+os.environ["GOOGLE_API_KEY"] = userdata.get("GOOGLE_API_KEY")
+
+from langchain.agents import create_agent
+from langchain.messages import AIMessage, HumanMessage, SystemMessage, ToolMessage
+from langchain.tools import tool
+
+MODEL = "google_genai:gemini-flash-lite-latest"
+
+
+def show(messages):
+    """Print a list of messages the way the agent sees them."""
+    for m in messages:
+        m.pretty_print()
+```
+
+::: {.why}
+`show()` is how we'll look at memory all lesson: **print the list the model actually receives.**
+:::
+
+<!-- ============================================================ -->
+# Stage 0: No Memory {.center}
+
+## Every call starts from nothing
+
+```{=html}
+<svg class="diagram" viewBox="0 0 1100 400" role="img" aria-label="Two separate invoke calls. In call one, Ana's introduction goes to the model and a reply comes back. In call two, only the question about her name goes in. The model sits between them and keeps nothing.">
+  <defs>
+    <marker id="s8a-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8b949e"/></marker>
+  </defs>
+
+  <!-- call 1 -->
+  <text class="dg-tag" x="20" y="30">INVOKE #1</text>
+  <rect class="dg-machine" x="20" y="45" width="420" height="300" rx="14"/>
+  <rect class="chip-h" x="45" y="80" width="370" height="54" rx="10"/>
+  <text class="chip-txt" x="62" y="104">Human</text>
+  <text class="chip-txt" x="62" y="124" style="font-weight:400">"Hi, I'm Ana… I prefer R over Python."</text>
+  <rect class="chip-a" x="45" y="150" width="370" height="54" rx="10"/>
+  <text class="chip-txt" x="62" y="174">AI</text>
+  <text class="chip-txt" x="62" y="194" style="font-weight:400">"Hi Ana! …I'll provide R solutions…"</text>
+
+  <!-- call 2 -->
+  <g class="fragment" data-fragment-index="1">
+    <text class="dg-tag" x="660" y="30">INVOKE #2</text>
+    <rect class="dg-machine" x="660" y="45" width="420" height="300" rx="14"/>
+    <rect class="chip-h" x="685" y="80" width="370" height="54" rx="10"/>
+    <text class="chip-txt" x="702" y="104">Human</text>
+    <text class="chip-txt" x="702" y="124" style="font-weight:400">"What's my name, and which language?"</text>
+    <rect class="chip-a" x="685" y="150" width="370" height="54" rx="10"/>
+    <text class="chip-txt" x="702" y="174">AI</text>
+    <text class="chip-txt" x="702" y="194" style="font-weight:400">"I don't know your name…"</text>
+  </g>
+
+  <!-- model -->
+  <rect class="dg-box" x="470" y="130" width="160" height="110" rx="14" stroke="#d2a8ff"/>
+  <text class="dg-title" x="550" y="180" text-anchor="middle" style="fill:#d2a8ff">model</text>
+  <text class="dg-label" x="550" y="210" text-anchor="middle">stateless</text>
+  <line x1="442" y1="185" x2="468" y2="185" stroke="#8b949e" stroke-width="2" marker-end="url(#s8a-gray)"/>
+  <line x1="632" y1="185" x2="658" y2="185" stroke="#8b949e" stroke-width="2" marker-end="url(#s8a-gray)" class="fragment" data-fragment-index="1"/>
+
+  <text class="dg-label fragment" data-fragment-index="2" x="550" y="385" text-anchor="middle" style="fill:#ff7b72; font-size:22px">Nothing from call #1 is inside call #2.</text>
+</svg>
+```
+
+::: {.notes}
+- Ask before the fragment: "Will the second call know her name?"
+- The model is a function: messages in, message out. Nothing persists between calls.
+:::
+
+## Stage 0: the code
+
+```{.python code-line-numbers="1|3-4|6-7"}
+agent = create_agent(MODEL, tools=[])
+
+result = agent.invoke({"messages": [HumanMessage("Hi, I'm Ana. I'm taking DS 250 and I prefer R over Python.")]})
+show(result["messages"])
+
+result = agent.invoke({"messages": [HumanMessage("What's my name, and which language do I like?")]})
+show(result["messages"])
+```
+
+::: {.why}
+The second result holds **one** `HumanMessage` and **one** `AIMessage`. **The model is stateless:** whatever it "remembers" is whatever you send it.
+:::
+
+<!-- ============================================================ -->
+# Stage 1: One Thread {.center}
+
+## A conversation is a list we resend
+
+```{=html}
+<svg class="diagram" viewBox="0 0 1100 400" role="img" aria-label="A list called thread grows each turn. Turn one sends one human message. Turn two sends human, AI, human. Turn three sends five messages. The whole list goes to the model every time.">
+  <defs>
+    <marker id="s8b-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d2a8ff"/></marker>
+  </defs>
+  <text class="dg-tag" x="20" y="30">thread = [ … ]  · WHAT GETS SENT EACH TURN</text>
+
+  <!-- turn 1 -->
+  <text class="dg-label" x="20" y="95">turn 1</text>
+  <rect class="chip-h" x="110" y="72" width="70" height="36" rx="8"/><text class="chip-txt" x="145" y="96" text-anchor="middle">H</text>
+  <line x1="660" y1="90" x2="840" y2="90" stroke="#d2a8ff" stroke-width="2" marker-end="url(#s8b-purple)"/>
+
+  <!-- turn 2 -->
+  <g class="fragment" data-fragment-index="1">
+    <text class="dg-label" x="20" y="175">turn 2</text>
+    <rect class="chip-h" x="110" y="152" width="70" height="36" rx="8"/><text class="chip-txt" x="145" y="176" text-anchor="middle">H</text>
+    <rect class="chip-a" x="190" y="152" width="70" height="36" rx="8"/><text class="chip-txt" x="225" y="176" text-anchor="middle">A</text>
+    <rect class="chip-h" x="270" y="152" width="70" height="36" rx="8"/><text class="chip-txt" x="305" y="176" text-anchor="middle">H</text>
+    <line x1="660" y1="170" x2="840" y2="170" stroke="#d2a8ff" stroke-width="2" marker-end="url(#s8b-purple)"/>
+  </g>
+
+  <!-- turn 3 -->
+  <g class="fragment" data-fragment-index="2">
+    <text class="dg-label" x="20" y="255">turn 3</text>
+    <rect class="chip-h" x="110" y="232" width="70" height="36" rx="8"/><text class="chip-txt" x="145" y="256" text-anchor="middle">H</text>
+    <rect class="chip-a" x="190" y="232" width="70" height="36" rx="8"/><text class="chip-txt" x="225" y="256" text-anchor="middle">A</text>
+    <rect class="chip-h" x="270" y="232" width="70" height="36" rx="8"/><text class="chip-txt" x="305" y="256" text-anchor="middle">H</text>
+    <rect class="chip-a" x="350" y="232" width="70" height="36" rx="8"/><text class="chip-txt" x="385" y="256" text-anchor="middle">A</text>
+    <rect class="chip-h" x="430" y="232" width="70" height="36" rx="8"/><text class="chip-txt" x="465" y="256" text-anchor="middle">H</text>
+    <line x1="660" y1="250" x2="840" y2="250" stroke="#d2a8ff" stroke-width="2" marker-end="url(#s8b-purple)"/>
+  </g>
+
+  <rect class="dg-box" x="850" y="110" width="200" height="120" rx="14" stroke="#d2a8ff"/>
+  <text class="dg-title" x="950" y="165" text-anchor="middle" style="fill:#d2a8ff">model</text>
+  <text class="dg-label" x="950" y="195" text-anchor="middle">still stateless</text>
+
+  <text class="dg-label fragment" data-fragment-index="3" x="550" y="340" text-anchor="middle" style="font-size:22px">The list <tspan style="fill:#7ee787;font-weight:700">is</tspan> the memory. It grows every turn, and you pay to resend all of it.</text>
+</svg>
+```
+
+::: {.notes}
+- The model didn't change. We changed what we send.
+- Point at turn 3: the first message gets paid for three times.
+:::
+
+## Stage 1: by hand {.compact}
+
+```{.python}
+result = agent.invoke({
+    "messages": [
+        HumanMessage("Hi, I'm Ana. I'm taking DS 250 and I prefer R over Python."),
+        AIMessage("Hi Ana! Nice to meet you. ... I'll make sure to provide R solutions ..."),
+        HumanMessage("What's my name, and which language do I like?"),
+    ]
+})
+
+show(result["messages"])
+```
+
+::: {.why}
+It works: we pasted the first exchange back in. **But who wants to maintain that?**
+:::
+
+## Stage 1: save it as we go
+
+```{.python code-line-numbers="1|4-9|5|6|7-8"}
+thread = []
+
+
+def chat(text):
+    thread.append(HumanMessage(text))
+    result = agent.invoke({"messages": thread})
+    new_messages = result["messages"][len(thread):]   # what the agent added this turn
+    thread.extend(new_messages)
+    return thread[-1].text
+
+
+print(chat("Hi, I'm Ana. I'm taking DS 250 and I prefer R over Python."))
+print(chat("What's my name, and which language do I like?"))
+```
+
+::: {.why}
+`show(thread)`: that list **is** the memory.
+:::
+
+::: {.notes}
+- Why `[len(thread):]`? `invoke` returns our messages plus whatever it added (AI replies, and later, tool calls). We keep only the new ones.
+:::
+
+<!-- ============================================================ -->
+# Stage 2: Many Threads {.center}
+
+## One list can't tell conversations apart
+
+```{=html}
+<svg class="diagram" viewBox="0 0 1100 400" role="img" aria-label="Top: one long thread where homework messages and the next day's project messages are mixed into a single list, all sent with every project question. Bottom: a dictionary called threads with two keys, homework and project, each pointing to its own short list.">
+  <text class="dg-tag" x="20" y="30">BEFORE · thread  (one list)</text>
+  <g>
+    <rect class="chip-h" x="20"  y="45" width="62" height="34" rx="8"/><text class="chip-txt" x="51"  y="68" text-anchor="middle">H</text>
+    <rect class="chip-a" x="88"  y="45" width="62" height="34" rx="8"/><text class="chip-txt" x="119" y="68" text-anchor="middle">A</text>
+    <rect class="chip-h" x="156" y="45" width="62" height="34" rx="8"/><text class="chip-txt" x="187" y="68" text-anchor="middle">H</text>
+    <rect class="chip-a" x="224" y="45" width="62" height="34" rx="8"/><text class="chip-txt" x="255" y="68" text-anchor="middle">A</text>
+    <rect class="chip-h" x="292" y="45" width="62" height="34" rx="8"/><text class="chip-txt" x="323" y="68" text-anchor="middle">H</text>
+    <rect class="chip-a" x="360" y="45" width="62" height="34" rx="8"/><text class="chip-txt" x="391" y="68" text-anchor="middle">A</text>
+    <text class="dg-label" x="222" y="105" text-anchor="middle">homework · p-values in R</text>
+    <line x1="440" y1="38" x2="440" y2="88" stroke="#ff7b72" stroke-width="2" stroke-dasharray="4 4"/>
+    <text class="dg-label" x="440" y="115" text-anchor="middle" style="fill:#ff7b72">next day</text>
+    <rect class="chip-p" x="458" y="45" width="62" height="34" rx="8"/><text class="chip-txt" x="489" y="68" text-anchor="middle">H</text>
+    <rect class="chip-a" x="526" y="45" width="62" height="34" rx="8"/><text class="chip-txt" x="557" y="68" text-anchor="middle">A</text>
+    <rect class="chip-p" x="594" y="45" width="62" height="34" rx="8"/><text class="chip-txt" x="625" y="68" text-anchor="middle">H</text>
+    <rect class="chip-a" x="662" y="45" width="62" height="34" rx="8"/><text class="chip-txt" x="693" y="68" text-anchor="middle">A</text>
+    <text class="dg-label" x="591" y="105" text-anchor="middle">project · bike-share</text>
+    <text class="dg-label" x="760" y="60" style="fill:#ff7b72">every project question</text>
+    <text class="dg-label" x="760" y="82" style="fill:#ff7b72">resends all the homework</text>
+  </g>
+
+  <g class="fragment">
+    <text class="dg-tag" x="20" y="185">AFTER · threads  (a dict of lists)</text>
+    <rect class="dg-box" x="20" y="200" width="1060" height="180" rx="14" stroke="#30363d"/>
+    <text class="dg-mono" x="45" y="258" style="fill:#79c0ff">"homework"</text>
+    <text class="dg-mono" x="185" y="258">→</text>
+    <rect class="chip-h" x="220" y="235" width="62" height="34" rx="8"/><text class="chip-txt" x="251" y="258" text-anchor="middle">H</text>
+    <rect class="chip-a" x="288" y="235" width="62" height="34" rx="8"/><text class="chip-txt" x="319" y="258" text-anchor="middle">A</text>
+    <rect class="chip-h" x="356" y="235" width="62" height="34" rx="8"/><text class="chip-txt" x="387" y="258" text-anchor="middle">H</text>
+    <rect class="chip-a" x="424" y="235" width="62" height="34" rx="8"/><text class="chip-txt" x="455" y="258" text-anchor="middle">A</text>
+    <rect class="chip-h" x="492" y="235" width="62" height="34" rx="8"/><text class="chip-txt" x="523" y="258" text-anchor="middle">H</text>
+    <rect class="chip-a" x="560" y="235" width="62" height="34" rx="8"/><text class="chip-txt" x="591" y="258" text-anchor="middle">A</text>
+
+    <text class="dg-mono" x="45" y="338" style="fill:#ffa657">"project"</text>
+    <text class="dg-mono" x="185" y="338">→</text>
+    <rect class="chip-p" x="220" y="315" width="62" height="34" rx="8"/><text class="chip-txt" x="251" y="338" text-anchor="middle">H</text>
+    <rect class="chip-a" x="288" y="315" width="62" height="34" rx="8"/><text class="chip-txt" x="319" y="338" text-anchor="middle">A</text>
+    <rect class="chip-p" x="356" y="315" width="62" height="34" rx="8"/><text class="chip-txt" x="387" y="338" text-anchor="middle">H</text>
+    <rect class="chip-a" x="424" y="315" width="62" height="34" rx="8"/><text class="chip-txt" x="455" y="338" text-anchor="middle">A</text>
+
+    <text class="dg-label" x="700" y="285">key = <tspan style="fill:#7ee787;font-weight:700">thread ID</tspan></text>
+    <text class="dg-label" x="700" y="315">only that list is sent</text>
+  </g>
+</svg>
+```
+
+::: {.notes}
+- Ana did homework, then came back the next day for her project and wanted a fresh chat.
+- Three costs of one list: distraction (old material), tokens (resent every turn), and no way back to "just the homework."
+- Fix: name each conversation. That name is the thread ID.
+:::
+
+## Stage 2: the problem, in code
+
+```{.python}
+# Ana's homework session
+print(chat("Can you explain what a p-value is in one paragraph?"))
+print(chat("Give me a quick example in R."))
+
+# The next day: Ana means to start fresh on her project
+print(chat("I'm starting my final project on bike-share ride data. What should I do first?"))
+print(chat("Summarize what we've talked about in this conversation."))
+```
+
+::: {.why}
+`len(thread)` keeps climbing. The "summary" covers the **homework too**.
+:::
+
+## Stage 2: a dict of lists
+
+```{.python code-line-numbers="1|4-9|5"}
+threads = {}
+
+
+def chat(thread_id, text):
+    history = threads.setdefault(thread_id, [])
+    history.append(HumanMessage(text))
+    result = agent.invoke({"messages": history})
+    history.extend(result["messages"][len(history):])
+    return history[-1].text
+
+
+print(chat("homework", "Hi, I'm Ana. I'm taking DS 250 and I prefer R over Python."))
+print(chat("homework", "Can you explain what a p-value is in one paragraph?"))
+print(chat("project", "Summarize what we've talked about in this conversation."))
+```
+
+::: {.why}
+Same `chat`, one new argument. The project summary only covers the project.
+:::
+
+## But…
+
+::: {.chat}
+::: {.chat-head}
+<span>thread · project</span> <span>Ana</span>
+:::
+::: {.chat-body}
+::: {.bubble .me}
+<span class="who">Ana</span>Which language should I use for this project, given what I prefer?
+:::
+
+::: {.bubble .them .fragment}
+<span class="who">Agent</span>I don't know your preference yet. Which languages are you comfortable with?
+:::
+:::
+:::
+
+::: {.why .fragment style="text-align:center"}
+Separate threads are what we asked for. But **some facts should carry over to every conversation.**
+:::
+
+::: {.notes}
+- Hold this. It's Stage 3's problem. First, map what we built to the framework.
+- The AI reply here is illustrative; read what the model actually says in the notebook.
+:::
+
+## Framework version: checkpointer
+
+```{=html}
+<svg class="diagram" viewBox="0 0 1100 300" role="img" aria-label="What we built maps to LangChain: the threads dict becomes InMemorySaver, the thread_id key becomes the thread_id in the config, and our append and extend become the checkpointer loading and saving.">
+  <text class="dg-tag" x="40" y="30">WE BUILT</text>
+  <text class="dg-tag" x="640" y="30">LANGCHAIN</text>
+
+  <rect class="dg-box" x="40" y="50" width="420" height="60" rx="10" stroke="#30363d"/>
+  <text class="dg-mono" x="62" y="88">threads = {}</text>
+  <rect class="dg-box" x="640" y="50" width="420" height="60" rx="10" stroke="#7ee787"/>
+  <text class="dg-mono" x="662" y="88" style="fill:#7ee787">checkpointer=InMemorySaver()</text>
+  <line x1="470" y1="80" x2="630" y2="80" stroke="#8b949e" stroke-width="2" stroke-dasharray="6 5"/>
+
+  <rect class="dg-box" x="40" y="130" width="420" height="60" rx="10" stroke="#30363d"/>
+  <text class="dg-mono" x="62" y="168">threads[thread_id]</text>
+  <rect class="dg-box" x="640" y="130" width="420" height="60" rx="10" stroke="#7ee787"/>
+  <text class="dg-mono" x="662" y="168" style="fill:#7ee787">{"thread_id": "homework"}</text>
+  <line x1="470" y1="160" x2="630" y2="160" stroke="#8b949e" stroke-width="2" stroke-dasharray="6 5"/>
+
+  <rect class="dg-box" x="40" y="210" width="420" height="60" rx="10" stroke="#30363d"/>
+  <text class="dg-mono" x="62" y="248">append / extend by hand</text>
+  <rect class="dg-box" x="640" y="210" width="420" height="60" rx="10" stroke="#7ee787"/>
+  <text class="dg-mono" x="662" y="248" style="fill:#7ee787">loads + saves for you</text>
+  <line x1="470" y1="240" x2="630" y2="240" stroke="#8b949e" stroke-width="2" stroke-dasharray="6 5"/>
+</svg>
+```
+
+## Framework version: the code {.compact}
+
+```{.python code-line-numbers="3|5-6|8-10|13"}
+from langgraph.checkpoint.memory import InMemorySaver
+
+fw_agent = create_agent(MODEL, tools=[], checkpointer=InMemorySaver())
+
+homework = {"configurable": {"thread_id": "homework"}}
+project = {"configurable": {"thread_id": "project"}}
+
+fw_agent.invoke({"messages": [HumanMessage("Hi, I'm Ana. I prefer R over Python.")]}, homework)
+fw_agent.invoke({"messages": [HumanMessage("Which language do I like?")]}, homework)
+fw_agent.invoke({"messages": [HumanMessage("Which language do I like?")]}, project)
+
+# The checkpointer's saved list for one thread: the same kind of list as threads["homework"] above
+show(fw_agent.get_state(homework).values["messages"])
+```
+
+::: {.why}
+We only send the **new** message now. The checkpointer does the `append` / `extend` we wrote by hand.
+:::
+
+<!-- ============================================================ -->
+# Stage 3: Long-Term Memory {.center}
+
+## Two halves: write and read
+
+```{=html}
+<svg class="diagram" viewBox="0 0 1100 420" role="img" aria-label="A memories list sits outside every thread. Write: during the homework thread, the model calls the remember tool, which appends a fact to memories. Read: at the start of every turn in every thread, the app builds a system prompt from memories and puts it in front of the thread's messages.">
+  <defs>
+    <marker id="s8c-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d2a8ff"/></marker>
+    <marker id="s8c-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ffa657"/></marker>
+  </defs>
+
+  <!-- memories store -->
+  <rect class="dg-box" x="400" y="20" width="300" height="130" rx="14" stroke="#7ee787"/>
+  <text class="dg-tag" x="420" y="45">OUTSIDE EVERY THREAD</text>
+  <text class="dg-mono" x="420" y="78" style="fill:#7ee787">memories = [</text>
+  <text class="dg-mono" x="440" y="104">"Ana, DS 250, prefers R"</text>
+  <text class="dg-mono" x="420" y="130" style="fill:#7ee787">]</text>
+
+  <!-- homework thread -->
+  <text class="dg-tag" x="40" y="240">THREAD · homework</text>
+  <rect class="dg-machine" x="30" y="250" width="440" height="150" rx="14"/>
+  <rect class="chip-h" x="50" y="275" width="62" height="34" rx="8"/><text class="chip-txt" x="81" y="298" text-anchor="middle">H</text>
+  <rect class="chip-t" x="118" y="275" width="150" height="34" rx="8"/><text class="chip-txt" x="193" y="298" text-anchor="middle">remember(…)</text>
+  <rect class="chip-t" x="274" y="275" width="90" height="34" rx="8"/><text class="chip-txt" x="319" y="298" text-anchor="middle">"Saved."</text>
+  <rect class="chip-a" x="370" y="275" width="62" height="34" rx="8"/><text class="chip-txt" x="401" y="298" text-anchor="middle">A</text>
+  <text class="dg-label" x="50" y="345">the model <tspan style="fill:#d2a8ff;font-weight:700">chooses</tspan> to call the tool</text>
+  <text class="dg-label" x="50" y="372">tool call + result = two more messages</text>
+
+  <!-- write arrow -->
+  <path d="M193,272 C193,190 300,110 395,95" fill="none" stroke="#d2a8ff" stroke-width="2.5" marker-end="url(#s8c-purple)"/>
+  <text class="dg-title" x="215" y="175" style="fill:#d2a8ff">WRITE</text>
+
+  <!-- project thread -->
+  <g class="fragment" data-fragment-index="1">
+    <text class="dg-tag" x="640" y="240">THREAD · project  (brand new)</text>
+    <rect class="dg-machine" x="630" y="250" width="440" height="150" rx="14"/>
+    <rect class="chip-s" x="650" y="275" width="150" height="34" rx="8"/><text class="chip-txt" x="725" y="298" text-anchor="middle">System + facts</text>
+    <rect class="chip-h" x="806" y="275" width="62" height="34" rx="8"/><text class="chip-txt" x="837" y="298" text-anchor="middle">H</text>
+    <rect class="chip-a" x="874" y="275" width="62" height="34" rx="8"/><text class="chip-txt" x="905" y="298" text-anchor="middle">A</text>
+    <text class="dg-label" x="650" y="345">the <tspan style="fill:#ffa657;font-weight:700">app</tspan> rebuilds the prompt every turn</text>
+    <text class="dg-label" x="650" y="372">not saved in the thread</text>
+    <path d="M705,95 C800,110 725,190 725,268" fill="none" stroke="#ffa657" stroke-width="2.5" marker-end="url(#s8c-orange)"/>
+    <text class="dg-title" x="790" y="175" style="fill:#ffa657">READ</text>
+  </g>
+</svg>
+```
+
+::: {.notes}
+- Some facts are about *Ana*, not about one conversation. They live outside every thread.
+- Write: something has to decide a fact is worth keeping. We let the model decide.
+- Read: saved facts must reach the model. We put them in the system prompt, every turn, every thread.
+:::
+
+## Stage 3: the tool and the prompt
+
+```{.python code-line-numbers="1|4-8|11-14|17-20"}
+memories = []   # lives outside every thread
+
+
+@tool
+def remember(fact: str) -> str:
+    """Save a lasting fact about the user (name, classes, preferences, goals) for future conversations."""
+    memories.append(fact)
+    return "Saved."
+
+
+BASE_PROMPT = (
+    "You are a helpful tutor. When the user tells you something lasting about themselves, "
+    "call the remember tool to save it."
+)
+
+
+def build_system_prompt(facts):
+    if not facts:
+        return BASE_PROMPT
+    return BASE_PROMPT + "\n\nWhat you remember about the user:\n" + "\n".join(f"- {f}" for f in facts)
+```
+
+::: {.why}
+**Write** = the tool. **Read** = `build_system_prompt`.
+:::
+
+## Stage 3: the chat loop
+
+```{.python code-line-numbers="5-7|9-11|13"}
+memory_agent = create_agent(MODEL, tools=[remember])
+threads = {}
+
+
+def chat(thread_id, text):
+    history = threads.setdefault(thread_id, [])
+    history.append(HumanMessage(text))
+
+    # Read: rebuild the system prompt from memory every turn. It is NOT saved in the thread.
+    system = SystemMessage(build_system_prompt(memories))
+    result = memory_agent.invoke({"messages": [system] + history})
+
+    history.extend(result["messages"][len(history) + 1:])   # +1 skips the system message
+    return history[-1].text
+
+
+print(chat("homework", "Hi, I'm Ana. I'm taking DS 250 and I prefer R over Python."))
+print(chat("project", "Which language do I like?"))
+```
+
+::: {.why}
+A brand-new thread knows Ana prefers R. `show(threads["homework"])` shows the tool call; `show(threads["project"])` doesn't.
+:::
+
+::: {.notes}
+- Why not save the system message in the thread? Then every thread would carry a stale copy of the facts.
+- In the project thread, the fact arrived through the prompt, not a tool call.
+:::
+
+<!-- ============================================================ -->
+# Stage 4: A Second User {.center}
+
+## One list for everyone
+
+```{=html}
+<svg class="diagram" viewBox="0 0 1100 380" role="img" aria-label="Ana's homework thread writes her facts into the single shared memories list. Ben opens his own thread, ben-1, but the app builds his system prompt from the same list, so Ana's facts flow into Ben's conversation.">
+  <defs>
+    <marker id="s8d-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d2a8ff"/></marker>
+    <marker id="s8d-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ff7b72"/></marker>
+  </defs>
+
+  <rect class="dg-box" x="400" y="30" width="300" height="110" rx="14" stroke="#7ee787"/>
+  <text class="dg-mono" x="420" y="68" style="fill:#7ee787">memories = [</text>
+  <text class="dg-mono" x="440" y="94">"Ana, DS 250, prefers R"</text>
+  <text class="dg-mono" x="420" y="120" style="fill:#7ee787">]</text>
+
+  <rect class="dg-box" x="60" y="230" width="300" height="100" rx="14" stroke="#58a6ff"/>
+  <text class="dg-title" x="210" y="275" text-anchor="middle" style="fill:#79c0ff">Ana</text>
+  <text class="dg-label" x="210" y="305" text-anchor="middle">thread "homework"</text>
+  <path d="M210,228 C210,170 300,110 395,90" fill="none" stroke="#d2a8ff" stroke-width="2.5" marker-end="url(#s8d-purple)"/>
+  <text class="dg-label" x="215" y="165" style="fill:#d2a8ff">write</text>
+
+  <rect class="dg-box" x="740" y="230" width="300" height="100" rx="14" stroke="#ffa657"/>
+  <text class="dg-title" x="890" y="275" text-anchor="middle" style="fill:#ffa657">Ben</text>
+  <text class="dg-label" x="890" y="305" text-anchor="middle">thread "ben-1"</text>
+  <g class="fragment">
+    <path d="M705,90 C800,110 890,170 890,226" fill="none" stroke="#ff7b72" stroke-width="3" marker-end="url(#s8d-red)"/>
+    <text class="dg-title" x="820" y="160" style="fill:#ff7b72">leak</text>
+  </g>
+</svg>
+```
+
+::: {.notes}
+- Ana's roommate Ben starts using the same agent. Same code. He opens his own thread.
+- Ask: "His own thread. What will he see?" Separate threads don't help: `memories` was never per-thread.
+:::
+
+## Stage 4: no new code
+
+```{.python}
+print(chat("ben-1", "Hey, what do you know about me?"))
+```
+
+::: {.chat .fragment}
+::: {.chat-head}
+<span>thread · ben-1</span> <span>Ben</span>
+:::
+::: {.chat-body}
+::: {.bubble .me}
+<span class="who">Ben</span>Hey, what do you know about me?
+:::
+
+::: {.bubble .them}
+<span class="who">Agent</span>You're Ana, you're taking DS 250, and you prefer R over Python!
+:::
+:::
+:::
+
+::: {.why .fragment}
+Shared memory is sometimes right (team conventions, a shop's policies). For facts about a **person**, it's a leak.
+:::
+
+::: {.notes}
+- AI reply is illustrative; use what the notebook prints.
+:::
+
+<!-- ============================================================ -->
+# Stage 5: Per-User Memory {.center}
+
+## Key everything by user
+
+```{=html}
+<svg class="diagram" viewBox="0 0 1100 430" role="img" aria-label="The app knows who logged in and passes user_id when it builds the remember tool. The model only supplies the fact. The tool writes into memories under that user's key. Memories is a dict with keys ana and ben. Threads are keyed by the pair user_id and thread_id.">
+  <defs>
+    <marker id="s8e-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ffa657"/></marker>
+    <marker id="s8e-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d2a8ff"/></marker>
+    <marker id="s8e-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7ee787"/></marker>
+  </defs>
+
+  <!-- app -->
+  <rect class="dg-box" x="30" y="40" width="250" height="100" rx="14" stroke="#ffa657"/>
+  <text class="dg-title" x="155" y="85" text-anchor="middle" style="fill:#ffa657">app</text>
+  <text class="dg-label" x="155" y="115" text-anchor="middle">knows who logged in</text>
+
+  <!-- model -->
+  <rect class="dg-box" x="30" y="250" width="250" height="100" rx="14" stroke="#d2a8ff"/>
+  <text class="dg-title" x="155" y="295" text-anchor="middle" style="fill:#d2a8ff">model</text>
+  <text class="dg-label" x="155" y="325" text-anchor="middle">only picks the fact</text>
+
+  <!-- tool -->
+  <rect class="dg-box" x="390" y="140" width="290" height="110" rx="14" stroke="#30363d"/>
+  <text class="dg-mono" x="535" y="185" text-anchor="middle">remember(fact)</text>
+  <text class="dg-label" x="535" y="220" text-anchor="middle">user_id baked in</text>
+
+  <line x1="282" y1="95" x2="388" y2="165" stroke="#ffa657" stroke-width="2.5" marker-end="url(#s8e-orange)"/>
+  <text class="dg-mono" x="300" y="105" style="fill:#ffa657;font-size:16px">user_id</text>
+  <line x1="282" y1="300" x2="388" y2="225" stroke="#d2a8ff" stroke-width="2.5" marker-end="url(#s8e-purple)"/>
+  <text class="dg-mono" x="300" y="310" style="fill:#d2a8ff;font-size:16px">fact</text>
+
+  <!-- memories dict -->
+  <rect class="dg-box" x="780" y="40" width="300" height="200" rx="14" stroke="#7ee787"/>
+  <text class="dg-tag" x="800" y="65">memories  (dict)</text>
+  <text class="dg-mono" x="800" y="110" style="fill:#79c0ff">"ana"</text><text class="dg-mono" x="870" y="110">→ [R, DS 250]</text>
+  <text class="dg-mono" x="800" y="160" style="fill:#ffa657">"ben"</text><text class="dg-mono" x="870" y="160">→ [Python, DS 350]</text>
+  <line x1="682" y1="195" x2="778" y2="140" stroke="#7ee787" stroke-width="2.5" marker-end="url(#s8e-green)"/>
+
+  <!-- threads dict -->
+  <g class="fragment">
+    <rect class="dg-box" x="780" y="270" width="300" height="140" rx="14" stroke="#30363d"/>
+    <text class="dg-tag" x="800" y="295">threads  (dict)</text>
+    <text class="dg-mono" x="800" y="335" style="font-size:17px">("ana", "homework") → […]</text>
+    <text class="dg-mono" x="800" y="375" style="font-size:17px">("ben", "homework") → […]</text>
+  </g>
+
+  <text class="dg-label fragment" x="30" y="410" style="fill:#ff7b72;font-size:20px">If user_id were a tool argument, the model could be talked into writing to anyone.</text>
+</svg>
+```
+
+::: {.notes}
+- Two changes: memories keyed by user, threads keyed by (user, thread) so Ben can't open Ana's "homework".
+- The tricky part: the model must not pick the user. Identity comes from the app (login), not the conversation.
+:::
+
+## Stage 5: the code {.compact}
+
+```{.python code-line-numbers="1-2|5-12|9|15-17|19-21"}
+memories = {}   # user_id -> list of facts
+threads = {}    # (user_id, thread_id) -> list of messages
+
+
+def make_remember_tool(user_id):
+    @tool
+    def remember(fact: str) -> str:
+        """Save a lasting fact about the user (name, classes, preferences, goals) for future conversations."""
+        memories.setdefault(user_id, []).append(fact)
+        return "Saved."
+
+    return remember
+
+
+def chat(user_id, thread_id, text):
+    history = threads.setdefault((user_id, thread_id), [])
+    history.append(HumanMessage(text))
+
+    user_agent = create_agent(MODEL, tools=[make_remember_tool(user_id)])
+    system = SystemMessage(build_system_prompt(memories.get(user_id, [])))
+    result = user_agent.invoke({"messages": [system] + history})
+
+    history.extend(result["messages"][len(history) + 1:])
+    return history[-1].text
+```
+
+::: {.why}
+`user_id` is in a **closure**, not the tool's signature. The model can't see it or change it.
+:::
+
+## Stage 5: Ana and Ben
+
+```{.python}
+print(chat("ana", "homework", "Hi, I'm Ana. I'm taking DS 250 and I prefer R over Python."))
+print(chat("ben", "homework", "I'm Ben. I'm a Python person, and I'm in DS 350."))
+print(chat("ben", "chat-2", "What do you know about me?"))
+print(chat("ana", "chat-2", "What do you know about me?"))
+
+memories
+```
+
+::: {.why}
+Both use a thread called `"homework"`, and they don't collide. Each `chat-2` only knows its own user.
+:::
+
+## Framework version: the map
+
+```{=html}
+<svg class="diagram" viewBox="0 0 1100 420" role="img" aria-label="Five mappings from what we built to LangChain: threads by thread_id to checkpointer plus thread_id; memories to store; memories by user_id to a store namespace; user_id baked into the tool to context read through runtime.context; rebuilding the system prompt each turn to dynamic_prompt middleware.">
+  <text class="dg-tag" x="40" y="25">WE BUILT</text>
+  <text class="dg-tag" x="640" y="25">LANGCHAIN</text>
+
+  <g>
+    <rect class="dg-box" x="40" y="40" width="420" height="60" rx="10" stroke="#30363d"/><text class="dg-mono" x="62" y="78">threads[thread_id]</text>
+    <rect class="dg-box" x="640" y="40" width="420" height="60" rx="10" stroke="#7ee787"/><text class="dg-mono" x="662" y="78" style="fill:#7ee787">checkpointer + thread_id</text>
+    <line x1="470" y1="70" x2="630" y2="70" stroke="#8b949e" stroke-width="2" stroke-dasharray="6 5"/>
+  </g>
+  <g>
+    <rect class="dg-box" x="40" y="115" width="420" height="60" rx="10" stroke="#30363d"/><text class="dg-mono" x="62" y="153">memories</text>
+    <rect class="dg-box" x="640" y="115" width="420" height="60" rx="10" stroke="#7ee787"/><text class="dg-mono" x="662" y="153" style="fill:#7ee787">store</text>
+    <line x1="470" y1="145" x2="630" y2="145" stroke="#8b949e" stroke-width="2" stroke-dasharray="6 5"/>
+  </g>
+  <g>
+    <rect class="dg-box" x="40" y="190" width="420" height="60" rx="10" stroke="#30363d"/><text class="dg-mono" x="62" y="228">memories[user_id]</text>
+    <rect class="dg-box" x="640" y="190" width="420" height="60" rx="10" stroke="#7ee787"/><text class="dg-mono" x="662" y="228" style="fill:#7ee787">namespace ("ana", "memories")</text>
+    <line x1="470" y1="220" x2="630" y2="220" stroke="#8b949e" stroke-width="2" stroke-dasharray="6 5"/>
+  </g>
+  <g>
+    <rect class="dg-box" x="40" y="265" width="420" height="60" rx="10" stroke="#30363d"/><text class="dg-mono" x="62" y="303">user_id baked into tool</text>
+    <rect class="dg-box" x="640" y="265" width="420" height="60" rx="10" stroke="#7ee787"/><text class="dg-mono" x="662" y="303" style="fill:#7ee787">context → runtime.context</text>
+    <line x1="470" y1="295" x2="630" y2="295" stroke="#8b949e" stroke-width="2" stroke-dasharray="6 5"/>
+  </g>
+  <g>
+    <rect class="dg-box" x="40" y="340" width="420" height="60" rx="10" stroke="#30363d"/><text class="dg-mono" x="62" y="378">rebuild prompt each turn</text>
+    <rect class="dg-box" x="640" y="340" width="420" height="60" rx="10" stroke="#7ee787"/><text class="dg-mono" x="662" y="378" style="fill:#7ee787">@dynamic_prompt</text>
+    <line x1="470" y1="370" x2="630" y2="370" stroke="#8b949e" stroke-width="2" stroke-dasharray="6 5"/>
+  </g>
+</svg>
+```
+
+::: {.notes}
+- Every piece we built has a name. Have students say the left side before revealing the right, if time.
+:::
+
+## Framework version: tool and prompt {.compact}
+
+```{.python code-line-numbers="9-11|14-19|17-18|22-26"}
+import uuid
+from dataclasses import dataclass
+
+from langchain.agents.middleware import ModelRequest, dynamic_prompt
+from langchain.tools import ToolRuntime
+from langgraph.store.memory import InMemoryStore
+
+
+@dataclass
+class Context:
+    user_id: str
+
+
+@tool
+def remember(fact: str, runtime: ToolRuntime[Context]) -> str:
+    """Save a lasting fact about the user (name, classes, preferences, goals) for future conversations."""
+    namespace = (runtime.context.user_id, "memories")
+    runtime.store.put(namespace, str(uuid.uuid4()), {"fact": fact})
+    return "Saved."
+
+
+@dynamic_prompt
+def prompt_with_memories(request: ModelRequest) -> str:
+    namespace = (request.runtime.context.user_id, "memories")
+    facts = [item.value["fact"] for item in request.runtime.store.search(namespace)]
+    return build_system_prompt(facts)
+```
+
+::: {.why}
+`runtime` is hidden from the model, just like our closure. The model only sees `fact`.
+:::
+
+## Framework version: the agent {.compact}
+
+```{.python code-line-numbers="2-9|12-18"}
+store = InMemoryStore()
+fw_agent = create_agent(
+    MODEL,
+    tools=[remember],
+    middleware=[prompt_with_memories],
+    checkpointer=InMemorySaver(),
+    store=store,
+    context_schema=Context,
+)
+
+
+def fw_chat(user_id, thread_id, text):
+    result = fw_agent.invoke(
+        {"messages": [HumanMessage(text)]},
+        {"configurable": {"thread_id": thread_id}},
+        context=Context(user_id=user_id),
+    )
+    return result["messages"][-1].text
+
+
+print(fw_chat("ana", "ana-homework", "Hi, I'm Ana. I'm taking DS 250 and I prefer R over Python."))
+print(fw_chat("ben", "ben-homework", "I'm Ben. I'm a Python person, and I'm in DS 350."))
+print(fw_chat("ben", "ben-chat-2", "What do you know about me?"))
+```
+
+## What the framework doesn't do
+
+::: {.cards}
+::: {.card}
+[Ours]{.ct}
+Threads keyed by `(user_id, thread_id)`. Ben **can't** open Ana's `"homework"`.
+:::
+
+::: {.card .warn}
+[Checkpointer]{.ct}
+Threads keyed by `thread_id` **alone**. Your app has to make sure a user only uses their own thread IDs.
+:::
+:::
+
+::: {.why}
+Here we prefix them (`"ana-homework"`). In a real app, **check who owns the thread** before calling the agent.
+:::
+
+<!-- ============================================================ -->
+# Stage 6: One File per User {.center}
+
+## The store is hard to see
+
+::: {.cards}
+::: {.card}
+[Invisible]{.ct}
+Each fact is a separate row in RAM. Ana can't open it.
+:::
+
+::: {.card}
+[Append-only]{.ct}
+She changes her mind, and it keeps both "prefers R" **and** "switched to Python".
+:::
+
+::: {.card}
+[Gone]{.ct}
+It disappears when the Python process ends.
+:::
+:::
+
+::: {.why .fragment style="text-align:center"}
+Simpler: **one plain text file per user.** Readable, editable, and it lasts. (Claude Code's `CLAUDE.md` works the same way.)
+:::
+
+## The server enforces who's who
+
+```{=html}
+<svg class="diagram" viewBox="0 0 1100 430" role="img" aria-label="Ana's agent gets a filesystem MCP server that can only see the folder /content/memories/ana. Write: the model calls write_file or edit_file through the server to change memory.md. Read: each turn, dynamic_prompt opens memory.md with plain Python and puts it in the system prompt. Ben's folder sits outside the server's reach.">
+  <defs>
+    <marker id="s8f-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d2a8ff"/></marker>
+    <marker id="s8f-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ffa657"/></marker>
+  </defs>
+
+  <!-- Ana's agent -->
+  <rect class="dg-box" x="30" y="150" width="230" height="110" rx="14" stroke="#58a6ff"/>
+  <text class="dg-title" x="145" y="195" text-anchor="middle" style="fill:#79c0ff">Ana's agent</text>
+  <text class="dg-label" x="145" y="225" text-anchor="middle">one per user</text>
+
+  <!-- MCP server -->
+  <rect class="dg-box" x="360" y="40" width="250" height="110" rx="14" stroke="#7ee787"/>
+  <text class="dg-title" x="485" y="85" text-anchor="middle" style="fill:#7ee787">filesystem server</text>
+  <text class="dg-mono" x="485" y="118" text-anchor="middle" style="font-size:16px">write_file · edit_file</text>
+
+  <!-- Ana folder -->
+  <rect class="dg-machine" x="700" y="30" width="370" height="200" rx="14" style="stroke:#7ee787"/>
+  <text class="dg-tag" x="718" y="56">/content/memories/ana/</text>
+  <rect class="dg-inner" x="720" y="72" width="330" height="140" rx="8"/>
+  <text class="dg-mono" x="740" y="102" style="fill:#e6edf3">memory.md</text>
+  <text class="dg-mono" x="740" y="140" style="font-size:17px">- Ana, DS 250</text>
+  <text class="dg-mono" x="740" y="170" style="font-size:17px">- Prefers <tspan style="fill:#ff7b72;text-decoration:line-through">R</tspan> Python</text>
+
+  <!-- Ben folder -->
+  <rect class="dg-machine" x="700" y="300" width="370" height="100" rx="14" style="stroke:#ff7b72"/>
+  <text class="dg-tag" x="718" y="326">/content/memories/ben/</text>
+  <text class="dg-mono" x="740" y="370">memory.md</text>
+  <text class="dg-label" x="1050" y="370" text-anchor="end" style="fill:#ff7b72">✕ outside the server's reach</text>
+
+  <!-- write -->
+  <path d="M200,148 C220,100 290,95 356,95" fill="none" stroke="#d2a8ff" stroke-width="2.5" marker-end="url(#s8f-purple)"/>
+  <line x1="612" y1="95" x2="716" y2="135" stroke="#d2a8ff" stroke-width="2.5" marker-end="url(#s8f-purple)"/>
+  <text class="dg-title" x="190" y="100" style="fill:#d2a8ff">WRITE</text>
+  <text class="dg-label" x="190" y="125" style="fill:#d2a8ff">model, via MCP</text>
+
+  <!-- read -->
+  <g class="fragment">
+    <path d="M716,190 C600,280 350,300 200,262" fill="none" stroke="#ffa657" stroke-width="2.5" marker-end="url(#s8f-orange)"/>
+    <text class="dg-title" x="330" y="320" style="fill:#ffa657">READ</text>
+    <text class="dg-label" x="330" y="345" style="fill:#ffa657">app, plain Python, every turn</text>
+  </g>
+</svg>
+```
+
+::: {.notes}
+- Same two halves, split differently. Write: the model decides, so it gets the MCP write tools from 1.7. Read: the app's job. If reading were a tool, the model could forget to check.
+- Isolation moved: Stage 5 baked user_id into the tool. Here the *server* can only see Ana's folder, so it can't write to Ben's no matter what anyone types.
+:::
+
+## Stage 6: one server per user {.compact}
+
+```{.python code-line-numbers="13-15|17-20|21-22"}
+from langchain.mcp import MCPAdapter
+
+MEMORY_ROOT = "/content/memories"
+WRITE_TOOLS = ("write_file", "edit_file")   # the only filesystem tools the model needs here
+checkpointer = InMemorySaver()
+file_agents = {}   # user_id -> agent
+
+
+async def get_file_agent(user_id):
+    if user_id in file_agents:
+        return file_agents[user_id]
+
+    folder = f"{MEMORY_ROOT}/{user_id}"
+    os.makedirs(folder, exist_ok=True)
+    path = f"{folder}/memory.md"
+
+    # The server can only touch the folders listed at the end of args: this user's folder, nothing else.
+    config = {"mcpServers": {
+        "memory": {"command": "npx", "args": ["-y", "@modelcontextprotocol/server-filesystem", folder]},
+    }}
+    async with MCPAdapter(config) as adapter:
+        tools = [t for t in await adapter.list_tools() if t.name.endswith(WRITE_TOOLS)]
+    ...
+```
+
+::: {.why}
+`folder` at the end of `args` is the **only** place this server can touch.
+:::
+
+## Stage 6: read the file every turn {.compact}
+
+```{.python code-line-numbers="2-4|5-10|12-14"}
+    ...
+    @dynamic_prompt
+    def prompt_with_memory_file(request: ModelRequest) -> str:
+        contents = open(path).read() if os.path.exists(path) else "(empty)"
+        return (
+            f"You are a helpful tutor. You keep one memory file about the user at {path}. "
+            "When the user tells you something lasting about themselves, update that file. "
+            "Keep it a short bulleted list, and edit existing lines instead of repeating them.\n\n"
+            f"Current contents of {path}:\n{contents}"
+        )
+
+    agent = create_agent(MODEL, tools=tools, middleware=[prompt_with_memory_file], checkpointer=checkpointer)
+    file_agents[user_id] = agent
+    return agent
+```
+
+::: {.why}
+**Read** is plain Python, not a tool. The model can't forget to check.
+:::
+
+## Stage 6: try it {.compact}
+
+```{.python code-line-numbers="1-7|10-13"}
+async def file_chat(user_id, thread_id, text):
+    agent = await get_file_agent(user_id)
+    result = await agent.ainvoke(
+        {"messages": [HumanMessage(text)]},
+        {"configurable": {"thread_id": f"{user_id}-{thread_id}"}},
+    )
+    return result["messages"][-1].text
+
+
+print(await file_chat("ana", "homework", "Hi, I'm Ana. I'm taking DS 250 and I prefer R over Python."))
+print(await file_chat("ben", "homework", "I'm Ben. I'm a Python person, and I'm in DS 350."))
+print(await file_chat("ana", "project", "Heads up: I've switched to Python this semester."))
+print(await file_chat("ana", "chat-3", "What do you know about me?"))
+```
+
+::: {.why}
+Open **Files → memories/**. Ana's file should say Python, **not both**. Edit it by hand, then ask again: the file *is* the memory.
+:::
+
+## What a file costs
+
+::: {.cards}
+::: {.card}
+[Every prompt]{.ct}
+The whole file goes into every turn. As it grows, you pay for it, just like the thread in Stage 1.
+:::
+
+::: {.card}
+[Two writers]{.ct}
+Two chats editing at once can overwrite each other. A database handles that; one plain file doesn't.
+:::
+
+::: {.card}
+[Colab resets]{.ct}
+`/content` is wiped with the runtime. Point `MEMORY_ROOT` at Google Drive if you want it to last.
+:::
+:::
+
+<!-- ============================================================ -->
+# Recap {.center}
+
+## Memory is what the app sends
+
+```{=html}
+<svg class="diagram" viewBox="0 0 1100 360" role="img" aria-label="Recap: the model is stateless. Short-term memory is the thread, a list of messages per thread ID. Long-term memory has two halves: write, where the model calls a tool, and read, where the app puts saved facts in the prompt every turn. Both are keyed by user, and identity comes from the app, not the model.">
+  <rect class="dg-box" x="420" y="20" width="260" height="90" rx="14" stroke="#d2a8ff"/>
+  <text class="dg-title" x="550" y="60" text-anchor="middle" style="fill:#d2a8ff">model</text>
+  <text class="dg-label" x="550" y="90" text-anchor="middle">stateless, always</text>
+
+  <rect class="dg-box" x="30" y="150" width="320" height="170" rx="14" stroke="#58a6ff"/>
+  <text class="dg-tag" x="50" y="178">SHORT-TERM</text>
+  <text class="dg-title" x="50" y="215" style="fill:#79c0ff">threads</text>
+  <text class="dg-label" x="50" y="248">a list per thread ID</text>
+  <text class="dg-label" x="50" y="275">→ checkpointer</text>
+
+  <rect class="dg-box" x="390" y="150" width="320" height="170" rx="14" stroke="#7ee787"/>
+  <text class="dg-tag" x="410" y="178">LONG-TERM</text>
+  <text class="dg-title" x="410" y="215" style="fill:#7ee787">write + read</text>
+  <text class="dg-label" x="410" y="248">model writes via a tool</text>
+  <text class="dg-label" x="410" y="275">app reads into the prompt</text>
+  <text class="dg-label" x="410" y="302">→ store / a file</text>
+
+  <rect class="dg-box" x="750" y="150" width="320" height="170" rx="14" stroke="#ffa657"/>
+  <text class="dg-tag" x="770" y="178">WHOSE?</text>
+  <text class="dg-title" x="770" y="215" style="fill:#ffa657">keyed by user</text>
+  <text class="dg-label" x="770" y="248">identity from the app,</text>
+  <text class="dg-label" x="770" y="275">never from the model</text>
+  <text class="dg-label" x="770" y="302">→ context / server scope</text>
+</svg>
+```
+
+::: {.notes}
+- One sentence to leave with: the model remembers nothing; memory is a decision about what the app sends.
+- Ask: where would per-user memory help your Project 1 agent? Where would it be a liability?
+:::
