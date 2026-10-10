@@ -6,4 +6,42 @@ This is an exciting course, and we are glad you are teaching it.
 
 If you are wondering where to start, this is a good place. Aside from looking through the `README.md` and clicking around in the website, visiting the `teaching_philosophy.md` provides the background for how to deliver this course and teach it effectively. `instructor_notes` give practical advice for each day, what is most important, and what other professors have learned.
 
-The `Milestones` document contains a full list of the milestones or objectives for each day, and can be found [here](https://docs.google.com/spreadsheets/d/18tI28Nzx1L9BSgob2lNv-1Flxj8oA_M03VQP1ON75XA/edit?gid=0#gid=0).
+<!-- The `Milestones` document contains a full list of the milestones or objectives for each day, and can be found [here](https://docs.google.com/spreadsheets/d/18tI28Nzx1L9BSgob2lNv-1Flxj8oA_M03VQP1ON75XA/edit?gid=0#gid=0). -->
+
+## General Pointers
+
+Some keys to making the class go awesome are to:
+- Focus on stories of use cases
+- Get them thinking before they start making
+- Think like an AI engineer (not an engineer)
+- Make "best" visible
+
+## Stories
+
+These are moments for problem solving and identifying real world applications. 
+
+From experience, students don't usually know what AI agents are used for. They need to be introduced to use cases.
+
+Additionally, it gives a fun motivation to have a person's experience drive the need for a solution. "This is why you should use this tool." It is fortunate that this can be used right from the start. to create solutions they can derive themselves.
+
+### Think Before Make
+
+While in stories, you can pause to get them thinking about a solution. Poke holes in it, and ask insightful questions. Then the solution becomes more meaningful.
+
+Early on, they should think about what they want an agent to do for them. They can brainstorm together and write things down. If they don't do this, they'll start building another chatgpt. That is a lesson worth addressing after the fact, but it can still be a missed learning opportunity.
+
+### Not Just Engineers
+
+AI engineers think about all of the human problems. 
+- What is the user not communicating to the AI? 
+- How does the AI get that information? 
+- How do you make sure it is there beforehand? 
+- What could go wrong in an agent's thinking?
+
+It is a mix of system problems and communication problems as well as code problems.
+
+Having opportunities for them to create solutions and hit a wall or see it not work because it wasn't AI-proof are good learning experiences. Make sure to invite them.
+
+### Make "best" visible
+
+Early on, show off the best work from students. Have them publish their repos, listen to their discussions, and show the best solutions to the class. Monitoring people pushing changes and showing the best examples is invaluable.
