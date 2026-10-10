@@ -1,13 +1,13 @@
 ---
 title: "Problem Solution Ladder: Human-in-the-Loop"
-subtitle: "Activity — Competency 1.5.1"
+subtitle: "Activity — Competency 1.6.1"
 ---
 
 <!--
-  id: problem-solution-ladder-1.5.1
+  id: problem-solution-ladder-1.6.1
   type: activity
   day: 2_1
-  competency: 1.5.1
+  competency: 1.6.1
   use_case: healthcare
   template: problem-solution-ladder
   example: hitl-healthcare-demo
@@ -21,7 +21,7 @@ subtitle: "Activity — Competency 1.5.1"
   this tag once Unit 2's actual sequence is set.
 -->
 
-*Prototype instance of [Problem Solution Ladder](../course_design/activities_assessments.md#problem-solution-ladder). Matches [LangChain — Human-in-the-loop](https://docs.langchain.com/oss/python/langchain/human-in-the-loop). Informed by [use-case-competency-map.md](../course_design/research/use-case-competency-map.md) — Healthcare → 1.5.1.*
+*Prototype instance of [Problem Solution Ladder](../course_design/activities_assessments.md#problem-solution-ladder). Matches [LangChain — Human-in-the-loop](https://docs.langchain.com/oss/python/langchain/human-in-the-loop). Informed by [use-case-competency-map.md](../course_design/research/use-case-competency-map.md) — Healthcare → 1.6.1.*
 
 ## Industry Problem
 
@@ -29,7 +29,7 @@ subtitle: "Activity — Competency 1.5.1"
   instructor: Don't open with the code. Open with the stakes: ask "what's
   the worst thing that happens if this agent is wrong?" for a retail tool
   (1_2) vs. this one. The gap in acceptable failure cost is the whole reason
-  1.5.1 exists as its own competency instead of just being "more testing."
+  1.6.1 exists as its own competency instead of just being "more testing."
 -->
 
 A clinical intake agent reviews a patient's symptoms and decides to schedule a follow-up appointment with a specialist. If it's wrong — wrong specialist, wrong urgency, or wrong patient entirely — a real person's care is affected. Unlike the retail or telecom tools you've built so far, this is not a case where you can just fix it next release.

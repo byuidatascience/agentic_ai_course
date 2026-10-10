@@ -1,6 +1,6 @@
 # Lesson 1.7 design log
 
-**Outline line:** 1.7 - MCP deepen uses: file system, web browsing - [1.4.2]
+**Outline line:** 1.7 - MCP deepen uses: file system, web browsing - [1.5.2]
 
 ## Status (as of 2026-09-29)
 
@@ -62,13 +62,13 @@ work once files are moved and rendered:
 |---|---|---|---|---|
 | P | *open:* setup checklist (uv, maybe Node) for the local Apply, maybe plus a reading | | prep | |
 | 1 | Problem: the scoop, then Mateo's Fridays, then "I can't." | narrated story | slides | 5.5 |
-| 2 | Brainstorm: "What would the agent need?" | groups for 1–2 min, follow-ups in notes | slides + notes | 1.4.2 |
-| 3 | Reveal: someone ships it. arXiv MCP server, stdio vs HTTP | instructor-led | slides | 1.4.2, 4.1 |
-| 4 | Try it: arXiv server, change the topic | run cells | notebook | 1.4.2 |
-| 5 | Next Friday: can't find last week's paper | story beat | slides | 1.4.2 |
-| 6 | Add the filesystem server: one agent, two servers | edit config, rerun | notebook | 1.4.2 |
-| 7 | Pair quiz (see below) | pairs, then instructor reveal | slides | 1.4.2, 4.1 |
-| 8 | Apply: own P1 agent with docs + filesystem + one they pick | local | lesson → practice | 1.4.2, 5.1.2 |
+| 2 | Brainstorm: "What would the agent need?" | groups for 1–2 min, follow-ups in notes | slides + notes | 1.5.2 |
+| 3 | Reveal: someone ships it. arXiv MCP server, stdio vs HTTP | instructor-led | slides | 1.5.2, 4.1 |
+| 4 | Try it: arXiv server, change the topic | run cells | notebook | 1.5.2 |
+| 5 | Next Friday: can't find last week's paper | story beat | slides | 1.5.2 |
+| 6 | Add the filesystem server: one agent, two servers | edit config, rerun | notebook | 1.5.2 |
+| 7 | Pair quiz (see below) | pairs, then instructor reveal | slides | 1.5.2, 4.1 |
+| 8 | Apply: own P1 agent with docs + filesystem + one they pick | local | lesson → practice | 1.5.2, 5.1.2 |
 
 **Module 7 pair quiz (quick in-class quiz):** pairs (a) define the stdio/HTTP difference, (b) explain what
 problems MCP solves, (c) name what's in an MCP server (prompts, resources/documents, tools), and (d) look at two
@@ -80,10 +80,10 @@ combination (e.g. fetch + filesystem), and end with "what routine of yours could
 
 ## Objectives (approved)
 
-1. **Connect** a ready-made stdio MCP server (arXiv) to an agent and use its tools. `[1.4.2]`
-2. **Explain** how stdio and HTTP transports differ. `[1.4.2, 4.1]`
+1. **Connect** a ready-made stdio MCP server (arXiv) to an agent and use its tools. `[1.5.2]`
+2. **Explain** how stdio and HTTP transports differ. `[1.5.2, 4.1]`
    Include a brief pair moment where students describe the difference to each other.
-3. **Run** one agent with several MCP servers at once by adding servers to a single config. `[1.4.2]`
+3. **Run** one agent with several MCP servers at once by adding servers to a single config. `[1.5.2]`
 4. **Find** an MCP server that fills a gap in your own Project 1 agent, and connect it. `[5.1.2]`
    Not 5.4: evaluating servers is out of scope.
 

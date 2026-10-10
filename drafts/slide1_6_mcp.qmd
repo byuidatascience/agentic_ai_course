@@ -5,9 +5,9 @@ format: revealjs
 
 <!--
   DRAFT: Lesson 1.6 lecture deck
-  competency: 1.4.2 Connect external tools through Model Context Protocol (MCP)
-  pairs with: temp/prep-reading-mcp-1.4.2.qmd, temp/example-mcp-1.4.2.ipynb,
-              temp/problem-solution-ladder-1.4.2.qmd
+  competency: 1.5.2 Connect external tools through Model Context Protocol (MCP)
+  pairs with: temp/prep-reading-mcp-1.5.2.qmd, temp/example-mcp-1.5.2.ipynb,
+              temp/problem-solution-ladder-1.5.2.qmd
 -->
 
 ## 

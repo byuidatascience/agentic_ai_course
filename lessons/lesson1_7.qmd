@@ -44,9 +44,9 @@ Ready-made MCP servers, several on one agent
 
 By the end of this lesson, you will be able to:
 
-- **Connect** a ready-made stdio MCP server (arXiv) to an agent and use its tools. `[1.4.2]`
-- **Explain** how the stdio and HTTP transports differ. `[1.4.2, 4.1]`
-- **Run** one agent with several MCP servers at once by adding servers to a single config. `[1.4.2]`
+- **Connect** a ready-made stdio MCP server (arXiv) to an agent and use its tools. `[1.5.2]`
+- **Explain** how the stdio and HTTP transports differ. `[1.5.2, 4.1]`
+- **Run** one agent with several MCP servers at once by adding servers to a single config. `[1.5.2]`
 - **Find** an MCP server that fills a gap in your own Project 1 agent, and connect it. `[5.1.2]`
 
 ---

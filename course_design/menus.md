@@ -6,21 +6,21 @@ How this is used is in flux
 
 ## Menus
 
-1.1.3 Implement common model features from documentation
+1.2.3 Implement common model features from documentation
 
 - token limits, system prompt, temperature, structured output, web search, thinking, function calling, caching, other data types
 
-1.2 Design an agent's instructions and prompts
+1.3 Design an agent's instructions and prompts
 
 - system prompt, tool descriptions, skills, persona, few-shot, output format
 
-1.3
+1.4
 
 - Persist and pass conversation state across multiple runs in a thread
 - Implement multi-tenant memory architecture (shared memory)
 - Implement retrieval (RAG) systems
 
-1.4 Extend the agent with tools and services
+1.5 Extend the agent with tools and services
 
 - Define, register, and invoke custom tool
 - Connect external tools through Model Context Protocol (MCP)
@@ -30,7 +30,7 @@ How this is used is in flux
 - Their file system
 - TODO what would be easy to connect and useful for a student?
 
-1.5 Constrain the agent with deterministic safety
+1.6 Constrain the agent with deterministic safety
 
 - human-in-the-loop
 - sandbox (arbitrary code)

@@ -2,20 +2,20 @@ Main outcomes per day in [brackets], IDs from course_design/course_outcomes.md. 
 
 Week 1
 0.1 - Intro: Is this course for me? Yes - [5.5, 4.1.1]
-1.1 - API: Make a call, get a response - [1.1.1, 1.1.3]
-1.2 - Concepts, internals of an agent, tools and memory - [1.3.1, 1.4.1, 4.1.1]
+1.1 - API: Make a call, get a response - [1.2.1, 1.2.3]
+1.2 - Concepts, internals of an agent, tools and memory - [1.4.1, 1.5.1, 4.1.1]
 Week 2
-1.3 - Group, solve a problem together - [? 3.1 or 1.2]
-1.4 - Setup tools and memory locally - [1.4.1, 1.3.1]
-1.5 - Sub-agents as tools, basic prompting - [1.6, 1.2, 1.1.2]
+1.3 - Group, solve a problem together - [? 3.1 or 1.3]
+1.4 - Setup tools and memory locally - [1.5.1, 1.4.1]
+1.5 - Sub-agents as tools, basic prompting - [1.7, 1.3, 1.2.2]
 Week 3
-1.6 - MCP, what it is, get connected - [1.4.2]
-1.7 - MCP deepen uses: file system, web browsing - [1.4.2]
+1.6 - MCP, what it is, get connected - [1.5.2]
+1.7 - MCP deepen uses: file system, web browsing - [1.5.2]
 1.8 - Ethics discussion, Work day - [6.1, 6.2]
 Week 4
-1.9 - Long-term memory - [1.3.2]
-1.10 - Long-term memory - [1.3.2]
-1.11 - CLI, skills, plugins, oh my - [1.4.3, 1.2]
+1.9 - Long-term memory - [1.4.2]
+1.10 - Long-term memory - [1.4.2]
+1.11 - CLI, skills, plugins, oh my - [1.5.3, 1.3]
 Week 4
 2.1 - Debrief, review and intro - [4.2.2, 4.1.2]
 2.2 - Tracing - Read and Instrument - [2.1.1, 2.1.2]
@@ -52,21 +52,21 @@ Colab -> Local .py -> Gradio -> Slack -> agent-chat-ui (maybe)
 
 ## Unplaced Proposals
 
-- Context Engineering Types - [1.3.3]
+- Context Engineering Types - [1.4.3]
 - Defining an agent's purpose without code - [3.1]
 - AI viability: LLM limits, expensive parts of a build, cost estimates - [3.2.1, 3.2.2, 3.2.4]
 - Predicting failure points - [3.2.3]
 - Eliciting domain knowledge from clients/employees - [3.4]
 - Defining success criteria and safety requirements - [3.3.1, 3.3.2, 3.3.3]
-- Context needs at each step of a task - [3.5, 1.3.3]
-- Comparing and choosing harness architectures - [3.6, 3.6.1, 1.6]
-- Writing agent- and human-readable docs (AGENTS.md, specs, schemas) - [3.7, 1.2]
-- Human-in-the-loop and permissions - [1.5.1, 1.5.3]
-- Sandboxed code execution - [1.5.2]
-- Error handling and retries - [1.5.4]
+- Context needs at each step of a task - [3.5, 1.4.3]
+- Comparing and choosing harness architectures - [3.6, 3.6.1, 1.7]
+- Writing agent- and human-readable docs (AGENTS.md, specs, schemas) - [3.7, 1.3]
+- Human-in-the-loop and permissions - [1.6.1, 1.6.3]
+- Sandboxed code execution - [1.6.2]
+- Error handling and retries - [1.6.4]
 - Deterministic evaluators (or move to Unit 2) - [2.2.1, 3.3.3]
 - Iterating on an agent from eval results - [2.3.1, 2.2.5, 3.3.5]
-- Cost and latency: model choice per sub-agent, caching - [1.1.2, 3.2.4]
+- Cost and latency: model choice per sub-agent, caching - [1.2.2, 3.2.4]
 - Engineering terms: prompt, context, harness, intent - [4.1.3]
 - Presenting an agent to a non-technical audience - [4.3.1, 4.2.2]
 - Publishing a project write-up - [4.2.1]
@@ -80,6 +80,6 @@ Colab -> Local .py -> Gradio -> Slack -> agent-chat-ui (maybe)
 
 ## More Open Questions
 
-Is Outcome 1.5 (guardrails) a Module 3 anchor, or should Module 1 at least touch it (e.g., human-in-the-loop in 1.5 or 1.6)?
-Which competencies do you consider taught throughout? My guess is 5.x, 1.2 and 4.1. If we list those explicitly as threads, every remaining gap is a real gap.
+Is Outcome 1.6 (guardrails) a Module 3 anchor, or should Module 1 at least touch it (e.g., human-in-the-loop in 1.5 or 1.6)?
+Which competencies do you consider taught throughout? My guess is 5.x, 1.3 and 4.1. If we list those explicitly as threads, every remaining gap is a real gap.
 Is 2.2.1 left out on purpose, or should it replace one of the dataset or judge days?

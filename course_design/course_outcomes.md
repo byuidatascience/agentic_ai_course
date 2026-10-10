@@ -14,26 +14,27 @@ Grammar follows "Students can + verb" format.
 
 *Only implementation to exist functionally, design and deployment are out of scope. Students continuously evaluate and refine what they build; the iteration loop is carried in the wording, not given a separate outcome.*
 
-- 1.1 *flag wording* Connect to the model (the "brain")
-    - 1.1.1 Connect to an LLM provider's API
-    - 1.1.2 Pick appropriate models for an agent or subagent
-    - 1.1.3 Implement common model features from documentation <!-- token limits, system prompt, temperature, structured output, web search, thinking, function calling, caching, other data types -->
-- 1.2 Design an agent's instructions and prompts <!-- system prompt, tool descriptions, skills, persona, few-shot, output format -->
-- 1.3 Give the agent memory and manage its context
-    - 1.3.1 Implement short-term memory
-    - 1.3.2 Implement long-term memory
-    - 1.3.3 Trim or reduce memory through context engineering
-- 1.4 Extend the agent with tools and services
-    - 1.4.1 Define, register, and invoke custom tools
-    - 1.4.2 Connect external tools through Model Context Protocol (MCP) <!-- eg Slack, Google Calendar -->
-    - 1.4.3 Connect external tools through CLI
-- 1.5 Constrain the agent with deterministic safety guardrails
-    - 1.5.1 Implment human-in-the-loop
-    - 1.5.2 Connect a sandbox for arbitrary code execution
-    - 1.5.3 Create permissions and authorization constraints
-    - 1.5.4 Handle errors and retries
-    - 1.5.5 *this deserves more attention*
-- 1.6 Architect multi-agent / sub-agent delegation
+- 1.1 Write idiomatic code in the programming language features an agent framework relies on <!-- assumes foundational programming on entry; language is per-semester (Python now, maybe JavaScript later) -->
+- 1.2 *flag wording* Connect to the model (the "brain")
+    - 1.2.1 Connect to an LLM provider's API
+    - 1.2.2 Pick appropriate models for an agent or subagent
+    - 1.2.3 Implement common model features from documentation <!-- token limits, system prompt, temperature, structured output, web search, thinking, function calling, caching, other data types -->
+- 1.3 Design an agent's instructions and prompts <!-- system prompt, tool descriptions, skills, persona, few-shot, output format -->
+- 1.4 Give the agent memory and manage its context
+    - 1.4.1 Implement short-term memory
+    - 1.4.2 Implement long-term memory
+    - 1.4.3 Trim or reduce memory through context engineering
+- 1.5 Extend the agent with tools and services
+    - 1.5.1 Define, register, and invoke custom tools
+    - 1.5.2 Connect external tools through Model Context Protocol (MCP) <!-- eg Slack, Google Calendar -->
+    - 1.5.3 Connect external tools through CLI
+- 1.6 Constrain the agent with deterministic safety guardrails
+    - 1.6.1 Implment human-in-the-loop
+    - 1.6.2 Connect a sandbox for arbitrary code execution
+    - 1.6.3 Create permissions and authorization constraints
+    - 1.6.4 Handle errors and retries
+    - 1.6.5 *this deserves more attention*
+- 1.7 Architect multi-agent / sub-agent delegation
 
 
 ## Evaluate agents using agent observability tools

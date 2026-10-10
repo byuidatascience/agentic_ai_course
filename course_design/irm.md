@@ -65,7 +65,7 @@ locate a problem that lives at competency 3.7.
 
 ## Level 2 — Competencies × Units
 
-The same instrument at the resolution where signal actually appears. Twenty-nine rows — every
+The same instrument at the resolution where signal actually appears. Thirty rows — every
 second-level competency in [course_outcomes.md](course_outcomes.md), one page.
 
 > **These are judgment calls, not a record of intent.** Cells marked `?` are ones inferred with weak
@@ -74,12 +74,13 @@ second-level competency in [course_outcomes.md](course_outcomes.md), one page.
 | # | Competency | U1 | U2 | U3 | Cap |
 |---|------------|:--:|:--:|:--:|:---:|
 | | **1. Build AI agent harnesses** | | | | |
-| 1.1 | Connect to the model (the "brain") | **I** | R | **M** | **M** |
-| 1.2 | Design an agent's instructions and prompts | **I** | R | **M** | **M** |
-| 1.3 | Give the agent memory and manage its context | **I** | R | **M** | R |
-| 1.4 | Extend the agent with tools and services | **I → R** | — | **M** | R |
-| 1.5 | Constrain the agent with deterministic safety guardrails | — | **I** | **M** | R |
-| 1.6 | Architect multi-agent / sub-agent delegation | — | — | I `?` | R `?` |
+| 1.1 | Write idiomatic code in the language features a framework relies on | **I** `?` | R `?` | **M** `?` | R `?` |
+| 1.2 | Connect to the model (the "brain") | **I** | R | **M** | **M** |
+| 1.3 | Design an agent's instructions and prompts | **I** | R | **M** | **M** |
+| 1.4 | Give the agent memory and manage its context | **I** | R | **M** | R |
+| 1.5 | Extend the agent with tools and services | **I → R** | — | **M** | R |
+| 1.6 | Constrain the agent with deterministic safety guardrails | — | **I** | **M** | R |
+| 1.7 | Architect multi-agent / sub-agent delegation | — | — | I `?` | R `?` |
 | | **2. Evaluate agents using observability tools** | | | | |
 | 2.1 | Observe agent performance | — | **I → M** | R | R |
 | 2.2 | Measure agent performance | — | **I → M** | R | R |
@@ -131,9 +132,9 @@ as gaps; this is the same finding arrived at independently.
 has no vocabulary for that. [use_case_coverage.md](use_case_coverage.md) is the instrument for 5.5;
 it works by tagging instances with `use_case:`, and zero such tags currently exist.
 
-**Outcome 1's twenty sub-competencies are invisible at this resolution and nearly invisible at any
+**Outcome 1's twenty-one sub-competencies are invisible at this resolution and nearly invisible at any
 other.** Every one of them is carried by two blanket `competency: 1` tags (Pass-offs and the Problem
-Solution Ladder), both of which are patterns rather than named instances. The row for 1.4 above says
+Solution Ladder), both of which are patterns rather than named instances. The row for 1.5 above says
 "Extend the agent with tools and services" masters in U3; nothing in the repo says *which* pass-off
 proves it.
 

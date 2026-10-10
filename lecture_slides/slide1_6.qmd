@@ -16,7 +16,7 @@ execute:
 ---
 
 <!--
-  competency: 1.4.2 Connect external tools through Model Context Protocol (MCP)
+  competency: 1.5.2 Connect external tools through Model Context Protocol (MCP)
   flow: problem -> discuss why -> what happened -> brainstorm -> smallest example
         -> Colab -> how it works / what MCP means -> cloned repo -> own agent
   pairs with: notebooks/notebook1_6.ipynb, drafts/summit-wireless-mcp/ (clone target)

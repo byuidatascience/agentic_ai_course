@@ -26,7 +26,7 @@ signal to look at.
   id: ucmap-media-gaming
   type: example
   day: 1_1
-  competency: 1.1.1, 1.1.3
+  competency: 1.2.1, 1.2.3
   use_case: media-gaming
 -->
 
@@ -36,7 +36,7 @@ signal to look at.
   id: ucmap-education
   type: practice
   day: 1_1
-  competency: 1.1.2
+  competency: 1.2.2
   use_case: education
 -->
 
@@ -46,7 +46,7 @@ signal to look at.
   id: ucmap-retail
   type: example
   day: 1_2
-  competency: 1.4.1
+  competency: 1.5.1
   use_case: retail
 -->
 
@@ -56,7 +56,7 @@ signal to look at.
   id: ucmap-supply-chain
   type: practice
   day: 1_2
-  competency: 1.4.1
+  competency: 1.5.1
   use_case: supply-chain
 -->
 
@@ -66,7 +66,7 @@ signal to look at.
   id: ucmap-agriculture
   type: example
   day: 1_3
-  competency: 1.4.1
+  competency: 1.5.1
   use_case: agriculture
 -->
 
@@ -86,7 +86,7 @@ signal to look at.
   id: ucmap-real-estate
   type: example
   day: 1_4
-  competency: 1.1.3
+  competency: 1.2.3
   use_case: real-estate
 -->
 
@@ -96,7 +96,7 @@ signal to look at.
   id: ucmap-legal
   type: practice
   day: 1_4
-  competency: 1.1.3
+  competency: 1.2.3
   use_case: legal
 -->
 
@@ -106,7 +106,7 @@ signal to look at.
   id: ucmap-hospitality
   type: example
   day: 1_5
-  competency: 1.3.1
+  competency: 1.4.1
   use_case: hospitality
 -->
 
@@ -116,7 +116,7 @@ signal to look at.
   id: ucmap-healthcare
   type: practice
   day: 1_5
-  competency: 1.3.2
+  competency: 1.4.2
   use_case: healthcare
 -->
 
@@ -126,7 +126,7 @@ signal to look at.
   id: ucmap-telecom
   type: example
   day: 1_6
-  competency: 1.4.2
+  competency: 1.5.2
   use_case: telecom
 -->
 
@@ -136,7 +136,7 @@ signal to look at.
   id: ucmap-automation
   type: practice
   day: 1_6
-  competency: 1.4.2
+  competency: 1.5.2
   use_case: automation
 -->
 
@@ -146,7 +146,7 @@ signal to look at.
   id: ucmap-software-technology
   type: example
   day: 1_7
-  competency: 1.4.2, 5.4
+  competency: 1.5.2, 5.4
   use_case: software-technology
 -->
 
@@ -166,7 +166,7 @@ signal to look at.
   id: ucmap-manufacturing
   type: example
   day: 1_8
-  competency: 1.6
+  competency: 1.7
   use_case: manufacturing
 -->
 
@@ -176,7 +176,7 @@ signal to look at.
   id: ucmap-transportation-logistics
   type: practice
   day: 1_8
-  competency: 1.6
+  competency: 1.7
   use_case: transportation-logistics
 -->
 
@@ -186,7 +186,7 @@ signal to look at.
   id: ucmap-emergency-response
   type: in_class
   day: 1_10
-  competency: 1.5.1
+  competency: 1.6.1
   use_case: emergency-response
 -->
 

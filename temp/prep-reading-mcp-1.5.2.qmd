@@ -7,7 +7,7 @@ subtitle: "Primer 1.6   Read before Lesson 1.6"
   id: about-mcp
   type: reading
   day: 1_6
-  competency: 1.4.2
+  competency: 1.5.2
 -->
 
 # Takeaways

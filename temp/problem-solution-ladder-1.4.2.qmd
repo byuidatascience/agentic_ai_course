@@ -1,13 +1,13 @@
 ---
 title: "Problem Solution Ladder: Long-Term Memory"
-subtitle: "Activity — Competency 1.3.2"
+subtitle: "Activity — Competency 1.4.2"
 ---
 
 <!--
-  id: problem-solution-ladder-1.3.2
+  id: problem-solution-ladder-1.4.2
   type: activity
   day: 1_5
-  competency: 1.3.2
+  competency: 1.4.2
   use_case: hospitality
   template: problem-solution-ladder
 -->

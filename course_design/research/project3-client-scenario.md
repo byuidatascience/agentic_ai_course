@@ -48,11 +48,11 @@ multi-week backlog.
 
 | Design pressure | What it forces |
 |---|---|
-| Eligibility is a **hard rule** (income threshold, county residency, household size, case type) | The student must discover that eligibility cannot be an LLM judgment — it is a deterministic tool the model calls. That realization is `3.2.1` and `1.5` together, and it is the clearest guardrail lesson available in the catalog. |
-| Need is **soft judgment** — what is this person actually facing? | The conversational half: `1.2` prompt design, `1.3.1` short-term memory across an intake session |
-| Ineligible ≠ dead end | Referral routing to partner orgs → `1.6` subagent/router, plus a real product decision about what the agent *says* to someone it can't serve |
-| Denying someone service is a **harm surface** | `1.5.1` HITL becomes genuinely non-negotiable rather than an assigned checkbox; `6.1`–`6.4` land without being forced |
-| PII from vulnerable people | `1.5.3` permissions, redaction, what gets logged — concrete and sharp |
+| Eligibility is a **hard rule** (income threshold, county residency, household size, case type) | The student must discover that eligibility cannot be an LLM judgment — it is a deterministic tool the model calls. That realization is `3.2.1` and `1.6` together, and it is the clearest guardrail lesson available in the catalog. |
+| Need is **soft judgment** — what is this person actually facing? | The conversational half: `1.3` prompt design, `1.4.1` short-term memory across an intake session |
+| Ineligible ≠ dead end | Referral routing to partner orgs → `1.7` subagent/router, plus a real product decision about what the agent *says* to someone it can't serve |
+| Denying someone service is a **harm surface** | `1.6.1` HITL becomes genuinely non-negotiable rather than an assigned checkbox; `6.1`–`6.4` land without being forced |
+| PII from vulnerable people | `1.6.3` permissions, redaction, what gets logged — concrete and sharp |
 | A case record comes out the other end | `3.7` a durable structured artifact a human caseworker actually reads |
 
 ### Why the difficulty is right

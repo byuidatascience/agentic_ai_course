@@ -16,7 +16,7 @@ execute:
 ---
 
 <!--
-  competency: 1.4.2 Connect external tools through MCP; 4.1 (transports)
+  competency: 1.5.2 Connect external tools through MCP; 4.1 (transports)
   design log: drafts/lesson1_7/README.md
   pairs with: notebooks/notebook1_7.ipynb
   status: NOT APPROVED. Phase 4 prototype, full deck, published 2026-09-30 for lack of time; needs revision. Scripture pending approval. Styles copied from slide1_6.qmd.

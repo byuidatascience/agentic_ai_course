@@ -23,16 +23,16 @@ pick-your-own-domain practice drafted in `practice1_2.qmd`.
 
 Day 2 scope, per instructor:
 
-- **Agent anatomy / scaffold** (supporting, not a standalone competency id — underlies 1.1 and sets up 1.3/1.4)
+- **Agent anatomy / scaffold** (supporting, not a standalone competency id — underlies 1.2 and sets up 1.4/1.5)
   - LLMs are stateless
   - What a manual conversation flow looks like without a framework
   - How LangChain's `create_agent` simplifies that
   - The agent's tool-calling loop is *coded into* `create_agent`, not something inherent to the model provider
   - **MVP:** instructor explains verbally, lesson page carries just a line noting this
   - **Ideal:** a slide deck that visually points out the parts
-- **1.4 Extend the agent with tools and services** → **1.4.1** Define, register, and invoke custom tools — **essential (MVP)**
+- **1.5 Extend the agent with tools and services** → **1.5.1** Define, register, and invoke custom tools — **essential (MVP)**
   - Students should try a few different things with tools, not just one canned example
-- **1.3 Give the agent memory and manage its context** → **1.3.1** Implement short-term memory — **essential (MVP)**
+- **1.4 Give the agent memory and manage its context** → **1.4.1** Implement short-term memory — **essential (MVP)**
 - **Ideal adds:** **4.1 Use current industry terminology correctly** — vocabulary practice
 
 Source: [course_outcomes.md](../../course_design/course_outcomes.md), [irm.md](../../course_design/irm.md), instructor confirmation 2026-09-17.
@@ -99,7 +99,7 @@ Serves competency **5.1 Learn from primary-source documentation and tutorials**.
 ## 6. Outline for lesson content — ⏳ pending confirmation
 
 Per `lessons/_use_case_map_TEMP.md` (a throwaway planning map, not real content yet), Day 2 (`day: 1_2`)
-already has two use cases planned, both currently tagged only for tools (1.4.1):
+already has two use cases planned, both currently tagged only for tools (1.5.1):
 
 - **Retail — custom tool over store inventory** (`type: example`) — guided/instructor-led
 - **Supply Chain — tool that answers "where is the shipment"** (`type: practice`) — student applies on their own

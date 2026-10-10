@@ -121,7 +121,7 @@
 
 <div class="card verdict">
   <h3>Short answer</h3>
-  <p>The course doesn't need its own MCP server to teach MCP. The LangChain docs MCP and the Canvas MCP from GitHub already cover competency 1.4.2. It's still worth building because it fixes three problems the Project&nbsp;1 materials currently leave open:</p>
+  <p>The course doesn't need its own MCP server to teach MCP. The LangChain docs MCP and the Canvas MCP from GitHub already cover competency 1.5.2. It's still worth building because it fixes three problems the Project&nbsp;1 materials currently leave open:</p>
   <ol>
     <li><strong>The Slack deliverable is commented out.</strong> Project 1's proof of completion ("your agent posts to Slack") has nothing to post to.</li>
     <li><strong>The Sam Drab starter ZIP is commented out.</strong> It was meant to be a shared fake world with harmless prompt injections, but it has no way to reach students.</li>
@@ -237,10 +237,10 @@
 
 <h3>Ideal: grows semester by semester</h3>
 <ul>
-  <li><strong>Unit 1 (outcome 1.5):</strong>
+  <li><strong>Unit 1 (outcome 1.6):</strong>
     <ul>
       <li>Add dangerous-but-fake tools such as <code>send_payment(to, amount)</code> and <code>delete_file</code>. That's real power with fake stakes, so students can practice human-in-the-loop approval and permission rules safely.</li>
-      <li>Add a "chaos mode" switched on for stress-test day. The server starts returning errors, timeouts and new injections, which gives students practice handling errors and retries (1.5.4).</li>
+      <li>Add a "chaos mode" switched on for stress-test day. The server starts returning errors, timeouts and new injections, which gives students practice handling errors and retries (1.6.4).</li>
     </ul>
   </li>
   <li><strong>Agent town square:</strong> agents read <em>each other's</em> posts. One student's agent can end up injecting another student's agent. This is the best fail-first demo available, but it needs moderation.</li>
@@ -252,7 +252,7 @@
   </li>
   <li><strong>Unit 3:</strong>
     <ul>
-      <li>Offer <code>/v1</code> and <code>/v2</code> endpoints with identical functions, but v1 has bad tool descriptions and 60 tools. That's a controlled experiment on tool descriptions and context bloat (1.2, 2.2.5, 3.5).</li>
+      <li>Offer <code>/v1</code> and <code>/v2</code> endpoints with identical functions, but v1 has bad tool descriptions and 60 tools. That's a controlled experiment on tool descriptions and context bloat (1.3, 2.2.5, 3.5).</li>
       <li>Use the MCP "prompts" primitive to show how skills and instructions can be shipped through a server.</li>
     </ul>
   </li>

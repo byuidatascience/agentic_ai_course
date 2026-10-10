@@ -7,7 +7,7 @@ subtitle: "Primer 2.1   Read before Lesson 2.1"
   id: about-hitl
   type: reading
   day: 2_1
-  competency: 1.5.1
+  competency: 1.6.1
 -->
 
 # Takeaways

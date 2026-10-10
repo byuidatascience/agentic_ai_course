@@ -58,7 +58,7 @@ Two shortcuts that follow from the chain and come up often:
 
 | Document | Authority | Solidity | Notes |
 |---|---|---|---|
-| [course_outcomes.md](course_outcomes.md) | **Highest** | **Medium** | The spine. Every competency id used anywhere in the repo is defined here. Outcome 3 is self-flagged as "nearly taken shape"; 1.5.5 is an empty placeholder; several items carry `*flag wording*`. Ids 1.x–6.x are stable enough to tag against — the wording under them is not. |
+| [course_outcomes.md](course_outcomes.md) | **Highest** | **Medium** | The spine. Every competency id used anywhere in the repo is defined here. Outcome 3 is self-flagged as "nearly taken shape"; 1.6.5 is an empty placeholder; several items carry `*flag wording*`. Ids 1.x–6.x are stable enough to tag against — the wording under them is not. |
 | [user_profiles.md](user_profiles.md) | **Highest** | **High** | Short and decisive. The exit profiles are the scope boundary: they are what put deployment, hosting, and real UI out of the course. Reach for this when the question is "does this belong here at all?" |
 | [teaching_philosophy.md](teaching_philosophy.md) | **High** | **Mixed** | The guiding document, and the oldest. Solid on pedagogy — fail-first, antifragility, cognitive load, group formation, the purpose of grading. **Soft on grading mechanics**: `TODO: Needs revision to align with University Policy`, blank rubric cells, and an unresolved tension between a student-decided grade and hard A-requirements. Where it implies productization or UI it has been superseded; see its Scope Boundary section. |
 | [learning_arcs.md](learning_arcs.md) | **High** | **High** | 28 lines, entirely settled. Bad agent → why was it bad → good agent. The single most load-bearing idea in the course. |
@@ -95,7 +95,7 @@ Two shortcuts that follow from the chain and come up often:
 
 1. **Tag against ids, not names.** `competency: 3.4` survives a rewording; "Find hidden domain
    knowledge" does not.
-2. **A blanket tag is a promise, not coverage.** `competency: 1` on Pass-offs covers twenty
+2. **A blanket tag is a promise, not coverage.** `competency: 1` on Pass-offs covers twenty-one
    sub-competencies on paper and none of them in practice. Same for `competency: 3` on Project 3.
 3. **An untyped node satisfies nothing.** Every node needs a `type:`, or the coverage rules skip it
    silently.

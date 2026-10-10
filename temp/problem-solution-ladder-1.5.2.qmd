@@ -1,19 +1,19 @@
 ---
 title: "Problem Solution Ladder: MCP"
-subtitle: "Activity — Competency 1.4.2"
+subtitle: "Activity — Competency 1.5.2"
 ---
 
 <!--
-  id: problem-solution-ladder-1.4.2
+  id: problem-solution-ladder-1.5.2
   type: activity
   day: 1_6
-  competency: 1.4.2
+  competency: 1.5.2
   use_case: telecom
   template: problem-solution-ladder
   example: mcp-telecom-demo
 -->
 
-*Prototype instance of [Problem Solution Ladder](../course_design/activities_assessments.md#problem-solution-ladder). Matches [LangChain — MCP](https://docs.langchain.com/oss/python/langchain/mcp). Informed by [use-case-competency-map.md](../course_design/research/use-case-competency-map.md) — Telecom → 1.4.2.*
+*Prototype instance of [Problem Solution Ladder](../course_design/activities_assessments.md#problem-solution-ladder). Matches [LangChain — MCP](https://docs.langchain.com/oss/python/langchain/mcp). Informed by [use-case-competency-map.md](../course_design/research/use-case-competency-map.md) — Telecom → 1.5.2.*
 
 ## Industry Problem
 
