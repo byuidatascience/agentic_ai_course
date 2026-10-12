@@ -126,7 +126,7 @@ Lessons from teaching it:
 - Slides weren't satisfying; content needs revision.
 - Students didn't get enough chance to derive MCP's purpose and explain it to each other.
 
-## 1.7 — In progress
+## 1.7 — Settled
 
 **One thing:** They can find, judge, and connect an MCP server without help.
 
@@ -141,11 +141,46 @@ Lessons from teaching it:
 
 Previous (drafts/lesson1_7/README.md, approved 2026-09-30): one thing "You don't need to build common capabilities like browsing or files. Someone already ships them as a server." Destination "My Project 1 agent runs with 3+ MCP servers at once (docs, filesystem, plus one I picked)." Transport split was: 1.6 HTTP, 1.7 introduces stdio.
 
+Lessons from teaching it:
+- Biggest struggle: getting async to work, plus confusing error messages.
+- A walkthrough video made later fixed it. They need a good example to look at: another repo, not a Colab.
+- Keep the walkthrough or example for Project 1 hidden that day, maybe releasing it after, but give them some example to look at.
+
+Direction: tiered support. They try it themselves, then the class walks through the LangChain docs together so everyone leaves knowing where to look, then they look at an example repo, and the full tutorial comes later.
+
+## 1.8 — Settled
+
+**One thing:** Everyone leaves knowing exactly what stands between them and a finished Project 1.
+
+**Destination:** "I know exactly what's left on my agent, and I am confident I have what I need to meet the Project 1 requirements this weekend."
+
+**Objectives (draft):**
+- Discuss the ethics reading and append to their ethics manifesto — 6.1, 6.2
+- Know what's left to finish Project 1 and plan to finish it by Saturday — 3.1
+- Get unstuck on their biggest blocker, with help from classmates or the instructor
+
+**Shape:** mostly a work day plus an ethics discussion. Students do a reading beforehand, the class discusses it, then students work together while the instructor circulates and helps them get unstuck on their projects.
+
+**Deadline:** Project 1 is due the Saturday after 1.8, regardless of where week 4 lands.
+
+Previous: `drafts/lesson1_8/` holds a "Memory from Scratch" lesson (seven stages, from no memory to one memory file per user). The instructor had another idea for 1.8 but has forgotten it.
+
 ## Unit shape — open threads (2026-10-10)
 
-1. **Where does Unit 1 end?** After 1.8 is appealing: students have enough for Unit 2 to start diagnosing. But not all students reached an "unwieldy, powerful agent" by week 4, and 1.8 as a work day leaves gaps.
+1. **Where does Unit 1 end?** (2026-10-12) Leaning toward keeping week 4 in Unit 1, but it would be somewhat separate from the rest of the unit. Not ready to address it yet; this pass stops at 1.8. Earlier thinking: ending after 1.8 is appealing: students have enough for Unit 2 to start diagnosing. But not all students reached an "unwieldy, powerful agent" by week 4, and 1.8 as a work day leaves gaps.
 2. **Long-term memory.** Not enough time to teach it, but valuable now while they build their own agent. Could move to Unit 3.
 3. **The agent as its own coding agent.** Students with unwieldy agents mostly used coding agents (not allowed; defeats the purpose). Idea: once they have a filesystem MCP, they set up their own agent to work on itself.
 4. **Version history.** Biggest gap: an agent that edits itself can break itself, and they need a way to revert (git).
 5. **AI coding in week 4 (1.9–1.11)?** Being debated.
 6. **Priming failure-spotting.** Students should notice and point out failures throughout Unit 1, before Unit 2 teaches it explicitly. No framework for this yet.
+
+## A Few Lessons to Address
+- Most people use Claude Code, some Codex
+- Put stuff in code blocks
+- Need quick links to things like AI Studio and model strings
+- They weren't excited about the energy reading
+- They need written local setup instructions
+- `agent` command instructions did NOT work
+	- We need to find a better way to increase access
+- They need proactive access to error-managing code before the lesson
+- We need an early way to assess their ability to navigate docs

@@ -1,0 +1,267 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1536 1024" width="1536" height="1024" font-family="'Segoe UI', Inter, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="headBlue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1565D8"/></marker>
+    <marker id="headGreen" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1E8A4C"/></marker>
+    <marker id="headGray" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#9AA6B8"/></marker>
+    <marker id="headSmall" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1E8A4C"/></marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1536" height="1024" fill="#F8FAFC"/>
+
+  <!-- ===== Header ===== -->
+  <g transform="translate(352,24)">
+    <path d="M0,62 L36,10 L48,26 L56,16 L74,62 Z" fill="#163A8C"/>
+    <path d="M36,10 L44,22 L36,30 L30,22 Z" fill="#2F6BE0"/>
+    <line x1="48" y1="26" x2="48" y2="2" stroke="#163A8C" stroke-width="3"/>
+    <path d="M48,2 L64,7 L48,12 Z" fill="#F5B416"/>
+  </g>
+  <text x="450" y="80" font-size="64" font-weight="800" fill="#0E1F4D" letter-spacing="-1">Learning Arcs</text>
+  <line x1="897" y1="30" x2="897" y2="88" stroke="#C5CEDB" stroke-width="2"/>
+  <text x="942" y="82" font-size="58" fill="#24324F">The Story</text>
+  <text x="768" y="131" font-size="25" fill="#3A4660" text-anchor="middle">Three units. One journey — from building, to diagnosing, to designing truly great agents.</text>
+
+  <!-- ===== Panels ===== -->
+  <rect x="18" y="156" width="484" height="666" rx="18" fill="#E7F1FD"/>
+  <rect x="523" y="156" width="489" height="666" rx="18" fill="#FEF6E0"/>
+  <rect x="1033" y="156" width="484" height="666" rx="18" fill="#E5F5E9"/>
+
+  <!-- Flow arrows -->
+  <path d="M450,282 C480,240 515,232 555,246" fill="none" stroke="#1565D8" stroke-width="9" stroke-linecap="round" marker-end="url(#headBlue)"/>
+  <path d="M966,282 C996,240 1031,232 1071,246" fill="none" stroke="#1E8A4C" stroke-width="9" stroke-linecap="round" marker-end="url(#headGreen)"/>
+
+  <!-- ===== Unit 1 ===== -->
+  <circle cx="208" cy="209" r="33" fill="#1565D8"/>
+  <text x="208" y="223" font-size="38" font-weight="800" fill="#fff" text-anchor="middle">1</text>
+  <text x="256" y="219" font-size="29" font-weight="700" fill="#1565D8">Unit 1</text>
+  <text x="262" y="295" font-size="58" font-weight="800" fill="#0E1F4D" text-anchor="middle">Build</text>
+  <g font-size="22" fill="#1F2A44">
+    <text x="70" y="334">This is your chance to build the</text>
+    <text x="70" y="366">powerful agent of your dreams.</text>
+    <text x="70" y="398">We are arming you right from the start</text>
+    <text x="70" y="430">with the coolest tools possible, and you</text>
+    <text x="70" y="462">can make your own personalized</text>
+    <text x="70" y="494">assistant.</text>
+  </g>
+
+  <!-- Illustration 1: builder at laptop -->
+  <g>
+    <path d="M60,720 C40,640 90,560 180,570 C240,520 330,540 380,590 C440,600 460,680 430,720 Z" fill="#D2E5FA"/>
+    <!-- body / hoodie -->
+    <path d="M95,720 C95,640 130,605 185,600 C235,600 265,630 270,720 Z" fill="#1E4FA8"/>
+    <path d="M160,603 C170,625 200,625 210,603" fill="none" stroke="#163C82" stroke-width="5"/>
+    <!-- arm -->
+    <path d="M210,650 C245,665 270,690 300,700" fill="none" stroke="#1E4FA8" stroke-width="30" stroke-linecap="round"/>
+    <circle cx="305" cy="700" r="12" fill="#F2C29B"/>
+    <!-- neck + head -->
+    <rect x="173" y="575" width="26" height="30" fill="#E8AE85"/>
+    <circle cx="188" cy="550" r="38" fill="#F2C29B"/>
+    <path d="M150,548 C140,505 175,490 200,498 C215,488 240,500 232,520 C225,512 212,515 205,522 C195,515 175,520 168,540 C162,540 158,548 156,556 Z" fill="#1A2238"/>
+    <circle cx="203" cy="552" r="3.5" fill="#1A2238"/>
+    <circle cx="222" cy="552" r="3.5" fill="#1A2238"/>
+    <path d="M205,568 C212,575 222,573 226,566" fill="none" stroke="#9A4A2E" stroke-width="3" stroke-linecap="round"/>
+    <!-- laptop -->
+    <path d="M255,720 L292,636 L388,636 L360,720 Z" fill="#5B6680"/>
+    <path d="M325,668 l4,10 l10,4 l-10,4 l-4,10 l-4,-10 l-10,-4 l10,-4 z" fill="#E8EEF8"/>
+    <rect x="240" y="716" width="140" height="8" rx="3" fill="#3E4860"/>
+    <!-- floating tiles -->
+    <rect x="285" y="500" width="66" height="66" rx="12" fill="#2F7CF0"/>
+    <rect x="300" y="520" width="36" height="28" rx="9" fill="#fff"/>
+    <circle cx="311" cy="534" r="4" fill="#1A2238"/><circle cx="325" cy="534" r="4" fill="#1A2238"/>
+    <line x1="318" y1="512" x2="318" y2="520" stroke="#fff" stroke-width="3"/><circle cx="318" cy="510" r="3" fill="#fff"/>
+    <rect x="358" y="555" width="66" height="58" rx="10" fill="#3D8DF5"/>
+    <text x="391" y="594" font-size="26" font-weight="700" fill="#fff" text-anchor="middle">&lt;/&gt;</text>
+    <rect x="262" y="577" width="58" height="50" rx="10" fill="#7C5CF0"/>
+    <path d="M291,586 l5,11 l11,5 l-11,5 l-5,11 l-5,-11 l-11,-5 l11,-5 z" fill="#fff"/>
+    <g stroke="#F5B416" stroke-width="3" stroke-linecap="round">
+      <line x1="366" y1="525" x2="374" y2="510"/><line x1="378" y1="534" x2="394" y2="528"/><line x1="335" y1="585" x2="343" y2="580"/>
+    </g>
+  </g>
+  <rect x="90" y="733" width="342" height="70" rx="35" fill="#1565D8"/>
+  <text x="262" y="783" font-size="44" font-weight="800" fill="#fff" text-anchor="middle">Build</text>
+  <g stroke="#fff" stroke-width="3" stroke-linecap="round">
+    <line x1="160" y1="760" x2="176" y2="760"/><line x1="164" y1="749" x2="174" y2="755"/><line x1="164" y1="771" x2="174" y2="765"/>
+    <line x1="348" y1="760" x2="364" y2="760"/><line x1="350" y1="755" x2="360" y2="749"/><line x1="350" y1="765" x2="360" y2="771"/>
+  </g>
+
+  <!-- ===== Unit 2 ===== -->
+  <circle cx="705" cy="211" r="33" fill="#F5B416"/>
+  <text x="705" y="225" font-size="38" font-weight="800" fill="#fff" text-anchor="middle">2</text>
+  <text x="754" y="221" font-size="29" font-weight="700" fill="#E3A008">Unit 2</text>
+  <text x="773" y="295" font-size="58" font-weight="800" fill="#0E1F4D" text-anchor="middle">Diagnose</text>
+  <g font-size="22" fill="#1F2A44">
+    <text x="575" y="334">You have been hired at ACME.io,</text>
+    <text x="575" y="364">the one stop shop for everything tech</text>
+    <text x="575" y="394">related. They hired you to diagnose</text>
+    <text x="575" y="424">and fix an agent they have already made.</text>
+    <text x="575" y="454">You’re going to excel in your new role</text>
+    <text x="575" y="484">and report everything you find.</text>
+    <text x="575" y="514">Even if it scares you…</text>
+  </g>
+
+  <!-- Illustration 2: diagnostician -->
+  <g transform="translate(115.5,124) scale(0.85)">
+    <path d="M560,720 C545,640 600,570 690,575 C760,530 880,535 930,580 C970,620 960,690 940,720 Z" fill="#FCE9B4"/>
+    <!-- monitor -->
+    <rect x="706" y="542" width="176" height="104" rx="8" fill="#EEF2F8" stroke="#C7CFDD" stroke-width="3"/>
+    <rect x="724" y="556" width="50" height="40" rx="10" fill="#fff" stroke="#1F2A44" stroke-width="3"/>
+    <circle cx="741" cy="576" r="4" fill="#1F2A44"/><circle cx="757" cy="576" r="4" fill="#1F2A44"/>
+    <line x1="749" y1="548" x2="749" y2="556" stroke="#1F2A44" stroke-width="3"/>
+    <rect x="722" y="608" width="70" height="5" rx="2" fill="#7A8AA8"/>
+    <rect x="722" y="620" width="56" height="5" rx="2" fill="#AEB9CC"/>
+    <path d="M822,556 L846,596 L798,596 Z" fill="#E53935"/>
+    <rect x="820" y="568" width="4" height="15" fill="#fff"/><circle cx="822" cy="589" r="2.5" fill="#fff"/>
+    <rect x="800" y="608" width="60" height="5" rx="2" fill="#AEB9CC"/>
+    <!-- checklist card -->
+    <rect x="828" y="606" width="140" height="106" rx="10" fill="#fff"/>
+    <g font-size="14" fill="#1F2A44">
+      <g fill="none" stroke="#1F2A44" stroke-width="2"><rect x="842" y="615" width="13" height="13" rx="2"/><rect x="842" y="638" width="13" height="13" rx="2"/><rect x="842" y="661" width="13" height="13" rx="2"/><rect x="842" y="684" width="13" height="13" rx="2"/></g>
+      <g fill="none" stroke="#1F2A44" stroke-width="2" stroke-linecap="round"><path d="M845,621 l3,3 l5,-6"/><path d="M845,644 l3,3 l5,-6"/><path d="M845,667 l3,3 l5,-6"/><path d="M845,690 l3,3 l5,-6"/></g>
+      <text x="872" y="627">Logs</text><text x="872" y="650">Errors</text><text x="872" y="673">Behavior</text><text x="872" y="696">Performance</text>
+    </g>
+    <!-- person -->
+    <path d="M590,720 C590,650 615,612 655,608 C700,608 722,640 728,720 Z" fill="#22335E"/>
+    <path d="M640,612 L656,660 L672,612 Z" fill="#F4F6FA"/>
+    <rect x="644" y="585" width="24" height="28" fill="#E3A47D"/>
+    <path d="M612,560 C600,505 640,485 668,492 C700,498 712,530 704,570 C700,600 690,620 686,640 L630,640 C620,615 615,590 612,560 Z" fill="#1A2238"/>
+    <ellipse cx="660" cy="560" rx="32" ry="37" fill="#EFBB94"/>
+    <path d="M630,545 C632,512 660,505 690,520 C680,528 660,530 640,548 Z" fill="#1A2238"/>
+    <circle cx="672" cy="558" r="3.5" fill="#1A2238"/><circle cx="688" cy="557" r="3.5" fill="#1A2238"/>
+    <path d="M668,550 l9,-2 M684,548 l9,1" stroke="#1A2238" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M674,578 C680,576 686,577 688,579" fill="none" stroke="#9A4A2E" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- hand on chin -->
+    <path d="M640,660 C650,630 668,610 680,595" fill="none" stroke="#22335E" stroke-width="22" stroke-linecap="round"/>
+    <circle cx="682" cy="592" r="11" fill="#EFBB94"/>
+    <!-- laptop -->
+    <path d="M700,720 L730,656 L812,656 L788,720 Z" fill="#5B6680"/>
+    <circle cx="766" cy="688" r="4" fill="#3E4860"/>
+    <rect x="684" y="716" width="122" height="8" rx="3" fill="#3E4860"/>
+    <g stroke="#F5B416" stroke-width="3" stroke-linecap="round"><line x1="900" y1="580" x2="912" y2="566"/><line x1="910" y1="592" x2="926" y2="588"/></g>
+  </g>
+  <rect x="584" y="733" width="364" height="70" rx="35" fill="#F5B416"/>
+  <text x="770" y="783" font-size="44" font-weight="800" fill="#fff" text-anchor="middle">Diagnose</text>
+  <g stroke="#fff" stroke-width="3" stroke-linecap="round">
+    <line x1="638" y1="760" x2="654" y2="760"/><line x1="642" y1="749" x2="652" y2="755"/><line x1="642" y1="771" x2="652" y2="765"/>
+    <line x1="886" y1="760" x2="902" y2="760"/><line x1="888" y1="755" x2="898" y2="749"/><line x1="888" y1="765" x2="898" y2="771"/>
+  </g>
+
+  <!-- ===== Unit 3 ===== -->
+  <circle cx="1222" cy="211" r="33" fill="#1E8A4C"/>
+  <text x="1222" y="225" font-size="38" font-weight="800" fill="#fff" text-anchor="middle">3</text>
+  <text x="1270" y="221" font-size="29" font-weight="700" fill="#1E8A4C">Unit 3</text>
+  <text x="1280" y="295" font-size="58" font-weight="800" fill="#0E1F4D" text-anchor="middle">Design</text>
+  <g font-size="22" fill="#1F2A44">
+    <text x="1087" y="336">Armed with what you know about</text>
+    <text x="1087" y="368">safety and architecture, it is time to plan</text>
+    <text x="1087" y="400">your new startup’s agents from the ground</text>
+    <text x="1087" y="432">up with reliability and safety in mind.</text>
+    <text x="1087" y="464">Blow the competition away with</text>
+    <text x="1087" y="496">something that really works.</text>
+  </g>
+
+  <!-- Illustration 3: designer at whiteboard -->
+  <g>
+    <path d="M1075,720 C1060,640 1110,560 1200,565 C1280,520 1420,520 1470,580 C1500,630 1490,690 1470,720 Z" fill="#CDEBD5"/>
+    <!-- whiteboard -->
+    <rect x="1225" y="525" width="212" height="192" rx="6" fill="#fff" stroke="#1F2A44" stroke-width="4"/>
+    <g font-size="12" fill="#1F2A44" text-anchor="middle">
+      <g fill="#fff" stroke="#1E8A4C" stroke-width="2">
+        <rect x="1270" y="545" width="90" height="24" rx="6"/>
+        <rect x="1243" y="590" width="84" height="26" rx="6"/>
+        <rect x="1338" y="590" width="78" height="26" rx="6"/>
+        <rect x="1250" y="635" width="76" height="26" rx="6"/>
+        <rect x="1338" y="635" width="78" height="26" rx="6"/>
+      </g>
+      <text x="1315" y="561">User Needs</text>
+      <text x="1285" y="607">Architecture</text>
+      <text x="1377" y="607">Safety</text>
+      <text x="1288" y="652">Metrics</text>
+      <text x="1377" y="652">Reliability</text>
+    </g>
+    <g fill="none" stroke="#1E8A4C" stroke-width="2" marker-end="url(#headSmall)">
+      <path d="M1295,569 L1295,580 L1285,580 L1285,588"/>
+      <path d="M1340,569 L1340,580 L1377,580 L1377,588"/>
+      <path d="M1287,616 L1287,633"/>
+      <path d="M1377,616 L1377,633"/>
+      <path d="M1288,661 L1288,684 L1310,684"/>
+      <path d="M1377,661 L1377,684 L1352,684"/>
+    </g>
+    <path d="M1331,672 L1346,678 L1346,690 C1346,698 1338,704 1331,707 C1324,704 1316,698 1316,690 L1316,678 Z" fill="#fff" stroke="#1E8A4C" stroke-width="3"/>
+    <!-- rocket -->
+    <g transform="translate(1450,540) rotate(35)">
+      <path d="M0,-40 C14,-26 16,0 12,18 L-12,18 C-16,0 -14,-26 0,-40 Z" fill="#1E8A4C"/>
+      <circle cx="0" cy="-12" r="6" fill="#fff"/>
+      <path d="M-12,6 L-22,24 L-12,18 Z M12,6 L22,24 L12,18 Z" fill="#167040"/>
+      <path d="M-7,20 L0,36 L7,20 Z" fill="#F5B416"/>
+    </g>
+    <g stroke="#1F2A44" stroke-width="3" stroke-linecap="round"><line x1="1396" y1="545" x2="1408" y2="552"/><line x1="1098" y1="608" x2="1110" y2="615"/></g>
+    <!-- person (facing right) -->
+    <path d="M1095,720 C1095,650 1120,612 1162,606 C1205,606 1228,640 1232,720 Z" fill="#1E7A45"/>
+    <path d="M1135,612 C1130,580 1160,560 1185,572" fill="none" stroke="#1E7A45" stroke-width="16" stroke-linecap="round"/>
+    <rect x="1155" y="585" width="24" height="26" fill="#E3A47D"/>
+    <ellipse cx="1170" cy="560" rx="32" ry="36" fill="#EFBB94"/>
+    <path d="M1138,560 C1128,520 1160,500 1190,508 C1205,500 1215,515 1205,528 C1190,522 1170,528 1160,545 C1150,545 1145,552 1145,566 Z" fill="#1A2238"/>
+    <circle cx="1188" cy="558" r="3.5" fill="#1A2238"/>
+    <path d="M1188,576 C1194,577 1198,575 1200,572" fill="none" stroke="#9A4A2E" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- arm with marker -->
+    <path d="M1185,650 C1200,640 1215,630 1228,622" fill="none" stroke="#1E7A45" stroke-width="20" stroke-linecap="round"/>
+    <circle cx="1230" cy="620" r="9" fill="#EFBB94"/>
+    <line x1="1232" y1="618" x2="1246" y2="604" stroke="#1F2A44" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <rect x="1086" y="733" width="375" height="70" rx="35" fill="#1E8A4C"/>
+  <text x="1280" y="783" font-size="44" font-weight="800" fill="#fff" text-anchor="middle">Design</text>
+  <g stroke="#fff" stroke-width="3" stroke-linecap="round">
+    <line x1="1152" y1="760" x2="1168" y2="760"/><line x1="1156" y1="749" x2="1166" y2="755"/><line x1="1156" y1="771" x2="1166" y2="765"/>
+    <line x1="1384" y1="760" x2="1400" y2="760"/><line x1="1386" y1="755" x2="1396" y2="749"/><line x1="1386" y1="765" x2="1396" y2="771"/>
+  </g>
+
+  <!-- ===== Bottom strip ===== -->
+  <line x1="18" y1="850" x2="1130" y2="850" stroke="#E2E7EF" stroke-width="2"/>
+  <text x="28" y="897" font-size="25" font-weight="700" fill="#0E1F4D">What changes</text>
+  <text x="28" y="931" font-size="25" font-weight="700" fill="#0E1F4D">along the way?</text>
+
+  <circle cx="290" cy="912" r="34" fill="#2F7CF0"/>
+  <path d="M290,894 l6,12 l12,6 l-12,6 l-6,12 l-6,-12 l-12,-6 l12,-6 z" fill="#fff"/>
+  <g font-size="17" fill="#2A3550">
+    <text x="343" y="900">You start confident</text>
+    <text x="343" y="924">and curious, building</text>
+    <text x="343" y="948">your first agent.</text>
+  </g>
+  <line x1="512" y1="915" x2="536" y2="915" stroke="#9AA6B8" stroke-width="3" marker-end="url(#headGray)"/>
+
+  <circle cx="593" cy="912" r="34" fill="#F5B416"/>
+  <circle cx="589" cy="908" r="12" fill="none" stroke="#fff" stroke-width="5"/>
+  <line x1="598" y1="917" x2="608" y2="927" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+  <g font-size="17" fill="#2A3550">
+    <text x="643" y="900">You discover</text>
+    <text x="643" y="924">what’s missing</text>
+    <text x="643" y="948">(and what to fix).</text>
+  </g>
+  <line x1="792" y1="915" x2="816" y2="915" stroke="#9AA6B8" stroke-width="3" marker-end="url(#headGray)"/>
+
+  <circle cx="882" cy="912" r="34" fill="#1E8A4C"/>
+  <path d="M882,893 L898,899 L898,912 C898,922 890,929 882,932 C874,929 866,922 866,912 L866,899 Z" fill="none" stroke="#fff" stroke-width="3.5"/>
+  <path d="M875,912 l5,5 l9,-10" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <g font-size="17" fill="#2A3550">
+    <text x="934" y="895">You gain the skills</text>
+    <text x="934" y="919">to architect and engineer</text>
+    <text x="934" y="943">agents that are reliable,</text>
+    <text x="934" y="967">safe, and valuable.</text>
+  </g>
+
+  <line x1="1153" y1="850" x2="1153" y2="992" stroke="#C5CEDB" stroke-width="2"/>
+  <g fill="none" stroke="#163A8C" stroke-width="3">
+    <circle cx="1198" cy="860" r="15"/><circle cx="1198" cy="860" r="8"/>
+  </g>
+  <circle cx="1198" cy="860" r="3" fill="#163A8C"/>
+  <line x1="1198" y1="860" x2="1214" y2="844" stroke="#163A8C" stroke-width="3" stroke-linecap="round"/>
+  <text x="1236" y="853" font-size="17" font-weight="700" fill="#0E1F4D">Inside Unit 3,</text>
+  <text x="1236" y="875" font-size="17" font-weight="700" fill="#0E1F4D">you’ll learn</text>
+  <rect x="1220" y="883" width="217" height="34" rx="17" fill="#D3EFDA"/>
+  <text x="1328" y="907" font-size="18" font-weight="700" fill="#0E1F4D" text-anchor="middle">Context Engineering</text>
+  <g font-size="15" fill="#2A3550">
+    <text x="1240" y="940">— turning fuzzy business needs</text>
+    <text x="1252" y="964">into architectural decisions</text>
+    <text x="1252" y="988">with metrics and safety standards.</text>
+  </g>
+</svg>
