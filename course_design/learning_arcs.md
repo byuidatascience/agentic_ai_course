@@ -16,7 +16,7 @@ Unit 2: **Diagnose**
 
 Unit 3: **Design**
 
-Students never hear that their Unit 1 agent is "bad." That framing hurts morale. The reveal comes gradually in Units 2 and 3: it wasn't as good as they thought, and now they can make it better.
+Students never hear that their Unit 1 agent is "bad" during Unit 1. That framing hurts morale. After Unit 1 the reveal comes gradually, across Units 2 and 3, not in one announcement: it wasn't as good as they thought, and now they can make it better.
 
 Unit 3 language: use "architect" and "engineer" throughout, as in becoming a *true* agent engineer. The point is that they weren't fully engineering before. In Unit 3, they turn fuzzy, ambiguous business needs into architectural decisions with metrics and safety standards. Context engineering is the term they learn inside the unit, not the unit's name.
 

@@ -1,0 +1,689 @@
+---
+title: "Lesson 2-2: The Handoff Pile"
+subtitle: "Inventing tracing from the problems that need it"
+format:
+  revealjs:
+    theme: dark
+    highlight-style: github-dark
+    code-line-numbers: false
+    slide-number: true
+    transition: none
+    auto-animate-duration: 0.6
+    width: 1280
+    height: 760
+execute:
+  eval: false
+---
+
+## Scripture
+
+<!--
+  design log: drafts/lesson2_2/README.md
+  competencies: 2.3.2, 2.1.2, 2.1.3, 2.1.1
+  flow: scripture -> objectives -> the pile (tickets) -> discuss -> engineer's prints
+        -> name the problems -> name the solutions -> that's a trace (terminal)
+        -> other platforms -> how it works -> apply to Unit 1 agent
+  all outputs are REAL, saved from drafts/lesson2_2/handoff_pile.ipynb (captured_runs.json, 2026-10-14).
+  No live demo: everything shown is pre-recorded.
+  status: FIRST DRAFT, not approved. Notes inline {.notes}; Phase 6 moves them to the notes file.
+-->
+
+<style>
+.reveal .why { font-size: 0.72em; color: #c9d1d9; margin-top: 0.6em; }
+.reveal .why strong { color: #7ee787; }
+.reveal .bad  { color: #ff7b72; }
+.reveal .good { color: #7ee787; }
+.reveal .tag { font-size: 0.45em; letter-spacing: .12em; text-transform: uppercase; color: #8b949e; }
+.reveal pre { width: 100%; box-shadow: none; }
+.reveal pre code { max-height: 520px; font-size: 0.95em; line-height: 1.4; }
+.reveal table { font-size: 0.62em; }
+.reveal ul, .reveal p { font-size: 0.8em; }
+.reveal section.compact pre code { font-size: 0.8em; max-height: 600px; line-height: 1.35; }
+.reveal section.tight pre code { font-size: 0.66em; }
+.reveal .big-q { font-size: 1.5em; font-weight: 700; text-align: center; margin-top: 1.2em; }
+.reveal .bottom-q { font-size: 1.1em; margin-top: 0.2em; }
+.reveal .cards.mini .card p { font-size: 0.55em; line-height: 1.5; }
+.reveal .objectives li { font-size: 0.95em; margin: 0.4em 0; }
+/* chat / ticket mockups */
+.reveal .chat { max-width: 860px; margin: 0.3em auto 0; background: #0d1117; border: 2px solid #30363d; border-radius: 18px; overflow: hidden; }
+.reveal .chat-head { background: #161b22; color: #8b949e; font-size: 0.45em; letter-spacing: .12em; text-transform: uppercase; padding: 12px 22px; display: flex; justify-content: space-between; }
+.reveal .chat-body { padding: 18px 22px; display: flex; flex-direction: column; gap: 14px; }
+.reveal .bubble { font-size: 0.6em; line-height: 1.4; padding: 12px 18px; border-radius: 16px; max-width: 78%; }
+.reveal .bubble.me   { align-self: flex-end; background: #1f6feb; color: #fff; border-bottom-right-radius: 4px; }
+.reveal .bubble.them { align-self: flex-start; background: #21262d; color: #e6edf3; border-bottom-left-radius: 4px; }
+.reveal .bubble .who { display: block; font-size: 0.75em; opacity: 0.7; margin-bottom: 2px; }
+.reveal .complaint { max-width: 860px; margin: 0.5em auto 0; padding: 12px 18px; font-size: 0.6em; border-left: 4px solid #ff7b72; background: #ff7b7214; border-radius: 4px; color: #e6edf3; }
+.reveal .complaint .who { display: block; font-size: 0.7em; letter-spacing: .1em; text-transform: uppercase; color: #ff7b72; margin-bottom: 4px; }
+/* memo */
+.reveal .memo { max-width: 860px; margin: 0.4em auto 0; background: #161b22; border: 2px solid #30363d; border-radius: 12px; padding: 20px 28px; font-size: 0.62em; line-height: 1.5; color: #e6edf3; }
+.reveal .memo .tag { display: block; margin-bottom: 8px; }
+/* cards */
+.reveal .cards { display: flex; gap: 22px; margin-top: 0.6em; }
+.reveal .card { flex: 1; background: #161b22; border: 2px solid #30363d; border-radius: 14px; padding: 16px 20px; }
+.reveal .card .ct { display: block; font-weight: 700; font-size: 1.1em; margin-bottom: 6px; color: #e6edf3; }
+.reveal .card p, .reveal .card li { font-size: 0.6em; }
+.reveal .card.fm { border-color: #ff7b72; }
+.reveal .card.fm .ct { color: #ff7b72; }
+.reveal .card.need { border-color: #7ee787; }
+.reveal .card.need .ct { color: #7ee787; }
+.reveal .card .tk { display: block; font-size: 0.45em; letter-spacing: .12em; text-transform: uppercase; color: #8b949e; margin-bottom: 4px; }
+/* terminal */
+.reveal .term-head { background: #161b22; color: #8b949e; font-size: 0.42em; letter-spacing: .12em; text-transform: uppercase; padding: 8px 16px; border: 2px solid #30363d; border-bottom: none; border-radius: 10px 10px 0 0; margin-bottom: -0.6em; }
+/* platform grid */
+.reveal .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-top: 0.5em; }
+.reveal .shot { background: #0d1117; border: 2px dashed #30363d; border-radius: 12px; height: 210px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.reveal .shot .ct { font-weight: 700; font-size: 0.7em; color: #e6edf3; }
+.reveal .shot small { font-size: 0.4em; color: #8b949e; margin-top: 6px; padding: 0 12px; }
+/* list that grows */
+.reveal .needs li { font-size: 0.9em; margin: 0.25em 0; }
+/* inline SVG diagrams */
+.reveal svg.diagram { display: block; width: 100%; height: auto; max-height: 540px; margin: 0.3em auto 0.2em; }
+.reveal svg.diagram text { font-family: "Source Sans Pro", Helvetica, sans-serif; fill: #c9d1d9; }
+.reveal svg.diagram .dg-tag   { font-size: 14px; letter-spacing: .14em; fill: #8b949e; font-weight: 600; }
+.reveal svg.diagram .dg-title { font-size: 24px; font-weight: 700; }
+.reveal svg.diagram .dg-label { font-size: 17px; fill: #8b949e; }
+.reveal svg.diagram .dg-box   { fill: #161b22; stroke-width: 2; }
+</style>
+
+> "And truth is knowledge of things as they are, and as they were, and as they are to come;"
+>
+> - [Doctrine and Covenants 93:24](https://www.churchofjesuschrist.org/study/scriptures/dc-testament/dc/93?lang=eng&id=p24#p24)
+
+::: {.notes}
+- Today is about knowing what an agent did *as it actually was*, not as its final answer claims.
+- A final answer is a story. A trace is the record of "things as they were."
+:::
+
+## Today you will
+
+::: {.objectives}
+1. **Diagnose** a few failed agent examples from output, code, and traces
+2. **Discover** the "why" behind traces and what problems they solve that code doesn't
+3. **Point out** the run types inside a trace
+4. **Send** your Unit 1 agent's traces to LangSmith
+:::
+
+::: {.notes}
+- Objectives approved 2026-10-16 (ids: 2.3.1, 2.1.2, 2.1.3, 2.1.1).
+:::
+
+<!-- ============================================================ -->
+# The Handoff Pile {.center}
+
+## Your first assignment
+
+::: {.memo}
+[ACME.io · Internal · From: Support Operations]{.tag}
+
+Welcome aboard, interns.
+
+The engineer who built our support agent has moved on. Customers are complaining, and nobody here can tell us why. We've attached the three loudest tickets.
+
+All we have is what the customer saw. Figure out what went wrong.
+:::
+
+::: {.notes}
+- Callback to 2.1: the one person who knew what the agent does has left.
+- Departed engineer has no name yet (open in the README).
+:::
+
+## Ticket #1 · Rocket-Powered Roller Skates
+
+::: {.chat}
+::: {.chat-head}
+<span>ACME.io · Support Chat</span> <span>Ticket #1</span>
+:::
+::: {.chat-body}
+::: {.bubble .me}
+<span class="who">Customer</span>Hi, if I order the Rocket-Powered Roller Skates today, when will they arrive?
+:::
+::: {.bubble .them}
+<span class="who">ACME Agent</span>They will arrive on Friday!
+:::
+:::
+:::
+
+::: {.complaint .fragment}
+[Three weeks later]{.who}
+"You said Friday. It's been three weeks. Where are my skates?"
+:::
+
+## Ticket #2 · Dirt-Flavored Toothpaste
+
+::: {.chat}
+::: {.chat-head}
+<span>ACME.io · Support Chat</span> <span>Ticket #2</span>
+:::
+::: {.chat-body}
+::: {.bubble .me}
+<span class="who">Customer</span>What's the status of my order #A-1138? I ordered the Dirt-Flavored Toothpaste.
+:::
+::: {.bubble .them}
+<span class="who">ACME Agent</span>Your order for the Dirt-Flavored Toothpaste is currently being processed and is scheduled to arrive this Friday!
+:::
+:::
+:::
+
+::: {.complaint .fragment}
+[The following Monday]{.who}
+"Friday came and went. When I finally reached a human, they said my payment never went through. It was never 'being processed.'"
+:::
+
+## Ticket #3 · Package TRK-2210
+
+::: {.chat}
+::: {.chat-head}
+<span>ACME.io · Support Chat</span> <span>Ticket #3</span>
+:::
+::: {.chat-body}
+::: {.bubble .me}
+<span class="who">Customer</span>Where is my package? Tracking number TRK-2210.
+:::
+::: {.bubble .them}
+<span class="who">ACME Agent</span>Your package is currently out for delivery and is expected to arrive today by 8 PM!
+:::
+:::
+:::
+
+::: {.complaint .fragment}
+[Same day, plus 40 other customers]{.who}
+"Your chat keeps hanging, and sometimes it just times out."
+:::
+
+::: {.notes}
+- This is the one that *looks* fine. The answer was even right.
+- Our recorded run took 5.1 s. Other customers had it far worse: the model isn't deterministic, so some runs loop much longer.
+:::
+
+<!-- ============================================================ -->
+# Discuss {.center}
+
+## What went wrong?
+
+In your groups, take one ticket each. Come up with **at least two** explanations.
+
+::: {.cards .mini}
+::: {.card}
+[Ticket #1 · Roller Skates]{.tk}
+
+**Asked:** When will they arrive?<br>
+**Agent:** "They will arrive on Friday!"<br>
+[**Later:** Three weeks, no skates.]{.bad}
+:::
+
+::: {.card}
+[Ticket #2 · Toothpaste]{.tk}
+
+**Asked:** Status of order #A-1138?<br>
+**Agent:** "Being processed… arrive this Friday!"<br>
+[**Later:** Payment never went through.]{.bad}
+:::
+
+::: {.card}
+[Ticket #3 · TRK-2210]{.tk}
+
+**Asked:** Where is my package?<br>
+**Agent:** "Out for delivery… by 8 PM!"<br>
+[**Later:** Chat hangs, sometimes times out.]{.bad}
+:::
+:::
+
+::: {.notes}
+- 3–4 minutes. Collect guesses on the board, per ticket. Don't confirm any.
+- Prompts if groups stall:
+  - Did the agent make it up?
+  - Did a tool give it bad information?
+  - Did something break, and nobody noticed?
+  - How would you **prove** your guess?
+- The last question is the one that matters: they have no way to prove anything. Hold onto that.
+- Connect to Unit 1: "When your agent did something weird, how did you find out why?"
+:::
+
+<!-- ============================================================ -->
+# The Engineer Left Notes {.center}
+
+## Their debugging output {.compact .tight}
+
+::: {.term-head}
+console · DEBUG = True
+:::
+
+```{.text code-line-numbers="|1-4|6-11|13-23"}
+checking stock...
+done
+CUSTOMER: Hi, if I order the Rocket-Powered Roller Skates today, when will they arrive?
+AGENT:    They will arrive on Friday!
+
+looking up order...
+done
+checking stock...
+done
+CUSTOMER: What's the status of my order #A-1138? I ordered the Dirt-Flavored Toothpaste.
+AGENT:    Your order for the Dirt-Flavored Toothpaste is currently being prepared and is scheduled to arrive by this Friday!
+
+tracking...
+tracking...
+tracking...
+tracking...
+tracking...
+tracking...
+tracking...
+tracking...
+CUSTOMER: Where is my package? Tracking number TRK-2210.
+AGENT:    Your package is currently out for delivery and is expected to arrive today by 8 PM! Let me know if you need help with anything else.
+```
+
+::: {.big-q .bottom-q .fragment}
+Did that help?
+:::
+
+::: {.notes}
+- Show output only, not the code that printed it.
+- Walk ticket by ticket (the highlights step through them). Ask: "Does this solve any ticket?"
+- Ticket 2: "looking up order... done." Done? The lookup actually failed. The print said *that* it ran, not *what came back*.
+- Ticket 3: eight "tracking..." lines. Something repeated, but why, and what did it get back?
+- Last click, "Did that help?": it tells us **that** things ran. It never tells us **what** they saw.
+:::
+
+<!-- ============================================================ -->
+# Name It {.center}
+
+## Name the problems
+
+::: {.cards}
+::: {.card .fm .fragment}
+[Ticket #1]{.tk}
+[Ungrounded answer]{.ct}
+
+The answer says something its tools never supported.
+:::
+
+::: {.card .fm .fragment}
+[Ticket #2]{.tk}
+[Swallowed error]{.ct}
+
+Something failed, and the failure was passed along as if it worked.
+:::
+
+::: {.card .fm .fragment}
+[Ticket #3]{.tk}
+[Loop]{.ct}
+
+The agent does the same step over and over before answering.
+:::
+:::
+
+::: {.why .fragment}
+These are **failure modes**: named, repeatable ways agents go wrong. Name it and you can look for it.
+:::
+
+::: {.notes}
+- Map each name back to the guesses on the board. Whose guess was closest?
+- Don't reveal *how* we know yet. That's the next slide's question.
+- 2.3 goes deeper on failure modes; today we only need these three.
+:::
+
+## Name the solutions
+
+For each failure mode: **what would you need to see to prove it?**
+
+::: {.cards}
+::: {.card .need .fragment}
+[Ungrounded answer]{.tk}
+[What each tool returned]{.ct}
+
+Compare the answer to the tool's output.
+:::
+
+::: {.card .need .fragment}
+[Swallowed error]{.tk}
+[Errors, inputs, outputs]{.ct}
+
+Which step failed, with what input, and what got passed on.
+:::
+
+::: {.card .need .fragment}
+[Loop]{.tk}
+[Every call, in order]{.ct}
+
+How many, how long, how much it cost, and what each one returned.
+:::
+:::
+
+::: {.notes}
+- Groups first (3 min): each group answers for its ticket. Then reveal the cards one at a time and compare.
+- Push with leading questions:
+  - T1: "Where would the word 'Friday' have come from?"
+  - T2: "If the lookup failed, how would you even know? The print said done."
+  - T4: "Eight 'tracking...' lines. Which call came first? Did one call trigger the next?"
+:::
+
+## Put the lists together
+
+::: {.needs .incremental}
+- **Every step** the agent took, **in order**
+- What went **in** to each step
+- What came **out** of each step
+- **Errors**, even the ones that were caught
+- **Time** and **cost** (tokens) for each step
+- **Which step called which**
+:::
+
+::: {.big-q .fragment}
+What would you call this?
+:::
+
+::: {.notes}
+- Build this on the board from their answers first; the slide is the recap.
+- "Which step called which" is the one they're least likely to say. T4 is the lever: the model call *decided* to call the tool, so the tool call belongs to that model call.
+:::
+
+<!-- ============================================================ -->
+# That's a Trace {.center}
+
+## You just invented tracing
+
+::: {.big-q}
+A **trace** is the record of every step an agent took:<br>
+what went in, what came out, how long, and what called what.
+:::
+
+::: {.why .fragment}
+Let's build the simplest version of your list: **print it in the terminal.**
+:::
+
+## Ticket #1, traced {.compact}
+
+::: {.term-head}
+terminal trace · ticket #1
+:::
+
+```{.text code-line-numbers="|4|4-5|6"}
+agent  "Hi, if I order the Rocket-Powered Roller Skates today, when will they arrive?"
+│      1.3s · 2 llm calls · 549 tokens in / 45 out
+├─ llm   238 in → check_stock(product="Rocket-Powered Roller Skates")
+├─ tool  check_stock → {"product": "Rocket-Powered Roller Skates", "warehouse": "Phoenix, AZ",
+│                       "standard_delivery": "arrives Friday",
+│                       "status": "BACKORDERED", "restock_date": null}
+└─ llm   311 in → "The Rocket-Powered Roller Skates are currently on backorder,
+                   but they will arrive on Friday if you order today!"
+```
+
+::: {.why .fragment}
+**Ungrounded answer.** "Friday" is the *standard* delivery. The tool said **BACKORDERED** with no restock date.
+:::
+
+::: {.notes}
+- Real output from our recorded run. The ticket slide shows a different run's answer ("They will arrive on Friday!"); in this run the agent even *said* "on backorder" and then promised Friday anyway. Non-determinism, again.
+- Ask: "Is the tool wrong, the agent wrong, or both?" (The tool's output is confusing; the agent picked the field it liked. A trace shows both.)
+:::
+
+## Ticket #2, traced {.compact}
+
+::: {.term-head}
+terminal trace · ticket #2
+:::
+
+```{.text code-line-numbers="|4|5-8|9"}
+agent  "What's the status of my order #A-1138? I ordered the Dirt-Flavored Toothpaste."
+│      1.7s · 3 llm calls · 929 tokens in / 68 out
+├─ llm   246 in → lookup_order(order_id="A-1138")
+├─ tool  lookup_order → {"order_id": "A-1138", "status": null,
+│                        "error": "order database did not respond"}
+├─ llm   304 in → check_stock(product="Dirt-Flavored Toothpaste")
+├─ tool  check_stock → {"product": "Dirt-Flavored Toothpaste", "warehouse": "Phoenix, AZ",
+│                       "standard_delivery": "arrives Friday",
+│                       "status": "BACKORDERED", "restock_date": null}
+└─ llm   379 in → "Your order for the Dirt-Flavored Toothpaste is currently being
+                   processed and is scheduled to arrive this Friday!"
+```
+
+::: {.why .fragment}
+**Swallowed error.** The lookup failed, then the agent borrowed "Friday" from a *different* tool. The print said **done**.
+:::
+
+::: {.notes}
+- The surprise: "being processed, arriving Friday" isn't pure invention. It came from check_stock. Only the trace shows where it came from.
+- Bonus: LangChain marked that tool step as `success`, because the tool caught its own error. Even the framework thought it worked.
+- The system prompt says "Never mention technical problems." Where would you see that? (Also in a full trace: the first llm call's input.)
+:::
+
+## Ticket #3, traced {.compact .tight}
+
+::: {.term-head}
+terminal trace · ticket #3
+:::
+
+```{.text code-line-numbers="|2|3-18|3,5,7,9,11,13,15,17"}
+agent  "Where is my package? Tracking number TRK-2210."
+│      5.1s · 9 llm calls · 3,939 tokens in / 210 out
+├─ llm   234 in → track_package(tracking_number="TRK-2210")
+├─ tool  track_package → "UPDATING: no location yet. Call track_package again."
+├─ llm   285 in → track_package(tracking_number="TRK-2210")
+├─ tool  track_package → "UPDATING: no location yet. Call track_package again."
+├─ llm   336 in → track_package(tracking_number="TRK-2210")
+├─ tool  track_package → "UPDATING: no location yet. Call track_package again."
+├─ llm   387 in → track_package(tracking_number="TRK-2210")
+├─ tool  track_package → "UPDATING: no location yet. Call track_package again."
+├─ llm   438 in → track_package(tracking_number="TRK-2210")
+├─ tool  track_package → "UPDATING: no location yet. Call track_package again."
+├─ llm   489 in → track_package(tracking_number="TRK-2210")
+├─ tool  track_package → "UPDATING: no location yet. Call track_package again."
+├─ llm   540 in → track_package(tracking_number="TRK-2210")
+├─ tool  track_package → "UPDATING: no location yet. Call track_package again."
+├─ llm   591 in → track_package(tracking_number="TRK-2210")
+├─ tool  track_package → "Out for delivery. Expected today by 8 PM."
+└─ llm   639 in → "Your package is currently out for delivery and is expected to arrive today by 8 PM!"
+```
+
+::: {.why .fragment}
+**Loop.** 8 identical calls, 9 model calls for one question, and every call resends the whole history (234 → 639 tokens).
+:::
+
+::: {.notes}
+- The final answer was *right*. Only the shape of the trace shows the problem.
+- 5.1 s here; non-determinism means other customers looped longer and timed out.
+- Token growth is a callback to 1.8: the model is stateless, so the whole conversation is resent each turn.
+:::
+
+## A trace is a tree of runs
+
+```{=html}
+<svg class="diagram" viewBox="0 0 1100 430" role="img" aria-label="A trace drawn as a tree. The root run is the agent, holding the question and final answer. Under it, in order, are child runs: an LLM call, a tool call to lookup_order, an LLM call, a tool call to check_stock, and a final LLM call. Each run records inputs, outputs, time, and tokens.">
+  <rect class="dg-box" x="40" y="20" width="1020" height="80" rx="14" stroke="#58a6ff"/>
+  <text class="dg-tag" x="64" y="50">TRACE · ROOT RUN</text>
+  <text class="dg-title" x="64" y="82" style="fill:#79c0ff">agent</text>
+  <text class="dg-label" x="190" y="82">in: "What's the status of my order #A-1138?"  ·  out: "…arrive this Friday!"  ·  1.7 s</text>
+
+  <line x1="90" y1="100" x2="90" y2="400" stroke="#30363d" stroke-width="3"/>
+
+  <g class="fragment" data-fragment-index="1">
+    <line x1="90" y1="140" x2="130" y2="140" stroke="#30363d" stroke-width="3"/>
+    <rect class="dg-box" x="130" y="118" width="400" height="44" rx="10" stroke="#d2a8ff"/>
+    <text x="150" y="147" style="font-size:18px"><tspan style="fill:#d2a8ff;font-weight:700">llm</tspan>  → lookup_order(order_id="A-1138")</text>
+
+    <line x1="90" y1="200" x2="130" y2="200" stroke="#30363d" stroke-width="3"/>
+    <rect class="dg-box" x="130" y="178" width="400" height="44" rx="10" stroke="#ff7b72"/>
+    <text x="150" y="207" style="font-size:18px"><tspan style="fill:#ff7b72;font-weight:700">tool</tspan>  lookup_order → error</text>
+
+    <line x1="90" y1="260" x2="130" y2="260" stroke="#30363d" stroke-width="3"/>
+    <rect class="dg-box" x="130" y="238" width="400" height="44" rx="10" stroke="#d2a8ff"/>
+    <text x="150" y="267" style="font-size:18px"><tspan style="fill:#d2a8ff;font-weight:700">llm</tspan>  → check_stock(…)</text>
+
+    <line x1="90" y1="320" x2="130" y2="320" stroke="#30363d" stroke-width="3"/>
+    <rect class="dg-box" x="130" y="298" width="400" height="44" rx="10" stroke="#7ee787"/>
+    <text x="150" y="327" style="font-size:18px"><tspan style="fill:#7ee787;font-weight:700">tool</tspan>  check_stock → "arrives Friday"…</text>
+
+    <line x1="90" y1="380" x2="130" y2="380" stroke="#30363d" stroke-width="3"/>
+    <rect class="dg-box" x="130" y="358" width="400" height="44" rx="10" stroke="#d2a8ff"/>
+    <text x="150" y="387" style="font-size:18px"><tspan style="fill:#d2a8ff;font-weight:700">llm</tspan>  → final answer</text>
+  </g>
+
+  <g class="fragment" data-fragment-index="2">
+    <rect class="dg-box" x="620" y="160" width="440" height="200" rx="14" stroke="#30363d"/>
+    <text class="dg-tag" x="644" y="194">EVERY RUN RECORDS</text>
+    <text x="644" y="232" style="font-size:20px">• inputs</text>
+    <text x="644" y="264" style="font-size:20px">• outputs (and errors)</text>
+    <text x="644" y="296" style="font-size:20px">• start / end time</text>
+    <text x="644" y="328" style="font-size:20px">• tokens, model, metadata</text>
+  </g>
+</svg>
+```
+
+::: {.why .fragment}
+Each box is a **run**. The whole tree is the **trace**. That's your list, drawn.
+:::
+
+::: {.notes}
+- Map back to their list: in/out = inputs/outputs, order = position, which-called-which = nesting.
+- In our terminal version everything hangs off one root. Real agents nest deeper (sub-agents from 1.5 become runs inside runs).
+:::
+
+<!-- ============================================================ -->
+# Same Tree, Different Paint {.center}
+
+## Every platform draws the same thing
+
+::: {.grid3}
+::: {.shot}
+[LangSmith]{.ct}
+<small>TODO screenshot: ticket #2 trace</small>
+:::
+
+::: {.shot}
+[Langfuse]{.ct}
+<small>TODO screenshot: ticket #2 trace</small>
+:::
+
+::: {.shot}
+[Arize Phoenix]{.ct}
+<small>TODO screenshot: ticket #2 trace</small>
+:::
+
+::: {.shot}
+[W&B Weave]{.ct}
+<small>TODO screenshot: ticket #2 trace</small>
+:::
+
+::: {.shot}
+[Braintrust]{.ct}
+<small>TODO screenshot: ticket #2 trace</small>
+:::
+
+::: {.shot}
+[Your terminal]{.ct}
+<small>the tree you just read</small>
+:::
+:::
+
+::: {.why .fragment}
+Different colors, same tree: runs, inputs, outputs, time, nesting. Most of them speak the same standard (**OpenTelemetry**), so traces can move between tools.
+:::
+
+::: {.notes}
+- PREP: send the same ticket #2 run to each platform and screenshot it (or use each platform's public demo trace). Ticket #2 is best: it has the error.
+- Ask: "Find the swallowed error in each one. Where did they put it?"
+- The point: the tool is swappable; knowing what to look for isn't. This unit uses LangSmith.
+:::
+
+## Ticket #2 in LangSmith
+
+::: {.shot style="height: 520px"}
+[TODO screenshot]{.ct}
+<small>ticket #2 trace in LangSmith, with the lookup_order run open</small>
+:::
+
+::: {.notes}
+- PREP: run handoff_pile.ipynb with LANGSMITH_TRACING=true into a shared project; share the trace link in Slack so students can click around.
+- Point out: the same five runs as the terminal version, plus the system prompt in the first llm run's input.
+:::
+
+<!-- ============================================================ -->
+# How It Works {.center}
+
+## Runs and traces
+
+::: {.cards}
+::: {.card}
+[Run]{.ct}
+
+One unit of work: an LLM call, a tool call, a chain. Has inputs, outputs, timing, metadata.
+:::
+
+::: {.card}
+[Trace]{.ct}
+
+All the runs from one request, nested in a tree. One question in, one answer out.
+:::
+
+::: {.card}
+[Tracing]{.ct}
+
+Recording traces automatically while the agent runs, so you don't have to write print statements.
+:::
+:::
+
+::: {.notes}
+- These map one-to-one onto the list they built.
+- Contrast with the engineer's prints: tracing is what they should have had.
+:::
+
+## Types of runs
+
+![](../../Assets/Images/types_of_runs_langsmith.png){fig-align="center" height="480"}
+
+::: {.notes}
+- From the prep video (ILS M1 L2, Types of Runs). Which types showed up in our tickets? (llm, tool, and the agent as the chain around them.)
+- Retriever, prompt, and parser runs exist; we didn't need them today.
+:::
+
+## Inputs, outputs, metadata
+
+| In every run | Ticket #2, `lookup_order` |
+|---|---|
+| **Inputs** | `{"order_id": "A-1138"}` |
+| **Outputs** | `{"status": null, "error": "order database did not respond"}` |
+| **Metadata** | run type `tool`, status `success`, start/end time |
+
+::: {.why .fragment}
+Status says **success**. The output says **error**. A trace shows you both; you still have to read it.
+:::
+
+<!-- ============================================================ -->
+# Your Agent {.center}
+
+## Turn on tracing
+
+```{.python code-line-numbers="|1|2|3"}
+os.environ["LANGSMITH_TRACING"] = "true"
+os.environ["LANGSMITH_API_KEY"] = userdata.get("LANGSMITH_API_KEY")   # or from your .env
+os.environ["LANGSMITH_PROJECT"] = "unit1-agent"
+```
+
+::: {.why}
+That's it. LangChain agents trace automatically. **No print statements.**
+:::
+
+::: {.notes}
+- Add before the agent is created. Key from smith.langchain.com → Settings → API Keys (they made accounts in 2.1).
+- If an account is outside the US region, also set LANGSMITH_ENDPOINT (see docs).
+- Verified against docs.langchain.com/oss/python/langchain/observability, 2026-10-14.
+:::
+
+## What did your agent actually do?
+
+::: {.incremental}
+- Run your Unit 1 agent on a question you already know the answer to
+- Open the trace in LangSmith
+- Find every **run type** in it
+- Find one thing your agent did that you **didn't know** it did
+:::
+
+::: {.big-q .fragment}
+Is it one of today's failure modes?
+:::
+
+::: {.notes}
+- Destination: "My Unit 1 agent sends its traces to LangSmith, and I can read what it actually did."
+- Collect a few surprises at the end. They're the seed for 2.3 (failure modes).
+:::

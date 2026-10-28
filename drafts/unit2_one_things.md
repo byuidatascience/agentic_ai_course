@@ -25,6 +25,7 @@ Same per-day format as `drafts/unit1_one_things.md`.
 
 ## To work out later
 
+- **ACME agent isn't built yet (2026-10-12).** This drives the timeline. In 2.1, students are told they get access "as soon as our lead technician gets around to it" and do training materials meanwhile. Revisit the 3-week diagnose / 2-week fix split once the agent exists.
 - **ACME's major agent vs. the daily example agents:** which use cases each covers and how they integrate. Takes a lot of planning.
 
 ## Outline — DRAFT (proposed 2026-10-12, not approved)
@@ -34,8 +35,8 @@ Five weeks, 3 days per week: 3 weeks diagnose and report, 2 weeks fix. Ignores t
 | Day | Topic | Competencies |
 |---|---|---|
 | **Week 1: See it** | | |
-| 2.1 | Welcome to ACME: Project 2 intro, LangSmith set up, trace their own Unit 1 agent | 2.1.1 |
-| 2.2 | Reading traces and types of runs | 2.1.2, 2.1.3 |
+| 2.1 | Welcome to ACME: Project 2 intro, LangSmith account and first look at traces (no local setup) | 2.1.1 |
+| 2.2 | Local LangSmith setup, trace their own Unit 1 agent; reading traces and types of runs | 2.1.2, 2.1.3 |
 | 2.3 | Threads and naming failures | 2.3.2, 2.3.1 |
 | **Week 2: Measure it** | | |
 | 2.4 | Datasets | 2.2.3 |

@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="slides2_2_files/libs/clipboard/clipboard.min.js"></script>
+<script src="slides2_2_files/libs/quarto-html/tabby.min.js"></script>
+<script src="slides2_2_files/libs/quarto-html/popper.min.js"></script>
+<script src="slides2_2_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="slides2_2_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="slides2_2_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="slides2_2_files/libs/quarto-html/quarto-syntax-highlighting-dark-23bbe8b5e4efc1e257f6d59dce478b08.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
+
+  <title>Lesson 2-2: The Handoff Pile</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="slides2_2_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="slides2_2_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #e1e4e8; background-color: #24292e; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #e1e4e8; } /* Normal */
+    code span.al { color: #ff5555; font-weight: bold; } /* Alert */
+    code span.an { color: #6a737d; } /* Annotation */
+    code span.at { color: #f97583; } /* Attribute */
+    code span.bn { color: #79b8ff; } /* BaseN */
+    code span.bu { color: #f97583; } /* BuiltIn */
+    code span.cf { color: #f97583; } /* ControlFlow */
+    code span.ch { color: #9ecbff; } /* Char */
+    code span.cn { color: #79b8ff; } /* Constant */
+    code span.co { color: #6a737d; } /* Comment */
+    code span.cv { color: #6a737d; } /* CommentVar */
+    code span.do { color: #6a737d; } /* Documentation */
+    code span.dt { color: #f97583; } /* DataType */
+    code span.dv { color: #79b8ff; } /* DecVal */
+    code span.er { color: #ff5555; text-decoration: underline; } /* Error */
+    code span.ex { color: #f97583; font-weight: bold; } /* Extension */
+    code span.fl { color: #79b8ff; } /* Float */
+    code span.fu { color: #b392f0; } /* Function */
+    code span.im { color: #9ecbff; } /* Import */
+    code span.in { color: #6a737d; } /* Information */
+    code span.kw { color: #f97583; } /* Keyword */
+    code span.op { color: #e1e4e8; } /* Operator */
+    code span.ot { color: #b392f0; } /* Other */
+    code span.pp { color: #f97583; } /* Preprocessor */
+    code span.re { color: #6a737d; } /* RegionMarker */
+    code span.sc { color: #79b8ff; } /* SpecialChar */
+    code span.ss { color: #9ecbff; } /* SpecialString */
+    code span.st { color: #9ecbff; } /* String */
+    code span.va { color: #ffab70; } /* Variable */
+    code span.vs { color: #9ecbff; } /* VerbatimString */
+    code span.wa { color: #ff5555; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="slides2_2_files/libs/revealjs/dist/theme/quarto-a744a2b370710ab7168324db5d172d71.css">
+  <link href="slides2_2_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="slides2_2_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="slides2_2_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="slides2_2_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-dark">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Lesson 2-2: The Handoff Pile</h1>
+  <p class="subtitle">Inventing tracing from the problems that need it</p>
+
+<div class="quarto-title-authors">
+</div>
+
+</section>
+<section id="scripture" class="slide level2">
+<h2>Scripture</h2>
+<!--
+  design log: drafts/lesson2_2/README.md
+  competencies: 2.3.2, 2.1.2, 2.1.3, 2.1.1
+  flow: scripture -> objectives -> the pile (tickets) -> discuss -> engineer's prints
+        -> name the problems -> name the solutions -> that's a trace (terminal)
+        -> other platforms -> how it works -> apply to Unit 1 agent
+  all outputs are REAL, saved from drafts/lesson2_2/handoff_pile.ipynb (captured_runs.json, 2026-10-14).
+  No live demo: everything shown is pre-recorded.
+  status: FIRST DRAFT, not approved. Notes inline {.notes}; Phase 6 moves them to the notes file.
+-->
+<style>
+.reveal .why { font-size: 0.72em; color: #c9d1d9; margin-top: 0.6em; }
+.reveal .why strong { color: #7ee787; }
+.reveal .bad  { color: #ff7b72; }
+.reveal .good { color: #7ee787; }
+.reveal .tag { font-size: 0.45em; letter-spacing: .12em; text-transform: uppercase; color: #8b949e; }
+.reveal pre { width: 100%; box-shadow: none; }
+.reveal pre code { max-height: 520px; font-size: 0.95em; line-height: 1.4; }
+.reveal table { font-size: 0.62em; }
+.reveal ul, .reveal p { font-size: 0.8em; }
+.reveal section.compact pre code { font-size: 0.8em; max-height: 600px; line-height: 1.35; }
+.reveal section.tight pre code { font-size: 0.66em; }
+.reveal .big-q { font-size: 1.5em; font-weight: 700; text-align: center; margin-top: 1.2em; }
+.reveal .bottom-q { font-size: 1.1em; margin-top: 0.2em; }
+.reveal .cards.mini .card p { font-size: 0.55em; line-height: 1.5; }
+.reveal .objectives li { font-size: 0.95em; margin: 0.4em 0; }
+/* chat / ticket mockups */
+.reveal .chat { max-width: 860px; margin: 0.3em auto 0; background: #0d1117; border: 2px solid #30363d; border-radius: 18px; overflow: hidden; }
+.reveal .chat-head { background: #161b22; color: #8b949e; font-size: 0.45em; letter-spacing: .12em; text-transform: uppercase; padding: 12px 22px; display: flex; justify-content: space-between; }
+.reveal .chat-body { padding: 18px 22px; display: flex; flex-direction: column; gap: 14px; }
+.reveal .bubble { font-size: 0.6em; line-height: 1.4; padding: 12px 18px; border-radius: 16px; max-width: 78%; }
+.reveal .bubble.me   { align-self: flex-end; background: #1f6feb; color: #fff; border-bottom-right-radius: 4px; }
+.reveal .bubble.them { align-self: flex-start; background: #21262d; color: #e6edf3; border-bottom-left-radius: 4px; }
+.reveal .bubble .who { display: block; font-size: 0.75em; opacity: 0.7; margin-bottom: 2px; }
+.reveal .complaint { max-width: 860px; margin: 0.5em auto 0; padding: 12px 18px; font-size: 0.6em; border-left: 4px solid #ff7b72; background: #ff7b7214; border-radius: 4px; color: #e6edf3; }
+.reveal .complaint .who { display: block; font-size: 0.7em; letter-spacing: .1em; text-transform: uppercase; color: #ff7b72; margin-bottom: 4px; }
+/* memo */
+.reveal .memo { max-width: 860px; margin: 0.4em auto 0; background: #161b22; border: 2px solid #30363d; border-radius: 12px; padding: 20px 28px; font-size: 0.62em; line-height: 1.5; color: #e6edf3; }
+.reveal .memo .tag { display: block; margin-bottom: 8px; }
+/* cards */
+.reveal .cards { display: flex; gap: 22px; margin-top: 0.6em; }
+.reveal .card { flex: 1; background: #161b22; border: 2px solid #30363d; border-radius: 14px; padding: 16px 20px; }
+.reveal .card .ct { display: block; font-weight: 700; font-size: 1.1em; margin-bottom: 6px; color: #e6edf3; }
+.reveal .card p, .reveal .card li { font-size: 0.6em; }
+.reveal .card.fm { border-color: #ff7b72; }
+.reveal .card.fm .ct { color: #ff7b72; }
+.reveal .card.need { border-color: #7ee787; }
+.reveal .card.need .ct { color: #7ee787; }
+.reveal .card .tk { display: block; font-size: 0.45em; letter-spacing: .12em; text-transform: uppercase; color: #8b949e; margin-bottom: 4px; }
+/* terminal */
+.reveal .term-head { background: #161b22; color: #8b949e; font-size: 0.42em; letter-spacing: .12em; text-transform: uppercase; padding: 8px 16px; border: 2px solid #30363d; border-bottom: none; border-radius: 10px 10px 0 0; margin-bottom: -0.6em; }
+/* platform grid */
+.reveal .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-top: 0.5em; }
+.reveal .shot { background: #0d1117; border: 2px dashed #30363d; border-radius: 12px; height: 210px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.reveal .shot .ct { font-weight: 700; font-size: 0.7em; color: #e6edf3; }
+.reveal .shot small { font-size: 0.4em; color: #8b949e; margin-top: 6px; padding: 0 12px; }
+/* list that grows */
+.reveal .needs li { font-size: 0.9em; margin: 0.25em 0; }
+/* inline SVG diagrams */
+.reveal svg.diagram { display: block; width: 100%; height: auto; max-height: 540px; margin: 0.3em auto 0.2em; }
+.reveal svg.diagram text { font-family: "Source Sans Pro", Helvetica, sans-serif; fill: #c9d1d9; }
+.reveal svg.diagram .dg-tag   { font-size: 14px; letter-spacing: .14em; fill: #8b949e; font-weight: 600; }
+.reveal svg.diagram .dg-title { font-size: 24px; font-weight: 700; }
+.reveal svg.diagram .dg-label { font-size: 17px; fill: #8b949e; }
+.reveal svg.diagram .dg-box   { fill: #161b22; stroke-width: 2; }
+</style>
+<blockquote>
+<p>“And truth is knowledge of things as they are, and as they were, and as they are to come;”</p>
+<ul>
+<li><a href="https://www.churchofjesuschrist.org/study/scriptures/dc-testament/dc/93?lang=eng&amp;id=p24#p24">Doctrine and Covenants 93:24</a></li>
+</ul>
+</blockquote>
+<aside class="notes">
+<ul>
+<li>Today is about knowing what an agent did <em>as it actually was</em>, not as its final answer claims.</li>
+<li>A final answer is a story. A trace is the record of “things as they were.”</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="today-you-will" class="slide level2">
+<h2>Today you will</h2>
+<div class="objectives">
+<ol type="1">
+<li><strong>Name</strong> the failure mode behind each of three broken ACME tickets</li>
+<li><strong>Invent</strong> what a trace must record, then <strong>read</strong> one in the terminal and in LangSmith</li>
+<li><strong>Point out</strong> the run types inside a trace</li>
+<li><strong>Send</strong> your Unit 1 agent’s traces to LangSmith</li>
+</ol>
+</div>
+<aside class="notes">
+<ul>
+<li>Draft objectives, not approved (ids: 2.3.2, 2.1.2, 2.1.3, 2.1.1).</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- ============================================================ -->
+</section>
+<section>
+<section id="the-handoff-pile" class="title-slide slide level1 center">
+<h1>The Handoff Pile</h1>
+
+</section>
+<section id="your-first-assignment" class="slide level2">
+<h2>Your first assignment</h2>
+<div class="memo">
+<p><span class="tag">ACME.io · Internal · From: Support Operations</span></p>
+<p>Welcome aboard, interns.</p>
+<p>The engineer who built our support agent has moved on. Customers are complaining, and nobody here can tell us why. We’ve attached the three loudest tickets.</p>
+<p>All we have is what the customer saw. Figure out what went wrong.</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Callback to 2.1: the one person who knew what the agent does has left.</li>
+<li>Departed engineer has no name yet (open in the README).</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ticket-1-rocket-powered-roller-skates" class="slide level2">
+<h2>Ticket #1 · Rocket-Powered Roller Skates</h2>
+<div class="chat">
+<div class="chat-head">
+<p><span>ACME.io · Support Chat</span> <span>Ticket #1</span></p>
+</div>
+<div class="chat-body">
+<div class="bubble me">
+<p><span class="who">Customer</span>Hi, if I order the Rocket-Powered Roller Skates today, when will they arrive?</p>
+</div>
+<div class="bubble them">
+<p><span class="who">ACME Agent</span>They will arrive on Friday!</p>
+</div>
+</div>
+</div>
+<div class="complaint fragment">
+<p><span class="who">Three weeks later</span> “You said Friday. It’s been three weeks. Where are my skates?”</p>
+</div>
+</section>
+<section id="ticket-2-dirt-flavored-toothpaste" class="slide level2">
+<h2>Ticket #2 · Dirt-Flavored Toothpaste</h2>
+<div class="chat">
+<div class="chat-head">
+<p><span>ACME.io · Support Chat</span> <span>Ticket #2</span></p>
+</div>
+<div class="chat-body">
+<div class="bubble me">
+<p><span class="who">Customer</span>What’s the status of my order #A-1138? I ordered the Dirt-Flavored Toothpaste.</p>
+</div>
+<div class="bubble them">
+<p><span class="who">ACME Agent</span>Your order for the Dirt-Flavored Toothpaste is currently being processed and is scheduled to arrive this Friday!</p>
+</div>
+</div>
+</div>
+<div class="complaint fragment">
+<p><span class="who">The following Monday</span> “Friday came and went. When I finally reached a human, they said my payment never went through. It was never ‘being processed.’”</p>
+</div>
+</section>
+<section id="ticket-3-package-trk-2210" class="slide level2">
+<h2>Ticket #3 · Package TRK-2210</h2>
+<div class="chat">
+<div class="chat-head">
+<p><span>ACME.io · Support Chat</span> <span>Ticket #3</span></p>
+</div>
+<div class="chat-body">
+<div class="bubble me">
+<p><span class="who">Customer</span>Where is my package? Tracking number TRK-2210.</p>
+</div>
+<div class="bubble them">
+<p><span class="who">ACME Agent</span>Your package is currently out for delivery and is expected to arrive today by 8 PM!</p>
+</div>
+</div>
+</div>
+<div class="complaint fragment">
+<p><span class="who">Same day, plus 40 other customers</span> “Your chat keeps hanging, and sometimes it just times out.”</p>
+</div>
+<aside class="notes">
+<ul>
+<li>This is the one that <em>looks</em> fine. The answer was even right.</li>
+<li>Our recorded run took 5.1 s. Other customers had it far worse: the model isn’t deterministic, so some runs loop much longer.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- ============================================================ -->
+</section></section>
+<section>
+<section id="discuss" class="title-slide slide level1 center">
+<h1>Discuss</h1>
+
+</section>
+<section id="what-went-wrong" class="slide level2">
+<h2>What went wrong?</h2>
+<p>In your groups, take one ticket each. Come up with <strong>at least two</strong> explanations.</p>
+<div class="cards mini">
+<div class="card">
+<p><span class="tk">Ticket #1 · Roller Skates</span></p>
+<p><strong>Asked:</strong> When will they arrive?<br> <strong>Agent:</strong> “They will arrive on Friday!”<br> <span class="bad"><strong>Later:</strong> Three weeks, no skates.</span></p>
+</div>
+<div class="card">
+<p><span class="tk">Ticket #2 · Toothpaste</span></p>
+<p><strong>Asked:</strong> Status of order #A-1138?<br> <strong>Agent:</strong> “Being processed… arrive this Friday!”<br> <span class="bad"><strong>Later:</strong> Payment never went through.</span></p>
+</div>
+<div class="card">
+<p><span class="tk">Ticket #3 · TRK-2210</span></p>
+<p><strong>Asked:</strong> Where is my package?<br> <strong>Agent:</strong> “Out for delivery… by 8 PM!”<br> <span class="bad"><strong>Later:</strong> Chat hangs, sometimes times out.</span></p>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li>3–4 minutes. Collect guesses on the board, per ticket. Don’t confirm any.</li>
+<li>Prompts if groups stall:
+<ul>
+<li>Did the agent make it up?</li>
+<li>Did a tool give it bad information?</li>
+<li>Did something break, and nobody noticed?</li>
+<li>How would you <strong>prove</strong> your guess?</li>
+</ul></li>
+<li>The last question is the one that matters: they have no way to prove anything. Hold onto that.</li>
+<li>Connect to Unit 1: “When your agent did something weird, how did you find out why?”</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- ============================================================ -->
+</section></section>
+<section>
+<section id="the-engineer-left-notes" class="title-slide slide level1 center">
+<h1>The Engineer Left Notes</h1>
+
+</section>
+<section id="their-debugging-output" class="slide level2 compact tight">
+<h2>Their debugging output</h2>
+<div class="term-head">
+<p>console · DEBUG = True</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-code-line-numbers="|1-4|6-11|13-23"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a href=""></a>checking stock...</span>
+<span id="cb1-2"><a href=""></a>done</span>
+<span id="cb1-3"><a href=""></a>CUSTOMER: Hi, if I order the Rocket-Powered Roller Skates today, when will they arrive?</span>
+<span id="cb1-4"><a href=""></a>AGENT:    They will arrive on Friday!</span>
+<span id="cb1-5"><a href=""></a></span>
+<span id="cb1-6"><a href=""></a>looking up order...</span>
+<span id="cb1-7"><a href=""></a>done</span>
+<span id="cb1-8"><a href=""></a>checking stock...</span>
+<span id="cb1-9"><a href=""></a>done</span>
+<span id="cb1-10"><a href=""></a>CUSTOMER: What's the status of my order #A-1138? I ordered the Dirt-Flavored Toothpaste.</span>
+<span id="cb1-11"><a href=""></a>AGENT:    Your order for the Dirt-Flavored Toothpaste is currently being prepared and is scheduled to arrive by this Friday!</span>
+<span id="cb1-12"><a href=""></a></span>
+<span id="cb1-13"><a href=""></a>tracking...</span>
+<span id="cb1-14"><a href=""></a>tracking...</span>
+<span id="cb1-15"><a href=""></a>tracking...</span>
+<span id="cb1-16"><a href=""></a>tracking...</span>
+<span id="cb1-17"><a href=""></a>tracking...</span>
+<span id="cb1-18"><a href=""></a>tracking...</span>
+<span id="cb1-19"><a href=""></a>tracking...</span>
+<span id="cb1-20"><a href=""></a>tracking...</span>
+<span id="cb1-21"><a href=""></a>CUSTOMER: Where is my package? Tracking number TRK-2210.</span>
+<span id="cb1-22"><a href=""></a>AGENT:    Your package is currently out for delivery and is expected to arrive today by 8 PM! Let me know if you need help with anything else.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="big-q bottom-q fragment">
+<p>Did that help?</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Show output only, not the code that printed it.</li>
+<li>Walk ticket by ticket (the highlights step through them). Ask: “Does this solve any ticket?”</li>
+<li>Ticket 2: “looking up order… done.” Done? The lookup actually failed. The print said <em>that</em> it ran, not <em>what came back</em>.</li>
+<li>Ticket 3: eight “tracking…” lines. Something repeated, but why, and what did it get back?</li>
+<li>Last click, “Did that help?”: it tells us <strong>that</strong> things ran. It never tells us <strong>what</strong> they saw.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- ============================================================ -->
+</section></section>
+<section>
+<section id="name-it" class="title-slide slide level1 center">
+<h1>Name It</h1>
+
+</section>
+<section id="name-the-problems" class="slide level2">
+<h2>Name the problems</h2>
+<div class="cards">
+<div class="card fm fragment">
+<p><span class="tk">Ticket #1</span> <span class="ct">Ungrounded answer</span></p>
+<p>The answer says something its tools never supported.</p>
+</div>
+<div class="card fm fragment">
+<p><span class="tk">Ticket #2</span> <span class="ct">Swallowed error</span></p>
+<p>Something failed, and the failure was passed along as if it worked.</p>
+</div>
+<div class="card fm fragment">
+<p><span class="tk">Ticket #3</span> <span class="ct">Loop</span></p>
+<p>The agent does the same step over and over before answering.</p>
+</div>
+</div>
+<div class="why fragment">
+<p>These are <strong>failure modes</strong>: named, repeatable ways agents go wrong. Name it and you can look for it.</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Map each name back to the guesses on the board. Whose guess was closest?</li>
+<li>Don’t reveal <em>how</em> we know yet. That’s the next slide’s question.</li>
+<li>2.3 goes deeper on failure modes; today we only need these three.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="name-the-solutions" class="slide level2">
+<h2>Name the solutions</h2>
+<p>For each failure mode: <strong>what would you need to see to prove it?</strong></p>
+<div class="cards">
+<div class="card need fragment">
+<p><span class="tk">Ungrounded answer</span> <span class="ct">What each tool returned</span></p>
+<p>Compare the answer to the tool’s output.</p>
+</div>
+<div class="card need fragment">
+<p><span class="tk">Swallowed error</span> <span class="ct">Errors, inputs, outputs</span></p>
+<p>Which step failed, with what input, and what got passed on.</p>
+</div>
+<div class="card need fragment">
+<p><span class="tk">Loop</span> <span class="ct">Every call, in order</span></p>
+<p>How many, how long, how much it cost, and what each one returned.</p>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li>Groups first (3 min): each group answers for its ticket. Then reveal the cards one at a time and compare.</li>
+<li>Push with leading questions:
+<ul>
+<li>T1: “Where would the word ‘Friday’ have come from?”</li>
+<li>T2: “If the lookup failed, how would you even know? The print said done.”</li>
+<li>T4: “Eight ‘tracking…’ lines. Which call came first? Did one call trigger the next?”</li>
+</ul></li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="put-the-lists-together" class="slide level2">
+<h2>Put the lists together</h2>
+<div class="needs">
+<ul>
+<li class="fragment"><strong>Every step</strong> the agent took, <strong>in order</strong></li>
+<li class="fragment">What went <strong>in</strong> to each step</li>
+<li class="fragment">What came <strong>out</strong> of each step</li>
+<li class="fragment"><strong>Errors</strong>, even the ones that were caught</li>
+<li class="fragment"><strong>Time</strong> and <strong>cost</strong> (tokens) for each step</li>
+<li class="fragment"><strong>Which step called which</strong></li>
+</ul>
+</div>
+<div class="big-q fragment">
+<p>What would you call this?</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Build this on the board from their answers first; the slide is the recap.</li>
+<li>“Which step called which” is the one they’re least likely to say. T4 is the lever: the model call <em>decided</em> to call the tool, so the tool call belongs to that model call.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- ============================================================ -->
+</section></section>
+<section>
+<section id="thats-a-trace" class="title-slide slide level1 center">
+<h1>That’s a Trace</h1>
+
+</section>
+<section id="you-just-invented-tracing" class="slide level2">
+<h2>You just invented tracing</h2>
+<div class="big-q">
+<p>A <strong>trace</strong> is the record of every step an agent took:<br> what went in, what came out, how long, and what called what.</p>
+</div>
+<div class="why fragment">
+<p>Let’s build the simplest version of your list: <strong>print it in the terminal.</strong></p>
+</div>
+</section>
+<section id="ticket-1-traced" class="slide level2 compact">
+<h2>Ticket #1, traced</h2>
+<div class="term-head">
+<p>terminal trace · ticket #1</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-code-line-numbers="|4|4-5|6"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a href=""></a>agent  "Hi, if I order the Rocket-Powered Roller Skates today, when will they arrive?"</span>
+<span id="cb2-2"><a href=""></a>│      1.3s · 2 llm calls · 549 tokens in / 45 out</span>
+<span id="cb2-3"><a href=""></a>├─ llm   238 in → check_stock(product="Rocket-Powered Roller Skates")</span>
+<span id="cb2-4"><a href=""></a>├─ tool  check_stock → {"product": "Rocket-Powered Roller Skates", "warehouse": "Phoenix, AZ",</span>
+<span id="cb2-5"><a href=""></a>│                       "standard_delivery": "arrives Friday",</span>
+<span id="cb2-6"><a href=""></a>│                       "status": "BACKORDERED", "restock_date": null}</span>
+<span id="cb2-7"><a href=""></a>└─ llm   311 in → "The Rocket-Powered Roller Skates are currently on backorder,</span>
+<span id="cb2-8"><a href=""></a>                   but they will arrive on Friday if you order today!"</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why fragment">
+<p><strong>Ungrounded answer.</strong> “Friday” is the <em>standard</em> delivery. The tool said <strong>BACKORDERED</strong> with no restock date.</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Real output from our recorded run. The ticket slide shows a different run’s answer (“They will arrive on Friday!”); in this run the agent even <em>said</em> “on backorder” and then promised Friday anyway. Non-determinism, again.</li>
+<li>Ask: “Is the tool wrong, the agent wrong, or both?” (The tool’s output is confusing; the agent picked the field it liked. A trace shows both.)</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ticket-2-traced" class="slide level2 compact">
+<h2>Ticket #2, traced</h2>
+<div class="term-head">
+<p>terminal trace · ticket #2</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-code-line-numbers="|4|5-8|9"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1"><a href=""></a>agent  "What's the status of my order #A-1138? I ordered the Dirt-Flavored Toothpaste."</span>
+<span id="cb3-2"><a href=""></a>│      1.7s · 3 llm calls · 929 tokens in / 68 out</span>
+<span id="cb3-3"><a href=""></a>├─ llm   246 in → lookup_order(order_id="A-1138")</span>
+<span id="cb3-4"><a href=""></a>├─ tool  lookup_order → {"order_id": "A-1138", "status": null,</span>
+<span id="cb3-5"><a href=""></a>│                        "error": "order database did not respond"}</span>
+<span id="cb3-6"><a href=""></a>├─ llm   304 in → check_stock(product="Dirt-Flavored Toothpaste")</span>
+<span id="cb3-7"><a href=""></a>├─ tool  check_stock → {"product": "Dirt-Flavored Toothpaste", "warehouse": "Phoenix, AZ",</span>
+<span id="cb3-8"><a href=""></a>│                       "standard_delivery": "arrives Friday",</span>
+<span id="cb3-9"><a href=""></a>│                       "status": "BACKORDERED", "restock_date": null}</span>
+<span id="cb3-10"><a href=""></a>└─ llm   379 in → "Your order for the Dirt-Flavored Toothpaste is currently being</span>
+<span id="cb3-11"><a href=""></a>                   processed and is scheduled to arrive this Friday!"</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why fragment">
+<p><strong>Swallowed error.</strong> The lookup failed, then the agent borrowed “Friday” from a <em>different</em> tool. The print said <strong>done</strong>.</p>
+</div>
+<aside class="notes">
+<ul>
+<li>The surprise: “being processed, arriving Friday” isn’t pure invention. It came from check_stock. Only the trace shows where it came from.</li>
+<li>Bonus: LangChain marked that tool step as <code>success</code>, because the tool caught its own error. Even the framework thought it worked.</li>
+<li>The system prompt says “Never mention technical problems.” Where would you see that? (Also in a full trace: the first llm call’s input.)</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ticket-3-traced" class="slide level2 compact tight">
+<h2>Ticket #3, traced</h2>
+<div class="term-head">
+<p>terminal trace · ticket #3</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-code-line-numbers="|2|3-18|3,5,7,9,11,13,15,17"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb4-1"><a href=""></a>agent  "Where is my package? Tracking number TRK-2210."</span>
+<span id="cb4-2"><a href=""></a>│      5.1s · 9 llm calls · 3,939 tokens in / 210 out</span>
+<span id="cb4-3"><a href=""></a>├─ llm   234 in → track_package(tracking_number="TRK-2210")</span>
+<span id="cb4-4"><a href=""></a>├─ tool  track_package → "UPDATING: no location yet. Call track_package again."</span>
+<span id="cb4-5"><a href=""></a>├─ llm   285 in → track_package(tracking_number="TRK-2210")</span>
+<span id="cb4-6"><a href=""></a>├─ tool  track_package → "UPDATING: no location yet. Call track_package again."</span>
+<span id="cb4-7"><a href=""></a>├─ llm   336 in → track_package(tracking_number="TRK-2210")</span>
+<span id="cb4-8"><a href=""></a>├─ tool  track_package → "UPDATING: no location yet. Call track_package again."</span>
+<span id="cb4-9"><a href=""></a>├─ llm   387 in → track_package(tracking_number="TRK-2210")</span>
+<span id="cb4-10"><a href=""></a>├─ tool  track_package → "UPDATING: no location yet. Call track_package again."</span>
+<span id="cb4-11"><a href=""></a>├─ llm   438 in → track_package(tracking_number="TRK-2210")</span>
+<span id="cb4-12"><a href=""></a>├─ tool  track_package → "UPDATING: no location yet. Call track_package again."</span>
+<span id="cb4-13"><a href=""></a>├─ llm   489 in → track_package(tracking_number="TRK-2210")</span>
+<span id="cb4-14"><a href=""></a>├─ tool  track_package → "UPDATING: no location yet. Call track_package again."</span>
+<span id="cb4-15"><a href=""></a>├─ llm   540 in → track_package(tracking_number="TRK-2210")</span>
+<span id="cb4-16"><a href=""></a>├─ tool  track_package → "UPDATING: no location yet. Call track_package again."</span>
+<span id="cb4-17"><a href=""></a>├─ llm   591 in → track_package(tracking_number="TRK-2210")</span>
+<span id="cb4-18"><a href=""></a>├─ tool  track_package → "Out for delivery. Expected today by 8 PM."</span>
+<span id="cb4-19"><a href=""></a>└─ llm   639 in → "Your package is currently out for delivery and is expected to arrive today by 8 PM!"</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why fragment">
+<p><strong>Loop.</strong> 8 identical calls, 9 model calls for one question, and every call resends the whole history (234 → 639 tokens).</p>
+</div>
+<aside class="notes">
+<ul>
+<li>The final answer was <em>right</em>. Only the shape of the trace shows the problem.</li>
+<li>5.1 s here; non-determinism means other customers looped longer and timed out.</li>
+<li>Token growth is a callback to 1.8: the model is stateless, so the whole conversation is resent each turn.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="a-trace-is-a-tree-of-runs" class="slide level2">
+<h2>A trace is a tree of runs</h2>
+<svg class="diagram" viewbox="0 0 1100 430" role="img" aria-label="A trace drawn as a tree. The root run is the agent, holding the question and final answer. Under it, in order, are child runs: an LLM call, a tool call to lookup_order, an LLM call, a tool call to check_stock, and a final LLM call. Each run records inputs, outputs, time, and tokens.">
+  <rect class="dg-box" x="40" y="20" width="1020" height="80" rx="14" stroke="#58a6ff"></rect>
+  <text class="dg-tag" x="64" y="50">TRACE · ROOT RUN</text>
+  <text class="dg-title" x="64" y="82" style="fill:#79c0ff">agent</text>
+  <text class="dg-label" x="190" y="82">in: "What's the status of my order #A-1138?"  ·  out: "…arrive this Friday!"  ·  1.7 s</text>
+
+  <line x1="90" y1="100" x2="90" y2="400" stroke="#30363d" stroke-width="3"></line>
+
+  <g class="fragment" data-fragment-index="1">
+    <line x1="90" y1="140" x2="130" y2="140" stroke="#30363d" stroke-width="3"></line>
+    <rect class="dg-box" x="130" y="118" width="400" height="44" rx="10" stroke="#d2a8ff"></rect>
+    <text x="150" y="147" style="font-size:18px"><tspan style="fill:#d2a8ff;font-weight:700">llm</tspan>  → lookup_order(order_id="A-1138")</text>
+
+    <line x1="90" y1="200" x2="130" y2="200" stroke="#30363d" stroke-width="3"></line>
+    <rect class="dg-box" x="130" y="178" width="400" height="44" rx="10" stroke="#ff7b72"></rect>
+    <text x="150" y="207" style="font-size:18px"><tspan style="fill:#ff7b72;font-weight:700">tool</tspan>  lookup_order → error</text>
+
+    <line x1="90" y1="260" x2="130" y2="260" stroke="#30363d" stroke-width="3"></line>
+    <rect class="dg-box" x="130" y="238" width="400" height="44" rx="10" stroke="#d2a8ff"></rect>
+    <text x="150" y="267" style="font-size:18px"><tspan style="fill:#d2a8ff;font-weight:700">llm</tspan>  → check_stock(…)</text>
+
+    <line x1="90" y1="320" x2="130" y2="320" stroke="#30363d" stroke-width="3"></line>
+    <rect class="dg-box" x="130" y="298" width="400" height="44" rx="10" stroke="#7ee787"></rect>
+    <text x="150" y="327" style="font-size:18px"><tspan style="fill:#7ee787;font-weight:700">tool</tspan>  check_stock → "arrives Friday"…</text>
+
+    <line x1="90" y1="380" x2="130" y2="380" stroke="#30363d" stroke-width="3"></line>
+    <rect class="dg-box" x="130" y="358" width="400" height="44" rx="10" stroke="#d2a8ff"></rect>
+    <text x="150" y="387" style="font-size:18px"><tspan style="fill:#d2a8ff;font-weight:700">llm</tspan>  → final answer</text>
+  </g>
+
+  <g class="fragment" data-fragment-index="2">
+    <rect class="dg-box" x="620" y="160" width="440" height="200" rx="14" stroke="#30363d"></rect>
+    <text class="dg-tag" x="644" y="194">EVERY RUN RECORDS</text>
+    <text x="644" y="232" style="font-size:20px">• inputs</text>
+    <text x="644" y="264" style="font-size:20px">• outputs (and errors)</text>
+    <text x="644" y="296" style="font-size:20px">• start / end time</text>
+    <text x="644" y="328" style="font-size:20px">• tokens, model, metadata</text>
+  </g>
+</svg>
+<div class="why fragment">
+<p>Each box is a <strong>run</strong>. The whole tree is the <strong>trace</strong>. That’s your list, drawn.</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Map back to their list: in/out = inputs/outputs, order = position, which-called-which = nesting.</li>
+<li>In our terminal version everything hangs off one root. Real agents nest deeper (sub-agents from 1.5 become runs inside runs).</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- ============================================================ -->
+</section></section>
+<section>
+<section id="same-tree-different-paint" class="title-slide slide level1 center">
+<h1>Same Tree, Different Paint</h1>
+
+</section>
+<section id="every-platform-draws-the-same-thing" class="slide level2">
+<h2>Every platform draws the same thing</h2>
+<div class="grid3">
+<div class="shot">
+<p><span class="ct">LangSmith</span> <small>TODO screenshot: ticket #2 trace</small></p>
+</div>
+<div class="shot">
+<p><span class="ct">Langfuse</span> <small>TODO screenshot: ticket #2 trace</small></p>
+</div>
+<div class="shot">
+<p><span class="ct">Arize Phoenix</span> <small>TODO screenshot: ticket #2 trace</small></p>
+</div>
+<div class="shot">
+<p><span class="ct">W&amp;B Weave</span> <small>TODO screenshot: ticket #2 trace</small></p>
+</div>
+<div class="shot">
+<p><span class="ct">Braintrust</span> <small>TODO screenshot: ticket #2 trace</small></p>
+</div>
+<div class="shot">
+<p><span class="ct">Your terminal</span> <small>the tree you just read</small></p>
+</div>
+</div>
+<div class="why fragment">
+<p>Different colors, same tree: runs, inputs, outputs, time, nesting. Most of them speak the same standard (<strong>OpenTelemetry</strong>), so traces can move between tools.</p>
+</div>
+<aside class="notes">
+<ul>
+<li>PREP: send the same ticket #2 run to each platform and screenshot it (or use each platform’s public demo trace). Ticket #2 is best: it has the error.</li>
+<li>Ask: “Find the swallowed error in each one. Where did they put it?”</li>
+<li>The point: the tool is swappable; knowing what to look for isn’t. This unit uses LangSmith.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ticket-2-in-langsmith" class="slide level2">
+<h2>Ticket #2 in LangSmith</h2>
+<div class="shot" style="height: 520px">
+<p><span class="ct">TODO screenshot</span> <small>ticket #2 trace in LangSmith, with the lookup_order run open</small></p>
+</div>
+<aside class="notes">
+<ul>
+<li>PREP: run handoff_pile.ipynb with LANGSMITH_TRACING=true into a shared project; share the trace link in Slack so students can click around.</li>
+<li>Point out: the same five runs as the terminal version, plus the system prompt in the first llm run’s input.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- ============================================================ -->
+</section></section>
+<section>
+<section id="how-it-works" class="title-slide slide level1 center">
+<h1>How It Works</h1>
+
+</section>
+<section id="runs-and-traces" class="slide level2">
+<h2>Runs and traces</h2>
+<div class="cards">
+<div class="card">
+<p><span class="ct">Run</span></p>
+<p>One unit of work: an LLM call, a tool call, a chain. Has inputs, outputs, timing, metadata.</p>
+</div>
+<div class="card">
+<p><span class="ct">Trace</span></p>
+<p>All the runs from one request, nested in a tree. One question in, one answer out.</p>
+</div>
+<div class="card">
+<p><span class="ct">Tracing</span></p>
+<p>Recording traces automatically while the agent runs, so you don’t have to write print statements.</p>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li>These map one-to-one onto the list they built.</li>
+<li>Contrast with the engineer’s prints: tracing is what they should have had.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="types-of-runs" class="slide level2">
+<h2>Types of runs</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../../Assets/Images/types_of_runs_langsmith.png" class="quarto-figure quarto-figure-center" height="480"></p>
+</figure>
+</div>
+<aside class="notes">
+<ul>
+<li>From the prep video (ILS M1 L2, Types of Runs). Which types showed up in our tickets? (llm, tool, and the agent as the chain around them.)</li>
+<li>Retriever, prompt, and parser runs exist; we didn’t need them today.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="inputs-outputs-metadata" class="slide level2">
+<h2>Inputs, outputs, metadata</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>In every run</th>
+<th>Ticket #2, <code>lookup_order</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td><code>{"order_id": "A-1138"}</code></td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td><code>{"status": null, "error": "order database did not respond"}</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Metadata</strong></td>
+<td>run type <code>tool</code>, status <code>success</code>, start/end time</td>
+</tr>
+</tbody>
+</table>
+<div class="why fragment">
+<p>Status says <strong>success</strong>. The output says <strong>error</strong>. A trace shows you both; you still have to read it.</p>
+</div>
+<!-- ============================================================ -->
+</section></section>
+<section>
+<section id="your-agent" class="title-slide slide level1 center">
+<h1>Your Agent</h1>
+
+</section>
+<section id="turn-on-tracing" class="slide level2">
+<h2>Turn on tracing</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-code-line-numbers="|1|2|3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a>os.environ[<span class="st">"LANGSMITH_TRACING"</span>] <span class="op">=</span> <span class="st">"true"</span></span>
+<span id="cb5-2"><a href=""></a>os.environ[<span class="st">"LANGSMITH_API_KEY"</span>] <span class="op">=</span> userdata.get(<span class="st">"LANGSMITH_API_KEY"</span>)   <span class="co"># or from your .env</span></span>
+<span id="cb5-3"><a href=""></a>os.environ[<span class="st">"LANGSMITH_PROJECT"</span>] <span class="op">=</span> <span class="st">"unit1-agent"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="why">
+<p>That’s it. LangChain agents trace automatically. <strong>No print statements.</strong></p>
+</div>
+<aside class="notes">
+<ul>
+<li>Add before the agent is created. Key from smith.langchain.com → Settings → API Keys (they made accounts in 2.1).</li>
+<li>If an account is outside the US region, also set LANGSMITH_ENDPOINT (see docs).</li>
+<li>Verified against docs.langchain.com/oss/python/langchain/observability, 2026-10-14.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="what-did-your-agent-actually-do" class="slide level2">
+<h2>What did your agent actually do?</h2>
+<ul>
+<li class="fragment">Run your Unit 1 agent on a question you already know the answer to</li>
+<li class="fragment">Open the trace in LangSmith</li>
+<li class="fragment">Find every <strong>run type</strong> in it</li>
+<li class="fragment">Find one thing your agent did that you <strong>didn’t know</strong> it did</li>
+</ul>
+<div class="big-q fragment">
+<p>Is it one of today’s failure modes?</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Destination: “My Unit 1 agent sends its traces to LangSmith, and I can read what it actually did.”</li>
+<li>Collect a few surprises at the end. They’re the seed for 2.3 (failure modes).</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="slides2_2_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="slides2_2_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="slides2_2_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="slides2_2_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="slides2_2_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="slides2_2_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="slides2_2_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="slides2_2_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="slides2_2_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="slides2_2_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 0.6,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 760,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

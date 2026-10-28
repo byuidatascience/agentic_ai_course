@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Failure Modes</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f4ef;
+    --card: #ffffff;
+    --ink: #1c1d22;
+    --muted: #5d606b;
+    --line: #e2ded4;
+    --chip: #f1eee7;
+    --tool: #2f6fde;
+    --ground: #0f9b8e;
+    --state: #7b4fd6;
+    --control: #d9822b;
+    --spec: #c23d6b;
+    --safety: #c62828;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15161a; --card: #1f2026; --ink: #ecebe6; --muted: #a2a4ad;
+      --line: #32343c; --chip: #2a2c33;
+      --tool: #6a9cf5; --ground: #3cc7b8; --state: #a789ee; --control: #f0a356; --spec: #ec6f9a; --safety: #f06a6a;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15161a; --card: #1f2026; --ink: #ecebe6; --muted: #a2a4ad;
+    --line: #32343c; --chip: #2a2c33;
+    --tool: #6a9cf5; --ground: #3cc7b8; --state: #a789ee; --control: #f0a356; --spec: #ec6f9a; --safety: #f06a6a;
+  }
+
+  html, body { margin: 0; height: 100%; background: var(--bg); }
+  .reveal { font-family: Inter, system-ui, sans-serif; color: var(--ink); }
+  .reveal .slides { text-align: left; }
+  .reveal .slides section { padding: 0; height: 100%; box-sizing: border-box; }
+
+  .page { display: grid; grid-template-rows: auto 1fr auto auto; gap: 22px; height: 1080px; padding: 44px 56px 34px; box-sizing: border-box; }
+
+  header { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; }
+  header h1 { margin: 0; font-size: 54px; font-weight: 800; letter-spacing: -0.02em; line-height: 1; color: var(--ink); text-transform: none; }
+  header h1 span { color: var(--muted); font-weight: 600; }
+  .thesis { margin: 0; max-width: 760px; font-size: 22px; line-height: 1.35; color: var(--muted); text-align: right; }
+  .thesis b { color: var(--ink); }
+
+  .modes { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 18px; min-height: 0; }
+  .mode { --c: var(--tool); background: var(--card); border: 1px solid var(--line); border-top: 6px solid var(--c); border-radius: 14px; padding: 20px 24px 18px; display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+  .mode .head { display: flex; align-items: baseline; gap: 12px; }
+  .mode .num { font-family: "JetBrains Mono", monospace; font-size: 20px; color: var(--c); }
+  .mode h2 { margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -0.01em; color: var(--ink); text-transform: none; line-height: 1.1; }
+  .mode .tag { margin-left: auto; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--c); border: 1.5px solid var(--c); border-radius: 999px; padding: 3px 10px; }
+  .mode .def { margin: 0; font-size: 23px; line-height: 1.35; color: var(--muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: 9px; margin: 0; padding: 0; list-style: none; }
+  .chips li { font-size: 19.5px; background: var(--chip); border-radius: 8px; padding: 6px 12px; line-height: 1.2; }
+  .lever { margin-top: auto; border-top: 1px dashed var(--line); padding-top: 12px; font-size: 20px; line-height: 1.35; }
+  .lever b { color: var(--c); font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; margin-right: 8px; }
+
+  .tool { --c: var(--tool); } .ground { --c: var(--ground); } .state { --c: var(--state); }
+  .control { --c: var(--control); } .spec { --c: var(--spec); } .safety { --c: var(--safety); }
+
+  .dims { display: grid; grid-template-columns: 220px repeat(3, 1fr); gap: 18px; align-items: stretch; }
+  .dims .label { display: flex; flex-direction: column; justify-content: center; }
+  .dims .label h3 { margin: 0; font-size: 26px; font-weight: 800; color: var(--ink); text-transform: none; letter-spacing: -0.01em; }
+  .dims .label p { margin: 4px 0 0; font-size: 15px; line-height: 1.35; color: var(--muted); }
+  .dim { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 20px; display: grid; gap: 8px; }
+  .dim .top { display: flex; justify-content: space-between; align-items: baseline; }
+  .dim h4 { margin: 0; font-size: 21px; font-weight: 700; color: var(--ink); text-transform: none; }
+  .dim .skill { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
+  .dim .skill em { font-style: normal; color: var(--ink); }
+  .spectrum { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; font-size: 17px; font-weight: 600; }
+  .spectrum .bar { height: 6px; border-radius: 3px; background: linear-gradient(90deg, var(--safety), var(--control) 50%, var(--ground)); opacity: 0.8; }
+  .dim p { margin: 0; font-size: 16px; line-height: 1.35; color: var(--muted); }
+
+  footer { display: flex; gap: 28px; font-size: 15px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; }
+  footer b { color: var(--ink); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+    <section>
+      <div class="page">
+        <header>
+          <h1>Six failure modes <span>· three dimensions</span></h1>
+          <p class="thesis">Each mode is named for <b>the lever that fixes it</b> — the Module 1 steering levers, read backwards. Naming the mode <i>is</i> naming the fix.</p>
+        </header>
+
+        <div class="modes">
+          <article class="mode tool">
+            <div class="head"><span class="num">01</span><h2>Tool</h2></div>
+            <p class="def">The agent's connection to the outside world breaks down.</p>
+            <ul class="chips">
+              <li>wrong tool</li><li>right tool, wrong args</li><li>never called</li><li>output misread</li><li>tool errored, agent carried on</li>
+            </ul>
+            <div class="lever"><b>Lever</b>Tool definitions, descriptions, I/O schemas — usually the text framing the tool, not its code.</div>
+          </article>
+
+          <article class="mode ground">
+            <div class="head"><span class="num">02</span><h2>Grounding</h2></div>
+            <p class="def">Asserts things not supported by anything it retrieved.</p>
+            <ul class="chips">
+              <li>fabricated facts / citations</li><li>nothing retrieved, answered anyway</li><li>contradicts the right doc</li><li>accepts a false premise</li>
+            </ul>
+            <div class="lever"><b>Lever</b>Retrieval &amp; knowledge state — corpus, what gets retrieved, whether ungrounded answers are allowed.</div>
+          </article>
+
+          <article class="mode state">
+            <div class="head"><span class="num">03</span><h2>State</h2></div>
+            <p class="def">Information the agent needs is lost, stale, or poisoned.</p>
+            <ul class="chips">
+              <li>context exhausted / truncated</li><li>context degradation</li><li>memory pollution</li><li>forgets across turns</li>
+            </ul>
+            <div class="lever"><b>Lever</b>State &amp; memory design — what persists, where, and what gets selected into the window.</div>
+          </article>
+
+          <article class="mode control">
+            <div class="head"><span class="num">04</span><h2>Control</h2></div>
+            <p class="def">The path is wrong: it doesn't stop, doesn't finish, or wanders.</p>
+            <ul class="chips">
+              <li>infinite loop</li><li>budget drain</li><li>stops too early</li><li>bad / abandoned plan</li><li>multi-agent deadlock</li>
+            </ul>
+            <div class="lever"><b>Lever</b>Deterministic scaffolding — control flow, routing, step limits, workflow-vs-agent boundaries.</div>
+          </article>
+
+          <article class="mode spec">
+            <div class="head"><span class="num">05</span><h2>Specification</h2><span class="tag">→ Outcome 3</span></div>
+            <p class="def">Did exactly what it was told — and that wasn't what was meant.</p>
+            <ul class="chips">
+              <li>hidden assumption</li><li>spec drift</li><li>semantic drift</li><li>reward hacking</li>
+            </ul>
+            <div class="lever"><b>Lever</b>Instructions &amp; spec — system prompt, success criteria, output format, forced re-anchoring.</div>
+          </article>
+
+          <article class="mode safety">
+            <div class="head"><span class="num">06</span><h2>Safety</h2><span class="tag">vs. values · → Outcome 6</span></div>
+            <p class="def">Does something harmful or disallowed, even if task-correct.</p>
+            <ul class="chips">
+              <li>unauthorized action</li><li>prompt injection</li><li>leaks secrets / PII</li><li>alignment faking</li>
+            </ul>
+            <div class="lever"><b>Lever</b>Guardrails, permissions, sandboxing, human-in-the-loop.</div>
+          </article>
+        </div>
+
+        <div class="dims">
+          <div class="label">
+            <h3>Dimensions</h3>
+            <p>Modifiers on any mode. Modes give students words; dimensions give them eyes.</p>
+          </div>
+          <div class="dim">
+            <div class="top"><h4>Detectability</h4><span class="skill">trains <em>detection</em></span></div>
+            <div class="spectrum"><span>silent</span><span class="bar"></span><span>loud</span></div>
+            <p>A confidently wrong refund is silent — and dangerous. Every eval answers "how would I catch this if it were silent?"</p>
+          </div>
+          <div class="dim">
+            <div class="top"><h4>Propagation</h4><span class="skill">trains <em>localization</em></span></div>
+            <div class="spectrum"><span>cascading</span><span class="bar"></span><span>isolated</span></div>
+            <p>A bad tool result flows three steps downstream. Hunt the trace for the <i>earliest</i> span that went wrong.</p>
+          </div>
+          <div class="dim">
+            <div class="top"><h4>Origin</h4><span class="skill">trains <em>attribution</em></span></div>
+            <div class="spectrum"><span>model</span><span class="bar" style="background: var(--line)"></span><span>code</span></div>
+            <p>Probabilistic failure or deterministic bug — different evidence, different fix. Students reflexively blame the model.</p>
+          </div>
+        </div>
+
+        <footer>
+          <span><b>Folded in:</b> coordination → Control</span>
+          <span>code bug → Origin dimension</span>
+          <span>hallucination → split across Grounding &amp; Control</span>
+          <span>tool selection vs. execution → one mode</span>
+          <span style="margin-left:auto">A failure that fits no mode is one students have no lever for.</span>
+        </footer>
+      </div>
+    </section>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+<script>
+  Reveal.initialize({
+    width: 1920, height: 1080, margin: 0.02,
+    center: false, controls: false, progress: false, hash: false,
+    keyboard: false, overview: false, transition: 'none'
+  });
+</script>
+</body>
+</html>
