@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="slides_evals_files/libs/clipboard/clipboard.min.js"></script>
+<script src="slides_evals_files/libs/quarto-html/tabby.min.js"></script>
+<script src="slides_evals_files/libs/quarto-html/popper.min.js"></script>
+<script src="slides_evals_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="slides_evals_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="slides_evals_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="slides_evals_files/libs/quarto-html/quarto-syntax-highlighting-dark-23bbe8b5e4efc1e257f6d59dce478b08.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
+
+  <title>Evaluating AI Systems</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="slides_evals_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="slides_evals_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #e1e4e8; background-color: #24292e; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #e1e4e8; } /* Normal */
+    code span.al { color: #ff5555; font-weight: bold; } /* Alert */
+    code span.an { color: #6a737d; } /* Annotation */
+    code span.at { color: #f97583; } /* Attribute */
+    code span.bn { color: #79b8ff; } /* BaseN */
+    code span.bu { color: #f97583; } /* BuiltIn */
+    code span.cf { color: #f97583; } /* ControlFlow */
+    code span.ch { color: #9ecbff; } /* Char */
+    code span.cn { color: #79b8ff; } /* Constant */
+    code span.co { color: #6a737d; } /* Comment */
+    code span.cv { color: #6a737d; } /* CommentVar */
+    code span.do { color: #6a737d; } /* Documentation */
+    code span.dt { color: #f97583; } /* DataType */
+    code span.dv { color: #79b8ff; } /* DecVal */
+    code span.er { color: #ff5555; text-decoration: underline; } /* Error */
+    code span.ex { color: #f97583; font-weight: bold; } /* Extension */
+    code span.fl { color: #79b8ff; } /* Float */
+    code span.fu { color: #b392f0; } /* Function */
+    code span.im { color: #9ecbff; } /* Import */
+    code span.in { color: #6a737d; } /* Information */
+    code span.kw { color: #f97583; } /* Keyword */
+    code span.op { color: #e1e4e8; } /* Operator */
+    code span.ot { color: #b392f0; } /* Other */
+    code span.pp { color: #f97583; } /* Preprocessor */
+    code span.re { color: #6a737d; } /* RegionMarker */
+    code span.sc { color: #79b8ff; } /* SpecialChar */
+    code span.ss { color: #9ecbff; } /* SpecialString */
+    code span.st { color: #9ecbff; } /* String */
+    code span.va { color: #ffab70; } /* Variable */
+    code span.vs { color: #9ecbff; } /* VerbatimString */
+    code span.wa { color: #ff5555; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="slides_evals_files/libs/revealjs/dist/theme/quarto-a744a2b370710ab7168324db5d172d71.css">
+  <link href="slides_evals_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="slides_evals_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="slides_evals_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="slides_evals_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-dark">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Evaluating AI Systems</h1>
+  <p class="subtitle">Datasets, judges, and experiments</p>
+
+<div class="quarto-title-authors">
+</div>
+
+</section>
+<section id="scripture" class="slide level2">
+<h2>Scripture</h2>
+<!--
+  source mockup: lecture_slides/slide2_testing_explained.qmd (text-only outline)
+  likely lessons: 2.4 Datasets, 2.5 Evaluators (drafts/unit2_one_things.md); touches 2.15 pairwise, 2.3.3 human review
+  competencies: 2.2.1, 2.2.2, 2.2.3, 2.2.4, 2.2.5, 2.3.3
+  flow: it works -> run again -> more inputs -> vibe check -> rubric -> new prompt, grade it all again
+        -> datasets -> automate -> WHO GRADES? (code, LLM judge, human, pairwise) -> pick the grader
+        -> ONE JUDGE PER CRITERION -> experiment -> the whole loop
+  running example: ACME Restock (drafts/lesson2_x/acme_restock.ipynb) so students reuse what they already broke.
+  status: VISUAL MOCKUP, not a designed lesson. No objectives slide until lesson-design runs.
+  numbers on the experiment slide are ILLUSTRATIVE, not from a real run.
+-->
+<style>
+.reveal .tag { font-size: 0.45em; letter-spacing: .12em; text-transform: uppercase; color: #8b949e; }
+.reveal ul, .reveal p { font-size: 0.8em; }
+.reveal table { font-size: 0.58em; }
+.reveal .big-q { font-size: 1.5em; font-weight: 700; text-align: center; margin-top: 1.0em; }
+.reveal .why { font-size: 0.72em; color: #c9d1d9; margin-top: 0.6em; }
+.reveal .why strong { color: #7ee787; }
+.reveal .bad  { color: #ff7b72; }
+.reveal .good { color: #7ee787; }
+.reveal .muted { color: #8b949e; }
+.reveal pre { width: 100%; box-shadow: none; }
+.reveal pre code { font-size: 0.9em; line-height: 1.4; max-height: 480px; }
+
+/* system prompt / input / output trio */
+.reveal .trio { display: grid; grid-template-columns: 1.2fr 0.9fr 1.2fr; gap: 18px; margin-top: 0.6em; align-items: stretch; }
+.reveal .box { background: #161b22; border: 2px solid #30363d; border-top: 6px solid var(--c, #30363d); border-radius: 12px; padding: 12px 16px; }
+.reveal .box .tk { display: block; font-size: 0.75em; letter-spacing: .12em; text-transform: uppercase; color: var(--c, #8b949e); font-weight: 700; margin-bottom: 6px; }
+.reveal .box p { font-size: 0.55em; margin: 0; color: #e6edf3; line-height: 1.45; }
+.reveal .box.sys { --c: #8b949e; } .reveal .box.in { --c: #58a6ff; } .reveal .box.out { --c: #7ee787; }
+.reveal .box.out.fail { --c: #ff7b72; }
+.reveal .box.new { --c: #f0a356; }
+
+/* run grid: inputs x runs */
+.reveal .runs { display: grid; grid-template-columns: 2.1fr repeat(3, 1fr); gap: 8px; margin-top: 0.5em; font-size: 0.5em; }
+.reveal .runs .h { color: #8b949e; letter-spacing: .12em; text-transform: uppercase; font-size: 0.8em; text-align: center; align-self: end; }
+.reveal .runs .q { background: #161b22; border: 2px solid #30363d; border-left: 5px solid #58a6ff; border-radius: 8px; padding: 8px 12px; color: #e6edf3; }
+.reveal .runs .c { background: #0d1117; border: 2px solid #30363d; border-radius: 8px; padding: 8px 10px; text-align: center; color: #c9d1d9; }
+.reveal .runs .c.ok  { border-color: #7ee78766; } .reveal .runs .c.ok b  { color: #7ee787; }
+.reveal .runs .c.no  { border-color: #ff7b7299; } .reveal .runs .c.no b  { color: #ff7b72; }
+.reveal .runs .c.unk { border-style: dashed; color: #8b949e; }
+.reveal .count { text-align: center; font-size: 0.75em; margin-top: 0.5em; color: #c9d1d9; }
+.reveal .count b { font-size: 1.5em; color: #f0a356; }
+
+/* rubric card */
+.reveal .rubric { max-width: 900px; margin: 0.4em auto 0; background: #161b22; border: 2px solid #30363d; border-radius: 12px; padding: 16px 24px; }
+.reveal .rubric .row { display: grid; grid-template-columns: 210px 1fr 90px; gap: 16px; font-size: 0.55em; padding: 8px 0; border-top: 1px dashed #30363d; align-items: center; }
+.reveal .rubric .row:first-of-type { border-top: none; }
+.reveal .rubric .crit { font-weight: 700; color: #e6edf3; }
+.reveal .rubric .def { color: #c9d1d9; }
+.reveal .rubric .mark { text-align: center; font-weight: 700; }
+
+/* evaluator cards (same pattern as the failure-mode cards in lesson2_x) */
+.reveal .evals { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 0.4em; }
+.reveal .ev { background: #161b22; border: 2px solid #30363d; border-top: 6px solid var(--c); border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column; min-height: 470px; }
+.reveal .ev .ct { display: block; font-weight: 700; font-size: 0.85em; color: var(--c); line-height: 1.15; }
+.reveal .ev .sub { display: block; font-size: 0.42em; letter-spacing: .12em; text-transform: uppercase; color: #8b949e; margin: 4px 0 14px; }
+.reveal .ev .asks { font-size: 0.6em; font-style: italic; color: #e6edf3; margin: 0 0 12px; line-height: 1.3; }
+.reveal .ev p { font-size: 0.5em; margin: 4px 0 12px; color: #c9d1d9; line-height: 1.4; }
+.reveal .ev .ex { font-size: 0.42em; color: #c9d1d9; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 8px 10px; font-family: monospace; line-height: 1.4; }
+.reveal .ev .cost { margin-top: auto; font-size: 0.45em; color: var(--c); border-top: 1px dashed #30363d; padding-top: 10px; }
+.reveal .code-ev { --c: #6a9cf5; } .reveal .llm-ev { --c: #a789ee; }
+.reveal .human-ev { --c: #f0a356; } .reveal .pair-ev { --c: #3cc7b8; }
+.reveal .k-code { color: #6a9cf5; font-weight: 700; } .reveal .k-llm { color: #a789ee; font-weight: 700; }
+.reveal .k-human { color: #f0a356; font-weight: 700; } .reveal .k-pair { color: #3cc7b8; font-weight: 700; }
+
+/* comparison table */
+.reveal .cmp table th, .reveal .cmp table td { padding: 6px 10px; vertical-align: top; }
+.reveal .cmp table td:first-child { color: #8b949e; white-space: nowrap; }
+
+/* small cards row */
+.reveal .cards { display: flex; gap: 18px; margin-top: 0.5em; }
+.reveal .card { flex: 1; background: #161b22; border: 2px solid #30363d; border-radius: 14px; padding: 14px 18px; }
+.reveal .card p { font-size: 0.55em; margin: 4px 0; color: #c9d1d9; line-height: 1.45; }
+.reveal .card .ct { display: block; font-weight: 700; font-size: 1.4em; margin-bottom: 6px; color: #e6edf3; line-height: 1.2; }
+.reveal .card .tk { display: block; font-size: 0.75em; letter-spacing: .12em; text-transform: uppercase; color: #8b949e; margin-bottom: 4px; }
+.reveal .card.fm { border-color: #ff7b72; } .reveal .card.fm .ct { color: #ff7b72; }
+.reveal .card.need { border-color: #7ee787; } .reveal .card.need .ct { color: #7ee787; }
+.reveal .card.llm { border-color: #a789ee; } .reveal .card.llm .ct { color: #a789ee; }
+
+/* pairwise / verdicts */
+.reveal .verdicts { display: flex; gap: 22px; margin-top: 0.5em; }
+.reveal .verdict { flex: 1; background: #161b22; border: 2px solid #30363d; border-radius: 14px; padding: 14px 18px; }
+.reveal .verdict.win { border-color: #3cc7b8; }
+.reveal .verdict .who { display: block; font-size: 0.45em; letter-spacing: .12em; text-transform: uppercase; color: #8b949e; }
+.reveal .verdict p { font-size: 0.6em; margin: 4px 0 0; }
+.reveal .ask { max-width: 860px; margin: 0.2em auto 0; padding: 10px 18px; font-size: 0.6em; border-left: 4px solid #58a6ff; background: #58a6ff14; border-radius: 4px; color: #e6edf3; }
+.reveal .ask .who, .reveal .ruling .who { display: block; font-size: 0.7em; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 4px; }
+.reveal .ask .who { color: #58a6ff; }
+.reveal .ruling { max-width: 1000px; margin: 0.6em auto 0; padding: 10px 18px; font-size: 0.6em; border-left: 4px solid #3cc7b8; background: #3cc7b814; border-radius: 4px; color: #e6edf3; }
+.reveal .ruling .who { color: #3cc7b8; }
+
+/* judge prompt card */
+.reveal .prompt { background: #0d1117; border: 2px solid #a789ee; border-radius: 12px; padding: 16px 22px; font-family: monospace; color: #e6edf3; }
+.reveal .prompt p { font-size: 0.5em; line-height: 1.5; margin: 0 0 12px; }
+.reveal .prompt.mega { border-color: #ff7b72; }
+.reveal .prompt .hl { color: #a789ee; font-weight: 700; }
+.reveal .prompt.mega .hl { color: #ff7b72; }
+.reveal .split2 { display: grid; grid-template-columns: 1.35fr 1fr; gap: 26px; align-items: start; margin-top: 0.4em; }
+.reveal .notes-list { list-style: none; padding: 0; margin: 0; }
+.reveal .notes-list li { font-size: 0.6em; margin: 0 0 12px; padding-left: 14px; border-left: 4px solid #a789ee; color: #c9d1d9; }
+.reveal .notes-list li b { color: #e6edf3; }
+
+/* ladder */
+.reveal .ladder { display: flex; flex-direction: column; gap: 10px; max-width: 1000px; margin: 0.4em auto 0; }
+.reveal .rung { display: grid; grid-template-columns: 44px 1fr 260px; gap: 14px; align-items: center; background: #161b22; border: 2px solid #30363d; border-left: 6px solid var(--c); border-radius: 10px; padding: 10px 16px; }
+.reveal .rung .n { font-size: 0.8em; font-weight: 700; color: var(--c); text-align: center; }
+.reveal .rung .qq { font-size: 0.58em; color: #e6edf3; }
+.reveal .rung .qq small { display: block; font-size: 0.8em; color: #8b949e; }
+.reveal .rung .use { font-size: 0.55em; font-weight: 700; color: var(--c); text-align: right; }
+
+/* inline SVG diagrams (same classes as lesson2_2) */
+.reveal svg.diagram { display: block; width: 100%; height: auto; max-height: 540px; margin: 0.3em auto 0.2em; }
+.reveal svg.diagram text { font-family: "Source Sans Pro", Helvetica, sans-serif; fill: #c9d1d9; }
+.reveal svg.diagram .dg-tag   { font-size: 14px; letter-spacing: .14em; fill: #8b949e; font-weight: 600; }
+.reveal svg.diagram .dg-title { font-size: 22px; font-weight: 700; }
+.reveal svg.diagram .dg-label { font-size: 16px; fill: #8b949e; }
+.reveal svg.diagram .dg-box   { fill: #161b22; stroke-width: 2; }
+</style>
+<p><span class="tag">SCRIPTURE: TBD</span></p>
+<aside class="notes">
+<ul>
+<li>Placeholder. Something on judging righteously / by a standard fits (Moroni 7:15–16 is already used in Lesson X).</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- ============================================================ -->
+</section>
+<section>
+<section id="the-vibe-check" class="title-slide slide level1 center">
+<h1>The vibe check</h1>
+
+</section>
+<section id="it-works" class="slide level2">
+<h2>It works</h2>
+<div class="trio">
+<div class="box sys">
+<p><span class="tk">System prompt</span> You are ACME Restock, a buyer’s assistant. Use the inventory tools to answer. Never place an order over $10,000 without VP approval.</p>
+</div>
+<div class="box in">
+<p><span class="tk">Input</span> Do we carry anvils?</p>
+</div>
+<div class="box out">
+<p><span class="tk">Output</span> Yes. We carry 4 anvils. Want stock levels by DC?</p>
+</div>
+</div>
+<div class="fragment">
+<div class="big-q">
+<p>Ship it?</p>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li>Start from the place every student is: “I tried it and it worked.”</li>
+<li>Same agent as Lesson X. Some of them saw this exact question fail.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="but-how-good-is-it" class="slide level2">
+<h2>But how good is it?</h2>
+<div class="cards">
+<div class="card fm fragment">
+<p><span class="tk">Problem 1</span> <span class="ct">Same input, different output</span> It’s probabilistic. Does it work <em>every</em> time, or did you get lucky once?</p>
+</div>
+<div class="card fm fragment">
+<p><span class="tk">Problem 2</span> <span class="ct">Endless inputs</span> It works for <em>this</em> question. Buyers will ask thousands of others.</p>
+</div>
+</div>
+</section>
+<section id="run-it-again" class="slide level2">
+<h2>Run it again</h2>
+<div class="runs">
+  <div class="h"></div><div class="h">Run 1</div><div class="h">Run 2</div><div class="h">Run 3</div>
+  <div class="q">Do we carry anvils?</div>
+  <div class="c ok"><b>✓</b> Yes, 4 anvils</div>
+  <div class="c ok fragment"><b>✓</b> Yes, we carry 4</div>
+  <div class="c no fragment"><b>✗</b> "No, we don't carry anvils."</div>
+</div>
+<div class="why fragment">
+<p>Two out of three. <strong>Which run is the real agent?</strong> All of them.</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Run 3 is the real Lesson X failure (case-sensitive search). It only shows up some of the time.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="seems-right-what-about-other-inputs" class="slide level2">
+<h2>Seems right… what about other inputs?</h2>
+<div class="runs">
+  <div class="h"></div><div class="h">Run 1</div><div class="h">Run 2</div><div class="h">Run 3</div>
+  <div class="q">Do we carry anvils?</div>
+  <div class="c ok"><b>✓</b></div><div class="c ok"><b>✓</b></div><div class="c no"><b>✗</b></div>
+  <div class="q fragment" data-fragment-index="1">What's low at DC-EAST?</div>
+  <div class="c unk fragment" data-fragment-index="1">?</div><div class="c unk fragment" data-fragment-index="1">?</div><div class="c unk fragment" data-fragment-index="1">?</div>
+  <div class="q fragment" data-fragment-index="2">Suppliers that deliver within 4 weeks?</div>
+  <div class="c unk fragment" data-fragment-index="2">?</div><div class="c unk fragment" data-fragment-index="2">?</div><div class="c unk fragment" data-fragment-index="2">?</div>
+  <div class="q fragment" data-fragment-index="3">ACM-1086 is low at DC-SOUTH. Order 300.</div>
+  <div class="c unk fragment" data-fragment-index="3">?</div><div class="c unk fragment" data-fragment-index="3">?</div><div class="c unk fragment" data-fragment-index="3">?</div>
+</div>
+<div class="count fragment" data-fragment-index="4">4 questions × 3 runs = <b>12</b> outputs to read. For <em>four</em> questions.</div>
+<aside class="notes">
+<ul>
+<li>Now I have to run it a few times for <em>every</em> new input.</li>
+<li>Each row is a request from Lesson X’s notebook.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="its-just-a-vibe-check" class="slide level2">
+<h2>It’s just a vibe check</h2>
+<div class="cards">
+<div class="card fm">
+<p><span class="tk">Today</span> <span class="ct">“Looks right to me”</span> Different every time you look. Different for every person who looks. Can’t compare two versions.</p>
+</div>
+<div class="card need fragment">
+<p><span class="tk">What we want</span> <span class="ct">A rubric → a score</span> Write down what “good” means <em>before</em> you look. Then score each output against it.</p>
+</div>
+</div>
+</section>
+<section id="a-rubric-for-acme-restock" class="slide level2">
+<h2>A rubric for ACME Restock</h2>
+<div class="rubric">
+  <div class="row"><span class="crit">Correct</span><span class="def">Matches what the inventory data says</span><span class="mark good">✓</span></div>
+  <div class="row"><span class="crit">Complete</span><span class="def">Nothing the buyer asked for is left out</span><span class="mark good">✓</span></div>
+  <div class="row"><span class="crit">Grounded</span><span class="def">Every claim traces to a tool result</span><span class="mark bad">✗</span></div>
+  <div class="row"><span class="crit">Within policy</span><span class="def">No PO over $10,000 without VP approval</span><span class="mark bad">✗</span></div>
+</div>
+<div class="why fragment">
+<p>Where do these come from? <strong>The purpose list</strong> you started in Lesson X: who uses it, what they need, what it must never do.</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Each criterion is one “what does success look like?” answer.</li>
+<li>The ✓/✗ marks are a grade for request 5 (the $14,052 order).</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="now-grade-every-cell" class="slide level2">
+<h2>Now grade every cell</h2>
+<div class="count">
+<p>4 questions × 3 runs × 4 criteria = <strong>48</strong> judgments</p>
+</div>
+<div class="fragment">
+<div class="big-q">
+<p>By hand. Every time.</p>
+</div>
+</div>
+</section>
+<section id="lets-improve-it" class="slide level2">
+<h2>Let’s improve it</h2>
+<div class="trio">
+<div class="box new">
+<p><span class="tk">System prompt v2</span> …Never place an order over $10,000 without VP approval. <strong>Before ordering, check stock and open POs.</strong></p>
+</div>
+<div class="box in">
+<p><span class="tk">Input</span> Same 4 questions</p>
+</div>
+<div class="box out">
+<p><span class="tk">Output</span> ???</p>
+</div>
+</div>
+<div class="fragment">
+<div class="big-q">
+<p>Is v2 better? Grade all <strong>48</strong> again.</p>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li>And again for v3, and for a new model, and… This is the point where they <em>want</em> automation.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- ============================================================ -->
+</section></section>
+<section>
+<section id="automate-it" class="title-slide slide level1 center">
+<h1>Automate it</h1>
+
+</section>
+<section id="datasets-are-test-cases-for-llms" class="slide level2">
+<h2>Datasets are test cases for LLMs</h2>
+<svg class="diagram" viewbox="0 0 1100 440" role="img" aria-label="On the left, a cloud of possible requests from buyers, finance, and DC leads. An arrow labelled 'sample what real users would ask' points to a dataset table on the right. Each row has an input and a reference output describing what good looks like.">
+  <text class="dg-tag" x="20" y="30">EVERYTHING USERS MIGHT ASK</text>
+  <g style="font-size:15px">
+    <rect class="dg-box" x="20" y="50" width="230" height="38" rx="19" stroke="#30363d"></rect><text x="38" y="75">Do we carry anvils?</text>
+    <rect class="dg-box" x="100" y="100" width="250" height="38" rx="19" stroke="#30363d"></rect><text x="118" y="125">What's low at DC-EAST?</text>
+    <rect class="dg-box" x="10" y="150" width="270" height="38" rx="19" stroke="#30363d"></rect><text x="28" y="175">Order 300 of ACM-1086</text>
+    <rect class="dg-box" x="60" y="200" width="300" height="38" rx="19" stroke="#30363d"></rect><text x="78" y="225">Suppliers within 4 weeks?</text>
+    <rect class="dg-box" x="20" y="250" width="240" height="38" rx="19" stroke="#30363d"></rect><text x="38" y="275">Let me know when it lands</text>
+    <rect class="dg-box" x="90" y="300" width="260" height="38" rx="19" stroke="#30363d"></rect><text x="108" y="325">Which POs are overdue?</text>
+    <rect class="dg-box" x="30" y="350" width="230" height="38" rx="19" stroke="#30363d"></rect><text x="48" y="375">…thousands more</text>
+  </g>
+
+  <g class="fragment" data-fragment-index="1">
+    <line x1="380" y1="220" x2="470" y2="220" stroke="#58a6ff" stroke-width="3" marker-end="url(#arr)"></line>
+    <text class="dg-label" x="370" y="200">sample</text>
+
+    <text class="dg-tag" x="500" y="30">DATASET · ACME RESTOCK</text>
+    <rect class="dg-box" x="500" y="45" width="580" height="350" rx="12" stroke="#58a6ff"></rect>
+    <text x="520" y="78" style="font-size:15px;fill:#58a6ff;font-weight:700">INPUT</text>
+    <text x="760" y="78" style="font-size:15px;fill:#7ee787;font-weight:700">REFERENCE OUTPUT</text>
+    <line x1="500" y1="90" x2="1080" y2="90" stroke="#30363d" stroke-width="2"></line>
+    <g style="font-size:16px">
+      <text x="520" y="125">Do we carry anvils?</text>        <text x="760" y="125">Yes, 4 SKUs</text>
+      <line x1="510" y1="145" x2="1070" y2="145" stroke="#30363d" stroke-dasharray="4 4"></line>
+      <text x="520" y="180">What's low at DC-EAST?</text>     <text x="760" y="180">All 23 items, not 5</text>
+      <line x1="510" y1="200" x2="1070" y2="200" stroke="#30363d" stroke-dasharray="4 4"></line>
+      <text x="520" y="235">Suppliers within 4 weeks?</text>  <text x="760" y="235">≤ 28 days; excludes Volt &amp; Vine</text>
+      <line x1="510" y1="255" x2="1070" y2="255" stroke="#30363d" stroke-dasharray="4 4"></line>
+      <text x="520" y="290">Order 300 of ACM-1086</text>      <text x="760" y="290">Don't order: not low, PO open</text>
+      <line x1="510" y1="310" x2="1070" y2="310" stroke="#30363d" stroke-dasharray="4 4"></line>
+      <text x="520" y="345" class="dg-label">…20–50 examples to start</text>
+    </g>
+  </g>
+  <defs><marker id="arr" viewbox="0 0 10 10" refx="9" refy="5" markerwidth="7" markerheight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#58a6ff"></path></marker></defs>
+</svg>
+<div class="why fragment">
+<p>Input + <strong>what good looks like</strong> = a test case. A dataset is a pile of them.</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Sample what users would <em>reasonably</em> ask, including the ones you know break.</li>
+<li>Reference outputs don’t have to be exact wording. “Don’t order” is a perfectly good reference.</li>
+<li>Every failure they found in Lesson X is a free dataset row.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="now-a-machine-can-run-it" class="slide level2">
+<h2>Now a machine can run it</h2>
+<svg class="diagram" viewbox="0 0 1100 330" role="img" aria-label="A pipeline: dataset, into the agent version being tested, produces outputs, which go to evaluators, which produce scores. The evaluator box is a question mark.">
+  <defs><marker id="arr2" viewbox="0 0 10 10" refx="9" refy="5" markerwidth="7" markerheight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8b949e"></path></marker></defs>
+  <rect class="dg-box" x="10" y="90" width="190" height="120" rx="14" stroke="#58a6ff"></rect>
+  <text class="dg-tag" x="30" y="125">DATASET</text><text class="dg-title" x="30" y="160">40 examples</text>
+  <line x1="200" y1="150" x2="250" y2="150" stroke="#8b949e" stroke-width="3" marker-end="url(#arr2)"></line>
+
+  <rect class="dg-box" x="255" y="90" width="210" height="120" rx="14" stroke="#f0a356"></rect>
+  <text class="dg-tag" x="275" y="125">AGENT</text><text class="dg-title" x="275" y="160">v1 · × 3 runs</text>
+  <line x1="465" y1="150" x2="515" y2="150" stroke="#8b949e" stroke-width="3" marker-end="url(#arr2)"></line>
+
+  <rect class="dg-box" x="520" y="90" width="190" height="120" rx="14" stroke="#7ee787"></rect>
+  <text class="dg-tag" x="540" y="125">OUTPUTS</text><text class="dg-title" x="540" y="160">120 runs</text>
+  <line x1="710" y1="150" x2="760" y2="150" stroke="#8b949e" stroke-width="3" marker-end="url(#arr2)"></line>
+
+  <rect class="dg-box" x="765" y="90" width="150" height="120" rx="14" stroke="#a789ee" stroke-dasharray="8 6"></rect>
+  <text class="dg-tag" x="785" y="125">EVALUATOR</text><text x="815" y="175" style="font-size:44px;font-weight:700;fill:#a789ee">?</text>
+  <line x1="915" y1="150" x2="965" y2="150" stroke="#8b949e" stroke-width="3" marker-end="url(#arr2)"></line>
+
+  <rect class="dg-box" x="970" y="90" width="120" height="120" rx="14" stroke="#30363d"></rect>
+  <text class="dg-tag" x="990" y="125">SCORES</text><text class="dg-title" x="990" y="160">v1: ?</text>
+
+  <text class="dg-label" x="255" y="250">Swap in v2, a new model, a new prompt. Same dataset, same evaluator.</text>
+  <text class="dg-label" x="255" y="276">That's an <tspan style="fill:#e6edf3;font-weight:700">experiment</tspan>.</text>
+</svg>
+<div class="why fragment">
+<p>Running is easy. <strong>Grading</strong> is the hard part. Who fills in that box?</p>
+</div>
+<!-- ============================================================ -->
+</section></section>
+<section>
+<section id="who-grades" class="title-slide slide level1 center">
+<h1>Who grades?</h1>
+
+</section>
+<section id="four-kinds-of-evaluator" class="slide level2">
+<h2>Four kinds of evaluator</h2>
+<div class="evals">
+  <div class="ev code-ev fragment">
+    <span class="ct">Code</span><span class="sub">deterministic</span>
+    <div class="asks">“Is it true by a rule?”</div>
+    <p>A function checks the output. Same output → same score, every time.</p>
+    <div class="ex">total &lt;= 10_000 or approved</div>
+    <div class="cost">Free · instant · can't judge meaning</div>
+  </div>
+  <div class="ev llm-ev fragment">
+    <span class="ct">LLM-as-judge</span><span class="sub">probabilistic</span>
+    <div class="asks">“Does it meet this criterion?”</div>
+    <p>A second model reads the output and grades it. For what a rule can't check.</p>
+    <div class="ex">Every claim in the tool results? PASS / FAIL</div>
+    <div class="cost">Cheap · fast · can be wrong too</div>
+  </div>
+  <div class="ev human-ev fragment">
+    <span class="ct">Human review</span><span class="sub">annotation queue</span>
+    <div class="asks">“What does good actually look like?”</div>
+    <p>Real people (Rosa, Finance) label runs from a queue. The ground truth.</p>
+    <div class="ex">Rosa: FAIL · "missed 40 late shipments"</div>
+    <div class="cost">Slow · costly · the standard</div>
+  </div>
+  <div class="ev pair-ev fragment">
+    <span class="ct">Pairwise</span><span class="sub">A vs. B</span>
+    <div class="asks">“Which of these two is better?”</div>
+    <p>Two outputs, same input. Pick one. A human or an LLM can do it.</p>
+    <div class="ex">v1 vs v2 → B (more specific)</div>
+    <div class="cost">Relative, not absolute</div>
+  </div>
+</div>
+<aside class="notes">
+<ul>
+<li>Reveal one at a time. Colors stay the same for the rest of the deck.</li>
+<li>The first three give each output a score <em>on its own</em>. Pairwise is different: it only says which of two is better.</li>
+<li>Human review isn’t “instead of” the others. It’s how you know the others are right.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="what-makes-them-different" class="slide level2">
+<h2>What makes them different</h2>
+<div class="cmp">
+<table class="caption-top">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="k-code">Code</span></th>
+<th><span class="k-llm">LLM-as-judge</span></th>
+<th><span class="k-human">Human review</span></th>
+<th><span class="k-pair">Pairwise</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Same answer every time?</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td>Can judge meaning, tone?</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td>Output</td>
+<td>pass/fail or a number</td>
+<td>pass/fail + reasoning</td>
+<td>label + notes</td>
+<td>A, B, or tie</td>
+</tr>
+<tr class="even">
+<td>Needs a reference?</td>
+<td>Usually</td>
+<td>Sometimes</td>
+<td>No</td>
+<td>No, needs two versions</td>
+</tr>
+<tr class="odd">
+<td>Runs on every example?</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>A sample</td>
+<td>When comparing</td>
+</tr>
+<tr class="even">
+<td>Best for</td>
+<td>format, tool calls, limits, math</td>
+<td>grounding, tone, completeness</td>
+<td>defining good, checking judges</td>
+<td>“both pass, which is better?”</td>
+</tr>
+</tbody>
+</table>
+</div>
+<aside class="notes">
+<ul>
+<li>The big split: deterministic (code) vs.&nbsp;everything that involves judgment.</li>
+<li>Second split: absolute scores (first three) vs.&nbsp;relative (pairwise).</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="code-if-a-rule-can-check-it-use-a-rule" class="slide level2">
+<h2>Code: if a rule can check it, use a rule</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> within_policy(run, example):</span>
+<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a>    po <span class="op">=</span> run.outputs.get(<span class="st">"purchase_order"</span>)</span>
+<span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> po <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb1-4"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">"key"</span>: <span class="st">"within_policy"</span>, <span class="st">"score"</span>: <span class="dv">1</span>}</span>
+<span id="cb1-5"><a href="" aria-hidden="true" tabindex="-1"></a>    ok <span class="op">=</span> po[<span class="st">"total"</span>] <span class="op">&lt;=</span> <span class="dv">10_000</span> <span class="kw">or</span> po[<span class="st">"approved_by"</span>] <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span></span>
+<span id="cb1-6"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {<span class="st">"key"</span>: <span class="st">"within_policy"</span>, <span class="st">"score"</span>: <span class="bu">int</span>(ok)}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cards">
+<div class="card">
+<p><span class="tk">Other rules</span> Called <code>search_products</code>? Valid JSON? Mentioned all 23 items? Date math right?</p>
+</div>
+<div class="card need">
+<p><span class="tk">Why first</span> Never changes its mind. Costs nothing. Run it on every example, every time.</p>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li>The $10k policy from request 5 needs no LLM. Students reach for LLM judges by reflex; push back.</li>
+<li>The <code>run, example</code> signature matches LangSmith custom evaluators; details in the evaluator lesson.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="llm-as-judge-a-model-grading-a-model" class="slide level2">
+<h2>LLM-as-judge: a model grading a model</h2>
+<svg class="diagram" viewbox="0 0 1100 300" role="img" aria-label="The judge receives the input, the agent's output, and optionally a reference output or retrieved context. It uses one criterion and returns reasoning plus PASS or FAIL.">
+  <defs><marker id="arr3" viewbox="0 0 10 10" refx="9" refy="5" markerwidth="7" markerheight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8b949e"></path></marker></defs>
+  <text class="dg-tag" x="20" y="28">THE JUDGE SEES</text>
+  <rect class="dg-box" x="20" y="45" width="300" height="46" rx="10" stroke="#58a6ff"></rect><text x="40" y="75" style="font-size:18px">input</text>
+  <rect class="dg-box" x="20" y="101" width="300" height="46" rx="10" stroke="#7ee787"></rect><text x="40" y="131" style="font-size:18px">agent output</text>
+  <rect class="dg-box" x="20" y="157" width="300" height="46" rx="10" stroke="#30363d" stroke-dasharray="6 5"></rect><text x="40" y="187" style="font-size:18px">reference output <tspan class="dg-label">(optional)</tspan></text>
+  <rect class="dg-box" x="20" y="213" width="300" height="46" rx="10" stroke="#30363d" stroke-dasharray="6 5"></rect><text x="40" y="243" style="font-size:18px">tool results <tspan class="dg-label">(optional)</tspan></text>
+  <line x1="330" y1="150" x2="420" y2="150" stroke="#8b949e" stroke-width="3" marker-end="url(#arr3)"></line>
+  <rect class="dg-box" x="425" y="70" width="300" height="160" rx="14" stroke="#a789ee"></rect>
+  <text class="dg-tag" x="450" y="105">JUDGE PROMPT</text>
+  <text class="dg-title" x="450" y="145" style="fill:#a789ee">one criterion</text>
+  <text class="dg-label" x="450" y="175">pass means… / fail means…</text>
+  <text class="dg-label" x="450" y="200">+ examples</text>
+  <line x1="725" y1="150" x2="815" y2="150" stroke="#8b949e" stroke-width="3" marker-end="url(#arr3)"></line>
+  <rect class="dg-box" x="820" y="70" width="260" height="160" rx="14" stroke="#30363d"></rect>
+  <text class="dg-tag" x="845" y="105">RETURNS</text>
+  <text x="845" y="145" style="font-size:18px">reasoning: "says 'No anvils'</text>
+  <text x="845" y="170" style="font-size:18px">but search returned [] …"</text>
+  <text x="845" y="210" style="font-size:22px;font-weight:700;fill:#ff7b72">FAIL</text>
+</svg>
+<div class="cards">
+<div class="card llm fragment">
+<p><span class="tk">No reference</span> <span class="ct">Rubric</span> Right tone for a buyer? Asks when unclear?</p>
+</div>
+<div class="card llm fragment">
+<p><span class="tk">Against the reference</span> <span class="ct">Correctness / similarity</span> Same meaning as “Don’t order: not low”?</p>
+</div>
+<div class="card llm fragment">
+<p><span class="tk">Against the tool results</span> <span class="ct">Grounding / hallucination</span> Is every claim backed by what it retrieved?</p>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li>These three cards are the mockup’s “judge types” (rubric, similarity, factual/hallucination). They differ by <em>what the judge compares against</em>.</li>
+<li>String or embedding similarity can also be done in code. An LLM is for “same meaning, different words.”</li>
+<li>The judge is an LLM: it is non-deterministic and can be wrong. That’s why the next slide exists.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="human-review-who-grades-the-grader" class="slide level2">
+<h2>Human review: who grades the grader?</h2>
+<svg class="diagram" viewbox="0 0 1100 380" role="img" aria-label="Runs from production and experiments flow into an annotation queue: failed judges, judge and code disagreeing, and a random sample. A human reviewer labels each with the rubric. Labels feed two places: new dataset examples, and a check of the LLM judge's agreement with humans.">
+  <defs><marker id="arr4" viewbox="0 0 10 10" refx="9" refy="5" markerwidth="7" markerheight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8b949e"></path></marker></defs>
+  <text class="dg-tag" x="20" y="30">INTO THE QUEUE</text>
+  <rect class="dg-box" x="20" y="45" width="250" height="44" rx="10" stroke="#30363d"></rect><text x="38" y="74" style="font-size:17px">judge said FAIL</text>
+  <rect class="dg-box" x="20" y="99" width="250" height="44" rx="10" stroke="#30363d"></rect><text x="38" y="128" style="font-size:17px">user gave 👎</text>
+  <rect class="dg-box" x="20" y="153" width="250" height="44" rx="10" stroke="#30363d"></rect><text x="38" y="182" style="font-size:17px">random 5% sample</text>
+  <line x1="275" y1="120" x2="335" y2="120" stroke="#8b949e" stroke-width="3" marker-end="url(#arr4)"></line>
+
+  <rect class="dg-box" x="340" y="40" width="330" height="165" rx="14" stroke="#f0a356"></rect>
+  <text class="dg-tag" x="362" y="72">ANNOTATION QUEUE</text>
+  <rect x="362" y="88" width="285" height="28" rx="6" fill="#21262d"></rect><text x="374" y="108" style="font-size:15px">run 0412 · "Order 300…"</text>
+  <rect x="362" y="122" width="285" height="28" rx="6" fill="#21262d"></rect><text x="374" y="142" style="font-size:15px">run 0418 · "What's low…"</text>
+  <rect x="362" y="156" width="285" height="28" rx="6" fill="#21262d"></rect><text x="374" y="176" style="font-size:15px">run 0431 · "Anvils?"</text>
+  <line x1="670" y1="120" x2="730" y2="120" stroke="#8b949e" stroke-width="3" marker-end="url(#arr4)"></line>
+
+  <rect class="dg-box" x="735" y="40" width="345" height="165" rx="14" stroke="#f0a356"></rect>
+  <text class="dg-tag" x="757" y="72">REVIEWER + RUBRIC</text>
+  <text x="757" y="108" style="font-size:18px">Correct  <tspan style="fill:#7ee787">✓</tspan>   Grounded  <tspan style="fill:#7ee787">✓</tspan></text>
+  <text x="757" y="138" style="font-size:18px">Policy  <tspan style="fill:#ff7b72">✗</tspan></text>
+  <text x="757" y="172" style="font-size:16px;fill:#8b949e">note: "DC-SOUTH wasn't low"</text>
+
+  <g class="fragment" data-fragment-index="1">
+    <line x1="850" y1="205" x2="700" y2="275" stroke="#8b949e" stroke-width="3" marker-end="url(#arr4)"></line>
+    <line x1="960" y1="205" x2="960" y2="275" stroke="#8b949e" stroke-width="3" marker-end="url(#arr4)"></line>
+    <rect class="dg-box" x="420" y="280" width="320" height="80" rx="14" stroke="#58a6ff"></rect>
+    <text class="dg-tag" x="442" y="312">→ DATASET</text>
+    <text x="442" y="342" style="font-size:17px">new example + reference</text>
+    <rect class="dg-box" x="790" y="280" width="290" height="80" rx="14" stroke="#a789ee"></rect>
+    <text class="dg-tag" x="812" y="312">→ CHECK THE JUDGE</text>
+    <text x="812" y="342" style="font-size:17px">judge agreed with Rosa 17/20</text>
+  </g>
+</svg>
+<div class="why fragment">
+<p>Humans don’t grade everything. They grade <strong>enough to trust the judges</strong>, and every label becomes a test case.</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Annotation queue = a to-do list of runs for a person to label, with the rubric beside it.</li>
+<li>Judge agreement: if the LLM judge and Rosa disagree on 3 of 20, fix the judge prompt before trusting its scores. (2.3.3)</li>
+<li>The 17/20 is illustrative.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="pairwise-when-both-pass" class="slide level2">
+<h2>Pairwise: when both pass</h2>
+<div class="ask">
+<p><span class="who">CFO · Friday</span> How did shipping go last week?</p>
+</div>
+<div class="verdicts">
+<div class="verdict">
+<p><span class="who">A · prompt v1</span> Strong week! About 6,000 orders shipped, ~96% on time. West and Central led.</p>
+</div>
+<div class="verdict win fragment" data-fragment-index="1">
+<p><span class="who">B · prompt v2</span> 5,982 orders shipped, 95.8% on time. South region data is missing for Thu–Fri; numbers exclude it.</p>
+</div>
+</div>
+<div class="ruling fragment" data-fragment-index="2">
+<p><span class="who">Pairwise judge</span> <strong>B.</strong> Both are correct. B gives exact figures and flags the missing region, which a board report needs.</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Lesson X’s “two bosses” again. Scored alone, both would pass “Correct.” Only side by side does one look better.</li>
+<li>Absolute scores saturate: once everything passes, pairwise still tells v1 from v2. (2.15, 2.2.5)</li>
+<li>Watch for position bias: LLM judges tend to favor A or B by position. Run it both ways.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="pick-the-cheapest-grader-that-can-tell" class="slide level2">
+<h2>Pick the cheapest grader that can tell</h2>
+<div class="ladder">
+  <div class="rung code-ev fragment"><span class="n">1</span><span class="qq">Can a rule check it?<small>format, tool called, $ limit, item count, date math</small></span><span class="use">Code</span></div>
+  <div class="rung llm-ev fragment"><span class="n">2</span><span class="qq">Does it take judgment, on every example?<small>grounded, complete, right tone</small></span><span class="use">LLM-as-judge</span></div>
+  <div class="rung human-ev fragment"><span class="n">3</span><span class="qq">Don't know what good is yet? Don't trust the judge yet?<small>new criteria, new judges, a sample of real use</small></span><span class="use">Human review</span></div>
+  <div class="rung pair-ev fragment"><span class="n">4</span><span class="qq">Two versions both pass. Which is better?<small>prompt v1 vs v2, model A vs B</small></span><span class="use">Pairwise</span></div>
+</div>
+<aside class="notes">
+<ul>
+<li>Most real eval suites mix all four. One criterion, one evaluator: and choose the evaluator per criterion.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- ============================================================ -->
+</section></section>
+<section>
+<section id="one-judge-one-criterion" class="title-slide slide level1 center">
+<h1>One judge, one criterion</h1>
+
+</section>
+<section id="the-tempting-judge" class="slide level2">
+<h2>The tempting judge</h2>
+<div class="split2">
+<div class="prompt mega">
+<p>You are grading an inventory assistant.</p>
+<p>Rate the response from <span class="hl">1 to 10</span> for <span class="hl">correctness, completeness, grounding, tone, and policy compliance.</span></p>
+<p>Response: “I’ve placed PO-40013 for 300 units at DC-SOUTH. Total: $14,052. Happy to help with anything else!”</p>
+</div>
+<div class="fragment">
+<div class="big-q" style="margin-top:0.6em">
+<p>7 / 10</p>
+</div>
+<div class="why" style="text-align:center">
+<p>7 out of 10 <em>at what?</em></p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li>This is what everyone writes first. Ask: “what would you fix?” Nobody can answer from a 7.</li>
+<li>The output is request 5 from Lesson X: correct-looking, friendly, and a $14k policy violation.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="why-one-big-judge-fails" class="slide level2">
+<h2>Why one big judge fails</h2>
+<div class="cards">
+<div class="card fm fragment">
+<p><span class="ct">Can’t act on it</span> Which criterion lost the points? A 7 doesn’t point at any lever.</p>
+</div>
+<div class="card fm fragment">
+<p><span class="ct">Criteria bleed</span> Friendly tone and a confident answer pull the score up. A $14k policy break gets averaged away.</p>
+</div>
+<div class="card fm fragment">
+<p><span class="ct">Can’t calibrate</span> Rosa disagrees with the 7. About grounding? Policy? You can’t fix one part of the prompt.</p>
+</div>
+<div class="card fm fragment">
+<p><span class="ct">1–10 is mush</span> What’s the difference between a 6 and a 7? Run it again: 8.</p>
+</div>
+</div>
+</section>
+<section id="split-it-one-evaluator-per-criterion" class="slide level2">
+<h2>Split it: one evaluator per criterion</h2>
+<svg class="diagram" viewbox="0 0 1100 420" role="img" aria-label="One agent output fans out to four separate evaluators: Correct, Complete, and Grounded are LLM judges; Within policy is a code check. Each returns its own pass or fail. Results: correct pass, complete pass, grounded fail, within policy fail. Each failure points at a lever.">
+  <defs><marker id="arr5" viewbox="0 0 10 10" refx="9" refy="5" markerwidth="7" markerheight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8b949e"></path></marker></defs>
+  <rect class="dg-box" x="20" y="150" width="230" height="110" rx="14" stroke="#7ee787"></rect>
+  <text class="dg-tag" x="42" y="185">ONE OUTPUT</text>
+  <text x="42" y="218" style="font-size:17px">"Placed PO-40013…</text>
+  <text x="42" y="242" style="font-size:17px">Total: $14,052."</text>
+
+  <g stroke="#8b949e" stroke-width="2.5" fill="none">
+    <path d="M250,205 C300,205 300,62 350,62" marker-end="url(#arr5)"></path>
+    <path d="M250,205 C300,205 300,160 350,160" marker-end="url(#arr5)"></path>
+    <path d="M250,205 C300,205 300,258 350,258" marker-end="url(#arr5)"></path>
+    <path d="M250,205 C300,205 300,356 350,356" marker-end="url(#arr5)"></path>
+  </g>
+
+  <rect class="dg-box" x="355" y="30" width="330" height="64" rx="12" stroke="#a789ee"></rect>
+  <text x="375" y="58" style="font-size:19px;font-weight:700;fill:#a789ee">Correct?</text><text class="dg-tag" x="375" y="80">LLM JUDGE</text>
+  <rect class="dg-box" x="355" y="128" width="330" height="64" rx="12" stroke="#a789ee"></rect>
+  <text x="375" y="156" style="font-size:19px;font-weight:700;fill:#a789ee">Complete?</text><text class="dg-tag" x="375" y="178">LLM JUDGE</text>
+  <rect class="dg-box" x="355" y="226" width="330" height="64" rx="12" stroke="#a789ee"></rect>
+  <text x="375" y="254" style="font-size:19px;font-weight:700;fill:#a789ee">Grounded?</text><text class="dg-tag" x="375" y="276">LLM JUDGE · SEES TOOL RESULTS</text>
+  <rect class="dg-box" x="355" y="324" width="330" height="64" rx="12" stroke="#6a9cf5"></rect>
+  <text x="375" y="352" style="font-size:19px;font-weight:700;fill:#6a9cf5">Within policy?</text><text class="dg-tag" x="375" y="374">CODE · NO LLM NEEDED</text>
+
+  <g class="fragment" data-fragment-index="1">
+    <g style="font-size:22px;font-weight:700">
+      <text x="715" y="70" style="fill:#7ee787">PASS</text>
+      <text x="715" y="168" style="fill:#7ee787">PASS</text>
+      <text x="715" y="266" style="fill:#ff7b72">FAIL</text>
+      <text x="715" y="364" style="fill:#ff7b72">FAIL</text>
+    </g>
+  </g>
+  <g class="fragment" data-fragment-index="2" style="font-size:16px">
+    <text x="800" y="258" style="fill:#c9d1d9">"DC-SOUTH isn't low; the</text>
+    <text x="800" y="280" style="fill:#c9d1d9">agent never checked" → <tspan style="fill:#3cc7b8;font-weight:700">Grounding</tspan></text>
+    <text x="800" y="356" style="fill:#c9d1d9">$14,052 &gt; $10k, no approval</text>
+    <text x="800" y="378" style="fill:#c9d1d9">→ <tspan style="fill:#f06a6a;font-weight:700">Safety</tspan>: add a guardrail</text>
+  </g>
+</svg>
+<div class="why fragment">
+<p>Each evaluator answers <strong>one question</strong>. Each failure points at <strong>one lever</strong>.</p>
+</div>
+<aside class="notes">
+<ul>
+<li>The verdict colors on the right are the Lesson X failure-mode colors: criterion → failure mode → lever.</li>
+<li>Note that “Within policy” moved to code. Splitting criteria apart is often how you discover a rule can check one of them.</li>
+<li>Bonus: you can now improve one judge without touching the others, and track each criterion’s pass rate separately.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="a-good-judge-prompt" class="slide level2">
+<h2>A good judge prompt</h2>
+<div class="split2">
+<div class="prompt">
+<p><span class="hl">Criterion: Grounded</span></p>
+<p>PASS if every fact in the response (items, quantities, stock levels, prices) appears in the tool results below. FAIL if any fact is missing from them, or the response assumes something it never checked.</p>
+<p>Example FAIL: says “DC-SOUTH is low” when no stock lookup for DC-SOUTH was made.</p>
+<p>Tool results: {tool_results}<br> Response: {output}</p>
+<p>Explain your reasoning, then answer <span class="hl">PASS or FAIL</span>.</p>
+</div>
+<div>
+<ul class="notes-list">
+<li class="fragment">
+<b>One criterion.</b> If you wrote “and,” make two judges.
+</li>
+<li class="fragment">
+<b>Pass / fail, not 1–10.</b> Easier to agree on, easier to check.
+</li>
+<li class="fragment">
+<b>Say what pass and fail mean,</b> with a real example of each.
+</li>
+<li class="fragment">
+<b>Reasoning first,</b> verdict last.
+</li>
+<li class="fragment">
+<b>Check it against people.</b> Does it agree with Rosa?
+</li>
+</ul>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li>The example FAIL is a real failure from the notebook. Your best examples come from your own traces.</li>
+<li>Students will ask “what about partial credit?” Split the criterion until pass/fail makes sense.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- ============================================================ -->
+</section></section>
+<section>
+<section id="experiment" class="title-slide slide level1 center">
+<h1>Experiment</h1>
+
+</section>
+<section id="compare-two-versions" class="slide level2">
+<h2>Compare two versions</h2>
+<p><span class="tag">ILLUSTRATIVE NUMBERS</span></p>
+<svg class="diagram" viewbox="0 0 1100 400" role="img" aria-label="Grouped bar chart of pass rates for prompt v1 and v2 on four criteria. Correct: v1 85, v2 88. Complete: v1 90, v2 70. Grounded: v1 60, v2 85. Within policy: v1 40, v2 95. Overall average: v1 69, v2 85.">
+  <line x1="80" y1="320" x2="1060" y2="320" stroke="#30363d" stroke-width="2"></line>
+  <g class="dg-label" style="font-size:14px">
+    <text x="40" y="324">0%</text><text x="30" y="174">50%</text><text x="22" y="24">100%</text>
+  </g>
+  <line x1="80" y1="170" x2="1060" y2="170" stroke="#30363d" stroke-dasharray="4 6"></line>
+  <line x1="80" y1="20" x2="1060" y2="20" stroke="#30363d" stroke-dasharray="4 6"></line>
+  <!-- scale: 3px per % ; baseline 320 -->
+  <g>
+    <rect x="130" y="65" width="70" height="255" rx="4" fill="#8b949e"></rect><rect x="206" y="56" width="70" height="264" rx="4" fill="#f0a356"></rect>
+    <rect x="370" y="50" width="70" height="270" rx="4" fill="#8b949e"></rect><rect x="446" y="110" width="70" height="210" rx="4" fill="#ff7b72"></rect>
+    <rect x="610" y="140" width="70" height="180" rx="4" fill="#8b949e"></rect><rect x="686" y="65" width="70" height="255" rx="4" fill="#f0a356"></rect>
+    <rect x="850" y="200" width="70" height="120" rx="4" fill="#8b949e"></rect><rect x="926" y="35" width="70" height="285" rx="4" fill="#f0a356"></rect>
+  </g>
+  <g style="font-size:15px;font-weight:700">
+    <text x="146" y="58">85</text><text x="222" y="49">88</text>
+    <text x="386" y="43">90</text><text x="462" y="103" style="fill:#ff7b72">70</text>
+    <text x="626" y="133">60</text><text x="702" y="58">85</text>
+    <text x="866" y="193">40</text><text x="942" y="28">95</text>
+  </g>
+  <g style="font-size:18px;font-weight:700">
+    <text x="170" y="350">Correct</text><text x="400" y="350">Complete</text>
+    <text x="640" y="350">Grounded</text><text x="860" y="350">Within policy</text>
+  </g>
+  <g style="font-size:15px">
+    <rect x="80" y="372" width="16" height="16" fill="#8b949e"></rect><text x="104" y="386">v1</text>
+    <rect x="150" y="372" width="16" height="16" fill="#f0a356"></rect><text x="174" y="386">v2 (check stock and open POs first)</text>
+  </g>
+</svg>
+<div class="why fragment">
+<p>One number says v2 is “better” (69% → 85%). Four numbers say <strong>what you traded</strong>: v2 got safer and stopped listing everything.</p>
+</div>
+<aside class="notes">
+<ul>
+<li>This is why one-judge-per-criterion pays off at experiment time: regressions show up by name.</li>
+<li>Numbers are made up for the mockup. Replace with a real run once the dataset exists.</li>
+<li>Same dataset, same evaluators, two targets. That’s all an experiment is.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-whole-loop" class="slide level2">
+<h2>The whole loop</h2>
+<svg class="diagram" viewbox="0 0 1100 430" role="img" aria-label="A cycle. Traces from real use go into human review. Human review produces dataset examples and calibrates judges. The dataset and evaluators run an experiment on agent versions. The experiment compares versions per criterion and pairwise. The winner ships, which produces new traces.">
+  <defs><marker id="arr6" viewbox="0 0 10 10" refx="9" refy="5" markerwidth="7" markerheight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8b949e"></path></marker></defs>
+
+  <rect class="dg-box" x="40" y="40" width="260" height="100" rx="14" stroke="#7ee787"></rect>
+  <text class="dg-tag" x="62" y="74">1 · TRACES</text><text x="62" y="110" style="font-size:18px">real use + experiments</text>
+
+  <rect class="dg-box" x="420" y="40" width="260" height="100" rx="14" stroke="#f0a356"></rect>
+  <text class="dg-tag" x="442" y="74" style="fill:#f0a356">2 · HUMAN REVIEW</text><text x="442" y="110" style="font-size:18px">annotation queue</text>
+
+  <rect class="dg-box" x="800" y="40" width="260" height="100" rx="14" stroke="#58a6ff"></rect>
+  <text class="dg-tag" x="822" y="74" style="fill:#58a6ff">3 · DATASET</text><text x="822" y="110" style="font-size:18px">inputs + what good is</text>
+
+  <rect class="dg-box" x="800" y="290" width="260" height="110" rx="14" stroke="#a789ee"></rect>
+  <text class="dg-tag" x="822" y="324" style="fill:#a789ee">4 · EXPERIMENT</text>
+  <text x="822" y="356" style="font-size:17px">agent vN × evaluators</text>
+  <text x="822" y="380" style="font-size:15px;fill:#8b949e"><tspan style="fill:#6a9cf5">code</tspan> + <tspan style="fill:#a789ee">one judge per criterion</tspan></text>
+
+  <rect class="dg-box" x="420" y="290" width="260" height="110" rx="14" stroke="#3cc7b8"></rect>
+  <text class="dg-tag" x="442" y="324" style="fill:#3cc7b8">5 · COMPARE</text>
+  <text x="442" y="356" style="font-size:17px">per criterion, then pairwise</text>
+
+  <rect class="dg-box" x="40" y="290" width="260" height="110" rx="14" stroke="#30363d"></rect>
+  <text class="dg-tag" x="62" y="324">6 · SHIP THE WINNER</text>
+  <text x="62" y="356" style="font-size:17px">fix the lever that failed</text>
+
+  <line x1="300" y1="90" x2="415" y2="90" stroke="#8b949e" stroke-width="3" marker-end="url(#arr6)"></line>
+  <line x1="680" y1="90" x2="795" y2="90" stroke="#8b949e" stroke-width="3" marker-end="url(#arr6)"></line>
+  <line x1="930" y1="140" x2="930" y2="285" stroke="#8b949e" stroke-width="3" marker-end="url(#arr6)"></line>
+  <line x1="800" y1="345" x2="685" y2="345" stroke="#8b949e" stroke-width="3" marker-end="url(#arr6)"></line>
+  <line x1="420" y1="345" x2="305" y2="345" stroke="#8b949e" stroke-width="3" marker-end="url(#arr6)"></line>
+  <line x1="170" y1="290" x2="170" y2="145" stroke="#8b949e" stroke-width="3" marker-end="url(#arr6)"></line>
+  <path d="M600,140 C640,220 760,250 800,300" stroke="#f0a356" stroke-width="2.5" fill="none" stroke-dasharray="7 6" marker-end="url(#arr6)"></path>
+  <text x="640" y="232" style="font-size:15px;fill:#f0a356">calibrate the judges</text>
+</svg>
+<div class="fragment">
+<div class="big-q">
+<p>You can’t grade what you haven’t defined.</p>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li>Every box is a later Unit 2 lesson. This is the map.</li>
+<li>The closing line ties back to Lesson X: the purpose list <em>is</em> the rubric. No purpose list, no criteria, no judges.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="slides_evals_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="slides_evals_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="slides_evals_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="slides_evals_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="slides_evals_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="slides_evals_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="slides_evals_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="slides_evals_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="slides_evals_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="slides_evals_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 760,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

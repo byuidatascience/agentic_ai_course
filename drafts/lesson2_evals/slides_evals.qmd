@@ -1,0 +1,863 @@
+---
+title: "Evaluating AI Systems"
+subtitle: "Datasets, judges, and experiments"
+format:
+  revealjs:
+    theme: dark
+    highlight-style: github-dark
+    code-line-numbers: false
+    slide-number: true
+    transition: none
+    width: 1280
+    height: 760
+execute:
+  eval: false
+---
+
+## Scripture
+
+<!--
+  source mockup: lecture_slides/slide2_testing_explained.qmd (text-only outline)
+  likely lessons: 2.4 Datasets, 2.5 Evaluators (drafts/unit2_one_things.md); touches 2.15 pairwise, 2.3.3 human review
+  competencies: 2.2.1, 2.2.2, 2.2.3, 2.2.4, 2.2.5, 2.3.3
+  flow: it works -> run again -> more inputs -> vibe check -> rubric -> new prompt, grade it all again
+        -> datasets -> automate -> WHO GRADES? (code, LLM judge, human, pairwise) -> pick the grader
+        -> ONE JUDGE PER CRITERION -> experiment -> the whole loop
+  running example: ACME Restock (drafts/lesson2_x/acme_restock.ipynb) so students reuse what they already broke.
+  status: VISUAL MOCKUP, not a designed lesson. No objectives slide until lesson-design runs.
+  numbers on the experiment slide are ILLUSTRATIVE, not from a real run.
+-->
+
+<style>
+.reveal .tag { font-size: 0.45em; letter-spacing: .12em; text-transform: uppercase; color: #8b949e; }
+.reveal ul, .reveal p { font-size: 0.8em; }
+.reveal table { font-size: 0.58em; }
+.reveal .big-q { font-size: 1.5em; font-weight: 700; text-align: center; margin-top: 1.0em; }
+.reveal .why { font-size: 0.72em; color: #c9d1d9; margin-top: 0.6em; }
+.reveal .why strong { color: #7ee787; }
+.reveal .bad  { color: #ff7b72; }
+.reveal .good { color: #7ee787; }
+.reveal .muted { color: #8b949e; }
+.reveal pre { width: 100%; box-shadow: none; }
+.reveal pre code { font-size: 0.9em; line-height: 1.4; max-height: 480px; }
+
+/* system prompt / input / output trio */
+.reveal .trio { display: grid; grid-template-columns: 1.2fr 0.9fr 1.2fr; gap: 18px; margin-top: 0.6em; align-items: stretch; }
+.reveal .box { background: #161b22; border: 2px solid #30363d; border-top: 6px solid var(--c, #30363d); border-radius: 12px; padding: 12px 16px; }
+.reveal .box .tk { display: block; font-size: 0.75em; letter-spacing: .12em; text-transform: uppercase; color: var(--c, #8b949e); font-weight: 700; margin-bottom: 6px; }
+.reveal .box p { font-size: 0.55em; margin: 0; color: #e6edf3; line-height: 1.45; }
+.reveal .box.sys { --c: #8b949e; } .reveal .box.in { --c: #58a6ff; } .reveal .box.out { --c: #7ee787; }
+.reveal .box.out.fail { --c: #ff7b72; }
+.reveal .box.new { --c: #f0a356; }
+
+/* run grid: inputs x runs */
+.reveal .runs { display: grid; grid-template-columns: 2.1fr repeat(3, 1fr); gap: 8px; margin-top: 0.5em; font-size: 0.5em; }
+.reveal .runs .h { color: #8b949e; letter-spacing: .12em; text-transform: uppercase; font-size: 0.8em; text-align: center; align-self: end; }
+.reveal .runs .q { background: #161b22; border: 2px solid #30363d; border-left: 5px solid #58a6ff; border-radius: 8px; padding: 8px 12px; color: #e6edf3; }
+.reveal .runs .c { background: #0d1117; border: 2px solid #30363d; border-radius: 8px; padding: 8px 10px; text-align: center; color: #c9d1d9; }
+.reveal .runs .c.ok  { border-color: #7ee78766; } .reveal .runs .c.ok b  { color: #7ee787; }
+.reveal .runs .c.no  { border-color: #ff7b7299; } .reveal .runs .c.no b  { color: #ff7b72; }
+.reveal .runs .c.unk { border-style: dashed; color: #8b949e; }
+.reveal .count { text-align: center; font-size: 0.75em; margin-top: 0.5em; color: #c9d1d9; }
+.reveal .count b { font-size: 1.5em; color: #f0a356; }
+
+/* rubric card */
+.reveal .rubric { max-width: 900px; margin: 0.4em auto 0; background: #161b22; border: 2px solid #30363d; border-radius: 12px; padding: 16px 24px; }
+.reveal .rubric .row { display: grid; grid-template-columns: 210px 1fr 90px; gap: 16px; font-size: 0.55em; padding: 8px 0; border-top: 1px dashed #30363d; align-items: center; }
+.reveal .rubric .row:first-of-type { border-top: none; }
+.reveal .rubric .crit { font-weight: 700; color: #e6edf3; }
+.reveal .rubric .def { color: #c9d1d9; }
+.reveal .rubric .mark { text-align: center; font-weight: 700; }
+
+/* evaluator cards (same pattern as the failure-mode cards in lesson2_x) */
+.reveal .evals { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 0.4em; }
+.reveal .ev { background: #161b22; border: 2px solid #30363d; border-top: 6px solid var(--c); border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column; min-height: 470px; }
+.reveal .ev .ct { display: block; font-weight: 700; font-size: 0.85em; color: var(--c); line-height: 1.15; }
+.reveal .ev .sub { display: block; font-size: 0.42em; letter-spacing: .12em; text-transform: uppercase; color: #8b949e; margin: 4px 0 14px; }
+.reveal .ev .asks { font-size: 0.6em; font-style: italic; color: #e6edf3; margin: 0 0 12px; line-height: 1.3; }
+.reveal .ev p { font-size: 0.5em; margin: 4px 0 12px; color: #c9d1d9; line-height: 1.4; }
+.reveal .ev .ex { font-size: 0.42em; color: #c9d1d9; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 8px 10px; font-family: monospace; line-height: 1.4; }
+.reveal .ev .cost { margin-top: auto; font-size: 0.45em; color: var(--c); border-top: 1px dashed #30363d; padding-top: 10px; }
+.reveal .code-ev { --c: #6a9cf5; } .reveal .llm-ev { --c: #a789ee; }
+.reveal .human-ev { --c: #f0a356; } .reveal .pair-ev { --c: #3cc7b8; }
+.reveal .k-code { color: #6a9cf5; font-weight: 700; } .reveal .k-llm { color: #a789ee; font-weight: 700; }
+.reveal .k-human { color: #f0a356; font-weight: 700; } .reveal .k-pair { color: #3cc7b8; font-weight: 700; }
+
+/* comparison table */
+.reveal .cmp table th, .reveal .cmp table td { padding: 6px 10px; vertical-align: top; }
+.reveal .cmp table td:first-child { color: #8b949e; white-space: nowrap; }
+
+/* small cards row */
+.reveal .cards { display: flex; gap: 18px; margin-top: 0.5em; }
+.reveal .card { flex: 1; background: #161b22; border: 2px solid #30363d; border-radius: 14px; padding: 14px 18px; }
+.reveal .card p { font-size: 0.55em; margin: 4px 0; color: #c9d1d9; line-height: 1.45; }
+.reveal .card .ct { display: block; font-weight: 700; font-size: 1.4em; margin-bottom: 6px; color: #e6edf3; line-height: 1.2; }
+.reveal .card .tk { display: block; font-size: 0.75em; letter-spacing: .12em; text-transform: uppercase; color: #8b949e; margin-bottom: 4px; }
+.reveal .card.fm { border-color: #ff7b72; } .reveal .card.fm .ct { color: #ff7b72; }
+.reveal .card.need { border-color: #7ee787; } .reveal .card.need .ct { color: #7ee787; }
+.reveal .card.llm { border-color: #a789ee; } .reveal .card.llm .ct { color: #a789ee; }
+
+/* pairwise / verdicts */
+.reveal .verdicts { display: flex; gap: 22px; margin-top: 0.5em; }
+.reveal .verdict { flex: 1; background: #161b22; border: 2px solid #30363d; border-radius: 14px; padding: 14px 18px; }
+.reveal .verdict.win { border-color: #3cc7b8; }
+.reveal .verdict .who { display: block; font-size: 0.45em; letter-spacing: .12em; text-transform: uppercase; color: #8b949e; }
+.reveal .verdict p { font-size: 0.6em; margin: 4px 0 0; }
+.reveal .ask { max-width: 860px; margin: 0.2em auto 0; padding: 10px 18px; font-size: 0.6em; border-left: 4px solid #58a6ff; background: #58a6ff14; border-radius: 4px; color: #e6edf3; }
+.reveal .ask .who, .reveal .ruling .who { display: block; font-size: 0.7em; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 4px; }
+.reveal .ask .who { color: #58a6ff; }
+.reveal .ruling { max-width: 1000px; margin: 0.6em auto 0; padding: 10px 18px; font-size: 0.6em; border-left: 4px solid #3cc7b8; background: #3cc7b814; border-radius: 4px; color: #e6edf3; }
+.reveal .ruling .who { color: #3cc7b8; }
+
+/* judge prompt card */
+.reveal .prompt { background: #0d1117; border: 2px solid #a789ee; border-radius: 12px; padding: 16px 22px; font-family: monospace; color: #e6edf3; }
+.reveal .prompt p { font-size: 0.5em; line-height: 1.5; margin: 0 0 12px; }
+.reveal .prompt.mega { border-color: #ff7b72; }
+.reveal .prompt .hl { color: #a789ee; font-weight: 700; }
+.reveal .prompt.mega .hl { color: #ff7b72; }
+.reveal .split2 { display: grid; grid-template-columns: 1.35fr 1fr; gap: 26px; align-items: start; margin-top: 0.4em; }
+.reveal .notes-list { list-style: none; padding: 0; margin: 0; }
+.reveal .notes-list li { font-size: 0.6em; margin: 0 0 12px; padding-left: 14px; border-left: 4px solid #a789ee; color: #c9d1d9; }
+.reveal .notes-list li b { color: #e6edf3; }
+
+/* ladder */
+.reveal .ladder { display: flex; flex-direction: column; gap: 10px; max-width: 1000px; margin: 0.4em auto 0; }
+.reveal .rung { display: grid; grid-template-columns: 44px 1fr 260px; gap: 14px; align-items: center; background: #161b22; border: 2px solid #30363d; border-left: 6px solid var(--c); border-radius: 10px; padding: 10px 16px; }
+.reveal .rung .n { font-size: 0.8em; font-weight: 700; color: var(--c); text-align: center; }
+.reveal .rung .qq { font-size: 0.58em; color: #e6edf3; }
+.reveal .rung .qq small { display: block; font-size: 0.8em; color: #8b949e; }
+.reveal .rung .use { font-size: 0.55em; font-weight: 700; color: var(--c); text-align: right; }
+
+/* inline SVG diagrams (same classes as lesson2_2) */
+.reveal svg.diagram { display: block; width: 100%; height: auto; max-height: 540px; margin: 0.3em auto 0.2em; }
+.reveal svg.diagram text { font-family: "Source Sans Pro", Helvetica, sans-serif; fill: #c9d1d9; }
+.reveal svg.diagram .dg-tag   { font-size: 14px; letter-spacing: .14em; fill: #8b949e; font-weight: 600; }
+.reveal svg.diagram .dg-title { font-size: 22px; font-weight: 700; }
+.reveal svg.diagram .dg-label { font-size: 16px; fill: #8b949e; }
+.reveal svg.diagram .dg-box   { fill: #161b22; stroke-width: 2; }
+</style>
+
+[SCRIPTURE: TBD]{.tag}
+
+::: {.notes}
+- Placeholder. Something on judging righteously / by a standard fits (Moroni 7:15–16 is already used in Lesson X).
+:::
+
+<!-- ============================================================ -->
+# The vibe check {.center}
+
+## It works
+
+::: {.trio}
+::: {.box .sys}
+[System prompt]{.tk}
+You are ACME Restock, a buyer's assistant. Use the inventory tools to answer. Never place an order over $10,000 without VP approval.
+:::
+::: {.box .in}
+[Input]{.tk}
+Do we carry anvils?
+:::
+::: {.box .out}
+[Output]{.tk}
+Yes. We carry 4 anvils. Want stock levels by DC?
+:::
+:::
+
+::: {.fragment}
+::: {.big-q}
+Ship it?
+:::
+:::
+
+::: {.notes}
+- Start from the place every student is: "I tried it and it worked."
+- Same agent as Lesson X. Some of them saw this exact question fail.
+:::
+
+## But how good is it?
+
+::: {.cards}
+::: {.card .fm .fragment}
+[Problem 1]{.tk}
+[Same input, different output]{.ct}
+It's probabilistic. Does it work *every* time, or did you get lucky once?
+:::
+::: {.card .fm .fragment}
+[Problem 2]{.tk}
+[Endless inputs]{.ct}
+It works for *this* question. Buyers will ask thousands of others.
+:::
+:::
+
+## Run it again
+
+```{=html}
+<div class="runs">
+  <div class="h"></div><div class="h">Run 1</div><div class="h">Run 2</div><div class="h">Run 3</div>
+  <div class="q">Do we carry anvils?</div>
+  <div class="c ok"><b>✓</b> Yes, 4 anvils</div>
+  <div class="c ok fragment"><b>✓</b> Yes, we carry 4</div>
+  <div class="c no fragment"><b>✗</b> "No, we don't carry anvils."</div>
+</div>
+```
+
+::: {.why .fragment}
+Two out of three. **Which run is the real agent?** All of them.
+:::
+
+::: {.notes}
+- Run 3 is the real Lesson X failure (case-sensitive search). It only shows up some of the time.
+:::
+
+## Seems right… what about other inputs?
+
+```{=html}
+<div class="runs">
+  <div class="h"></div><div class="h">Run 1</div><div class="h">Run 2</div><div class="h">Run 3</div>
+  <div class="q">Do we carry anvils?</div>
+  <div class="c ok"><b>✓</b></div><div class="c ok"><b>✓</b></div><div class="c no"><b>✗</b></div>
+  <div class="q fragment" data-fragment-index="1">What's low at DC-EAST?</div>
+  <div class="c unk fragment" data-fragment-index="1">?</div><div class="c unk fragment" data-fragment-index="1">?</div><div class="c unk fragment" data-fragment-index="1">?</div>
+  <div class="q fragment" data-fragment-index="2">Suppliers that deliver within 4 weeks?</div>
+  <div class="c unk fragment" data-fragment-index="2">?</div><div class="c unk fragment" data-fragment-index="2">?</div><div class="c unk fragment" data-fragment-index="2">?</div>
+  <div class="q fragment" data-fragment-index="3">ACM-1086 is low at DC-SOUTH. Order 300.</div>
+  <div class="c unk fragment" data-fragment-index="3">?</div><div class="c unk fragment" data-fragment-index="3">?</div><div class="c unk fragment" data-fragment-index="3">?</div>
+</div>
+<div class="count fragment" data-fragment-index="4">4 questions × 3 runs = <b>12</b> outputs to read. For <em>four</em> questions.</div>
+```
+
+::: {.notes}
+- Now I have to run it a few times for *every* new input.
+- Each row is a request from Lesson X's notebook.
+:::
+
+## It's just a vibe check
+
+::: {.cards}
+::: {.card .fm}
+[Today]{.tk}
+[“Looks right to me”]{.ct}
+Different every time you look. Different for every person who looks. Can't compare two versions.
+:::
+::: {.card .need .fragment}
+[What we want]{.tk}
+[A rubric → a score]{.ct}
+Write down what "good" means *before* you look. Then score each output against it.
+:::
+:::
+
+## A rubric for ACME Restock
+
+```{=html}
+<div class="rubric">
+  <div class="row"><span class="crit">Correct</span><span class="def">Matches what the inventory data says</span><span class="mark good">✓</span></div>
+  <div class="row"><span class="crit">Complete</span><span class="def">Nothing the buyer asked for is left out</span><span class="mark good">✓</span></div>
+  <div class="row"><span class="crit">Grounded</span><span class="def">Every claim traces to a tool result</span><span class="mark bad">✗</span></div>
+  <div class="row"><span class="crit">Within policy</span><span class="def">No PO over $10,000 without VP approval</span><span class="mark bad">✗</span></div>
+</div>
+```
+
+::: {.why .fragment}
+Where do these come from? **The purpose list** you started in Lesson X: who uses it, what they need, what it must never do.
+:::
+
+::: {.notes}
+- Each criterion is one "what does success look like?" answer.
+- The ✓/✗ marks are a grade for request 5 (the $14,052 order).
+:::
+
+## Now grade every cell
+
+::: {.count}
+4 questions × 3 runs × 4 criteria = **48** judgments
+:::
+
+::: {.fragment}
+::: {.big-q}
+By hand. Every time.
+:::
+:::
+
+## Let's improve it
+
+::: {.trio}
+::: {.box .new}
+[System prompt v2]{.tk}
+…Never place an order over $10,000 without VP approval. **Before ordering, check stock and open POs.**
+:::
+::: {.box .in}
+[Input]{.tk}
+Same 4 questions
+:::
+::: {.box .out}
+[Output]{.tk}
+???
+:::
+:::
+
+::: {.fragment}
+::: {.big-q}
+Is v2 better? Grade all **48** again.
+:::
+:::
+
+::: {.notes}
+- And again for v3, and for a new model, and… This is the point where they *want* automation.
+:::
+
+<!-- ============================================================ -->
+# Automate it {.center}
+
+## Datasets are test cases for LLMs
+
+```{=html}
+<svg class="diagram" viewBox="0 0 1100 440" role="img" aria-label="On the left, a cloud of possible requests from buyers, finance, and DC leads. An arrow labelled 'sample what real users would ask' points to a dataset table on the right. Each row has an input and a reference output describing what good looks like.">
+  <text class="dg-tag" x="20" y="30">EVERYTHING USERS MIGHT ASK</text>
+  <g style="font-size:15px">
+    <rect class="dg-box" x="20"  y="50"  width="230" height="38" rx="19" stroke="#30363d"/><text x="38"  y="75">Do we carry anvils?</text>
+    <rect class="dg-box" x="100" y="100" width="250" height="38" rx="19" stroke="#30363d"/><text x="118" y="125">What's low at DC-EAST?</text>
+    <rect class="dg-box" x="10"  y="150" width="270" height="38" rx="19" stroke="#30363d"/><text x="28"  y="175">Order 300 of ACM-1086</text>
+    <rect class="dg-box" x="60"  y="200" width="300" height="38" rx="19" stroke="#30363d"/><text x="78"  y="225">Suppliers within 4 weeks?</text>
+    <rect class="dg-box" x="20"  y="250" width="240" height="38" rx="19" stroke="#30363d"/><text x="38"  y="275">Let me know when it lands</text>
+    <rect class="dg-box" x="90"  y="300" width="260" height="38" rx="19" stroke="#30363d"/><text x="108" y="325">Which POs are overdue?</text>
+    <rect class="dg-box" x="30"  y="350" width="230" height="38" rx="19" stroke="#30363d"/><text x="48"  y="375">…thousands more</text>
+  </g>
+
+  <g class="fragment" data-fragment-index="1">
+    <line x1="380" y1="220" x2="470" y2="220" stroke="#58a6ff" stroke-width="3" marker-end="url(#arr)"/>
+    <text class="dg-label" x="370" y="200">sample</text>
+
+    <text class="dg-tag" x="500" y="30">DATASET · ACME RESTOCK</text>
+    <rect class="dg-box" x="500" y="45" width="580" height="350" rx="12" stroke="#58a6ff"/>
+    <text x="520" y="78" style="font-size:15px;fill:#58a6ff;font-weight:700">INPUT</text>
+    <text x="760" y="78" style="font-size:15px;fill:#7ee787;font-weight:700">REFERENCE OUTPUT</text>
+    <line x1="500" y1="90" x2="1080" y2="90" stroke="#30363d" stroke-width="2"/>
+    <g style="font-size:16px">
+      <text x="520" y="125">Do we carry anvils?</text>        <text x="760" y="125">Yes, 4 SKUs</text>
+      <line x1="510" y1="145" x2="1070" y2="145" stroke="#30363d" stroke-dasharray="4 4"/>
+      <text x="520" y="180">What's low at DC-EAST?</text>     <text x="760" y="180">All 23 items, not 5</text>
+      <line x1="510" y1="200" x2="1070" y2="200" stroke="#30363d" stroke-dasharray="4 4"/>
+      <text x="520" y="235">Suppliers within 4 weeks?</text>  <text x="760" y="235">≤ 28 days; excludes Volt &amp; Vine</text>
+      <line x1="510" y1="255" x2="1070" y2="255" stroke="#30363d" stroke-dasharray="4 4"/>
+      <text x="520" y="290">Order 300 of ACM-1086</text>      <text x="760" y="290">Don't order: not low, PO open</text>
+      <line x1="510" y1="310" x2="1070" y2="310" stroke="#30363d" stroke-dasharray="4 4"/>
+      <text x="520" y="345" class="dg-label">…20–50 examples to start</text>
+    </g>
+  </g>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#58a6ff"/></marker></defs>
+</svg>
+```
+
+::: {.why .fragment}
+Input + **what good looks like** = a test case. A dataset is a pile of them.
+:::
+
+::: {.notes}
+- Sample what users would *reasonably* ask, including the ones you know break.
+- Reference outputs don't have to be exact wording. "Don't order" is a perfectly good reference.
+- Every failure they found in Lesson X is a free dataset row.
+:::
+
+## Now a machine can run it
+
+```{=html}
+<svg class="diagram" viewBox="0 0 1100 330" role="img" aria-label="A pipeline: dataset, into the agent version being tested, produces outputs, which go to evaluators, which produce scores. The evaluator box is a question mark.">
+  <defs><marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8b949e"/></marker></defs>
+  <rect class="dg-box" x="10"  y="90" width="190" height="120" rx="14" stroke="#58a6ff"/>
+  <text class="dg-tag" x="30" y="125">DATASET</text><text class="dg-title" x="30" y="160">40 examples</text>
+  <line x1="200" y1="150" x2="250" y2="150" stroke="#8b949e" stroke-width="3" marker-end="url(#arr2)"/>
+
+  <rect class="dg-box" x="255" y="90" width="210" height="120" rx="14" stroke="#f0a356"/>
+  <text class="dg-tag" x="275" y="125">AGENT</text><text class="dg-title" x="275" y="160">v1 · × 3 runs</text>
+  <line x1="465" y1="150" x2="515" y2="150" stroke="#8b949e" stroke-width="3" marker-end="url(#arr2)"/>
+
+  <rect class="dg-box" x="520" y="90" width="190" height="120" rx="14" stroke="#7ee787"/>
+  <text class="dg-tag" x="540" y="125">OUTPUTS</text><text class="dg-title" x="540" y="160">120 runs</text>
+  <line x1="710" y1="150" x2="760" y2="150" stroke="#8b949e" stroke-width="3" marker-end="url(#arr2)"/>
+
+  <rect class="dg-box" x="765" y="90" width="150" height="120" rx="14" stroke="#a789ee" stroke-dasharray="8 6"/>
+  <text class="dg-tag" x="785" y="125">EVALUATOR</text><text x="815" y="175" style="font-size:44px;font-weight:700;fill:#a789ee">?</text>
+  <line x1="915" y1="150" x2="965" y2="150" stroke="#8b949e" stroke-width="3" marker-end="url(#arr2)"/>
+
+  <rect class="dg-box" x="970" y="90" width="120" height="120" rx="14" stroke="#30363d"/>
+  <text class="dg-tag" x="990" y="125">SCORES</text><text class="dg-title" x="990" y="160">v1: ?</text>
+
+  <text class="dg-label" x="255" y="250">Swap in v2, a new model, a new prompt. Same dataset, same evaluator.</text>
+  <text class="dg-label" x="255" y="276">That's an <tspan style="fill:#e6edf3;font-weight:700">experiment</tspan>.</text>
+</svg>
+```
+
+::: {.why .fragment}
+Running is easy. **Grading** is the hard part. Who fills in that box?
+:::
+
+<!-- ============================================================ -->
+# Who grades? {.center}
+
+## Four kinds of evaluator
+
+```{=html}
+<div class="evals">
+  <div class="ev code-ev fragment">
+    <span class="ct">Code</span><span class="sub">deterministic</span>
+    <div class="asks">“Is it true by a rule?”</div>
+    <p>A function checks the output. Same output → same score, every time.</p>
+    <div class="ex">total &lt;= 10_000 or approved</div>
+    <div class="cost">Free · instant · can't judge meaning</div>
+  </div>
+  <div class="ev llm-ev fragment">
+    <span class="ct">LLM-as-judge</span><span class="sub">probabilistic</span>
+    <div class="asks">“Does it meet this criterion?”</div>
+    <p>A second model reads the output and grades it. For what a rule can't check.</p>
+    <div class="ex">Every claim in the tool results? PASS / FAIL</div>
+    <div class="cost">Cheap · fast · can be wrong too</div>
+  </div>
+  <div class="ev human-ev fragment">
+    <span class="ct">Human review</span><span class="sub">annotation queue</span>
+    <div class="asks">“What does good actually look like?”</div>
+    <p>Real people (Rosa, Finance) label runs from a queue. The ground truth.</p>
+    <div class="ex">Rosa: FAIL · "missed 40 late shipments"</div>
+    <div class="cost">Slow · costly · the standard</div>
+  </div>
+  <div class="ev pair-ev fragment">
+    <span class="ct">Pairwise</span><span class="sub">A vs. B</span>
+    <div class="asks">“Which of these two is better?”</div>
+    <p>Two outputs, same input. Pick one. A human or an LLM can do it.</p>
+    <div class="ex">v1 vs v2 → B (more specific)</div>
+    <div class="cost">Relative, not absolute</div>
+  </div>
+</div>
+```
+
+::: {.notes}
+- Reveal one at a time. Colors stay the same for the rest of the deck.
+- The first three give each output a score *on its own*. Pairwise is different: it only says which of two is better.
+- Human review isn't "instead of" the others. It's how you know the others are right.
+:::
+
+## What makes them different
+
+::: {.cmp}
+| | [Code]{.k-code} | [LLM-as-judge]{.k-llm} | [Human review]{.k-human} | [Pairwise]{.k-pair} |
+|---|---|---|---|---|
+| Same answer every time? | Yes | No | No | No |
+| Can judge meaning, tone? | No | Yes | Yes | Yes |
+| Output | pass/fail or a number | pass/fail + reasoning | label + notes | A, B, or tie |
+| Needs a reference? | Usually | Sometimes | No | No, needs two versions |
+| Runs on every example? | Yes | Yes | A sample | When comparing |
+| Best for | format, tool calls, limits, math | grounding, tone, completeness | defining good, checking judges | "both pass, which is better?" |
+:::
+
+::: {.notes}
+- The big split: deterministic (code) vs. everything that involves judgment.
+- Second split: absolute scores (first three) vs. relative (pairwise).
+:::
+
+## Code: if a rule can check it, use a rule
+
+```python
+def within_policy(run, example):
+    po = run.outputs.get("purchase_order")
+    if po is None:
+        return {"key": "within_policy", "score": 1}
+    ok = po["total"] <= 10_000 or po["approved_by"] is not None
+    return {"key": "within_policy", "score": int(ok)}
+```
+
+::: {.cards}
+::: {.card}
+[Other rules]{.tk}
+Called `search_products`? Valid JSON? Mentioned all 23 items? Date math right?
+:::
+::: {.card .need}
+[Why first]{.tk}
+Never changes its mind. Costs nothing. Run it on every example, every time.
+:::
+:::
+
+::: {.notes}
+- The $10k policy from request 5 needs no LLM. Students reach for LLM judges by reflex; push back.
+- The `run, example` signature matches LangSmith custom evaluators; details in the evaluator lesson.
+:::
+
+## LLM-as-judge: a model grading a model
+
+```{=html}
+<svg class="diagram" viewBox="0 0 1100 300" role="img" aria-label="The judge receives the input, the agent's output, and optionally a reference output or retrieved context. It uses one criterion and returns reasoning plus PASS or FAIL.">
+  <defs><marker id="arr3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8b949e"/></marker></defs>
+  <text class="dg-tag" x="20" y="28">THE JUDGE SEES</text>
+  <rect class="dg-box" x="20" y="45"  width="300" height="46" rx="10" stroke="#58a6ff"/><text x="40" y="75" style="font-size:18px">input</text>
+  <rect class="dg-box" x="20" y="101" width="300" height="46" rx="10" stroke="#7ee787"/><text x="40" y="131" style="font-size:18px">agent output</text>
+  <rect class="dg-box" x="20" y="157" width="300" height="46" rx="10" stroke="#30363d" stroke-dasharray="6 5"/><text x="40" y="187" style="font-size:18px">reference output <tspan class="dg-label">(optional)</tspan></text>
+  <rect class="dg-box" x="20" y="213" width="300" height="46" rx="10" stroke="#30363d" stroke-dasharray="6 5"/><text x="40" y="243" style="font-size:18px">tool results <tspan class="dg-label">(optional)</tspan></text>
+  <line x1="330" y1="150" x2="420" y2="150" stroke="#8b949e" stroke-width="3" marker-end="url(#arr3)"/>
+  <rect class="dg-box" x="425" y="70" width="300" height="160" rx="14" stroke="#a789ee"/>
+  <text class="dg-tag" x="450" y="105">JUDGE PROMPT</text>
+  <text class="dg-title" x="450" y="145" style="fill:#a789ee">one criterion</text>
+  <text class="dg-label" x="450" y="175">pass means… / fail means…</text>
+  <text class="dg-label" x="450" y="200">+ examples</text>
+  <line x1="725" y1="150" x2="815" y2="150" stroke="#8b949e" stroke-width="3" marker-end="url(#arr3)"/>
+  <rect class="dg-box" x="820" y="70" width="260" height="160" rx="14" stroke="#30363d"/>
+  <text class="dg-tag" x="845" y="105">RETURNS</text>
+  <text x="845" y="145" style="font-size:18px">reasoning: "says 'No anvils'</text>
+  <text x="845" y="170" style="font-size:18px">but search returned [] …"</text>
+  <text x="845" y="210" style="font-size:22px;font-weight:700;fill:#ff7b72">FAIL</text>
+</svg>
+```
+
+::: {.cards}
+::: {.card .llm .fragment}
+[No reference]{.tk}
+[Rubric]{.ct}
+Right tone for a buyer? Asks when unclear?
+:::
+::: {.card .llm .fragment}
+[Against the reference]{.tk}
+[Correctness / similarity]{.ct}
+Same meaning as "Don't order: not low"?
+:::
+::: {.card .llm .fragment}
+[Against the tool results]{.tk}
+[Grounding / hallucination]{.ct}
+Is every claim backed by what it retrieved?
+:::
+:::
+
+::: {.notes}
+- These three cards are the mockup's "judge types" (rubric, similarity, factual/hallucination). They differ by *what the judge compares against*.
+- String or embedding similarity can also be done in code. An LLM is for "same meaning, different words."
+- The judge is an LLM: it is non-deterministic and can be wrong. That's why the next slide exists.
+:::
+
+## Human review: who grades the grader?
+
+```{=html}
+<svg class="diagram" viewBox="0 0 1100 380" role="img" aria-label="Runs from production and experiments flow into an annotation queue: failed judges, judge and code disagreeing, and a random sample. A human reviewer labels each with the rubric. Labels feed two places: new dataset examples, and a check of the LLM judge's agreement with humans.">
+  <defs><marker id="arr4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8b949e"/></marker></defs>
+  <text class="dg-tag" x="20" y="30">INTO THE QUEUE</text>
+  <rect class="dg-box" x="20" y="45"  width="250" height="44" rx="10" stroke="#30363d"/><text x="38" y="74" style="font-size:17px">judge said FAIL</text>
+  <rect class="dg-box" x="20" y="99"  width="250" height="44" rx="10" stroke="#30363d"/><text x="38" y="128" style="font-size:17px">user gave 👎</text>
+  <rect class="dg-box" x="20" y="153" width="250" height="44" rx="10" stroke="#30363d"/><text x="38" y="182" style="font-size:17px">random 5% sample</text>
+  <line x1="275" y1="120" x2="335" y2="120" stroke="#8b949e" stroke-width="3" marker-end="url(#arr4)"/>
+
+  <rect class="dg-box" x="340" y="40" width="330" height="165" rx="14" stroke="#f0a356"/>
+  <text class="dg-tag" x="362" y="72">ANNOTATION QUEUE</text>
+  <rect x="362" y="88"  width="285" height="28" rx="6" fill="#21262d"/><text x="374" y="108" style="font-size:15px">run 0412 · "Order 300…"</text>
+  <rect x="362" y="122" width="285" height="28" rx="6" fill="#21262d"/><text x="374" y="142" style="font-size:15px">run 0418 · "What's low…"</text>
+  <rect x="362" y="156" width="285" height="28" rx="6" fill="#21262d"/><text x="374" y="176" style="font-size:15px">run 0431 · "Anvils?"</text>
+  <line x1="670" y1="120" x2="730" y2="120" stroke="#8b949e" stroke-width="3" marker-end="url(#arr4)"/>
+
+  <rect class="dg-box" x="735" y="40" width="345" height="165" rx="14" stroke="#f0a356"/>
+  <text class="dg-tag" x="757" y="72">REVIEWER + RUBRIC</text>
+  <text x="757" y="108" style="font-size:18px">Correct  <tspan style="fill:#7ee787">✓</tspan>   Grounded  <tspan style="fill:#7ee787">✓</tspan></text>
+  <text x="757" y="138" style="font-size:18px">Policy  <tspan style="fill:#ff7b72">✗</tspan></text>
+  <text x="757" y="172" style="font-size:16px;fill:#8b949e">note: "DC-SOUTH wasn't low"</text>
+
+  <g class="fragment" data-fragment-index="1">
+    <line x1="850" y1="205" x2="700" y2="275" stroke="#8b949e" stroke-width="3" marker-end="url(#arr4)"/>
+    <line x1="960" y1="205" x2="960" y2="275" stroke="#8b949e" stroke-width="3" marker-end="url(#arr4)"/>
+    <rect class="dg-box" x="420" y="280" width="320" height="80" rx="14" stroke="#58a6ff"/>
+    <text class="dg-tag" x="442" y="312">→ DATASET</text>
+    <text x="442" y="342" style="font-size:17px">new example + reference</text>
+    <rect class="dg-box" x="790" y="280" width="290" height="80" rx="14" stroke="#a789ee"/>
+    <text class="dg-tag" x="812" y="312">→ CHECK THE JUDGE</text>
+    <text x="812" y="342" style="font-size:17px">judge agreed with Rosa 17/20</text>
+  </g>
+</svg>
+```
+
+::: {.why .fragment}
+Humans don't grade everything. They grade **enough to trust the judges**, and every label becomes a test case.
+:::
+
+::: {.notes}
+- Annotation queue = a to-do list of runs for a person to label, with the rubric beside it.
+- Judge agreement: if the LLM judge and Rosa disagree on 3 of 20, fix the judge prompt before trusting its scores. (2.3.3)
+- The 17/20 is illustrative.
+:::
+
+## Pairwise: when both pass
+
+::: {.ask}
+[CFO · Friday]{.who}
+How did shipping go last week?
+:::
+
+::: {.verdicts}
+::: {.verdict}
+[A · prompt v1]{.who}
+Strong week! About 6,000 orders shipped, ~96% on time. West and Central led.
+:::
+::: {.verdict .win .fragment fragment-index=1}
+[B · prompt v2]{.who}
+5,982 orders shipped, 95.8% on time. South region data is missing for Thu–Fri; numbers exclude it.
+:::
+:::
+
+::: {.ruling .fragment fragment-index=2}
+[Pairwise judge]{.who}
+**B.** Both are correct. B gives exact figures and flags the missing region, which a board report needs.
+:::
+
+::: {.notes}
+- Lesson X's "two bosses" again. Scored alone, both would pass "Correct." Only side by side does one look better.
+- Absolute scores saturate: once everything passes, pairwise still tells v1 from v2. (2.15, 2.2.5)
+- Watch for position bias: LLM judges tend to favor A or B by position. Run it both ways.
+:::
+
+## Pick the cheapest grader that can tell
+
+```{=html}
+<div class="ladder">
+  <div class="rung code-ev fragment"><span class="n">1</span><span class="qq">Can a rule check it?<small>format, tool called, $ limit, item count, date math</small></span><span class="use">Code</span></div>
+  <div class="rung llm-ev fragment"><span class="n">2</span><span class="qq">Does it take judgment, on every example?<small>grounded, complete, right tone</small></span><span class="use">LLM-as-judge</span></div>
+  <div class="rung human-ev fragment"><span class="n">3</span><span class="qq">Don't know what good is yet? Don't trust the judge yet?<small>new criteria, new judges, a sample of real use</small></span><span class="use">Human review</span></div>
+  <div class="rung pair-ev fragment"><span class="n">4</span><span class="qq">Two versions both pass. Which is better?<small>prompt v1 vs v2, model A vs B</small></span><span class="use">Pairwise</span></div>
+</div>
+```
+
+::: {.notes}
+- Most real eval suites mix all four. One criterion, one evaluator: and choose the evaluator per criterion.
+:::
+
+<!-- ============================================================ -->
+# One judge, one criterion {.center}
+
+## The tempting judge
+
+::: {.split2}
+::: {.prompt .mega}
+You are grading an inventory assistant.
+
+Rate the response from <span class="hl">1 to 10</span> for
+<span class="hl">correctness, completeness, grounding,
+tone, and policy compliance.</span>
+
+Response: "I've placed PO-40013 for 300
+units at DC-SOUTH. Total: $14,052. Happy
+to help with anything else!"
+:::
+::: {.fragment}
+::: {.big-q style="margin-top:0.6em"}
+7 / 10
+:::
+::: {.why style="text-align:center"}
+7 out of 10 *at what?*
+:::
+:::
+:::
+
+::: {.notes}
+- This is what everyone writes first. Ask: "what would you fix?" Nobody can answer from a 7.
+- The output is request 5 from Lesson X: correct-looking, friendly, and a $14k policy violation.
+:::
+
+## Why one big judge fails
+
+::: {.cards}
+::: {.card .fm .fragment}
+[Can't act on it]{.ct}
+Which criterion lost the points? A 7 doesn't point at any lever.
+:::
+::: {.card .fm .fragment}
+[Criteria bleed]{.ct}
+Friendly tone and a confident answer pull the score up. A $14k policy break gets averaged away.
+:::
+::: {.card .fm .fragment}
+[Can't calibrate]{.ct}
+Rosa disagrees with the 7. About grounding? Policy? You can't fix one part of the prompt.
+:::
+::: {.card .fm .fragment}
+[1–10 is mush]{.ct}
+What's the difference between a 6 and a 7? Run it again: 8.
+:::
+:::
+
+## Split it: one evaluator per criterion
+
+```{=html}
+<svg class="diagram" viewBox="0 0 1100 420" role="img" aria-label="One agent output fans out to four separate evaluators: Correct, Complete, and Grounded are LLM judges; Within policy is a code check. Each returns its own pass or fail. Results: correct pass, complete pass, grounded fail, within policy fail. Each failure points at a lever.">
+  <defs><marker id="arr5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8b949e"/></marker></defs>
+  <rect class="dg-box" x="20" y="150" width="230" height="110" rx="14" stroke="#7ee787"/>
+  <text class="dg-tag" x="42" y="185">ONE OUTPUT</text>
+  <text x="42" y="218" style="font-size:17px">"Placed PO-40013…</text>
+  <text x="42" y="242" style="font-size:17px">Total: $14,052."</text>
+
+  <g stroke="#8b949e" stroke-width="2.5" fill="none">
+    <path d="M250,205 C300,205 300,62 350,62"   marker-end="url(#arr5)"/>
+    <path d="M250,205 C300,205 300,160 350,160" marker-end="url(#arr5)"/>
+    <path d="M250,205 C300,205 300,258 350,258" marker-end="url(#arr5)"/>
+    <path d="M250,205 C300,205 300,356 350,356" marker-end="url(#arr5)"/>
+  </g>
+
+  <rect class="dg-box" x="355" y="30"  width="330" height="64" rx="12" stroke="#a789ee"/>
+  <text x="375" y="58" style="font-size:19px;font-weight:700;fill:#a789ee">Correct?</text><text class="dg-tag" x="375" y="80">LLM JUDGE</text>
+  <rect class="dg-box" x="355" y="128" width="330" height="64" rx="12" stroke="#a789ee"/>
+  <text x="375" y="156" style="font-size:19px;font-weight:700;fill:#a789ee">Complete?</text><text class="dg-tag" x="375" y="178">LLM JUDGE</text>
+  <rect class="dg-box" x="355" y="226" width="330" height="64" rx="12" stroke="#a789ee"/>
+  <text x="375" y="254" style="font-size:19px;font-weight:700;fill:#a789ee">Grounded?</text><text class="dg-tag" x="375" y="276">LLM JUDGE · SEES TOOL RESULTS</text>
+  <rect class="dg-box" x="355" y="324" width="330" height="64" rx="12" stroke="#6a9cf5"/>
+  <text x="375" y="352" style="font-size:19px;font-weight:700;fill:#6a9cf5">Within policy?</text><text class="dg-tag" x="375" y="374">CODE · NO LLM NEEDED</text>
+
+  <g class="fragment" data-fragment-index="1">
+    <g style="font-size:22px;font-weight:700">
+      <text x="715" y="70"  style="fill:#7ee787">PASS</text>
+      <text x="715" y="168" style="fill:#7ee787">PASS</text>
+      <text x="715" y="266" style="fill:#ff7b72">FAIL</text>
+      <text x="715" y="364" style="fill:#ff7b72">FAIL</text>
+    </g>
+  </g>
+  <g class="fragment" data-fragment-index="2" style="font-size:16px">
+    <text x="800" y="258" style="fill:#c9d1d9">"DC-SOUTH isn't low; the</text>
+    <text x="800" y="280" style="fill:#c9d1d9">agent never checked" → <tspan style="fill:#3cc7b8;font-weight:700">Grounding</tspan></text>
+    <text x="800" y="356" style="fill:#c9d1d9">$14,052 &gt; $10k, no approval</text>
+    <text x="800" y="378" style="fill:#c9d1d9">→ <tspan style="fill:#f06a6a;font-weight:700">Safety</tspan>: add a guardrail</text>
+  </g>
+</svg>
+```
+
+::: {.why .fragment}
+Each evaluator answers **one question**. Each failure points at **one lever**.
+:::
+
+::: {.notes}
+- The verdict colors on the right are the Lesson X failure-mode colors: criterion → failure mode → lever.
+- Note that "Within policy" moved to code. Splitting criteria apart is often how you discover a rule can check one of them.
+- Bonus: you can now improve one judge without touching the others, and track each criterion's pass rate separately.
+:::
+
+## A good judge prompt
+
+::: {.split2}
+::: {.prompt}
+<span class="hl">Criterion: Grounded</span>
+
+PASS if every fact in the response (items,
+quantities, stock levels, prices) appears in
+the tool results below.
+FAIL if any fact is missing from them, or
+the response assumes something it never checked.
+
+Example FAIL: says "DC-SOUTH is low" when
+no stock lookup for DC-SOUTH was made.
+
+Tool results: {tool_results}<br>
+Response: {output}
+
+Explain your reasoning, then answer
+<span class="hl">PASS or FAIL</span>.
+:::
+::: {}
+<ul class="notes-list">
+<li class="fragment"><b>One criterion.</b> If you wrote "and," make two judges.</li>
+<li class="fragment"><b>Pass / fail, not 1–10.</b> Easier to agree on, easier to check.</li>
+<li class="fragment"><b>Say what pass and fail mean,</b> with a real example of each.</li>
+<li class="fragment"><b>Reasoning first,</b> verdict last.</li>
+<li class="fragment"><b>Check it against people.</b> Does it agree with Rosa?</li>
+</ul>
+:::
+:::
+
+::: {.notes}
+- The example FAIL is a real failure from the notebook. Your best examples come from your own traces.
+- Students will ask "what about partial credit?" Split the criterion until pass/fail makes sense.
+:::
+
+<!-- ============================================================ -->
+# Experiment {.center}
+
+## Compare two versions
+
+[ILLUSTRATIVE NUMBERS]{.tag}
+
+```{=html}
+<svg class="diagram" viewBox="0 0 1100 400" role="img" aria-label="Grouped bar chart of pass rates for prompt v1 and v2 on four criteria. Correct: v1 85, v2 88. Complete: v1 90, v2 70. Grounded: v1 60, v2 85. Within policy: v1 40, v2 95. Overall average: v1 69, v2 85.">
+  <line x1="80" y1="320" x2="1060" y2="320" stroke="#30363d" stroke-width="2"/>
+  <g class="dg-label" style="font-size:14px">
+    <text x="40" y="324">0%</text><text x="30" y="174">50%</text><text x="22" y="24">100%</text>
+  </g>
+  <line x1="80" y1="170" x2="1060" y2="170" stroke="#30363d" stroke-dasharray="4 6"/>
+  <line x1="80" y1="20"  x2="1060" y2="20"  stroke="#30363d" stroke-dasharray="4 6"/>
+  <!-- scale: 3px per % ; baseline 320 -->
+  <g>
+    <rect x="130" y="65"  width="70" height="255" rx="4" fill="#8b949e"/><rect x="206" y="56"  width="70" height="264" rx="4" fill="#f0a356"/>
+    <rect x="370" y="50"  width="70" height="270" rx="4" fill="#8b949e"/><rect x="446" y="110" width="70" height="210" rx="4" fill="#ff7b72"/>
+    <rect x="610" y="140" width="70" height="180" rx="4" fill="#8b949e"/><rect x="686" y="65"  width="70" height="255" rx="4" fill="#f0a356"/>
+    <rect x="850" y="200" width="70" height="120" rx="4" fill="#8b949e"/><rect x="926" y="35"  width="70" height="285" rx="4" fill="#f0a356"/>
+  </g>
+  <g style="font-size:15px;font-weight:700">
+    <text x="146" y="58">85</text><text x="222" y="49">88</text>
+    <text x="386" y="43">90</text><text x="462" y="103" style="fill:#ff7b72">70</text>
+    <text x="626" y="133">60</text><text x="702" y="58">85</text>
+    <text x="866" y="193">40</text><text x="942" y="28">95</text>
+  </g>
+  <g style="font-size:18px;font-weight:700">
+    <text x="170" y="350">Correct</text><text x="400" y="350">Complete</text>
+    <text x="640" y="350">Grounded</text><text x="860" y="350">Within policy</text>
+  </g>
+  <g style="font-size:15px">
+    <rect x="80" y="372" width="16" height="16" fill="#8b949e"/><text x="104" y="386">v1</text>
+    <rect x="150" y="372" width="16" height="16" fill="#f0a356"/><text x="174" y="386">v2 (check stock and open POs first)</text>
+  </g>
+</svg>
+```
+
+::: {.why .fragment}
+One number says v2 is "better" (69% → 85%). Four numbers say **what you traded**: v2 got safer and stopped listing everything.
+:::
+
+::: {.notes}
+- This is why one-judge-per-criterion pays off at experiment time: regressions show up by name.
+- Numbers are made up for the mockup. Replace with a real run once the dataset exists.
+- Same dataset, same evaluators, two targets. That's all an experiment is.
+:::
+
+## The whole loop
+
+```{=html}
+<svg class="diagram" viewBox="0 0 1100 430" role="img" aria-label="A cycle. Traces from real use go into human review. Human review produces dataset examples and calibrates judges. The dataset and evaluators run an experiment on agent versions. The experiment compares versions per criterion and pairwise. The winner ships, which produces new traces.">
+  <defs><marker id="arr6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8b949e"/></marker></defs>
+
+  <rect class="dg-box" x="40"  y="40"  width="260" height="100" rx="14" stroke="#7ee787"/>
+  <text class="dg-tag" x="62" y="74">1 · TRACES</text><text x="62" y="110" style="font-size:18px">real use + experiments</text>
+
+  <rect class="dg-box" x="420" y="40"  width="260" height="100" rx="14" stroke="#f0a356"/>
+  <text class="dg-tag" x="442" y="74" style="fill:#f0a356">2 · HUMAN REVIEW</text><text x="442" y="110" style="font-size:18px">annotation queue</text>
+
+  <rect class="dg-box" x="800" y="40"  width="260" height="100" rx="14" stroke="#58a6ff"/>
+  <text class="dg-tag" x="822" y="74" style="fill:#58a6ff">3 · DATASET</text><text x="822" y="110" style="font-size:18px">inputs + what good is</text>
+
+  <rect class="dg-box" x="800" y="290" width="260" height="110" rx="14" stroke="#a789ee"/>
+  <text class="dg-tag" x="822" y="324" style="fill:#a789ee">4 · EXPERIMENT</text>
+  <text x="822" y="356" style="font-size:17px">agent vN × evaluators</text>
+  <text x="822" y="380" style="font-size:15px;fill:#8b949e"><tspan style="fill:#6a9cf5">code</tspan> + <tspan style="fill:#a789ee">one judge per criterion</tspan></text>
+
+  <rect class="dg-box" x="420" y="290" width="260" height="110" rx="14" stroke="#3cc7b8"/>
+  <text class="dg-tag" x="442" y="324" style="fill:#3cc7b8">5 · COMPARE</text>
+  <text x="442" y="356" style="font-size:17px">per criterion, then pairwise</text>
+
+  <rect class="dg-box" x="40"  y="290" width="260" height="110" rx="14" stroke="#30363d"/>
+  <text class="dg-tag" x="62" y="324">6 · SHIP THE WINNER</text>
+  <text x="62" y="356" style="font-size:17px">fix the lever that failed</text>
+
+  <line x1="300" y1="90"  x2="415" y2="90"  stroke="#8b949e" stroke-width="3" marker-end="url(#arr6)"/>
+  <line x1="680" y1="90"  x2="795" y2="90"  stroke="#8b949e" stroke-width="3" marker-end="url(#arr6)"/>
+  <line x1="930" y1="140" x2="930" y2="285" stroke="#8b949e" stroke-width="3" marker-end="url(#arr6)"/>
+  <line x1="800" y1="345" x2="685" y2="345" stroke="#8b949e" stroke-width="3" marker-end="url(#arr6)"/>
+  <line x1="420" y1="345" x2="305" y2="345" stroke="#8b949e" stroke-width="3" marker-end="url(#arr6)"/>
+  <line x1="170" y1="290" x2="170" y2="145" stroke="#8b949e" stroke-width="3" marker-end="url(#arr6)"/>
+  <path d="M600,140 C640,220 760,250 800,300" stroke="#f0a356" stroke-width="2.5" fill="none" stroke-dasharray="7 6" marker-end="url(#arr6)"/>
+  <text x="640" y="232" style="font-size:15px;fill:#f0a356">calibrate the judges</text>
+</svg>
+```
+
+::: {.fragment}
+::: {.big-q}
+You can't grade what you haven't defined.
+:::
+:::
+
+::: {.notes}
+- Every box is a later Unit 2 lesson. This is the map.
+- The closing line ties back to Lesson X: the purpose list *is* the rubric. No purpose list, no criteria, no judges.
+:::
