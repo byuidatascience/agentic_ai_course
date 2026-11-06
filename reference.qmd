@@ -1,0 +1,9 @@
+---
+title: "Reference"
+subtitle: "Quick links to the guides you'll come back to all semester"
+toc: false
+---
+
+## Diagnosing agents
+
+- [Failure Modes](projects/project2_resources/failure_modes.qmd) — spot a failure, name it, and find the lever that fixes it.

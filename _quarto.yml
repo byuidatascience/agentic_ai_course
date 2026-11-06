@@ -46,9 +46,7 @@ website :
           #   href :  lessons/lesson1_3.html
 
       - text :  "Reference"
-        menu :
-          - text :  "Failure Modes"
-            href :  projects/project2_resources/failure_modes.html
+        href :  reference.html
 
   page-footer :
     left :  "Agentic AI Course — BYU-Idaho"
