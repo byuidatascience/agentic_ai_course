@@ -45,6 +45,11 @@ website :
           # - text :  "Day 3 : Tool Wrappers & Local Data"
           #   href :  lessons/lesson1_3.html
 
+      - text :  "Reference"
+        menu :
+          - text :  "Failure Modes"
+            href :  projects/project2_resources/failure_modes.html
+
   page-footer :
     left :  "Agentic AI Course — BYU-Idaho"
     right :  "Built with [Quarto](https://quarto.org)"

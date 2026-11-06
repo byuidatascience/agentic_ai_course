@@ -1,0 +1,265 @@
+---
+title: "Failure Modes Reference"
+subtitle: "PROTOTYPE: three layouts, switch with ?variant=A|B|C (PDF: one per page)"
+format:
+  html:
+    toc: false
+  typst:
+    papersize: us-letter
+    margin:
+      x: 0.6in
+      y: 0.6in
+    fontsize: 9pt
+    toc: false
+---
+
+<!-- PROTOTYPE, throwaway. Question: what layout lets a student who just spotted a failure
+find its mode and the lever that fixes it? Three variants of the same content. -->
+
+```{=html}
+<style>
+  .fm { font-weight: 700; padding: 1px 8px; border-radius: 999px; border: 1.5px solid currentColor; white-space: nowrap; font-size: .85em; }
+  .tool { color: #2f6fde; } .ground { color: #0f9b8e; } .state { color: #7b4fd6; }
+  .control { color: #d9822b; } .spec { color: #c23d6b; } .safety { color: #c62828; } .other { color: #718096; }
+  .variant { display: none; }
+  .variant.active { display: block; }
+  .fm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin: 1rem 0; }
+  .fm-card { border: 1px solid var(--border-color, #dde3ed); border-top: 6px solid currentColor; border-radius: 10px; padding: 12px 16px; }
+  .fm-card h3 { margin-top: 0; color: inherit; }
+  .fm-card p, .fm-card li { color: var(--bs-body-color); }
+  .fm-card ul { padding-left: 1.1rem; margin-bottom: .5rem; }
+  .fm-card .lever { border-top: 1px dashed currentColor; padding-top: 8px; margin-bottom: 0; }
+  .fm-steps > ol { counter-reset: none; padding-left: 0; list-style: none; }
+  .fm-steps > ol > li { border-left: 5px solid #cbd5e0; padding: 6px 0 6px 16px; margin-bottom: 10px; }
+  .fm-dims table td:first-child { white-space: nowrap; font-weight: 600; }
+  #proto-bar { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); z-index: 9999;
+    background: #111; color: #fff; border-radius: 999px; padding: 6px 10px; display: flex; gap: 10px; align-items: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,.35); font: 600 14px system-ui, sans-serif; }
+  #proto-bar button { background: #333; color: #fff; border: 0; border-radius: 999px; width: 30px; height: 30px; cursor: pointer; }
+  @media print { #proto-bar { display: none; } .variant { display: block !important; page-break-after: always; } }
+</style>
+```
+
+::: {#variant-A .variant}
+
+## A · Symptom lookup
+
+Find what you saw, grouped by **where in the trace you saw it**. Read across to the mode and the lever to pull.
+
+| What you see | Mode | Lever to pull |
+|:-----------------------------------|:-----|:----------------------------|
+| **In the final answer** | | |
+| States a fact, number, or ID that no tool returned | [Grounding]{.fm .ground} | Retrieval and knowledge: what gets retrieved; whether the prompt allows answering without it |
+| Contradicts what a tool returned | [Grounding]{.fm .ground} | Retrieval and knowledge |
+| Accepts a false premise from the user and builds on it | [Grounding]{.fm .ground} | Retrieval and knowledge |
+| Did what was asked, not what was meant | [Specification]{.fm .spec} | Instructions: system prompt, success criteria, output format |
+| Hit the stated goal by defeating its purpose ("all on time" by dropping late shipments) | [Specification]{.fm .spec} | Instructions: success criteria |
+| Followed instructions early, drifted later in a long run | [Specification]{.fm .spec} | Instructions: re-anchoring |
+| Reveals PII, credentials, or internal policy | [Safety]{.fm .safety} | Guardrails and permissions |
+| **In a tool span** | | |
+| Wrong tool for the job | [Tool]{.fm .tool} | Tool names and descriptions |
+| Right tool, wrong arguments (wrong ID, date format, filter) | [Tool]{.fm .tool} | Argument schema and descriptions |
+| Tool returned an error and the agent carried on | [Tool]{.fm .tool} | Tool output schema; error handling |
+| Read the wrong field or row from the output | [Tool]{.fm .tool} | Output schema and descriptions |
+| Should have called a tool and never did | [Tool]{.fm .tool} | Tool descriptions; prompt |
+| Tool output contained instructions, and the agent followed them | [Safety]{.fm .safety} | Guardrails; treat tool output as data |
+| **In the shape of the trace** | | |
+| Same call repeated again and again | [Control]{.fm .control} | Scaffolding: step limits, control flow |
+| Huge token count or cost for a simple ask | [Control]{.fm .control} | Scaffolding: budgets, routing |
+| Stops before the task is done | [Control]{.fm .control} | Scaffolding: completion checks |
+| Plan wanders or is abandoned midway | [Control]{.fm .control} | Scaffolding: workflow vs. agent |
+| **Across turns or a long run** | | |
+| Asks again for something it was already given | [State]{.fm .state} | Memory: what persists between turns |
+| Early details missing late in the run | [State]{.fm .state} | Memory: what gets selected into the window |
+| A wrong intermediate value is treated as fact later | [State]{.fm .state} | Memory: what gets written down |
+| **In what it did** | | |
+| Took a consequential action without approval (refund, cancel, email) | [Safety]{.fm .safety} | Permissions; human-in-the-loop |
+
+### Then describe it
+
+| | |
+|:--|:--|
+| **Silent ↔ loud** | Would anyone have noticed without the trace? |
+| **Isolated ↔ cascading** | Find the *earliest* span where it went wrong, not the last. |
+| **Model ↔ code** | Probabilistic choice, or a deterministic bug? |
+
+### Doesn't fit? (draft)
+
+[Not in the six]{.fm .other} wrong math on correct data · right answer in the wrong tone, length, or audience · broke a policy or regulation · refused or escalated when it shouldn't · guessed instead of asking · treated people unequally · too slow for the job · different answer every run
+
+**Is it even a failure?** That depends on what the agent is *for*. A long answer is fine for an analyst and a failure in a text message.
+
+:::
+
+{{< pagebreak >}}
+
+::: {#variant-B .variant}
+
+## B · Six cards
+
+Each mode is named for the **lever that fixes it**. Find the card that matches, then pull its lever.
+
+:::: {.fm-grid}
+
+::::: {.fm-card .tool}
+### 1 · Tool
+The agent's connection to the outside world breaks down.
+
+- Wrong tool chosen
+- Right tool, wrong arguments
+- Never called when it should have been
+- Output misread
+- Tool errored; agent carried on
+
+*Look in:* tool spans: inputs and outputs.
+
+[**Lever:** tool names, descriptions, input/output schemas.]{.lever}
+:::::
+
+::::: {.fm-card .ground}
+### 2 · Grounding
+It asserts things nothing it retrieved supports.
+
+- Fabricated facts, IDs, numbers
+- Nothing retrieved, answered anyway
+- Contradicts the right document
+- Accepts a false premise
+
+*Look in:* final answer vs. tool and retriever outputs.
+
+[**Lever:** retrieval and knowledge: what's retrieved, whether ungrounded answers are allowed.]{.lever}
+:::::
+
+::::: {.fm-card .state}
+### 3 · State
+What it needs is lost, stale, or poisoned.
+
+- Context truncated or degraded
+- Bad intermediate written down as truth
+- Forgets across turns
+
+*Look in:* the thread; late spans vs. early inputs.
+
+[**Lever:** memory design: what persists, where, what enters the window.]{.lever}
+:::::
+
+::::: {.fm-card .control}
+### 4 · Control
+The path is wrong: doesn't stop, doesn't finish, or wanders.
+
+- Infinite loop
+- Budget drain
+- Stops too early
+- Bad or abandoned plan
+
+*Look in:* the trace's shape: count, order, tokens, time.
+
+[**Lever:** scaffolding: control flow, routing, step limits.]{.lever}
+:::::
+
+::::: {.fm-card .spec}
+### 5 · Specification
+Did what it was told, which wasn't what was meant.
+
+- Hidden assumption never stated
+- Instructions fade over a long run
+- Task quietly redefines itself
+- Satisfies the metric, defeats the purpose
+
+*Look in:* system prompt vs. final answer.
+
+[**Lever:** instructions: system prompt, success criteria, output format.]{.lever}
+:::::
+
+::::: {.fm-card .safety}
+### 6 · Safety
+Harmful or disallowed, even if it completes the task.
+
+- Acts without authorization
+- Prompt injection
+- Leaks credentials, PII, policy
+- Appears to comply, doesn't
+
+*Look in:* actions taken; external content in tool outputs.
+
+[**Lever:** guardrails, permissions, sandboxing, human-in-the-loop.]{.lever}
+:::::
+
+::::
+
+::::: {.fm-dims}
+| Dimension | Ask | Trains |
+|:--|:--|:--|
+| Silent ↔ loud | Would anyone notice without the trace? | Detection |
+| Isolated ↔ cascading | Where is the *earliest* bad span? | Localization |
+| Model ↔ code | Probabilistic, or a deterministic bug? | Attribution |
+:::::
+
+**Doesn't fit? (draft):** wrong math · wrong tone or audience · policy broken · over-refusal · guessed instead of asking · unequal treatment · too slow · inconsistent across runs. And whether it's a failure at all depends on the agent's purpose.
+
+:::
+
+{{< pagebreak >}}
+
+::: {#variant-C .variant}
+
+## C · Walk the trace
+
+Ask these in order. Stop at the first **yes**: that's your mode and your lever. Then keep going, because traces often hold more than one.
+
+::: {.fm-steps}
+
+1. **Did it do something harmful or unapproved?** Acted without permission, leaked data, obeyed instructions hidden in a tool's output.
+   → [Safety]{.fm .safety} pull **guardrails, permissions, human-in-the-loop**
+
+2. **Is a tool span wrong?** Error ignored, wrong tool, wrong arguments, misread output, or a tool that should have been called and wasn't.
+   → [Tool]{.fm .tool} pull **tool names, descriptions, schemas**
+
+3. **Is the shape wrong?** Repeats, runs huge, stops short, wanders.
+   → [Control]{.fm .control} pull **control flow, step limits, routing**
+
+4. **Does the answer say something no tool returned, or contradict one?**
+   → [Grounding]{.fm .ground} pull **retrieval and what the prompt allows**
+
+5. **Did it lose, forget, or misuse something from earlier?**
+   → [State]{.fm .state} pull **memory design**
+
+6. **Did it do what was said, but not what was meant?**
+   → [Specification]{.fm .spec} pull **instructions and success criteria**
+
+7. **None of these?** It may be outside the six (draft): wrong math, wrong tone or audience, policy broken, over-refusal, guessed instead of asking, unequal treatment, too slow, inconsistent. Or it isn't a failure *for this agent's purpose*.
+   → [Not in the six]{.fm .other} name it anyway and say who it hurts
+
+:::
+
+**Then describe it:** silent or loud? isolated or cascading (find the *earliest* bad span)? model or code?
+
+:::
+
+```{=html}
+<div id="proto-bar"><button id="pv-prev">←</button><span id="pv-label"></span><button id="pv-next">→</button></div>
+<script>
+(() => {
+  const keys = ["A", "B", "C"];
+  const names = { A: "Symptom lookup", B: "Six cards", C: "Walk the trace" };
+  const params = new URLSearchParams(location.search);
+  let cur = keys.includes(params.get("variant")) ? params.get("variant") : "A";
+  function show(k) {
+    cur = k;
+    document.querySelectorAll(".variant").forEach(el => el.classList.toggle("active", el.id === "variant-" + k));
+    document.getElementById("pv-label").textContent = k + " (" + names[k] + ")";
+    const p = new URLSearchParams(location.search); p.set("variant", k);
+    history.replaceState(null, "", "?" + p.toString());
+  }
+  const step = d => show(keys[(keys.indexOf(cur) + d + keys.length) % keys.length]);
+  document.getElementById("pv-prev").onclick = () => step(-1);
+  document.getElementById("pv-next").onclick = () => step(1);
+  document.addEventListener("keydown", e => {
+    if (e.target.closest("input, textarea, [contenteditable]")) return;
+    if (e.key === "ArrowLeft") step(-1);
+    if (e.key === "ArrowRight") step(1);
+  });
+  show(cur);
+})();
+</script>
+```

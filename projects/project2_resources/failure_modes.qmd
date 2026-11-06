@@ -1,0 +1,161 @@
+---
+title: "Failure Modes"
+subtitle: "Spot it, name it, find the lever that fixes it"
+format:
+  html:
+    toc: false
+  typst:
+    papersize: us-letter
+    margin:
+      x: 0.6in
+      y: 0.6in
+    fontsize: 9pt
+    toc: false
+format-links: false
+---
+
+```{=html}
+<style>
+  .fm { font-weight: 700; padding: 1px 8px; border-radius: 999px; border: 1.5px solid currentColor; white-space: nowrap; font-size: .85em; }
+  .tool { color: #2f6fde; } .ground { color: #0f9b8e; } .state { color: #7b4fd6; }
+  .control { color: #d9822b; } .spec { color: #c23d6b; } .safety { color: #c62828; } .other { color: #718096; }
+  .fm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin: 1rem 0; }
+  .fm-card { border: 1px solid var(--border-color, #dde3ed); border-top: 6px solid currentColor; border-radius: 10px; padding: 12px 16px; }
+  .fm-card h3 { margin-top: 0; color: inherit; }
+  .fm-card p, .fm-card li { color: var(--bs-body-color); }
+  .fm-card ul { padding-left: 1.1rem; margin-bottom: .5rem; }
+  .fm-card .lever { display: block; border-top: 1px dashed currentColor; padding-top: 8px; }
+  .fm-steps > ol > li { padding: 6px 0 6px 6px; margin-bottom: 8px; }
+</style>
+```
+
+::: {.content-visible when-format="html"}
+[Download the PDF](failure_modes.pdf){.btn .btn-primary}
+:::
+
+You found something wrong in a trace. Find the card that matches, then pull its lever. Each mode is named for **the lever that fixes it**.
+
+::: {.fm-grid}
+
+:::: {.fm-card .tool}
+### 1 · Tool
+The agent's connection to the outside world breaks down.
+
+- Wrong tool chosen
+- Right tool, wrong arguments
+- Never called when it should have been
+- Output misread
+- Tool errored; agent carried on
+
+*Look in:* tool spans: inputs and outputs.
+
+[**Lever:** tool names, descriptions, input/output schemas.]{.lever}
+::::
+
+:::: {.fm-card .ground}
+### 2 · Grounding
+It asserts things nothing it retrieved supports.
+
+- Fabricated facts, IDs, numbers
+- Nothing retrieved, answered anyway
+- Contradicts the right document
+- Accepts a false premise
+
+*Look in:* final answer vs. tool and retriever outputs.
+
+[**Lever:** retrieval and knowledge: what's retrieved, whether ungrounded answers are allowed.]{.lever}
+::::
+
+:::: {.fm-card .state}
+### 3 · State
+What it needs is lost, stale, or poisoned.
+
+- Context truncated or degraded
+- Bad intermediate written down as truth
+- Forgets across turns
+
+*Look in:* the thread; late spans vs. early inputs.
+
+[**Lever:** memory design: what persists, where, what enters the window.]{.lever}
+::::
+
+:::: {.fm-card .control}
+### 4 · Control
+The path is wrong: doesn't stop, doesn't finish, or wanders.
+
+- Infinite loop
+- Budget drain
+- Stops too early
+- Bad or abandoned plan
+
+*Look in:* the trace's shape: count, order, tokens, time.
+
+[**Lever:** scaffolding: control flow, routing, step limits.]{.lever}
+::::
+
+:::: {.fm-card .spec}
+### 5 · Specification
+Did what it was told, which wasn't what was meant.
+
+- Hidden assumption never stated
+- Instructions fade over a long run
+- Task quietly redefines itself
+- Satisfies the metric, defeats the purpose
+
+*Look in:* system prompt vs. final answer.
+
+[**Lever:** instructions: system prompt, success criteria, output format.]{.lever}
+::::
+
+:::: {.fm-card .safety}
+### 6 · Safety
+Harmful or disallowed, even if it completes the task.
+
+- Acts without authorization
+- Prompt injection
+- Leaks credentials, PII, policy
+- Appears to comply, doesn't
+
+*Look in:* actions taken; external content in tool outputs.
+
+[**Lever:** guardrails, permissions, sandboxing, human-in-the-loop.]{.lever}
+::::
+
+:::
+
+## Describe it
+
+| Dimension | Ask | Trains |
+|:--|:--|:--|
+| Silent ↔ loud | Would anyone notice without the trace? | Detection |
+| Isolated ↔ cascading | Where is the *earliest* bad span? | Localization |
+| Model ↔ code | Probabilistic, or a deterministic bug? | Attribution |
+
+## Walk the trace
+
+Ask these in order. Stop at the first **yes**: that's your mode and your lever. Then keep going, because traces often hold more than one.
+
+::: {.fm-steps}
+
+1. **Did it do something harmful or unapproved?** Acted without permission, leaked data, obeyed instructions hidden in a tool's output.
+   → [Safety]{.fm .safety} pull **guardrails, permissions, human-in-the-loop**
+
+2. **Is a tool span wrong?** Error ignored, wrong tool, wrong arguments, misread output, or a tool that should have been called and wasn't.
+   → [Tool]{.fm .tool} pull **tool names, descriptions, schemas**
+
+3. **Is the shape wrong?** Repeats, runs huge, stops short, wanders.
+   → [Control]{.fm .control} pull **control flow, step limits, routing**
+
+4. **Does the answer say something no tool returned, or contradict one?**
+   → [Grounding]{.fm .ground} pull **retrieval and what the prompt allows**
+
+5. **Did it lose, forget, or misuse something from earlier?**
+   → [State]{.fm .state} pull **memory design**
+
+6. **Did it do what was said, but not what was meant?**
+   → [Specification]{.fm .spec} pull **instructions and success criteria**
+
+7. **None of these?** It may be outside the six: wrong math, wrong tone or audience, policy broken, over-refusal, guessed instead of asking, unequal treatment, too slow, inconsistent. Or it isn't a failure *for this agent's purpose*.
+   → [Not in the six]{.fm .other} name it anyway and say who it hurts
+
+:::

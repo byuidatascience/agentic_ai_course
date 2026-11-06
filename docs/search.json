@@ -2161,5 +2161,26 @@
     "title": "Day 1-7: Someone Already Built It",
     "section": "8. Your turn",
     "text": "8. Your turn\nHead to the lesson’s Apply section: give your Project 1 agent the docs server, a filesystem server, and one server you pick."
+  },
+  {
+    "objectID": "projects/project2_resources/failure_modes.html",
+    "href": "projects/project2_resources/failure_modes.html",
+    "title": "Failure Modes",
+    "section": "",
+    "text": "Download the PDF\nYou found something wrong in a trace. Find the card that matches, then pull its lever. Each mode is named for the lever that fixes it."
+  },
+  {
+    "objectID": "projects/project2_resources/failure_modes.html#describe-it",
+    "href": "projects/project2_resources/failure_modes.html#describe-it",
+    "title": "Failure Modes",
+    "section": "Describe it",
+    "text": "Describe it\n\n\n\n\n\n\n\n\nDimension\nAsk\nTrains\n\n\n\n\nSilent ↔︎ loud\nWould anyone notice without the trace?\nDetection\n\n\nIsolated ↔︎ cascading\nWhere is the earliest bad span?\nLocalization\n\n\nModel ↔︎ code\nProbabilistic, or a deterministic bug?\nAttribution"
+  },
+  {
+    "objectID": "projects/project2_resources/failure_modes.html#walk-the-trace",
+    "href": "projects/project2_resources/failure_modes.html#walk-the-trace",
+    "title": "Failure Modes",
+    "section": "Walk the trace",
+    "text": "Walk the trace\nAsk these in order. Stop at the first yes: that’s your mode and your lever. Then keep going, because traces often hold more than one.\n\n\nDid it do something harmful or unapproved? Acted without permission, leaked data, obeyed instructions hidden in a tool’s output. → Safety pull guardrails, permissions, human-in-the-loop\nIs a tool span wrong? Error ignored, wrong tool, wrong arguments, misread output, or a tool that should have been called and wasn’t. → Tool pull tool names, descriptions, schemas\nIs the shape wrong? Repeats, runs huge, stops short, wanders. → Control pull control flow, step limits, routing\nDoes the answer say something no tool returned, or contradict one? → Grounding pull retrieval and what the prompt allows\nDid it lose, forget, or misuse something from earlier? → State pull memory design\nDid it do what was said, but not what was meant? → Specification pull instructions and success criteria\nNone of these? It may be outside the six: wrong math, wrong tone or audience, policy broken, over-refusal, guessed instead of asking, unequal treatment, too slow, inconsistent. Or it isn’t a failure for this agent’s purpose. → Not in the six name it anyway and say who it hurts"
   }
 ]

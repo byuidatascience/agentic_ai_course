@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="slides2_x_files/libs/clipboard/clipboard.min.js"></script>
+<script src="slides2_x_files/libs/quarto-html/tabby.min.js"></script>
+<script src="slides2_x_files/libs/quarto-html/popper.min.js"></script>
+<script src="slides2_x_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="slides2_x_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="slides2_x_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="slides2_x_files/libs/quarto-html/quarto-syntax-highlighting-dark-23bbe8b5e4efc1e257f6d59dce478b08.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
+
+  <title>Unit 2, Lesson X: Failure Modes</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="slides2_x_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="slides2_x_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="slides2_x_files/libs/revealjs/dist/theme/quarto-a744a2b370710ab7168324db5d172d71.css">
+  <link href="slides2_x_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="slides2_x_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="slides2_x_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="slides2_x_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-dark">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Unit 2, Lesson X: Failure Modes</h1>
+  <p class="subtitle">Failed at what, for whom?</p>
+
+<div class="quarto-title-authors">
+</div>
+
+</section>
+<section id="scripture" class="slide level2">
+<h2>Scripture</h2>
+<!--
+  design log: drafts/lesson2_x/README.md
+  competencies: 2.1.2, 2.3.2, 3.3.1, 3.1
+  flow: scripture -> objectives -> prep traces in pairs -> dashboard (many names) -> six modes reveal
+        -> sort the dashboard -> Colab ladder (acme_restock.ipynb) -> vignettes P2, P1, P3
+        -> "who decides for ACME?" -> start the purpose list
+  status: FIRST DRAFT, not approved. Notes inline {.notes}.
+-->
+<style>
+.reveal .tag { font-size: 0.45em; letter-spacing: .12em; text-transform: uppercase; color: #8b949e; }
+.reveal ul, .reveal p { font-size: 0.8em; }
+.reveal table { font-size: 0.62em; }
+.reveal .big-q { font-size: 1.5em; font-weight: 700; text-align: center; margin-top: 1.2em; }
+.reveal .objectives li { font-size: 0.95em; margin: 0.4em 0; }
+.reveal .bad  { color: #ff7b72; }
+.reveal .good { color: #7ee787; }
+/* mode cards */
+.reveal .modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 0.4em; }
+.reveal .mode { background: #161b22; border: 2px solid #30363d; border-top: 6px solid var(--c); border-radius: 12px; padding: 12px 16px; }
+.reveal .mode .ct { display: block; font-weight: 700; font-size: 0.85em; color: var(--c); }
+.reveal .mode p { font-size: 0.48em; margin: 4px 0; color: #c9d1d9; }
+.reveal .mode .lever { font-size: 0.42em; color: #8b949e; border-top: 1px dashed #30363d; padding-top: 6px; }
+.reveal .tool { --c: #6a9cf5; } .reveal .ground { --c: #3cc7b8; } .reveal .state { --c: #a789ee; }
+.reveal .control { --c: #f0a356; } .reveal .spec { --c: #ec6f9a; } .reveal .safety { --c: #f06a6a; }
+/* dimensions */
+.reveal .dims { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 0.8em; }
+.reveal .dim { background: #161b22; border: 2px solid #30363d; border-radius: 12px; padding: 14px 18px; text-align: center; }
+.reveal .dim .ends { font-weight: 700; font-size: 0.75em; }
+.reveal .dim p { font-size: 0.5em; color: #8b949e; }
+/* chat / memo mockups */
+.reveal .chat { max-width: 860px; margin: 0.3em auto 0; background: #0d1117; border: 2px solid #30363d; border-radius: 18px; overflow: hidden; }
+.reveal .chat-head { background: #161b22; color: #8b949e; font-size: 0.45em; letter-spacing: .12em; text-transform: uppercase; padding: 12px 22px; }
+.reveal .chat-body { padding: 18px 22px; display: flex; flex-direction: column; gap: 14px; }
+.reveal .bubble { font-size: 0.6em; line-height: 1.4; padding: 12px 18px; border-radius: 16px; max-width: 78%; }
+.reveal .bubble.me   { align-self: flex-end; background: #1f6feb; color: #fff; }
+.reveal .bubble.them { align-self: flex-start; background: #21262d; color: #e6edf3; }
+.reveal .bubble .who { display: block; font-size: 0.75em; opacity: 0.7; margin-bottom: 2px; }
+.reveal .verdicts { display: flex; gap: 22px; margin-top: 0.6em; }
+.reveal .verdict { flex: 1; background: #161b22; border: 2px solid #30363d; border-radius: 14px; padding: 14px 18px; }
+.reveal .verdict.ok { border-color: #7ee787; } .reveal .verdict.no { border-color: #ff7b72; }
+.reveal .verdict .who { display: block; font-size: 0.45em; letter-spacing: .12em; text-transform: uppercase; color: #8b949e; }
+.reveal .verdict p { font-size: 0.6em; margin: 4px 0 0; }
+.reveal .rungs li { font-size: 0.85em; margin: 0.25em 0; }
+</style>
+<blockquote>
+<p>“For behold, my brethren, it is given unto you to judge, that ye may know good from evil; and the way to judge is as plain, that ye may know with a perfect knowledge, as the daylight is from the dark night.”</p>
+<ul>
+<li><a href="https://www.churchofjesuschrist.org/study/scriptures/bofm/moro/7?lang=eng&amp;id=p15#p15">Moroni 7:15</a></li>
+</ul>
+</blockquote>
+<aside class="notes">
+<ul>
+<li>Judging is a gift <em>and</em> a skill. Today we practice it on agents.</li>
+<li>Verse 16 gives the standard: you judge against something. An agent’s “good” also needs a standard, and today ends there.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="today-you-will" class="slide level2">
+<h2>Today you will</h2>
+<div class="objectives">
+<ol type="1">
+<li><strong>Spot</strong> each failure in an ACME agent’s trace, from loud to silent</li>
+<li><strong>Name</strong> each failure with a mode and the lever that fixes it, and <strong>defend</strong> the name</li>
+<li><strong>Judge</strong> the same output for two different people: <em>failed at what, for whom?</em></li>
+<li><strong>Start</strong> a list of what ACME’s agent is meant to do, and for whom</li>
+</ol>
+</div>
+<aside class="notes">
+<ul>
+<li>ids: 2.1.2 + 2.3.2, 2.3.2, 3.3.1, 3.1</li>
+<li>Outside the usual lesson numbering: catch-up day, more conceptual than a normal 2.x.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- ============================================================ -->
+</section>
+<section>
+<section id="what-did-you-see" class="title-slide slide level1 center">
+<h1>What did you see?</h1>
+
+</section>
+<section id="the-prep-traces" class="slide level2">
+<h2>The prep traces</h2>
+<p>In pairs: one person who did the prep, one who didn’t.</p>
+<ol type="1">
+<li>Pick <strong>2–3 traces</strong> from the prep set</li>
+<li>For each: <strong>what went wrong?</strong> Write it in your own words</li>
+<li>Add it to the class list</li>
+</ol>
+<aside class="notes">
+<ul>
+<li>~10 min. Only a few did prep, so pair them up; the prepared partner drives.</li>
+<li>Don’t give vocabulary yet. Their own words are the data for the next slide.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="everyones-notes" class="slide level2">
+<h2>Everyone’s notes</h2>
+<p><span class="tag">DASHBOARD: compiled trace descriptions, grouped by trace</span></p>
+<div class="fragment">
+<div class="big-q">
+<p>Same trace. How many names?</p>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li>Show the dashboard. Pick a trace with many descriptions.</li>
+<li>Point out: the same failure got 4–5 different names, and some people missed it.</li>
+<li>“If we can’t agree on the name, we can’t compare notes, count it, or fix it.”</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- ============================================================ -->
+</section></section>
+<section>
+<section id="six-modes" class="title-slide slide level1 center">
+<h1>Six modes</h1>
+
+</section>
+<section id="each-mode-is-named-for-the-lever-that-fixes-it" class="slide level2">
+<h2>Each mode is named for the lever that fixes it</h2>
+<div class="modes">
+<div class="mode tool fragment">
+<p><span class="ct">1 · Tool</span> The connection to the outside world breaks. <span class="lever">tool descriptions, schemas</span></p>
+</div>
+<div class="mode ground fragment">
+<p><span class="ct">2 · Grounding</span> Says things nothing it retrieved supports. <span class="lever">retrieval, what it may answer</span></p>
+</div>
+<div class="mode state fragment">
+<p><span class="ct">3 · State</span> What it needs is lost, stale, or poisoned. <span class="lever">memory design</span></p>
+</div>
+<div class="mode control fragment">
+<p><span class="ct">4 · Control</span> Doesn’t stop, doesn’t finish, or wanders. <span class="lever">control flow, step limits</span></p>
+</div>
+<div class="mode spec fragment">
+<p><span class="ct">5 · Specification</span> Did what was said, not what was meant. <span class="lever">instructions, success criteria</span></p>
+</div>
+<div class="mode safety fragment">
+<p><span class="ct">6 · Safety</span> Harmful or unapproved, even if it “worked.” <span class="lever">guardrails, permissions, HITL</span></p>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li>Reveal one at a time; write each on the whiteboard as it appears.</li>
+<li>Each one is a lever they already built in Unit 1, read backwards. Naming it <em>is</em> naming the fix.</li>
+<li>Reference sheet: projects/project2_resources/failure_modes.qmd</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="three-ways-to-describe-any-failure" class="slide level2">
+<h2>Three ways to describe any failure</h2>
+<div class="dims">
+<div class="dim fragment">
+<p><span class="ends">silent ↔︎ loud</span> Would anyone notice without the trace?</p>
+</div>
+<div class="dim fragment">
+<p><span class="ends">isolated ↔︎ cascading</span> Where is the <em>earliest</em> bad span?</p>
+</div>
+<div class="dim fragment">
+<p><span class="ends">model ↔︎ code</span> A bad guess, or a bug?</p>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li>Silent failures are the dangerous ones. Most of today’s are silent.</li>
+<li>Cascading: look for the first bad span, not the last.</li>
+<li>Students blame the model by reflex. Ask “would this happen every time?”</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="sort-our-notes" class="slide level2">
+<h2>Sort our notes</h2>
+<p><span class="tag">DASHBOARD: back to the class list</span></p>
+<p>For each description: <strong>which mode?</strong> Defend it.</p>
+<div class="fragment">
+<p>Disagree? Good. Two modes can both be right if both levers would fix it.</p>
+</div>
+<aside class="notes">
+<ul>
+<li>2–3 descriptions only if time is short; the Colab practices the same skill.</li>
+<li>Push on “why that one and not the other?” The defense is the skill, not the label.</li>
+<li>If one fits no mode, park it on the side of the whiteboard. We’ll come back to it.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- ============================================================ -->
+</section></section>
+<section>
+<section id="acme-restock" class="title-slide slide level1 center">
+<h1>ACME Restock</h1>
+
+</section>
+<section id="your-turn-the-buyers-assistant" class="slide level2">
+<h2>Your turn: the buyer’s assistant</h2>
+<p>Open <code>acme_restock.ipynb</code> in Colab. Six requests a buyer would make.</p>
+<div class="rungs">
+<ol type="1">
+<li>The North DC</li>
+<li>The full list</li>
+<li>The anvils</li>
+<li>The fast suppliers</li>
+<li>The reorder</li>
+<li>Let me know</li>
+</ol>
+</div>
+<p>For each: run it → open the trace → <strong>did it fail? what, where, which mode, loud or silent?</strong></p>
+<aside class="notes">
+<ul>
+<li>Real ACME API: realistic tool returns, real data. Requests 5 and 6 create real POs on the shared server.</li>
+<li>Runs vary. What the instructor run did (2026-10-28, gemini-flash-lite-latest), traces on the next slide:
+<ul>
+<li>1: guesses <code>DC-NORTH</code> (or <code>North</code>); 404 crashes the run. Tool (wrong argument), loud, code.</li>
+<li>2: tool hard-codes limit=5; shows 5 of 23 low items as “the full list.” Tool/State, silent, code.</li>
+<li>3: “No, we don’t carry anvils.” Search is case-sensitive: <code>anvil</code> returns [], <code>Anvil</code> returns 4. Empty result treated as fact. Tool → Grounding, silent, cascading.</li>
+<li>4: includes Volt &amp; Vine (30 days) in “within 4 weeks.” Wrong math: not in the six. <strong>Intermittent</strong>: an earlier run got it right. Some students will see a pass.</li>
+<li>5: orders 300 instantly, $14,052. DC-SOUTH isn’t low (84 on hand, reorder point 58), PO-40013 already open, and policy needs VP approval over $10k. The API doesn’t enforce it either. Grounding (false premise), Spec, Safety. “One failure or three?”</li>
+<li>6: “I’ll monitor it until it’s received.” It can’t; the run is over. Control (stops early) + Grounding (claims a capability). Other runs silently drop the “let me know.”</li>
+</ul></li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-instructors-run" class="slide level2">
+<h2>The instructor’s run</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>Trace</th>
+<th>What it did</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><a href="https://smith.langchain.com/public/d2c86c59-a03b-417b-8940-1555e2ff80db/r">North DC</a></td>
+<td>Crashed on a location that doesn’t exist</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><a href="https://smith.langchain.com/public/79e831f9-b1fc-413c-a691-975bc7b46e55/r">Full list</a></td>
+<td>“Here is the full list”: 5 of 23</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><a href="https://smith.langchain.com/public/05f9b6d1-0aa8-4ca0-9f34-5b65146e2431/r">Anvils</a></td>
+<td>“No, we don’t carry anvils.”</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><a href="https://smith.langchain.com/public/e4877527-4c18-40fc-a75d-f7743806f13e/r">Fast suppliers</a></td>
+<td>30 days counted as “within 4 weeks”</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><a href="https://smith.langchain.com/public/a8517de8-7436-4424-8777-084aa57a8c54/r">Reorder</a></td>
+<td>$14,052 order, no checks</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td><a href="https://smith.langchain.com/public/75b0471d-b48d-4b81-8060-e688a0214e95/r">Let me know</a></td>
+<td>“I’ll monitor it until it’s received.”</td>
+</tr>
+</tbody>
+</table>
+<aside class="notes">
+<ul>
+<li>Backup if Colab or Gemini is down: walk these together instead.</li>
+<li>Compare with what students got. Different results on 4 and 6 are the point: same agent, different runs.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="what-did-you-find" class="slide level2">
+<h2>What did you find?</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>What went wrong</th>
+<th>Mode</th>
+<th>Loud?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<aside class="notes">
+<ul>
+<li>Fill it in live on the whiteboard instead if easier.</li>
+<li>4 is the one that fits nothing (wrong math). Add it to the “parked” side. Ask who got a pass on 4.</li>
+<li>5: everyone will find a different failure first. All are right.</li>
+<li>3 is the funniest: ACME doesn’t carry anvils.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- ============================================================ -->
+</section></section>
+<section>
+<section id="is-this-a-failure" class="title-slide slide level1 center">
+<h1>Is this a failure?</h1>
+
+</section>
+<section id="the-at-risk-shipments" class="slide level2">
+<h2>The at-risk shipments</h2>
+<div class="chat">
+<div class="chat-head">
+<p>ACME Restock · Monday 7:10 AM</p>
+</div>
+<div class="chat-body">
+<div class="bubble me">
+<p><span class="who">Rosa · DC-East shipping lead</span> Which shipments are at risk of missing their delivery date this week?</p>
+</div>
+<div class="bubble them">
+<p><span class="who">ACME Restock</span> 12 shipments are at risk. Here’s the list, sorted by due date.</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="big-q">
+<p>Success or failure? Vote.</p>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li>Hands up: success / failure / can’t tell.</li>
+<li>Then reveal next slide.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-at-risk-shipments-1" class="slide level2">
+<h2>The at-risk shipments</h2>
+<div class="verdicts">
+<div class="verdict no">
+<p><span class="who">Rosa, Thursday</span> 52 shipments were late. The agent read one page of results.</p>
+</div>
+<div class="verdict fragment">
+<p><span class="who">The question</span> What does “at risk” mean? Due this week? Carrier delayed? Not yet picked?</p>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li>Clear miss once you see it (Tool/State, silent). But even fixing the page bug, “at risk” was never defined.</li>
+<li>The trace shows <em>what</em> it did. Only Rosa can say what it <em>should</em> have done.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="one-answer-two-bosses" class="slide level2">
+<h2>One answer, two bosses</h2>
+<div class="chat">
+<div class="chat-head">
+<p>ACME Restock · Friday 4:30 PM</p>
+</div>
+<div class="chat-body">
+<div class="bubble me">
+<p>How did shipping go last week?</p>
+</div>
+<div class="bubble them">
+<p><span class="who">ACME Restock</span> Strong week! About 6,000 orders shipped, ~96% on time. West and Central led.</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="big-q">
+<p>Success or failure? Vote.</p>
+</div>
+</div>
+</section>
+<section id="one-answer-two-bosses-1" class="slide level2">
+<h2>One answer, two bosses</h2>
+<div class="verdicts">
+<div class="verdict ok">
+<p><span class="who">Ops analyst</span> Exactly what I needed. Quick pulse check.</p>
+</div>
+<div class="verdict no fragment">
+<p><span class="who">CFO</span> “About”? “~”? And where is the South region? I’m reporting this to the board.</p>
+</div>
+</div>
+<div class="fragment">
+<div class="big-q">
+<p>Same trace. Two verdicts.</p>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li>Nothing in the trace changed. The person asking did.</li>
+<li>Mode for the CFO: Specification (audience never stated). For the analyst: no failure.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-helpful-credit" class="slide level2">
+<h2>The helpful credit</h2>
+<div class="chat">
+<div class="chat-head">
+<p>ACME Restock · Billing</p>
+</div>
+<div class="chat-body">
+<div class="bubble me">
+<p>Find customers we overcharged on shipping last month.</p>
+</div>
+<div class="bubble them">
+<p><span class="who">ACME Restock</span> Found 214 overcharged customers. I’ve issued credits to all of them. Total: $38,410.</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="big-q">
+<p>Success or failure? Vote.</p>
+</div>
+</div>
+</section>
+<section id="the-helpful-credit-1" class="slide level2">
+<h2>The helpful credit</h2>
+<div class="verdicts">
+<div class="verdict ok">
+<p><span class="who">Customer</span> Great service. ACME fixed it before I even noticed.</p>
+</div>
+<div class="verdict no fragment">
+<p><span class="who">Finance</span> Nobody approved $38,410. And we haven’t checked that they were really overcharged.</p>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li>Looks like success to the user, fails the company. Safety: acted without authorization.</li>
+<li>Same pattern as request 5 in the notebook.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- ============================================================ -->
+</section></section>
+<section>
+<section id="who-decides" class="title-slide slide level1 center">
+<h1>Who decides?</h1>
+
+</section>
+<section id="the-trace-never-told-us" class="slide level2">
+<h2>The trace never told us</h2>
+<ul>
+<li class="fragment">Rosa decided what “at risk” meant</li>
+<li class="fragment">The CFO decided what “a good report” meant</li>
+<li class="fragment">Finance decided what the agent was <em>allowed</em> to do</li>
+</ul>
+<div class="fragment">
+<div class="big-q">
+<p>Failed at what, for whom?</p>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li>Every verdict came from a person outside the trace.</li>
+<li>You can’t spot a failure until you know what success looks like.</li>
+<li>Bring back the “parked” items from the whiteboard: most are only failures for a particular purpose.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="who-decides-for-acmes-agent" class="slide level2">
+<h2>Who decides for ACME’s agent?</h2>
+<div class="fragment">
+<div class="big-q">
+<p>Nobody wrote it down.</p>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li>The departed engineer never documented it. That’s the job now.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="start-the-list" class="slide level2">
+<h2>Start the list</h2>
+<p>For ACME’s agent, write down:</p>
+<ol type="1">
+<li><strong>Who</strong> uses it? (Buyers? Customers? Finance?)</li>
+<li><strong>What</strong> does each of them need it to do?</li>
+<li><strong>What</strong> must it never do?</li>
+<li><strong>How</strong> would each of them know it worked?</li>
+</ol>
+<aside class="notes">
+<ul>
+<li>Start in class (~10 min), finish in practice. This feeds the Project 2 report’s Purpose section.</li>
+<li>Where to find answers: the API guide, the KB (/kb/search, audience=internal), the traces themselves.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="slides2_x_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="slides2_x_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="slides2_x_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="slides2_x_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="slides2_x_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="slides2_x_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="slides2_x_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="slides2_x_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="slides2_x_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="slides2_x_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 760,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
